@@ -3,14 +3,15 @@ package com.application.sparkapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.MotionEvent;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignUpPageOneMainActivity extends Activity {
@@ -23,7 +24,20 @@ public class SignUpPageOneMainActivity extends Activity {
 		setContentView(R.layout.activity_sign_up_page_one_main);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		final EditText infoIconForNRIC = (EditText) findViewById(R.id.editText3);
+		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
 		
+		
+		goToNextPage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+				finish();
+			}
+		});
 		infoIconForNRIC.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
