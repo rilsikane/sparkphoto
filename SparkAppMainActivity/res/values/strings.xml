@@ -10,5 +10,6 @@
     <string name="signup_desc_text">Please fill in the following fields to create your new SPARK account</string>
     <string name="signup_addr_text">Please fill in the following fields for us to mail the photos directly to your address</string>
     <string name="title_activity_address_main">AddressMainActivity</string>
+    <string name="title_activity_pin_validate_main">PinValidateMainActivity</string>
 
 </resources>

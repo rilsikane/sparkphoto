@@ -31,6 +31,10 @@
             android:name="com.application.sparkapp.AddressMainActivity"
             android:label="@string/title_activity_address_main" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.PinValidateMainActivity"
+            android:label="@string/title_activity_pin_validate_main" >
+        </activity>
     </application>
 
 </manifest>
