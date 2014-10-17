@@ -23,6 +23,7 @@ public class SparkAppMainActivity extends Activity {
         logo.getLayoutParams().height = (30*screenHeight)/100;
         logo.getLayoutParams().width = (30*screenHeight)/100;
         
+        
         ImageView logo_text = (ImageView) findViewById(R.id.imageView2);
         logo_text.getLayoutParams().height=(20*screenHeight)/100;
         logo_text.getLayoutParams().width=(75*screenWidth)/100;
