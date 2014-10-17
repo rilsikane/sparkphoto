@@ -46,14 +46,66 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:lines="2"
         android:text="@string/signup_desc_text"
-        android:textColor="#ffffff"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ffffff" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="7dp" >
+
+            <View
+                android:id="@+id/textView4"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#7a3e0a" />
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/textView4"
+                android:background="#40ffffff"
+                android:drawableLeft="@drawable/icon_people"
+                android:ems="10"
+                android:hint="First name"
+                android:textColorHint="#ffffff"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView4"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/space_icon"
+                android:ems="10"
+                android:hint="Last name"
+                android:textColorHint="#ffffff" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
