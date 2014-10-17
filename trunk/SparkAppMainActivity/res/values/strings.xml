@@ -8,5 +8,6 @@
     <string name="signup_text">SIGN UP</string>
     <string name="next_text">Next</string>
     <string name="signup_desc_text">Please fill in the following fields to create your new SPARK account</string>
+    
 
 </resources>

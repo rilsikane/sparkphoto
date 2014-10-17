@@ -46,14 +46,14 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="330dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:lines="2"
         android:text="@string/signup_desc_text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff" />
 
     <ScrollView
@@ -62,11 +62,12 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:layout_marginTop="15dp"
+        android:scrollbars="none" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
@@ -78,7 +79,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:background="#7a3e0a" />
+                android:background="#007a3e0a" />
 
             <EditText
                 android:id="@+id/editText1"
@@ -87,10 +88,11 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/textView4"
-                android:background="#40ffffff"
+                android:background="#30ffffff"
                 android:drawableLeft="@drawable/icon_people"
                 android:ems="10"
                 android:hint="First name"
+                android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:textSize="20sp" />
 
@@ -104,6 +106,145 @@
                 android:drawableLeft="@drawable/space_icon"
                 android:ems="10"
                 android:hint="Last name"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText1"
+                android:layout_below="@+id/editText1"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/nric_icon"
+                android:drawableRight="@drawable/info_icon"
+                android:ems="10"
+                android:hint="NRIC/FIN"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText3"
+                android:layout_below="@+id/editText3"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/png_icon"
+                android:ems="10"
+                android:hint="Email address"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText5"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_below="@+id/editText4"
+                android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/editText2"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/password_icon"
+                android:ems="10"
+                android:hint="Password"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="20sp" >
+            </EditText>
+
+            <View
+                android:id="@+id/View01"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_alignLeft="@+id/editText2"
+                android:layout_below="@+id/editText4"
+                android:background="#007a3e0a" />
+
+            <EditText
+                android:id="@+id/editText6"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/editText5"
+                android:layout_toRightOf="@+id/View01"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/space_icon"
+                android:ems="10"
+                android:hint="Confirm"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText7"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText5"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/date_icon"
+                android:ems="10"
+                android:hint="Date of birth"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText8"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText7"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/gender_icon"
+                android:ems="10"
+                android:hint="Gender"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText9"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText8"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/phone_icon"
+                android:drawableRight="@drawable/info_icon"
+                android:ems="10"
+                android:hint="Phone number"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText10"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText9"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/service_icon"
+                android:ems="10"
+                android:hint="Service"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText11"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText10"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/occupied_icon"
+                android:ems="10"
+                android:hint="Occupation"
+                android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
         </RelativeLayout>
     </ScrollView>
