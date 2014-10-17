@@ -4,5 +4,9 @@
     <string name="app_name">SparkApp</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_sign_up_page_one_main">SignUpPageOneMainActivity</string>
+    <string name="signup_text">SIGN UP</string>
+    <string name="next_text">Next</string>
+    <string name="signup_desc_text">Please fill in the following fields to create your new SPARK account</string>
 
 </resources>
