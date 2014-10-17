@@ -11,8 +11,8 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:largeHeap="true"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.application.sparkapp.SparkAppMainActivity"
@@ -22,6 +22,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.SignUpPageOneMainActivity"
+            android:label="@string/title_activity_sign_up_page_one_main" >
         </activity>
     </application>
 

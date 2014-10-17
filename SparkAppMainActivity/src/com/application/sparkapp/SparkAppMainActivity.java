@@ -1,7 +1,10 @@
 package com.application.sparkapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -31,5 +34,17 @@ public class SparkAppMainActivity extends Activity {
         layoutTop.getLayoutParams().height = (15*screenHeight)/100;
         RelativeLayout layoutBottom = (RelativeLayout) findViewById(R.id.layoutBottom);
         layoutBottom.getLayoutParams().height = (15*screenHeight)/100;
+        
+        layoutBottom.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(SparkAppMainActivity.this,SignUpPageOneMainActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
     }
 }
