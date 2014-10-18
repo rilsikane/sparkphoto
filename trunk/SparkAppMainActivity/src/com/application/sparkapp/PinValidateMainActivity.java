@@ -29,6 +29,7 @@ public class PinValidateMainActivity extends Activity {
 		thirdPin = (EditText) findViewById(R.id.editText2);
 		forthPin = (EditText) findViewById(R.id.editText3);
 		
+		
 		firstPin.addTextChangedListener(new TextWatcher() {		
 			
 			@Override
