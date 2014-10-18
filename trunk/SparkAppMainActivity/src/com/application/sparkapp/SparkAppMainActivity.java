@@ -2,6 +2,7 @@ package com.application.sparkapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,17 +12,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class SparkAppMainActivity extends Activity {
-
+	private Utils utils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_spark_app_main);
+        utils = new Utils(getApplicationContext(), this);       
+        int screenWidth = utils.getScreenWidth();
+        int screenHeight = utils.getScreenHeight();
         
-        int screenWidth = new Utils(getApplicationContext(), SparkAppMainActivity.this).getScreenWidth();
-        int screenHeight = new Utils(getApplicationContext(), SparkAppMainActivity.this).getScreenHeight();
+        utils = new Utils(getApplicationContext(), this);
+		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
+		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.spark_welcome, screenWidth, screenHeight));
+		root_id.setBackgroundDrawable(ob);
         
+		ImageView loginWithFacebook = (ImageView) findViewById(R.id.imageView3);
+		
         ImageView logo = (ImageView) findViewById(R.id.imageView1);
         logo.getLayoutParams().height = (30*screenHeight)/100;
         logo.getLayoutParams().width = (30*screenHeight)/100;
@@ -34,6 +42,17 @@ public class SparkAppMainActivity extends Activity {
         layoutTop.getLayoutParams().height = (15*screenHeight)/100;
         RelativeLayout layoutBottom = (RelativeLayout) findViewById(R.id.layoutBottom);
         layoutBottom.getLayoutParams().height = (15*screenHeight)/100;
+        
+        loginWithFacebook.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(SparkAppMainActivity.this,MainPhotoSelectActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			}
+		});
         
         layoutBottom.setOnClickListener(new OnClickListener() {
 			

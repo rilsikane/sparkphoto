@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class PinValidateMainActivity extends Activity {
 
@@ -23,12 +24,25 @@ public class PinValidateMainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_pin_validate_main);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
+		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
 		
 		firstPin = (EditText) findViewById(R.id.editText4);
 		secondPin = (EditText) findViewById(R.id.editText1);
 		thirdPin = (EditText) findViewById(R.id.editText2);
 		forthPin = (EditText) findViewById(R.id.editText3);
 		
+		
+		goToNextPage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(PinValidateMainActivity.this,TermOfUseMainActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+				finish();
+			}
+		});
 		
 		firstPin.addTextChangedListener(new TextWatcher() {		
 			
@@ -145,6 +159,14 @@ public class PinValidateMainActivity extends Activity {
 				finish();
 			}
 		});
+	}
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(PinValidateMainActivity.this,AddressMainActivity.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
+		
 	}
 
 }

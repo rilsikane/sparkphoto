@@ -2,6 +2,7 @@ package com.application.sparkapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignUpPageOneMainActivity extends Activity {
 
+	private Utils utils;
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +29,10 @@ public class SignUpPageOneMainActivity extends Activity {
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		final EditText infoIconForNRIC = (EditText) findViewById(R.id.editText3);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
-		
+		utils = new Utils(getApplicationContext(), this);
+		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
+		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, utils.getScreenWidth(), utils.getScreenHeight()));
+		root_id.setBackgroundDrawable(ob);
 		
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			

@@ -35,6 +35,14 @@
             android:name="com.application.sparkapp.PinValidateMainActivity"
             android:label="@string/title_activity_pin_validate_main" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.TermOfUseMainActivity"
+            android:label="@string/title_activity_term_of_use_main" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.MainPhotoSelectActivity"
+            android:label="@string/title_activity_main_photo_select" >
+        </activity>
     </application>
 
 </manifest>
