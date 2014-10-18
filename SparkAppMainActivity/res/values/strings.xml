@@ -11,5 +11,7 @@
     <string name="signup_addr_text">Please fill in the following fields for us to mail the photos directly to your address</string>
     <string name="title_activity_address_main">AddressMainActivity</string>
     <string name="title_activity_pin_validate_main">PinValidateMainActivity</string>
+    <string name="title_activity_term_of_use_main">TermOfUseMainActivity</string>
+    <string name="title_activity_main_photo_select">MainPhotoSelectActivity</string>
 
 </resources>
