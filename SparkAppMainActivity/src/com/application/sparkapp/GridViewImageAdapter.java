@@ -5,8 +5,10 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -53,6 +55,18 @@ public class GridViewImageAdapter extends BaseAdapter {
 		imgView.getLayoutParams().width = imageWidth;
 		
 		Picasso.with(_activity).load(imgPaths.get(position)).into(imgView);
+		
+		imgView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(_activity,ImageGuidCropActivity.class);
+				_activity.startActivity(i);
+				_activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+				_activity.finish();
+			}
+		});
 		
 		return convertView;
 	}

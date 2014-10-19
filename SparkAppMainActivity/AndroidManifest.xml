@@ -59,6 +59,16 @@
             android:label="@string/title_activity_image_grid_view"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.ImageGuidCropActivity"
+            android:label="@string/title_activity_image_guid_crop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.ImageCropActivity"
+            android:label="@string/title_activity_image_crop"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
