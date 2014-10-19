@@ -15,5 +15,7 @@
     <string name="title_activity_main_photo_select">MainPhotoSelectActivity</string>
     <string name="title_activity_image_list">ImageListActivity</string>
     <string name="title_activity_image_grid_view">ImageGridViewActivity</string>
+    <string name="title_activity_image_guid_crop">ImageGuidCropActivity</string>
+    <string name="title_activity_image_crop">ImageCropActivity</string>
 
 </resources>
