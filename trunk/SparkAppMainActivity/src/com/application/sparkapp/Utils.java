@@ -57,7 +57,7 @@ public class Utils {
 		columnHeight = point.y;
 		return columnHeight;
 	}
-	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+	public Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
 	        int reqWidth, int reqHeight) {
 
 	    // First decode with inJustDecodeBounds=true to check dimensions
@@ -94,4 +94,5 @@ public class Utils {
 
 	    return inSampleSize;
 	}
+	
 }
