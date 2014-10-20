@@ -36,6 +36,7 @@ public class ImageGridViewActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
+				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -89,6 +90,7 @@ public class ImageGridViewActivity extends Activity {
 	@Override
 	public void onBackPressed(){
 		Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
+		i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
