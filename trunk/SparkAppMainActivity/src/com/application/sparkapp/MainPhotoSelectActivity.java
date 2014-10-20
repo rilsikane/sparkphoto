@@ -3,7 +3,6 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -108,21 +107,8 @@ public class MainPhotoSelectActivity extends Activity {
 				                        user.getId();
 				                        user.getName();
 				                        //Facebook API:https://developers.facebook.com/tools/explorer/
-				                        //Get All album
-//				                        new Request(session,user.getId()+"/albums",null,HttpMethod.GET,new Request.Callback() {
-//				                        	public void onCompleted(Response response) {
-//				                        	        	System.out.println(response);
-//				                        	        }
-//				                        	    }
-//				                        ).executeAsync();
-//				                        //Get all image from album id
-//				                        new Request(session,user.getId()+"/",null,HttpMethod.GET,new Request.Callback() {
-//				                        	public void onCompleted(Response response) {
-//				                        	        	System.out.println(response);
-//				                        	        }
-//				                        	    }
-//				                        ).executeAsync();
 				                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+				                        i.putExtra("facebookUserId", user.getId());
 	                                    startActivity(i);
 	                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				                    }
@@ -215,6 +201,7 @@ public class MainPhotoSelectActivity extends Activity {
                                     user.getName();
                                     
                                     Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+                                    i.putExtra("facebookUserId", user.getId());
                                     startActivity(i);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }
