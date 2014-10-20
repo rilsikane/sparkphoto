@@ -13,6 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -44,7 +47,7 @@ public class SparkAppMainActivity extends Activity {
         root_id.setBackgroundDrawable(ob);
 
         ImageView loginWithFacebook = (ImageView) findViewById(R.id.imageView3);
-
+        ImageView emailLogin = (ImageView) findViewById(R.id.imageView4);
         ImageView logo = (ImageView) findViewById(R.id.imageView1);
         logo.getLayoutParams().height = (30 * screenHeight) / 100;
         logo.getLayoutParams().width = (30 * screenHeight) / 100;
@@ -96,7 +99,16 @@ public class SparkAppMainActivity extends Activity {
                 }
             }
         });
-
+        emailLogin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			}
+		});
         layoutBottom.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -143,9 +155,11 @@ public class SparkAppMainActivity extends Activity {
                             public void onCompleted(GraphUser user, Response response) {
                                 if (user != null) {
                                     session.getAccessToken();
+                                    Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
                                     user.getFirstName();
                                     user.getId();
                                     user.getName();
+                                    
                                     Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
                                     startActivity(i);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
