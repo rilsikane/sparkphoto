@@ -82,6 +82,17 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
+
+        <activity
+            android:name="com.application.sparkapp.GuideTotalPrintActivity"
+            android:label="@string/title_activity_guide_total_print"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.ImagePageSummaryActivity"
+            android:label="@string/title_activity_image_page_summary"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
