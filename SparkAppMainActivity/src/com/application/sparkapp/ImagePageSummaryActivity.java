@@ -5,20 +5,24 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ImagePageSummaryActivity extends Activity {
 	private Utils utils;
 	private ListView summaryList;
+	private TextView goToNextPage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +37,19 @@ public class ImagePageSummaryActivity extends Activity {
 		
 		summaryList = (ListView) findViewById(R.id.summaryList);
 		summaryList.setDividerHeight(0);
+		goToNextPage = (TextView) findViewById(R.id.textView2);
+		
+		goToNextPage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(ImagePageSummaryActivity.this,ShippingPageActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+				finish();
+			}
+		});
 		List<String> tempList = new ArrayList<String>();
 		for(int i=0;i<3;i++){
 			tempList.add(""+i);
