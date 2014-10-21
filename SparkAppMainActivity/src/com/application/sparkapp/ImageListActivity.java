@@ -97,7 +97,16 @@ public class ImageListActivity extends Activity {
 
         	    }
         	}).executeAsync();
-		}	
+		}else{
+			//Normal Photo select
+			listContent = new ArrayList<TempListContentView>();
+			TempListContentView temp = new TempListContentView();
+			temp.setAlbumsName("Camera Roll");
+			temp.setNumberOfImage(200);
+			listContent.add(temp);
+			LoadListAdapter adapter = new LoadListAdapter(listContent);
+			lv.setAdapter(adapter);
+		}
 		
 		
 	}
