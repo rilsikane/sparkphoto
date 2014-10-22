@@ -28,6 +28,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.util.GlobalVariable;
+
 import android.app.Activity;
 import android.os.Environment;
 import android.text.Html;
@@ -54,6 +58,42 @@ public class JSONParserForGetList {
 			  httpclient = new DefaultHttpClient();
 		      }
 		      return httpclient;
+	}
+	
+	public CommonDto Register(UserDto userDto){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "register"));
+         nameValuePairs.add(new BasicNameValuePair("email", userDto.getPassword()));
+         nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
+         nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
+         nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
+         nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
+         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
+         nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
+         nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
+         nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
+         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
+         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
+         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
+         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+        	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
+         }
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
+         
+         if(json.getString("success")!=null && !"".equals(json.getString("success"))){
+        	 commonDto.setFlag(true);
+        	 commonDto.setToken(json.getString("app_access_token"));
+         }else{
+        	 commonDto.setFlag(false);
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
 	}
 	
 	
@@ -156,6 +196,86 @@ public class JSONParserForGetList {
 		
 		return jObject;
 	}
+	 public JSONObject getJsonFromUrlDoPost(String url,List<NameValuePair> nameValuePairs) {
+
+         InputStream is = null;
+         String result = "";
+         JSONArray jArray = null;
+         JSONObject jObject = null;
+         try {
+                 HttpClient httpclient = getClientInstance();
+                 HttpPost httppost = new HttpPost(url);
+                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                 HttpResponse response = httpclient.execute(httppost);
+                 HttpEntity entity = response.getEntity();
+                 is = entity.getContent();
+         } catch (Exception e) {
+                 Log.e("log_tag", "Error in http connection " + e.toString());
+         }
+
+         try {
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                 is, "iso-8859-1"), 8);
+                 StringBuilder sb = new StringBuilder();
+                 String line = null;
+                 while ((line = reader.readLine()) != null) {
+                         sb.append(line + "\n");
+                         // System.out.println("Show Result::::"+line);
+                 }
+                 is.close();
+                 result = sb.toString();
+                 jObject = new JSONObject(result);
+                 
+ 
+         } catch (Exception e) {
+                 Log.e("log_tag", "Error converting result " + e.toString());
+         }
+
+       
+         return jObject;
+ }
+	 public JSONArray getJsonArrayFromUrlDoPost(String url,List<NameValuePair> nameValuePairs,String jsonArray) {
+
+         InputStream is = null;
+         String result = "";
+         JSONArray jArray = null;
+         JSONObject jObject = null;
+         try {
+                 HttpClient httpclient = getClientInstance();
+                 HttpPost httppost = new HttpPost(url);
+                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                 HttpResponse response = httpclient.execute(httppost);
+                 HttpEntity entity = response.getEntity();
+                 is = entity.getContent();
+         } catch (Exception e) {
+                 Log.e("log_tag", "Error in http connection " + e.toString());
+         }
+
+         try {
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                 is, "iso-8859-1"), 8);
+                 StringBuilder sb = new StringBuilder();
+                 String line = null;
+                 while ((line = reader.readLine()) != null) {
+                         sb.append(line + "\n");
+                         // System.out.println("Show Result::::"+line);
+                 }
+                 is.close();
+                 result = sb.toString();
+                 jObject = new JSONObject(result);
+                 
+ 
+         } catch (Exception e) {
+                 Log.e("log_tag", "Error converting result " + e.toString());
+         }
+
+         try {
+                 jArray = jObject.getJSONArray(jsonArray);
+         } catch (Exception e) {
+                 Log.e("log_tag", "Error parsing data " + e.toString());
+         }
+         return jArray;
+ }
 	
 	
 	public JSONArray getJsonArrayFromUrlDoGet(String url,String jsonArray) {
