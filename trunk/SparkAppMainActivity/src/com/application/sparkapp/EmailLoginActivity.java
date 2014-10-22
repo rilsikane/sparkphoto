@@ -3,7 +3,6 @@ package com.application.sparkapp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
