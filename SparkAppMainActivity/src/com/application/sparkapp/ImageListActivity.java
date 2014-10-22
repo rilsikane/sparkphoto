@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,7 @@ public class ImageListActivity extends Activity {
 	private TempListContentView temp;
 	ArrayList<TempListContentView> listContent;
 	ListView lv;
+	private ViewHolder viewHolder;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class ImageListActivity extends Activity {
 		});
 		
 		String facebookUserId = getIntent().getStringExtra("facebookUserId");
+		Log.d("facebook.user.id", facebookUserId);
         //Check isFacebook
 		if(Session.getActiveSession()!=null){
 			
@@ -65,8 +68,10 @@ public class ImageListActivity extends Activity {
 					try {
 						albumArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
 						for (int i = 0; i < albumArr.length(); i++) {
+							
 		                    JSONObject item = albumArr.getJSONObject(i);
 		            		if(checkEmptyCount(item)){
+		            			Log.d("facebook.user.cover.photo", item.getString("cover_photo"));
 			            		temp = new TempListContentView();
 			                    temp.setAlbumsName(item.getString("name"));
 			        	        new Request(Session.getActiveSession(),item.getString("cover_photo")+"/",null,HttpMethod.GET,new Request.Callback() {
@@ -75,6 +80,7 @@ public class ImageListActivity extends Activity {
 			        	        	        	try {
 													photoCover = response.getGraphObject().getInnerJSONObject().getJSONArray("images");
 													JSONObject item = photoCover.getJSONObject(0);
+													Log.d("facebook.user.cover.photo.img", item.getString("source"));
 													temp.setImgPathUrl(item.getString("source"));
 												} catch (JSONException e) {
 													// TODO Auto-generated catch block
@@ -147,17 +153,22 @@ public class ImageListActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-			LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);			
-			convertView = inflater.inflate(R.layout.custom_album_list, null);
+			if(convertView== null){
+				viewHolder = new ViewHolder();
+				LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);			
+				convertView = inflater.inflate(R.layout.custom_album_list, null);
+				
+				viewHolder.coverImg = (ImageView) convertView.findViewById(R.id.imageView1);
+				viewHolder.albumName = (TextView) convertView.findViewById(R.id.albumName);
+				viewHolder.noOfPic = (TextView) convertView.findViewById(R.id.noPicture);
+				viewHolder.click = (RelativeLayout) convertView.findViewById(R.id.each_list_layout);
+				convertView.setTag(viewHolder);
+			}else{
+				viewHolder = (ViewHolder) convertView.getTag();
+			}
+			
 			TempListContentView temps = _list.get(position);
-			ImageView coverImage = (ImageView) convertView.findViewById(R.id.imageView1);
-			TextView albumName = (TextView) convertView.findViewById(R.id.albumName);
-			TextView noOfPic = (TextView) convertView.findViewById(R.id.noPicture);
-			RelativeLayout click = (RelativeLayout) convertView.findViewById(R.id.each_list_layout);
-			
-			
-			
-			click.setOnClickListener(new OnClickListener() {
+			viewHolder.click.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -169,13 +180,18 @@ public class ImageListActivity extends Activity {
 				}
 			});
 			
-			albumName.setText(temps.getAlbumsName());
-			noOfPic.setText(String.valueOf(temps.getNumberOfImage()));
-			Picasso.with(getApplicationContext()).load(temps.getImgPathUrl()).into(coverImage);
+			viewHolder.albumName.setText(temps.getAlbumsName());
+			viewHolder.noOfPic.setText(String.valueOf(temps.getNumberOfImage()));
+			Picasso.with(getApplicationContext()).load(temps.getImgPathUrl()).into(viewHolder.coverImg);
 			
 			return convertView;
 		}
 		
+	}
+	public class ViewHolder{
+		public TextView albumName,noOfPic;
+		public ImageView coverImg;
+		public RelativeLayout click;
 	}
 	public class TempListContentView{
 		private String albumsName;
