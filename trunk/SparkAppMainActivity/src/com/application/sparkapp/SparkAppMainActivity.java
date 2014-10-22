@@ -37,6 +37,8 @@ public class SparkAppMainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_spark_app_main);
+        
+        System.gc();
         utils = new Utils(getApplicationContext(), this);
         int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
@@ -104,7 +106,7 @@ public class SparkAppMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
+				Intent i = new Intent(SparkAppMainActivity.this, EmailLoginActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			}

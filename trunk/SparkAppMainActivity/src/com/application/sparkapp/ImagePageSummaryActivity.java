@@ -29,7 +29,7 @@ public class ImagePageSummaryActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_page_summary);
-		
+		System.gc();
 		utils = new Utils(this, this);
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.address_background, utils.getScreenWidth(), utils.getScreenHeight()));

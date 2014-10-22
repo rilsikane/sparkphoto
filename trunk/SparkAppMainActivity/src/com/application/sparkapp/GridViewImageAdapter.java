@@ -48,7 +48,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
 		LayoutInflater inflater = (LayoutInflater) _activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+		System.gc();
 		convertView = inflater.inflate(R.layout.each_box_layout, null);
 		ImageView imgView = (ImageView) convertView.findViewById(R.id.showCase);
 		imgView.getLayoutParams().height = imageWidth;

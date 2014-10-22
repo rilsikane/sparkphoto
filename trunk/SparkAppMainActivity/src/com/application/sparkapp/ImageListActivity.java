@@ -39,6 +39,7 @@ public class ImageListActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_list);
+		System.gc();
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
 		lv = (ListView) findViewById(R.id.listView1);
 		backToPrevious.setOnClickListener(new OnClickListener() {

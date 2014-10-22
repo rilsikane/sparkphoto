@@ -25,5 +25,6 @@
     <string name="title_activity_image_page_summary">ImagePageSummaryActivity</string>
     <string name="title_activity_shipping_page">ShippingPageActivity</string>
     <string name="title_activity_shipping_address">ShippingAddressActivity</string>
+    <string name="title_activity_email_login">EmailLoginActivity</string>
 
 </resources>

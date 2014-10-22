@@ -18,6 +18,7 @@ public class TermOfUseMainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_term_of_use_main);
+		System.gc();
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		ImageView touImage = (ImageView) findViewById(R.id.imageView2);
 		TextView accept = (TextView) findViewById(R.id.textView2);
