@@ -40,7 +40,7 @@ public class AddressMainActivity extends Activity {
 		address_postal = (EditText) findViewById(R.id.editText8);
 		
 		
-		userDto = (UserDto) getIntent().getSerializableExtra("userDto");
+		userDto = getIntent().getExtras().getParcelable("userDto");
 		
 		userDto.setAddress_block(address_block.getText().toString());
 		userDto.setAddress_street_name(address_street_name.getText().toString());
