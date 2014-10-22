@@ -27,6 +27,7 @@ public class ImageGridViewActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_grid_view);
+		System.gc();
 		utils = new Utils(this, this);
 		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);

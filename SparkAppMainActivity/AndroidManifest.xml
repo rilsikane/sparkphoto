@@ -103,6 +103,11 @@
             android:label="@string/title_activity_shipping_address"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.EmailLoginActivity"
+            android:label="@string/title_activity_email_login"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ public class GuideTotalPrintActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_guide_total_print);
+		System.gc();
 		
 		utils = new Utils(this, this);
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
