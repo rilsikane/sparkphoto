@@ -2,6 +2,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/address_background" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/left_arrow" />
+
+        <Button
+            android:id="@+id/textView2"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11dp"
+            android:background="#30ffffff"
+            android:text="Login"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/png_icon"
+                android:ems="10"
+                android:hint="Email address"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignLeft="@+id/editText3"
+                android:layout_below="@+id/editText3"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/password_icon"
+                android:ems="10"
+                android:hint="Password"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <View
+                android:id="@+id/View01"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText4"
+                android:background="#007a3e0a" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/View01"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:text="Forgot your password?"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
