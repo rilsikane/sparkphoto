@@ -5,6 +5,8 @@ import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -52,12 +54,32 @@ public class AddressMainActivity extends Activity {
 			public void onClick(View v) {
 				CommonDto common = JSONParserForGetList.getInstance().Register(userDto);
 				if(common.isFlag()){
-					Intent intent = new Intent(AddressMainActivity.this,SparkAppMainActivity.class);
-					startActivity(intent);
-					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-					finish();
+					final AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+		            builder1.setMessage("Register Completed");
+		            builder1.setCancelable(true);
+		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		                    AlertDialog alert11 = builder1.create();
+				            alert11.show();
+							Intent intent = new Intent(AddressMainActivity.this,SparkAppMainActivity.class);
+							startActivity(intent);
+							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+							finish();
+		                }
+		            });
+		            
 				}else{
-					
+					final AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+		            builder1.setMessage("Error  Please try again");
+		            builder1.setCancelable(true);
+		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		                    AlertDialog alert11 = builder1.create();
+				            alert11.show();
+		                }
+		            });
 				}
 			}
 		});
