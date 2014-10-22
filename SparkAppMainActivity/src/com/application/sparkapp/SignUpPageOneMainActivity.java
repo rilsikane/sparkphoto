@@ -50,6 +50,21 @@ public class SignUpPageOneMainActivity extends Activity {
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
 		
+		userDto = (UserDto) getIntent().getSerializableExtra("userDto");
+		if(userDto!=null){
+			firstname.setText(userDto.getFirstname());
+			lastname.setText(userDto.getLastname());
+			nric.setText(userDto.getNric_fin());
+			email.setText(userDto.getEmail());
+			password.setText(userDto.getPassword());
+			cfPassword.setText(userDto.getPassword());
+			phoneno.setText(userDto.getPhone());
+			service.setText(userDto.getPhone_service());
+			occuption.setText(userDto.getOccupation());
+		}else{
+			userDto = new UserDto();
+		}
+		
 		userDto.setFirstname(firstname.getText().toString());
 		userDto.setLastname(lastname.getText().toString());
 		userDto.setNric_fin(nric.getText().toString());
