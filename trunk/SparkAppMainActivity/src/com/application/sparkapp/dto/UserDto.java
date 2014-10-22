@@ -1,7 +1,10 @@
 package com.application.sparkapp.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class User {
+
+public class UserDto implements Parcelable{
 	private String method;
 	private String email;
 	private String password;
@@ -18,6 +21,13 @@ public class User {
 	private String address_unit_number;
 	private String address_postal;
 	private String fb_access_token;
+	
+	public UserDto() { 
+		
+	}
+	public UserDto(Parcel in) { 
+        readFromParcel(in); 
+	}
 	
 	public String getMethod() {
 		return method;
@@ -115,7 +125,58 @@ public class User {
 	public void setFb_access_token(String fb_access_token) {
 		this.fb_access_token = fb_access_token;
 	}
-	
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(method);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeString(firstname);
+        dest.writeString(lastname);
+        dest.writeString(nric_fin);
+        dest.writeString(gender);
+        dest.writeString(birthday);
+        dest.writeString(phone);
+        dest.writeString(phone_service);
+        dest.writeString(occupation);
+        dest.writeString(address_block);
+        dest.writeString(address_street_name);
+        dest.writeString(address_unit_number);
+        dest.writeString(address_postal);
+        dest.writeString(fb_access_token);
+	}
+	private void readFromParcel(Parcel in) {
+		method = in.readString();
+		email = in.readString();
+		password = in.readString();
+		firstname = in.readString();
+		lastname = in.readString();
+		nric_fin = in.readString();
+		gender = in.readString();
+		birthday = in.readString();
+		phone = in.readString();
+		phone_service = in.readString();
+		occupation = in.readString();
+		address_block = in.readString();
+		address_street_name = in.readString();
+		address_unit_number = in.readString();
+		address_postal = in.readString();
+		fb_access_token = in.readString();
+	}
+	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public UserDto createFromParcel(Parcel parcel) {
+           
+            return new UserDto(parcel);
+        }
+
+        public UserDto[] newArray(int size) {
+            return new UserDto[size];
+        }
+    };
 	
 	
 }
