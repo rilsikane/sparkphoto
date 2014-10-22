@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.util.DateUtil;
 import com.application.sparkapp.util.GlobalVariable;
 
 import android.app.Activity;
@@ -70,7 +71,7 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
          nameValuePairs.add(new BasicNameValuePair("gender", "1"));
-         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
+         nameValuePairs.add(new BasicNameValuePair("birthday", DateUtil.toStringEngDateBySimpleFormat(new Date(), DateUtil.DEFAULT_DATE_PATTERN)));
          nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
          nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
          nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
