@@ -69,7 +69,7 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
          nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
-         nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
+         nameValuePairs.add(new BasicNameValuePair("gender", "1"));
          nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
          nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
          nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
@@ -78,6 +78,30 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
          nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+        	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
+         }
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
+         
+         if(json.getString("success")!=null && !"".equals(json.getString("success"))){
+        	 commonDto.setFlag(true);
+        	 commonDto.setToken(json.getString("app_access_token"));
+         }else{
+        	 commonDto.setFlag(false);
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
+	}
+	public CommonDto Login(UserDto userDto){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "register"));
+         nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
+         nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
          }
