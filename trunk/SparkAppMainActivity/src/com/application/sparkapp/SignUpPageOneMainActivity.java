@@ -1,8 +1,12 @@
 package com.application.sparkapp;
 
-import com.application.sparkapp.dto.UserDto;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -13,16 +17,19 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class SignUpPageOneMainActivity extends Activity {
+import com.application.sparkapp.dto.UserDto;
+
+@SuppressLint("SimpleDateFormat") public class SignUpPageOneMainActivity extends Activity {
 
 	private Utils utils;
-	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption;
+	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob;
 	private UserDto userDto;
 	@SuppressWarnings("deprecation")
 	@Override
@@ -35,6 +42,8 @@ public class SignUpPageOneMainActivity extends Activity {
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		final EditText infoIconForNRIC = (EditText) findViewById(R.id.editText3);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
+		dob = (EditText) findViewById(R.id.editText7);
+		dob.setInputType(0);
 		utils = new Utils(getApplicationContext(), this);
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, utils.getScreenWidth(), utils.getScreenHeight()));
@@ -74,6 +83,35 @@ public class SignUpPageOneMainActivity extends Activity {
 		userDto.setPhone_service(service.getText().toString());
 		userDto.setOccupation(occuption.getText().toString());
 		
+		final Calendar myCalendar = Calendar.getInstance();
+
+		final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+		    @Override
+		    public void onDateSet(DatePicker view, int year, int monthOfYear,
+		            int dayOfMonth) {
+		        // TODO Auto-generated method stub
+		        myCalendar.set(Calendar.YEAR, year);
+		        myCalendar.set(Calendar.MONTH, monthOfYear);
+		        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+		        
+		        String myFormat = "yyyy/mm/dd"; //In which you need put here
+		        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		        dob.setText(year+"/"+((monthOfYear+1)<10 ? "0":"")+(monthOfYear+1) +"/"+dayOfMonth);
+		    }
+
+		};
+		
+		dob.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new DatePickerDialog(SignUpPageOneMainActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+	                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+			}
+		});
 		
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
