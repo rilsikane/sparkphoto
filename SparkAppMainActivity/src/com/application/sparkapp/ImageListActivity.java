@@ -1,6 +1,8 @@
 package com.application.sparkapp;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,7 +11,14 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.ImageColumns;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,9 +65,11 @@ public class ImageListActivity extends Activity {
 			}
 		});
 		
-		String facebookUserId = getIntent().getStringExtra("facebookUserId");
-		Log.d("facebook.user.id", facebookUserId);
-        //Check isFacebook
+		String facebookUserId = "";
+		if(getIntent().hasExtra("facebookUserId")){
+			facebookUserId = getIntent().getStringExtra("facebookUserId");
+		}
+		//Check isFacebook
 		if(Session.getActiveSession()!=null){
 			
             new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
@@ -107,10 +118,7 @@ public class ImageListActivity extends Activity {
 		}else{
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
-			TempListContentView temp = new TempListContentView();
-			temp.setAlbumsName("Camera Roll");
-			temp.setNumberOfImage(200);
-			listContent.add(temp);
+			listContent = getAlbums();
 			LoadListAdapter adapter = new LoadListAdapter(listContent);
 			lv.setAdapter(adapter);
 		}
@@ -168,23 +176,35 @@ public class ImageListActivity extends Activity {
 			}
 			
 			TempListContentView temps = _list.get(position);
-			viewHolder.click.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
-					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
-					startActivity(i);
-					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-				}
-			});
+			viewHolder.click.setOnClickListener(new OnSelectImgListener(position,convertView,temps));
 			
 			viewHolder.albumName.setText(temps.getAlbumsName());
 			viewHolder.noOfPic.setText(String.valueOf(temps.getNumberOfImage()));
-			Picasso.with(getApplicationContext()).load(temps.getImgPathUrl()).into(viewHolder.coverImg);
+			Picasso.with(getApplicationContext()).load(new File(temps.getImgPathUrl())).resize(100, 100).into(viewHolder.coverImg);
 			
 			return convertView;
+		}
+		
+	}
+	public class OnSelectImgListener implements OnClickListener{
+		private int _position;
+		private View view;
+		private TempListContentView temps;
+		public OnSelectImgListener(int position,View btnView,TempListContentView temps){
+			this._position = position;
+			this.view = btnView;
+			this.temps = temps;
+		}
+		
+		@Override
+		public void onClick(View v) {
+			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+			if(getIntent().hasExtra("facebookUserId")){
+				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+			}
+			i.putStringArrayListExtra("imgList", temps.getImgList());
+			startActivity(i);
+			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 		}
 		
 	}
@@ -194,10 +214,13 @@ public class ImageListActivity extends Activity {
 		public RelativeLayout click;
 	}
 	public class TempListContentView{
+		
 		private String albumsName;
 		private int numberOfImage;
 		private String imgPathUrl;
 		private int imgDrawable;
+		private int albumId;
+		private ArrayList<String> imgList;
 		public String getAlbumsName() {
 			return albumsName;
 		}
@@ -222,8 +245,107 @@ public class ImageListActivity extends Activity {
 		public void setImgDrawable(int imgDrawable) {
 			this.imgDrawable = imgDrawable;
 		}
+		public int getAlbumId() {
+			return albumId;
+		}
+		public void setAlbumId(int albumId) {
+			this.albumId = albumId;
+		}
+		public ArrayList<String> getImgList() {
+			return imgList;
+		}
+		public void setImgList(ArrayList<String> imgList) {
+			this.imgList = imgList;
+		}
 		
 		
+		
+	}
+	public ArrayList<TempListContentView> getAlbums() {
+		// which image properties are we querying
+		ArrayList<TempListContentView> tempList = new ArrayList<TempListContentView>();
+		String[] PROJECTION_BUCKET = {
+	            ImageColumns.BUCKET_ID,
+	            ImageColumns.BUCKET_DISPLAY_NAME,
+	            ImageColumns.DATE_TAKEN,
+	            ImageColumns.DATA};
+	  
+	    String BUCKET_GROUP_BY =
+	            "1) GROUP BY 1,(2";
+	    String BUCKET_ORDER_BY = "MAX(datetaken) DESC";
+
+	    // Get the base URI for the People table in the Contacts content provider.
+	    Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+	    Cursor cur = getContentResolver().query(
+	            images, PROJECTION_BUCKET, BUCKET_GROUP_BY, null, BUCKET_ORDER_BY);
+
+	    Log.i("ListingImages"," query count=" + cur.getCount());
+
+	    if (cur.moveToFirst()) {
+	        String bucket;
+	        String date;
+	        String data;
+	        int bucketColumn = cur.getColumnIndex(
+	                MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+
+	        int dateColumn = cur.getColumnIndex(
+	                MediaStore.Images.Media.DATE_TAKEN);
+	        int dataColumn = cur.getColumnIndex(
+	                MediaStore.Images.Media.DATA);
+
+	        do {
+	        	TempListContentView temp = new TempListContentView();
+	            bucket = cur.getString(bucketColumn);
+	            date = cur.getString(dateColumn);
+	            data = cur.getString(dataColumn);
+	            temp.setAlbumsName(bucket);
+	            temp.setImgPathUrl(data);
+	            
+	            String parent = data.substring(0,data.lastIndexOf('/'));
+	            ArrayList<String> imgList = findImgChild(parent);
+	            temp.setImgList(imgList);
+	            temp.setNumberOfImage(imgList.size());
+	            tempList.add(temp);
+	            // Do something with the values.
+	            Log.i("ListingImages", " bucket=" + bucket 
+	                    + "  date_taken=" + date
+	                    + "  _data=" + data);
+	        } while (cur.moveToNext());
+	    }
+
+		  return tempList;
+	}
+	private ArrayList<String> findImgChild(String path){
+		ArrayList<String> imgList = new ArrayList<String>();
+		File file = new File(path);
+
+		File imageList[] = file.listFiles();
+
+		 for(int i=0;i<imageList.length;i++)
+		 {
+			String filename = imageList[i].getAbsolutePath();
+			if(checkImage(filename)){
+				imgList.add(filename);
+			}
+
+		 }
+		 
+		 return imgList;
+	}
+	public boolean checkImage(String filename){
+		boolean isImage = false;
+		String type = "";
+		if(filename!=null && !"".equals(filename)){
+			if((filename.lastIndexOf(".")>0) && filename.lastIndexOf(".") < filename.length()){
+				type = filename.substring(filename.lastIndexOf("."));
+			}
+			
+			if(".jpg".equals(type.toLowerCase()) || ".png".equals(type.toLowerCase()) || ".jpeg".equals(type.toLowerCase())){
+				isImage = true;
+			}
+		}
+		return isImage;
 	}
 
 }
