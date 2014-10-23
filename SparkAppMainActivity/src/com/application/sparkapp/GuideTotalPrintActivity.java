@@ -3,6 +3,7 @@ package com.application.sparkapp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.Window;
@@ -25,12 +26,15 @@ public class GuideTotalPrintActivity extends Activity {
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.spark_guidesummary, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
 		
+		final Bitmap croppedImage = (Bitmap) getIntent().getParcelableExtra("croppedImage");
+		
 		fullGuid.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(GuideTotalPrintActivity.this,ImagePageSummaryActivity.class);
+				i.putExtra("croppedImage", croppedImage);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();

@@ -1,27 +1,52 @@
 package com.application.sparkapp.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 
 public class UserDto implements Parcelable{
+	@JsonIgnore
 	private String method;
+	@JsonProperty("email")
 	private String email;
 	private String password;
+	@JsonProperty("firstname")
 	private String firstname;
+	@JsonProperty("lastname")
 	private String lastname;
+	@JsonProperty("nric_fin")
 	private String nric_fin;
+	@JsonProperty("gender")
 	private String gender;
+	@JsonProperty("birthday")
 	private String birthday;
+	@JsonProperty("phone")
 	private String phone;
+	@JsonProperty("phone_service")
 	private String phone_service;
+	@JsonProperty("occupation")
 	private String occupation;
+	@JsonProperty("address_block")
 	private String address_block;
+	@JsonProperty("address_street_name")
 	private String address_street_name;
+	@JsonProperty("address_unit_number")
 	private String address_unit_number;
+	@JsonProperty("address_postal")
 	private String address_postal;
+	@JsonIgnore
 	private String fb_access_token;
-	
+	@JsonProperty("credit_extra")
+	private String creditExtra;
+	@JsonProperty("number_picture_can_upload")
+	private Integer numberPictureCanUpload;
+	@JsonProperty("next_time_can_upload")
+	private String nextTimeCanUpload;
+	@JsonProperty("normal_credit")
+	private Boolean normalCredit;
 	public UserDto() { 
 		
 	}
@@ -125,6 +150,31 @@ public class UserDto implements Parcelable{
 	public void setFb_access_token(String fb_access_token) {
 		this.fb_access_token = fb_access_token;
 	}
+	
+	public String getCreditExtra() {
+		return creditExtra;
+	}
+	public void setCreditExtra(String creditExtra) {
+		this.creditExtra = creditExtra;
+	}
+	public Integer getNumberPictureCanUpload() {
+		return numberPictureCanUpload;
+	}
+	public void setNumberPictureCanUpload(Integer numberPictureCanUpload) {
+		this.numberPictureCanUpload = numberPictureCanUpload;
+	}
+	public String getNextTimeCanUpload() {
+		return nextTimeCanUpload;
+	}
+	public void setNextTimeCanUpload(String nextTimeCanUpload) {
+		this.nextTimeCanUpload = nextTimeCanUpload;
+	}
+	public Boolean getNormalCredit() {
+		return normalCredit;
+	}
+	public void setNormalCredit(Boolean normalCredit) {
+		this.normalCredit = normalCredit;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -148,6 +198,10 @@ public class UserDto implements Parcelable{
         dest.writeString(address_unit_number);
         dest.writeString(address_postal);
         dest.writeString(fb_access_token);
+        dest.writeString(creditExtra);
+        dest.writeInt(numberPictureCanUpload);
+        dest.writeString(nextTimeCanUpload);
+        dest.writeByte((byte) (normalCredit ? 1 : 0)); 
 	}
 	private void readFromParcel(Parcel in) {
 		method = in.readString();
@@ -166,6 +220,10 @@ public class UserDto implements Parcelable{
 		address_unit_number = in.readString();
 		address_postal = in.readString();
 		fb_access_token = in.readString();
+		creditExtra = in.readString();
+		numberPictureCanUpload = in.readInt();
+		nextTimeCanUpload = in.readString();
+		normalCredit = in.readByte() != 0; 
 	}
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public UserDto createFromParcel(Parcel parcel) {
