@@ -116,7 +116,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.application.sparkapp.TutorialPageTeoActivity"
+            android:name="com.application.sparkapp.TutorialPageTwoActivity"
             android:label="@string/title_activity_tutorial_page_teo"
             android:screenOrientation="portrait" >
 
