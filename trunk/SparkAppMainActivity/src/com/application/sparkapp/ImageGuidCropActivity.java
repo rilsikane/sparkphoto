@@ -23,6 +23,7 @@ public class ImageGuidCropActivity extends Activity {
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.guid_crop_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
+		final String imgPath = getIntent().getStringExtra("imgPath");
 		
 		fullGuid.setOnClickListener(new OnClickListener() {
 			
@@ -30,6 +31,7 @@ public class ImageGuidCropActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
+				i.putExtra("imgPath", imgPath);
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();

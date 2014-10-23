@@ -66,7 +66,8 @@ public class JSONParserForGetList {
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
          nameValuePairs.add(new BasicNameValuePair("method", "register"));
-         nameValuePairs.add(new BasicNameValuePair("email", userDto.getPassword()));
+         nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
+         nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
          nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
          nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
@@ -85,7 +86,7 @@ public class JSONParserForGetList {
          
          JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
          
-         if(json.getString("success")!=null && !"".equals(json.getString("success"))){
+         if(!json.isNull("success")){
         	 commonDto.setFlag(true);
         	 commonDto.setToken(json.getString("app_access_token"));
          }else{
@@ -100,7 +101,7 @@ public class JSONParserForGetList {
 		CommonDto commonDto = new CommonDto();
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-         nameValuePairs.add(new BasicNameValuePair("method", "register"));
+         nameValuePairs.add(new BasicNameValuePair("method", "login"));
          nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
          nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
@@ -109,7 +110,7 @@ public class JSONParserForGetList {
          
          JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
          
-         if(json.getString("success")!=null && !"".equals(json.getString("success"))){
+         if(!json.isNull("success")){
         	 commonDto.setFlag(true);
         	 commonDto.setToken(json.getString("app_access_token"));
          }else{
@@ -117,6 +118,8 @@ public class JSONParserForGetList {
          }
 		}catch (Exception e) {
 			e.printStackTrace();
+			 commonDto.setFlag(false);
+			 return commonDto;
 		}
          return commonDto;
 	}
@@ -218,7 +221,7 @@ public class JSONParserForGetList {
 			Log.e("log_tag", "Error converting result " + e.toString());
 		}
 
-		
+		 
 		return jObject;
 	}
 	 public JSONObject getJsonFromUrlDoPost(String url,List<NameValuePair> nameValuePairs) {

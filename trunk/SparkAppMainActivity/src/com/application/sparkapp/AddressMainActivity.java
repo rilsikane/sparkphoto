@@ -4,12 +4,14 @@ import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,6 +27,7 @@ public class AddressMainActivity extends Activity {
 	private EditText address_unit_number;
 	private EditText address_postal;
 	private UserDto userDto;
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +35,8 @@ public class AddressMainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_address_main);
 		System.gc();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
 		address_block = (EditText) findViewById(R.id.editText3);
@@ -42,44 +47,45 @@ public class AddressMainActivity extends Activity {
 		
 		userDto = getIntent().getExtras().getParcelable("userDto");
 		
-		userDto.setAddress_block(address_block.getText().toString());
-		userDto.setAddress_street_name(address_street_name.getText().toString());
-		userDto.setAddress_unit_number(address_unit_number.getText().toString());
-		userDto.setAddress_postal(address_postal.getText().toString());
+		
 		
 		
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				userDto.setAddress_block(address_block.getText().toString());
+				userDto.setAddress_street_name(address_street_name.getText().toString());
+				userDto.setAddress_unit_number(address_unit_number.getText().toString());
+				userDto.setAddress_postal(address_postal.getText().toString());
 				CommonDto common = JSONParserForGetList.getInstance().Register(userDto);
 				if(common.isFlag()){
-					final AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
 		            builder1.setMessage("Register Completed");
 		            builder1.setCancelable(true);
 		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
-		                    AlertDialog alert11 = builder1.create();
-				            alert11.show();
 							Intent intent = new Intent(AddressMainActivity.this,SparkAppMainActivity.class);
 							startActivity(intent);
 							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 							finish();
 		                }
 		            });
+		            AlertDialog alert11 = builder1.create();
+		            alert11.show();
 		            
 				}else{
-					final AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
 		            builder1.setMessage("Error  Please try again");
 		            builder1.setCancelable(true);
 		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
-		                    AlertDialog alert11 = builder1.create();
-				            alert11.show();
 		                }
 		            });
+		            AlertDialog alert11 = builder1.create();
+		            alert11.show();
 				}
 			}
 		});

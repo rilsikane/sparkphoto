@@ -6,6 +6,8 @@ import com.application.sparkapp.json.JSONParserForGetList;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.StrictMode;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+@SuppressLint("NewApi")
 public class EmailLoginActivity extends Activity {
 	private Utils utils;
 	private EditText email,password;
@@ -32,6 +35,8 @@ public class EmailLoginActivity extends Activity {
 	     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_email_login);
 		System.gc();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 		utils = new Utils(this, this);
 		int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
@@ -39,6 +44,8 @@ public class EmailLoginActivity extends Activity {
         email = (EditText) findViewById(R.id.editText3);
         password = (EditText) findViewById(R.id.editText4);
         
+        email.setText("test4@gmail.com");
+        password.setText("q12345");
 		utils = new Utils(getApplicationContext(), this);
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
         BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, screenWidth, screenHeight));
@@ -62,10 +69,10 @@ public class EmailLoginActivity extends Activity {
 		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
-		                    AlertDialog alert11 = builder1.create();
-				            alert11.show();
 		                }
 		            });
+		            AlertDialog alert11 = builder1.create();
+		            alert11.show();
 				}
 			}
 		});

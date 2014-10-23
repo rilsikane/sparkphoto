@@ -58,8 +58,9 @@ import com.application.sparkapp.dto.UserDto;
 		phoneno = (EditText) findViewById(R.id.editText9);
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
-		
-		userDto = (UserDto) getIntent().getSerializableExtra("userDto");
+		if(getIntent().hasExtra("userDto")){
+			userDto = (UserDto) getIntent().getExtras().get("userDto");
+		}
 		if(userDto!=null){
 			firstname.setText(userDto.getFirstname());
 			lastname.setText(userDto.getLastname());
@@ -74,14 +75,6 @@ import com.application.sparkapp.dto.UserDto;
 			userDto = new UserDto();
 		}
 		
-		userDto.setFirstname(firstname.getText().toString());
-		userDto.setLastname(lastname.getText().toString());
-		userDto.setNric_fin(nric.getText().toString());
-		userDto.setPassword(password.getText().toString());
-		userDto.setEmail(email.getText().toString());
-		userDto.setPhone(phoneno.getText().toString());
-		userDto.setPhone_service(service.getText().toString());
-		userDto.setOccupation(occuption.getText().toString());
 		
 		final Calendar myCalendar = Calendar.getInstance();
 
@@ -95,10 +88,8 @@ import com.application.sparkapp.dto.UserDto;
 		        myCalendar.set(Calendar.MONTH, monthOfYear);
 		        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 		        
-		        String myFormat = "yyyy/mm/dd"; //In which you need put here
-		        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
-		        dob.setText(year+"/"+((monthOfYear+1)<10 ? "0":"")+(monthOfYear+1) +"/"+dayOfMonth);
+		        dob.setText(year+"-"+((monthOfYear+1)<10 ? "0":"")+(monthOfYear+1) +"-"+dayOfMonth);
 		    }
 
 		};
@@ -117,7 +108,18 @@ import com.application.sparkapp.dto.UserDto;
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
+				userDto.setFirstname(firstname.getText().toString());
+				userDto.setLastname(lastname.getText().toString());
+				userDto.setNric_fin(nric.getText().toString());
+				userDto.setPassword(password.getText().toString());
+				userDto.setEmail(email.getText().toString());
+				userDto.setPhone(phoneno.getText().toString());
+				userDto.setPhone_service(service.getText().toString());
+				userDto.setOccupation(occuption.getText().toString());
+				userDto.setBirthday(dob.getText().toString());
+				
+				
 				Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
 				i.putExtra("userDto",(Parcelable) userDto);
 				startActivity(i);

@@ -31,13 +31,17 @@ public class ImageGridViewActivity extends Activity {
 		utils = new Utils(this, this);
 		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
+		
+		ArrayList<String> imgList = getIntent().getStringArrayListExtra("imgList");
 		backToPrevious.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
+				if(getIntent().hasExtra("facebookUserId")){
 				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+				}
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -47,14 +51,7 @@ public class ImageGridViewActivity extends Activity {
 		
 		gridView = (GridView) findViewById(R.id.gridView1);
 		InitilizeGridLayout();		
-		ArrayList<String> tempList = new ArrayList<String>();
-		for(int i= 0;i<10;i++){
-			tempList.add("http://static.tumblr.com/e9508858279f2144c7e6f4df14660fc8/ogbqjed/9eBmmp0ub/tumblr_static_wild_life_wallpaper_17942.jpg");
-			tempList.add("http://121clicks.com/wp-content/uploads/2012/10/wildlife_nature_06.jpg");
-			tempList.add("http://wolfhollowwildlife.org/wp/wp-content/uploads/2011/02/saw-whet-owl.jpg");
-			tempList.add("http://webneel.com/daily/sites/default/files/images/daily/02-2013/23-best-wildlife-photography-meercats.jpg");
-			tempList.add("http://2.bp.blogspot.com/-qpGtZjHOrRI/TxfXa8LbLJI/AAAAAAAAAkI/QuLqHxgo3Kw/s1600/Elephant-WildLife+-Wallpaper-HDTV-1080p.jpg");
-		}
+		ArrayList<String> tempList = imgList;
 		
 		
 		adapter = new GridViewImageAdapter(this, tempList,columnWidth);
@@ -91,7 +88,9 @@ public class ImageGridViewActivity extends Activity {
 	@Override
 	public void onBackPressed(){
 		Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
+		if(getIntent().hasExtra("facebookUserId")){
 		i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+		}
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();

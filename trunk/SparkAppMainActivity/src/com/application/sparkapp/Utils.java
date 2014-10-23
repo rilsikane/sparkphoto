@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -93,6 +94,16 @@ public class Utils {
 	    }
 
 	    return inSampleSize;
+	}
+	public  int dpToPx(int dp) {
+	    DisplayMetrics displayMetrics = _context.getResources().getDisplayMetrics();
+	    int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));       
+	    return px;
+	}
+	public int pxToDp(int px) {
+	    DisplayMetrics displayMetrics = _context.getResources().getDisplayMetrics();
+	    int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+	    return dp;
 	}
 	
 }
