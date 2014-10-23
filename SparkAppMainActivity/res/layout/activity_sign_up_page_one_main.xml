@@ -150,6 +150,7 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Password"
+                android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
                 android:textSize="20sp" >
@@ -174,6 +175,7 @@
                 android:drawableLeft="@drawable/space_icon"
                 android:ems="10"
                 android:hint="Confirm"
+                android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 

@@ -26,5 +26,7 @@
     <string name="title_activity_shipping_page">ShippingPageActivity</string>
     <string name="title_activity_shipping_address">ShippingAddressActivity</string>
     <string name="title_activity_email_login">EmailLoginActivity</string>
+    <string name="title_activity_tutorial_page_one">TutorialPageOneActivity</string>
+    <string name="title_activity_tutorial_page_teo">TutorialPageTeoActivity</string>
 
 </resources>
