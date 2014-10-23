@@ -28,10 +28,10 @@ public class TermOfUseMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(TermOfUseMainActivity.this,MainPhotoSelectActivity.class);
+				Intent i = new Intent(TermOfUseMainActivity.this,TutorialPageOneActivity.class);
 				startActivity(i);
 				finish();
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 			}
 		});
 		touImage.getLayoutParams().height = (new Utils(getApplicationContext(),this).getScreenHeight()*70)/100;

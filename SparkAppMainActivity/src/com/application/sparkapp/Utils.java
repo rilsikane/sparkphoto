@@ -105,5 +105,9 @@ public class Utils {
 	    int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 	    return dp;
 	}
+	@SuppressLint("NewApi")
+	public static boolean isNotEmpty(String str) {
+	    return (str != null && !str.isEmpty());
+	}
 	
 }

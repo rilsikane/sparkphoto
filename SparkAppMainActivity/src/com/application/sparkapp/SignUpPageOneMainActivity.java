@@ -1,12 +1,10 @@
 package com.application.sparkapp;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -106,25 +103,34 @@ import com.application.sparkapp.dto.UserDto;
 		
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
-			@Override
+			@SuppressLint("NewApi") @Override
 			public void onClick(View v) {
-
-				userDto.setFirstname(firstname.getText().toString());
-				userDto.setLastname(lastname.getText().toString());
-				userDto.setNric_fin(nric.getText().toString());
-				userDto.setPassword(password.getText().toString());
-				userDto.setEmail(email.getText().toString());
-				userDto.setPhone(phoneno.getText().toString());
-				userDto.setPhone_service(service.getText().toString());
-				userDto.setOccupation(occuption.getText().toString());
-				userDto.setBirthday(dob.getText().toString());
 				
-				
-				Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
-				i.putExtra("userDto",(Parcelable) userDto);
-				startActivity(i);
-				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-				finish();
+					if(utils.isNotEmpty(password.getText().toString())&& utils.isNotEmpty(cfPassword.getText().toString())){
+						if(!cfPassword.getText().toString().equals(password.getText().toString())){
+							cfPassword.setError("Password is not match");
+						}else{
+							userDto.setFirstname(firstname.getText().toString());
+							userDto.setLastname(lastname.getText().toString());
+							userDto.setNric_fin(nric.getText().toString());
+							userDto.setPassword(password.getText().toString());
+							userDto.setEmail(email.getText().toString());
+							userDto.setPhone(phoneno.getText().toString());
+							userDto.setPhone_service(service.getText().toString());
+							userDto.setOccupation(occuption.getText().toString());
+							userDto.setBirthday(dob.getText().toString());
+							
+							Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
+							i.putExtra("userDto",(Parcelable) userDto);
+							startActivity(i);
+							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+							finish();
+						}
+					}else if(password.getText().toString().isEmpty()){
+						password.setError("Please enter password");
+					}else if(cfPassword.getText().toString().isEmpty()){
+						cfPassword.setError("Please enter confirm password");
+					}					
 			}
 		});
 		infoIconForNRIC.setOnTouchListener(new OnTouchListener() {
