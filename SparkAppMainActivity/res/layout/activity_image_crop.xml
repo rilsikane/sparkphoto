@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".SignUpPageOneMainActivity" >
+    tools:context=".SignUpPageOneMainActivity" xmlns:app="http://schemas.android.com/apk/res/com.application.sparkapp">
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -44,12 +44,22 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff" />
     </RelativeLayout>
-
+	 <com.edmodo.cropper.CropImageView
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/CropImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="@+id/relativeLayout1"
+            />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true" >
 
         <TextView
