@@ -87,6 +87,7 @@ public class MainPhotoSelectActivity extends Activity {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
+						i.putExtra("loadImageState", 1);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 					}
@@ -110,6 +111,7 @@ public class MainPhotoSelectActivity extends Activity {
 				                        //Facebook API:https://developers.facebook.com/tools/explorer/
 				                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
 				                        i.putExtra("facebookUserId", user.getId());
+				                        i.putExtra("loadImageState", 0);
 	                                    startActivity(i);
 	                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				                    }
@@ -203,6 +205,7 @@ public class MainPhotoSelectActivity extends Activity {
                                     
                                     Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
                                     i.putExtra("facebookUserId", user.getId());
+                                    i.putExtra("loadImageState", 0);
                                     startActivity(i);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }

@@ -2,7 +2,6 @@ package com.application.sparkapp;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,13 +11,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
-import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -180,7 +176,12 @@ public class ImageListActivity extends Activity {
 			
 			viewHolder.albumName.setText(temps.getAlbumsName());
 			viewHolder.noOfPic.setText(String.valueOf(temps.getNumberOfImage()));
-			Picasso.with(getApplicationContext()).load(new File(temps.getImgPathUrl())).resize(100, 100).into(viewHolder.coverImg);
+			if(getIntent().getIntExtra("loadImageState", 0)==0){
+				Picasso.with(getApplicationContext()).load(temps.getImgPathUrl()).resize(100, 100).into(viewHolder.coverImg);
+			}else if(getIntent().getIntExtra("loadImageState", 0)==1){
+				Picasso.with(getApplicationContext()).load(new File(temps.getImgPathUrl())).resize(100, 100).into(viewHolder.coverImg);
+			}
+				
 			
 			return convertView;
 		}
