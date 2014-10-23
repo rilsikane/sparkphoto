@@ -1,8 +1,15 @@
 package com.application.sparkapp;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.UUID;
 
+import com.application.sparkapp.model.Login;
+import com.application.sparkapp.model.TempImage;
 import com.edmodo.cropper.CropImageView;
+import com.roscopeco.ormdroid.Entity;
+import com.roscopeco.ormdroid.Query;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +19,8 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -47,7 +56,7 @@ public class ImageCropActivity extends Activity {
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.fullBack);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-		String imgPath = getIntent().getStringExtra("imgPath");
+		final String imgPath = getIntent().getStringExtra("imgPath");
 		
 		final CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 		ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
@@ -80,11 +89,35 @@ public class ImageCropActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				try{
 				croppedImage = cropImageView.getCroppedImage();
+				Login login = Entity.query(Login.class).execute();
+				TempImage temp = new TempImage();
+				temp.ac_token = login.ac_token;
+				temp.originPath = imgPath;
+				File directory = new File(
+						Environment.getExternalStorageDirectory()
+								+ "/Spark/temp_image/");
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
+				OutputStream fOut = null;
+				File file = new File(directory, ""+UUID.randomUUID()+".jpg");
+				fOut = new FileOutputStream(file);
+				croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+				fOut.flush();
+				fOut.close();
+				MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+				temp.path = directory.getAbsolutePath()+""+UUID.randomUUID()+".jpg";
+				temp.save();
+				
 				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		protraitBt.setOnClickListener(new OnClickListener() {

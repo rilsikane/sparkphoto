@@ -24,6 +24,7 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.roscopeco.ormdroid.ORMDroidApplication;
 
 @SuppressWarnings("deprecation")
 public class SparkAppMainActivity extends Activity {
@@ -37,6 +38,7 @@ public class SparkAppMainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_spark_app_main);
+        ORMDroidApplication.initialize(SparkAppMainActivity.this);
         
         System.gc();
         utils = new Utils(getApplicationContext(), this);
