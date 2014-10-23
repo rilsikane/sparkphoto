@@ -1,8 +1,12 @@
 package com.application.sparkapp;
 
+import java.util.Date;
+
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.Login;
+import com.application.sparkapp.util.DateUtil;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,10 +91,18 @@ public class EmailLoginActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 				if(result.isFlag()){
+					 try {
+					  Login login = new Login();
+					  login.ac_token = result.getToken();
+					  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
+					  login.save();
 					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
 					  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	                  startActivity(i);
 	                  finish();
+					 } catch (Exception e) {
+						e.printStackTrace();
+					}
 				}else{
 					final AlertDialog.Builder builder1 = new AlertDialog.Builder(EmailLoginActivity.this);
 		            builder1.setMessage("Email and Password are not correctly");

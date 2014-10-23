@@ -84,6 +84,10 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
+        
+        <meta-data
+            android:name="ormdroid.database.name"
+            android:value="spark" />
 
         <activity
             android:name="com.application.sparkapp.GuideTotalPrintActivity"
