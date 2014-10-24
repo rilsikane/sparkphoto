@@ -28,5 +28,6 @@
     <string name="title_activity_email_login">EmailLoginActivity</string>
     <string name="title_activity_tutorial_page_one">TutorialPageOneActivity</string>
     <string name="title_activity_tutorial_page_teo">TutorialPageTeoActivity</string>
+    <string name="title_activity_setting_page">SettingPageActivity</string>
 
 </resources>

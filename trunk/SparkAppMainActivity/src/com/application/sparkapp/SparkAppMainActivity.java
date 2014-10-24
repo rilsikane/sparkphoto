@@ -111,6 +111,7 @@ public class SparkAppMainActivity extends Activity {
 				Intent i = new Intent(SparkAppMainActivity.this, EmailLoginActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
 			}
 		});
         layoutBottom.setOnClickListener(new OnClickListener() {

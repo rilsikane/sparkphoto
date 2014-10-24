@@ -1,22 +1,21 @@
 package com.application.sparkapp;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
-import com.facebook.SessionState;
-import com.facebook.Session.Builder;
-import com.facebook.Session.OpenRequest;
-import com.facebook.model.GraphUser;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,11 +24,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Session.Builder;
+import com.facebook.Session.OpenRequest;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+
 public class MainPhotoSelectActivity extends Activity {
 	
 	AlertDialog.Builder builder;
 	AlertDialog alertDialog;
 	private Session session;
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    private Uri fileUri;
+    private static String filepath = "";
+    private static final String IMAGE_DIRECTORY_NAME = "Spark Images";
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +53,19 @@ public class MainPhotoSelectActivity extends Activity {
 		System.gc();
 		ImageView cameraIcon = (ImageView) findViewById(R.id.imageView2);
 		ImageView selectIcon = (ImageView) findViewById(R.id.imageView3);
+		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
+		
+		settingIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPhotoSelectActivity.this,SettingPageActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
 		
 		session = Session.getActiveSession();					
 		cameraIcon.setOnClickListener(new OnClickListener() {
@@ -47,19 +73,20 @@ public class MainPhotoSelectActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final Dialog dialog = new Dialog(MainPhotoSelectActivity.this);
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				dialog.setContentView(R.layout.custom);	
-				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
-				closeDialog.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				});
-				dialog.show();
+				captureImage();
+//				final Dialog dialog = new Dialog(MainPhotoSelectActivity.this);
+//				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//				dialog.setContentView(R.layout.custom);	
+//				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
+//				closeDialog.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						// TODO Auto-generated method stub
+//						dialog.dismiss();
+//					}
+//				});
+//				dialog.show();
 			}
 		});
 		selectIcon.setOnClickListener(new OnClickListener() {
@@ -157,10 +184,46 @@ public class MainPhotoSelectActivity extends Activity {
 				
 			}
 		});
-		
-
-		
+	
 	}
+	private void captureImage() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+ 
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+ 
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+ 
+        // start the image capture Intent
+        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    }
+	public Uri getOutputMediaFileUri(int type) {
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+	private static File getOutputMediaFile(int type) {
+		 
+        // External sdcard location
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),IMAGE_DIRECTORY_NAME);
+ 
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "+ IMAGE_DIRECTORY_NAME + " directory");
+                return null;
+            }
+        }
+ 
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",Locale.getDefault()).format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator+ "IMG_" + timeStamp + ".jpg");
+            filepath = mediaStorageDir.getPath() + File.separator+ "IMG_" + timeStamp + ".jpg";
+        } else {
+            return null;
+        }
+ 
+        return mediaFile;
+    }
 	@Override
 	public void onBackPressed(){
 		Intent i = new Intent(MainPhotoSelectActivity.this,SparkAppMainActivity.class);
@@ -182,7 +245,27 @@ public class MainPhotoSelectActivity extends Activity {
             Session.setActiveSession(session);
             currentSession = session;
         }
-
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+            	//imgPath
+            	Intent i = new Intent(MainPhotoSelectActivity.this,ImageCropActivity.class);
+            	i.putExtra("imgPath", filepath);
+            	startActivity(i);
+            	finish();
+            	overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            	
+            } else if (resultCode == RESULT_CANCELED) {
+                // user cancelled Image capture
+                Toast.makeText(getApplicationContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                // failed to capture image
+                Toast.makeText(getApplicationContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
         if (currentSession.isOpened()) {
             Session.openActiveSession(this, true, new Session.StatusCallback() {
 
