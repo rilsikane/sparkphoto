@@ -29,5 +29,8 @@
     <string name="title_activity_tutorial_page_one">TutorialPageOneActivity</string>
     <string name="title_activity_tutorial_page_teo">TutorialPageTeoActivity</string>
     <string name="title_activity_setting_page">SettingPageActivity</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
+    <string name="title_activity_faq">FaqActivity</string>
+    <string name="title_activity_contact_us">ContactUsActivity</string>
 
 </resources>
