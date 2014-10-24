@@ -54,7 +54,19 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView cameraIcon = (ImageView) findViewById(R.id.imageView2);
 		ImageView selectIcon = (ImageView) findViewById(R.id.imageView3);
 		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
+		ImageView activityNoti = (ImageView) findViewById(R.id.activityNoti);
 		
+		activityNoti.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPhotoSelectActivity.this,ActivityNotificationActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
 		settingIcon.setOnClickListener(new OnClickListener() {
 			
 			@Override

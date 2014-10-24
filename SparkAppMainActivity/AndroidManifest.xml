@@ -145,6 +145,11 @@
             android:label="@string/title_activity_contact_us"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.ActivityNotificationActivity"
+            android:label="@string/title_activity_activity_notification"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
