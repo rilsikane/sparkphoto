@@ -43,7 +43,7 @@ public class ImageCropActivity extends Activity {
     private int mAspectRatioX = DEFAULT_ASPECT_RATIO_VALUES;
     private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
     private boolean portraitFlag = true;
-    Bitmap croppedImage;
+    Bitmap croppedImage,bitmap;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class ImageCropActivity extends Activity {
 		cropImageView.getLayoutParams().height = utils.getScreenHeight()-utils.dpToPx(140);
 		
 		
-		Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
+		bitmap = BitmapFactory.decodeFile(imgPath);
 		try{
 		ExifInterface exif = new ExifInterface(imgPath);
         int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
@@ -102,13 +102,24 @@ public class ImageCropActivity extends Activity {
 					directory.mkdirs();
 				}
 				OutputStream fOut = null;
+				OutputStream fOut2 = null;
 				File file = new File(directory, ""+UUID.randomUUID()+".jpg");
+				File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
+				
 				fOut = new FileOutputStream(file);
 				croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
 				fOut.flush();
 				fOut.close();
 				MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
-				temp.path = directory.getAbsolutePath()+""+UUID.randomUUID()+".jpg";
+				temp.path = file.getAbsolutePath();
+				
+				fOut2 = new FileOutputStream(tumb);
+				bitmap = getResizedBitmap(bitmap, 100, 100);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
+				fOut2.flush();
+				fOut2.close();
+				MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
+				temp.originPath = tumb.getAbsolutePath();
 				temp.save();
 				
 				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
@@ -141,6 +152,19 @@ public class ImageCropActivity extends Activity {
 			}
 		});
 	}
-	
+	public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	    int width = bm.getWidth();
+	    int height = bm.getHeight();
+	    float scaleWidth = ((float) newWidth) / width;
+	    float scaleHeight = ((float) newHeight) / height;
+	    // CREATE A MATRIX FOR THE MANIPULATION
+	    Matrix matrix = new Matrix();
+	    // RESIZE THE BIT MAP
+	    matrix.postScale(scaleWidth, scaleHeight);
+
+	    // "RECREATE" THE NEW BITMAP
+	    Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+	    return resizedBitmap;
+	}
 
 }
