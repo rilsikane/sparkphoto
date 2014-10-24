@@ -130,6 +130,21 @@
             android:label="@string/title_activity_setting_page"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.AboutUsActivity"
+            android:label="@string/title_activity_about_us"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.FaqActivity"
+            android:label="@string/title_activity_faq"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.ContactUsActivity"
+            android:label="@string/title_activity_contact_us"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
