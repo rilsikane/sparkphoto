@@ -9,6 +9,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
+    <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -84,7 +86,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-        
         <meta-data
             android:name="ormdroid.database.name"
             android:value="spark" />
@@ -123,7 +124,11 @@
             android:name="com.application.sparkapp.TutorialPageTwoActivity"
             android:label="@string/title_activity_tutorial_page_teo"
             android:screenOrientation="portrait" >
-
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.SettingPageActivity"
+            android:label="@string/title_activity_setting_page"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
