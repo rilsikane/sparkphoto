@@ -19,6 +19,15 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="14dp"
             android:src="@drawable/setting_icon" />
+
+        <ImageView
+            android:id="@+id/activityNoti"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:src="@drawable/png_icon" />
     </RelativeLayout>
 
     <ImageView
@@ -62,8 +71,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:text="Do not show tutorial mode"
-            android:textColor="#ffffff"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
     <TextView
