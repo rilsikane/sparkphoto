@@ -1,17 +1,26 @@
 package com.application.sparkapp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.application.sparkapp.GridViewImageAdapter.ViewHolder;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
+import com.application.sparkapp.util.BitmapTransform;
 import com.roscopeco.ormdroid.Entity;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso.LoadedFrom;
+import com.squareup.picasso.Target;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +29,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class ImagePageSummaryActivity extends Activity {
 	private Utils utils;
 	private ListView summaryList;
 	private TextView goToNextPage;
+	private Activity _activity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +56,7 @@ public class ImagePageSummaryActivity extends Activity {
 		summaryList = (ListView) findViewById(R.id.summaryList);
 		summaryList.setDividerHeight(0);
 		goToNextPage = (TextView) findViewById(R.id.textView2);
-		
+		_activity = ImagePageSummaryActivity.this;
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -64,6 +77,8 @@ public class ImagePageSummaryActivity extends Activity {
 				for(TempImage tmp : imgList){
 					TempImg img = new TempImg();
 					img.setAmt(tmp.amt!=null ? Integer.parseInt(tmp.amt) : 0);
+					img.setBgicon(tmp.originPath);
+					img.setCropIcon(tmp.path);
 					tempList.add(img);
 					
 				}
@@ -75,15 +90,21 @@ public class ImagePageSummaryActivity extends Activity {
 		summaryList.setAdapter(adapter);
 	}
 	public class TempImg{
-		private Bitmap icon;
+		private String bgicon,cropIcon;
 		private int amt;
 		
 		
-		public Bitmap getIcon() {
-			return icon;
+		public String getBgicon() {
+			return bgicon;
 		}
-		public void setIcon(Bitmap icon) {
-			this.icon = icon;
+		public void setBgicon(String bgicon) {
+			this.bgicon = bgicon;
+		}
+		public String getCropIcon() {
+			return cropIcon;
+		}
+		public void setCropIcon(String cropIcon) {
+			this.cropIcon = cropIcon;
 		}
 		public int getAmt() {
 			return amt;
@@ -96,9 +117,13 @@ public class ImagePageSummaryActivity extends Activity {
 		
 	}
 	public class LoadListAdapter extends BaseAdapter{
+		private ViewHolder viewHolder;
 		public List<TempImg> _list;
+		private int size;
 		public LoadListAdapter(List<TempImg> list){
 			this._list = list;
+			utils = new Utils(_activity, _activity);
+			size = (int) Math.ceil(Math.sqrt(utils.getScreenWidth() * utils.getScreenHeight()));
 		}
 		@Override
 		public int getCount() {
@@ -121,15 +146,38 @@ public class ImagePageSummaryActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
+			if(convertView== null){
+			viewHolder = new ViewHolder();
 			LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);			
 			convertView = inflater.inflate(R.layout.each_sumary_layout, null);
 			View view_line = (View) convertView.findViewById(R.id.view_line);
 			if(position==0){
 				view_line.setVisibility(View.INVISIBLE);
 			}
+			viewHolder.bgImg = (ImageView) convertView.findViewById(R.id.imgBg);
+			viewHolder.cropImg = (ImageView) convertView.findViewById(R.id.imageView1);
+			viewHolder.amt = (TextView) convertView.findViewById(R.id.textView3);
+			viewHolder.minusBt = (TextView) convertView.findViewById(R.id.textView2);
+			viewHolder.plusBt = (TextView) convertView.findViewById(R.id.textView4);
 			
+			convertView.setTag(viewHolder);
+			}else{
+				viewHolder = (ViewHolder) convertView.getTag();
+			}
+			
+			TempImg temp = _list.get(position);
+			Bitmap bgBitmap = BitmapFactory.decodeFile(temp.getBgicon());
+			viewHolder.bgImg.setImageBitmap(bgBitmap);
+			
+			 Bitmap myBitmap = BitmapFactory.decodeFile(temp.getCropIcon());
+			viewHolder.cropImg.setImageBitmap(myBitmap);
 			
 			return convertView;
+		}
+		public class ViewHolder{
+			public TextView minusBt,plusBt,amt;
+			public ImageView cropImg;
+			public ImageView bgImg;
 		}
 		
 	}

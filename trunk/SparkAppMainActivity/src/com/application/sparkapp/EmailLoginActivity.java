@@ -96,9 +96,11 @@ public class EmailLoginActivity extends Activity {
 					  login.ac_token = result.getToken();
 					  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
 					  login.save();
-					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-					  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-	                  startActivity(i);
+//					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+//					  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+//	                  startActivity(i);
+					  Intent i = new Intent(EmailLoginActivity.this,ImagePageSummaryActivity.class);
+					  startActivity(i);
 	                  finish();
 					 } catch (Exception e) {
 						e.printStackTrace();
