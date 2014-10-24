@@ -24,15 +24,25 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/temp_image" >
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/imgBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:alpha="0.5"/>
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="55dp"
-                android:layout_height="70dp"
+                android:layout_width="65dp"
+                android:layout_height="75dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"
+                android:layout_gravity="center"
                 android:src="@drawable/camera_icon" />
         </RelativeLayout>
 
