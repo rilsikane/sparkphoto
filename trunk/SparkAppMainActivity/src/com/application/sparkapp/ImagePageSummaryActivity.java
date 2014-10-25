@@ -20,6 +20,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -91,6 +93,8 @@ public class ImagePageSummaryActivity extends Activity {
 		}				
 		LoadListAdapter adapter = new LoadListAdapter(tempList);
 		summaryList.setAdapter(adapter);
+
+		
 	}
 	@Override
 	public void onBackPressed(){
@@ -131,6 +135,7 @@ public class ImagePageSummaryActivity extends Activity {
 		private ViewHolder viewHolder;
 		public List<TempImg> _list;
 		private int size;
+		private int newRes;
 		public LoadListAdapter(List<TempImg> list){
 			this._list = list;
 			utils = new Utils(_activity, _activity);
@@ -175,6 +180,31 @@ public class ImagePageSummaryActivity extends Activity {
 			}else{
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
+			newRes = 0;
+			viewHolder.amt.setText(newRes+"");
+			viewHolder.minusBt.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if(newRes>0){
+						viewHolder.amt.setText(""+(newRes-1));
+						newRes--;
+					}
+					
+				}
+			});
+			viewHolder.plusBt.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if(newRes<10){
+						viewHolder.amt.setText(""+(newRes+1));
+						newRes++;
+					}
+				}
+			});
 			
 			TempImg temp = _list.get(position);
 			Bitmap bgBitmap = BitmapFactory.decodeFile(temp.getBgicon());
@@ -185,6 +215,7 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			return convertView;
 		}
+
 		public class ViewHolder{
 			public TextView minusBt,plusBt,amt;
 			public ImageView cropImg;
