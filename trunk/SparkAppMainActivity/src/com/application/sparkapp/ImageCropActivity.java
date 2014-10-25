@@ -62,8 +62,9 @@ public class ImageCropActivity extends Activity {
 		
 		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
-		ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
-		ImageView landsBt = (ImageView) findViewById(R.id.imageView3);
+		final ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
+		protraitBt.setImageDrawable(getResources().getDrawable(R.drawable.crop_protreit));
+		final ImageView landsBt = (ImageView) findViewById(R.id.imageView3);
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		
@@ -162,6 +163,8 @@ public class ImageCropActivity extends Activity {
 				if(!portraitFlag){
 					portraitFlag = true;
 					cropImageView.setAspectRatio(2,3);
+					protraitBt.setImageDrawable(getResources().getDrawable(R.drawable.crop_protreit));
+					landsBt.setImageDrawable(getResources().getDrawable(R.drawable.crop_landscape_default));
 				}
 			}
 		});
@@ -172,6 +175,8 @@ public class ImageCropActivity extends Activity {
 				if(portraitFlag){
 					portraitFlag = false;
 					cropImageView.setAspectRatio(3,2);
+					protraitBt.setImageDrawable(getResources().getDrawable(R.drawable.portriet_default));
+					landsBt.setImageDrawable(getResources().getDrawable(R.drawable.landscape_select));
 				}
 			}
 		});
@@ -184,7 +189,7 @@ public class ImageCropActivity extends Activity {
 				i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-				finish();
+				finish();				
 			}
 		});
 	}
