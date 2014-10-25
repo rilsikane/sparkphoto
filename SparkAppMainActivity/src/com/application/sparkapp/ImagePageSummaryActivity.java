@@ -78,7 +78,8 @@ public class ImagePageSummaryActivity extends Activity {
 					TempImg img = new TempImg();
 					img.setAmt(tmp.amt!=null ? Integer.parseInt(tmp.amt) : 0);
 					img.setBgicon(tmp.originPath);
-					img.setCropIcon(tmp.path);
+					String[] temp = tmp.path.split("\\.");
+					img.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
 					tempList.add(img);
 					
 				}

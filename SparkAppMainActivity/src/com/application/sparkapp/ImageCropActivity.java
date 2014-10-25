@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Matrix.ScaleToFit;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,7 +46,7 @@ public class ImageCropActivity extends Activity {
     private int mAspectRatioY = DEFAULT_ASPECT_RATIO_VALUES;
     private boolean portraitFlag = true;
     Bitmap croppedImage,bitmap;
-    
+    private CropImageView cropImageView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,39 +60,48 @@ public class ImageCropActivity extends Activity {
 		root_id.setBackgroundDrawable(ob);
 		final String imgPath = getIntent().getStringExtra("imgPath");
 		
-		final CropImageView cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
+
 		ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
 		ImageView landsBt = (ImageView) findViewById(R.id.imageView3);
-		cropImageView.getLayoutParams().height = utils.getScreenHeight()-utils.dpToPx(140);
 		
+		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		
 		bitmap = BitmapFactory.decodeFile(imgPath);
-		try{
-		ExifInterface exif = new ExifInterface(imgPath);
-        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-        Matrix matrix = new Matrix();
-        if (orientation == 6) {
-            matrix.postRotate(90);
-        }
-        else if (orientation == 3) {
-            matrix.postRotate(180);
-        }
-        else if (orientation == 8) {
-            matrix.postRotate(270);
-        }
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+		//bitmap = getResizedBitmap(bitmap, utils.getScreenWidth()*0.6f, utils.getScreenWidth());
+//		try{
+//		ExifInterface exif = new ExifInterface(imgPath);
+//        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+//        Matrix matrix = new Matrix();
+//        if (orientation == 6) {
+//            matrix.postRotate(90);
+//        }
+//        else if (orientation == 3) {
+//            matrix.postRotate(180);
+//        }
+//        else if (orientation == 8) {
+//            matrix.postRotate(270);
+//        }
+//        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//		
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		cropImageView.setImageBitmap(bitmap);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
 		
+		cropImageView.setAspectRatio(1,1);
+		cropImageView.setFixedAspectRatio(true);
+		cropImageView.setGuidelines(1);
+		imgImageView.setScaleType(ScaleType.FIT_CENTER);
 		goToNextPage = (TextView) findViewById(R.id.textView2);
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				try{
+				Bitmap tempCrop = cropImageView.getCroppedImage();
 				croppedImage = cropImageView.getCroppedImage();
+				
 				Login login = Entity.query(Login.class).execute();
 				TempImage temp = new TempImage();
 				temp.ac_token = login.ac_token;
@@ -103,8 +114,12 @@ public class ImageCropActivity extends Activity {
 				}
 				OutputStream fOut = null;
 				OutputStream fOut2 = null;
-				File file = new File(directory, ""+UUID.randomUUID()+".jpg");
+				OutputStream fOut3 = null;
+				
+				String cropName = ""+UUID.randomUUID();
+				File file = new File(directory, ""+cropName+".jpg");
 				File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
+				File tmb = new File(directory, ""+cropName+"_tmb.jpg");
 				
 				fOut = new FileOutputStream(file);
 				croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
@@ -120,8 +135,16 @@ public class ImageCropActivity extends Activity {
 				fOut2.close();
 				MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
 				temp.originPath = tumb.getAbsolutePath();
-				temp.save();
 				
+				
+				fOut3 = new FileOutputStream(tmb);
+				tempCrop = getResizedBitmap(tempCrop, 100, 100);
+				tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
+				fOut3.flush();
+				fOut3.close();
+				MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
+				
+				temp.save();
 				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -152,11 +175,11 @@ public class ImageCropActivity extends Activity {
 			}
 		});
 	}
-	public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	public Bitmap getResizedBitmap(Bitmap bm, float newHeight, float newWidth) {
 	    int width = bm.getWidth();
 	    int height = bm.getHeight();
 	    float scaleWidth = ((float) newWidth) / width;
-	    float scaleHeight = ((float) newHeight) / height;
+	    float scaleHeight =  newHeight / height;
 	    // CREATE A MATRIX FOR THE MANIPULATION
 	    Matrix matrix = new Matrix();
 	    // RESIZE THE BIT MAP
