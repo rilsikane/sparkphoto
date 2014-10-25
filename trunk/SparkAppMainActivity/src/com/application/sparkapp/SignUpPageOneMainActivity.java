@@ -4,7 +4,9 @@ import java.util.Calendar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -26,8 +28,9 @@ import com.application.sparkapp.dto.UserDto;
 @SuppressLint("SimpleDateFormat") public class SignUpPageOneMainActivity extends Activity {
 
 	private Utils utils;
-	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob;
+	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob,gender;
 	private UserDto userDto;
+	private AlertDialog levelDialog;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ import com.application.sparkapp.dto.UserDto;
 		phoneno = (EditText) findViewById(R.id.editText9);
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
+		gender = (EditText) findViewById(R.id.editText8);
+		
 		if(getIntent().hasExtra("userDto")){
 			userDto = (UserDto) getIntent().getExtras().get("userDto");
 		}
@@ -90,7 +95,40 @@ import com.application.sparkapp.dto.UserDto;
 		    }
 
 		};
-		
+		gender.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+
+				// Strings to Show In Dialog with Radio Buttons
+				final CharSequence[] items = {" Male "," Female "};
+				            
+				                // Creating and Building the Dialog 
+				                AlertDialog.Builder builder = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+				                builder.setTitle("Select Genders");
+				                builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+				                public void onClick(DialogInterface dialog, int item) {
+				                   
+				                    
+				                    switch(item)
+				                    {
+				                        case 0:
+				                        	gender.setText(items[0]);
+				                                 break;
+				                        case 1:
+				                                // Your code when 2nd  option seletced
+				                        	gender.setText(items[1]);
+				                                break;
+				                    }
+				                    levelDialog.dismiss();    
+				                    }
+				                });
+				                levelDialog = builder.create();
+				                levelDialog.show();
+			}
+		});
 		dob.setOnClickListener(new OnClickListener() {
 			
 			@Override

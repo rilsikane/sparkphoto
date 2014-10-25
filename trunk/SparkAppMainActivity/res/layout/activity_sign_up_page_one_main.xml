@@ -189,6 +189,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/date_icon"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Date of birth"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -203,6 +204,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/gender_icon"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Gender"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
