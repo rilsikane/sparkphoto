@@ -23,8 +23,9 @@
             android:layout_height="90dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp" >
+
             <ImageView
                 android:id="@+id/imgBg"
                 android:layout_width="match_parent"
@@ -32,8 +33,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:alpha="0.5"/>
+                android:alpha="0.5"
+                android:scaleType="fitXY" />
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -41,8 +42,8 @@
                 android:layout_height="75dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:scaleType="fitXY"
                 android:layout_gravity="center"
+                android:scaleType="fitXY"
                 android:src="@drawable/camera_icon" />
         </RelativeLayout>
 
@@ -83,7 +84,7 @@
                 android:text="-"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -107,7 +108,7 @@
                 android:text="+"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
-                android:textSize="16sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
     </RelativeLayout>
 
