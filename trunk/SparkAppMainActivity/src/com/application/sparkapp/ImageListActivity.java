@@ -66,59 +66,58 @@ public class ImageListActivity extends Activity {
 			facebookUserId = getIntent().getStringExtra("facebookUserId");
 		}
 		//Check isFacebook
-		if(Session.getActiveSession()!=null){
-			
-            new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
-        	public void onCompleted(Response response) {
-        		JSONArray albumArr;
-        			listContent = new ArrayList<TempListContentView>();
-					try {
-						albumArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
-						for (int i = 0; i < albumArr.length(); i++) {
+		if(getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
+			new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
+	        	public void onCompleted(Response response) {
+	        		JSONArray albumArr;
+	        			listContent = new ArrayList<TempListContentView>();
+						try {
+							albumArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
+							for (int i = 0; i < albumArr.length(); i++) {
+								
+			                    JSONObject item = albumArr.getJSONObject(i);
+			            		if(checkEmptyCount(item)){
+			            			Log.d("facebook.user.cover.photo", item.getString("cover_photo"));
+				            		temp = new TempListContentView();
+				                    temp.setAlbumsName(item.getString("name"));
+				        	        new Request(Session.getActiveSession(),item.getString("cover_photo")+"/",null,HttpMethod.GET,new Request.Callback() {
+				        	        	public void onCompleted(Response response) {
+				        	        	        	JSONArray photoCover ;
+				        	        	        	try {
+														photoCover = response.getGraphObject().getInnerJSONObject().getJSONArray("images");
+														JSONObject item = photoCover.getJSONObject(0);
+														Log.d("facebook.user.cover.photo.img", item.getString("source"));
+														temp.setImgPathUrl(item.getString("source"));
+													} catch (JSONException e) {
+														// TODO Auto-generated catch block
+														e.printStackTrace();
+													}
+				        	        	        	
+				        	        	        }
+				        	        	    }
+				        	        ).executeAsync();	                    
+				                    temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
+				            		listContent.add(temp);
+			            		}
+			                }
+							LoadListAdapter adapter = new LoadListAdapter(listContent);
+							lv.setAdapter(adapter);
 							
-		                    JSONObject item = albumArr.getJSONObject(i);
-		            		if(checkEmptyCount(item)){
-		            			Log.d("facebook.user.cover.photo", item.getString("cover_photo"));
-			            		temp = new TempListContentView();
-			                    temp.setAlbumsName(item.getString("name"));
-			        	        new Request(Session.getActiveSession(),item.getString("cover_photo")+"/",null,HttpMethod.GET,new Request.Callback() {
-			        	        	public void onCompleted(Response response) {
-			        	        	        	JSONArray photoCover ;
-			        	        	        	try {
-													photoCover = response.getGraphObject().getInnerJSONObject().getJSONArray("images");
-													JSONObject item = photoCover.getJSONObject(0);
-													Log.d("facebook.user.cover.photo.img", item.getString("source"));
-													temp.setImgPathUrl(item.getString("source"));
-												} catch (JSONException e) {
-													// TODO Auto-generated catch block
-													e.printStackTrace();
-												}
-			        	        	        	
-			        	        	        }
-			        	        	    }
-			        	        ).executeAsync();	                    
-			                    temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
-			            		listContent.add(temp);
-		            		}
-		                }
-						LoadListAdapter adapter = new LoadListAdapter(listContent);
-						lv.setAdapter(adapter);
-						
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-        	    }
-        	}).executeAsync();
-		}else{
+	        	    }
+	        	}).executeAsync();
+		}
+		if(getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
 			listContent = getAlbums();
 			LoadListAdapter adapter = new LoadListAdapter(listContent);
 			lv.setAdapter(adapter);
 		}
-		
 		
 	}
 	public boolean checkEmptyCount(JSONObject item){

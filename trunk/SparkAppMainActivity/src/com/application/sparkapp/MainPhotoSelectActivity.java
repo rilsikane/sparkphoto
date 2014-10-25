@@ -43,6 +43,9 @@ public class MainPhotoSelectActivity extends Activity {
     private Uri fileUri;
     private static String filepath = "";
     private static final String IMAGE_DIRECTORY_NAME = "Spark Images";
+    private static final String IMG_FROM_FACEBOOK = "imgFace";
+    private static final String IMG_FROM_DROPBOX = "imgDrop";
+    private static final String IMG_FROM_GALLERY = "imgGal";
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +142,7 @@ public class MainPhotoSelectActivity extends Activity {
 						// TODO Auto-generated method stub
 						Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
 						i.putExtra("loadImageState", 1);
+						i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 						finish();
@@ -162,6 +166,7 @@ public class MainPhotoSelectActivity extends Activity {
 				                        user.getName();
 				                        //Facebook API:https://developers.facebook.com/tools/explorer/
 				                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+				                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
 				                        i.putExtra("facebookUserId", user.getId());
 				                        i.putExtra("loadImageState", 0);
 	                                    startActivity(i);
@@ -311,6 +316,7 @@ public class MainPhotoSelectActivity extends Activity {
                                     user.getName();
                                     
                                     Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+                                    i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
                                     i.putExtra("facebookUserId", user.getId());
                                     i.putExtra("loadImageState", 0);
                                     startActivity(i);
