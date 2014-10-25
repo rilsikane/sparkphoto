@@ -55,7 +55,19 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView selectIcon = (ImageView) findViewById(R.id.imageView3);
 		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
 		ImageView activityNoti = (ImageView) findViewById(R.id.activityNoti);
+		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
 		
+		perkIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPhotoSelectActivity.this,PerkPageActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
 		activityNoti.setOnClickListener(new OnClickListener() {
 			
 			@Override
