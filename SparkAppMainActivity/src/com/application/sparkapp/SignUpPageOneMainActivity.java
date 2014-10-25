@@ -130,7 +130,7 @@ import com.application.sparkapp.dto.UserDto;
 						password.setError("Please enter password");
 					}else if(cfPassword.getText().toString().isEmpty()){
 						cfPassword.setError("Please enter confirm password");
-					}					
+					}
 			}
 		});
 		infoIconForNRIC.setOnTouchListener(new OnTouchListener() {
