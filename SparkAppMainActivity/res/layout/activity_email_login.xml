@@ -75,6 +75,7 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Password"
+                android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
