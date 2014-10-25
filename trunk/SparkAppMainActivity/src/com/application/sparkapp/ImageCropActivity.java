@@ -68,31 +68,32 @@ public class ImageCropActivity extends Activity {
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		
 		bitmap = BitmapFactory.decodeFile(imgPath);
+		utils.getScreenWidth();
 		//bitmap = getResizedBitmap(bitmap, utils.getScreenWidth()*0.6f, utils.getScreenWidth());
-//		try{
-//		ExifInterface exif = new ExifInterface(imgPath);
-//        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-//        Matrix matrix = new Matrix();
-//        if (orientation == 6) {
-//            matrix.postRotate(90);
-//        }
-//        else if (orientation == 3) {
-//            matrix.postRotate(180);
-//        }
-//        else if (orientation == 8) {
-//            matrix.postRotate(270);
-//        }
-//        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-//		
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		cropImageView.setImageBitmap(bitmap);
+		try{
+		ExifInterface exif = new ExifInterface(imgPath);
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+        Matrix matrix = new Matrix();
+        if (orientation == 6) {
+            matrix.postRotate(90);
+        }
+        else if (orientation == 3) {
+            matrix.postRotate(180);
+        }
+        else if (orientation == 8) {
+            matrix.postRotate(270);
+        }
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 		
-		cropImageView.setAspectRatio(1,1);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		cropImageView.setImageBitmap(bitmap);
+		cropImageView.setAspectRatio(2,3);
 		cropImageView.setFixedAspectRatio(true);
 		cropImageView.setGuidelines(1);
-		imgImageView.setScaleType(ScaleType.FIT_CENTER);
+		
 		goToNextPage = (TextView) findViewById(R.id.textView2);
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
@@ -160,7 +161,7 @@ public class ImageCropActivity extends Activity {
 			public void onClick(View v) {
 				if(!portraitFlag){
 					portraitFlag = true;
-					cropImageView.rotateImage(270);
+					cropImageView.setAspectRatio(2,3);
 				}
 			}
 		});
@@ -170,7 +171,7 @@ public class ImageCropActivity extends Activity {
 			public void onClick(View v) {
 				if(portraitFlag){
 					portraitFlag = false;
-					cropImageView.rotateImage(ROTATE_NINETY_DEGREES);
+					cropImageView.setAspectRatio(3,2);
 				}
 			}
 		});
