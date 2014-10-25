@@ -150,6 +150,10 @@
             android:label="@string/title_activity_activity_notification"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.PerkPageActivity"
+            android:label="@string/title_activity_perk_page" >
+        </activity>
     </application>
 
 </manifest>
