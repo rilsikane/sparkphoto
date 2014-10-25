@@ -9,9 +9,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class ImageGuidCropActivity extends Activity {
 	private Utils utils;
+	private String imgPath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,21 +25,30 @@ public class ImageGuidCropActivity extends Activity {
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.guid_crop_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
-		final String imgPath = getIntent().getStringExtra("imgPath");
+		imgPath = getIntent().getStringExtra("imgPath");
 		
 		fullGuid.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
 				Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
 				i.putExtra("imgPath", imgPath);
+				i.putStringArrayListExtra("IMG_LIST", getIntent().getStringArrayListExtra("IMG_LIST"));
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
 			}
 		});
 	}
-
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
+		i.putExtra("imgPath", imgPath);
+		startActivity(i);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
+	}
 
 }

@@ -99,6 +99,12 @@ public class ShippingAddressActivity extends Activity {
 			}
 		});
 	}
-
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(ShippingAddressActivity.this,ShippingPageActivity.class);
+		startActivity(i);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
+	}
 
 }

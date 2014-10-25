@@ -54,5 +54,12 @@ public class ShippingPageActivity extends Activity {
 			}
 		});
 	}
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(ShippingPageActivity.this,ImagePageSummaryActivity.class);
+		startActivity(i);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
+	}
 
 }

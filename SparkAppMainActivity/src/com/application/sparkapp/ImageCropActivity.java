@@ -64,7 +64,7 @@ public class ImageCropActivity extends Activity {
 
 		ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
 		ImageView landsBt = (ImageView) findViewById(R.id.imageView3);
-		
+		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		
 		bitmap = BitmapFactory.decodeFile(imgPath);
@@ -175,6 +175,27 @@ public class ImageCropActivity extends Activity {
 				}
 			}
 		});
+		goBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(ImageCropActivity.this,ImageGridViewActivity.class);	
+				i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+				finish();
+			}
+		});
+	}
+	@Override
+	public void onBackPressed(){
+//		Toast.makeText(getApplicationContext(), "Hello "+getIntent().getStringArrayListExtra("IMG_LIST").size(), Toast.LENGTH_SHORT).show();
+		Intent i = new Intent(ImageCropActivity.this,ImageGridViewActivity.class);	
+		i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+		startActivity(i);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		finish();
 	}
 	public Bitmap getResizedBitmap(Bitmap bm, float newHeight, float newWidth) {
 	    int width = bm.getWidth();

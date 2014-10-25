@@ -1,18 +1,11 @@
 package com.application.sparkapp;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.application.sparkapp.GridViewImageAdapter.ViewHolder;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
-import com.application.sparkapp.util.BitmapTransform;
 import com.roscopeco.ormdroid.Entity;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Picasso.LoadedFrom;
-import com.squareup.picasso.Target;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +13,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +49,18 @@ public class ImagePageSummaryActivity extends Activity {
 		summaryList.setDividerHeight(0);
 		goToNextPage = (TextView) findViewById(R.id.textView2);
 		_activity = ImagePageSummaryActivity.this;
+		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
+		goBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -84,11 +88,17 @@ public class ImagePageSummaryActivity extends Activity {
 					
 				}
 			}
-		}
-		
-		
+		}				
 		LoadListAdapter adapter = new LoadListAdapter(tempList);
 		summaryList.setAdapter(adapter);
+	}
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+//		i.putExtra("croppedImage", (Bitmap) getIntent().getParcelableExtra("croppedImage"));
+		startActivity(i);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
 	}
 	public class TempImg{
 		private String bgicon,cropIcon;
