@@ -30,6 +30,8 @@ import org.json.JSONObject;
 
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.model.Login;
+import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
 import com.application.sparkapp.util.GlobalVariable;
 
@@ -97,8 +99,9 @@ public class JSONParserForGetList {
 		}
          return commonDto;
 	}
-	public CommonDto Login(UserDto userDto){
+	public UserDto Login(UserDto userDto){
 		CommonDto commonDto = new CommonDto();
+		UserDto user = null;
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
          nameValuePairs.add(new BasicNameValuePair("method", "login"));
@@ -113,15 +116,27 @@ public class JSONParserForGetList {
          if(!json.isNull("success")){
         	 commonDto.setFlag(true);
         	 commonDto.setToken(json.getString("app_access_token"));
+        	 Login login = new Login();
+			  login.ac_token = commonDto.getToken();
+			  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
+			  login.save();
+			  nameValuePairs = new ArrayList<NameValuePair>(2);
+		      nameValuePairs.add(new BasicNameValuePair("method", "userStatus"));
+		      nameValuePairs.add(new BasicNameValuePair("ac", commonDto.getToken()));
+		      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+		      
+		      if(!jsUser.isNull("user")){
+		    	  user = (UserDto) getDataMappingToObject(jsUser, UserDto.class, "user");
+		      }
+		      
+			  
          }else{
         	 commonDto.setFlag(false);
          }
 		}catch (Exception e) {
 			e.printStackTrace();
-			 commonDto.setFlag(false);
-			 return commonDto;
 		}
-         return commonDto;
+         return user;
 	}
 	
 	

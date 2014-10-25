@@ -47,6 +47,8 @@ public class UserDto implements Parcelable{
 	private String nextTimeCanUpload;
 	@JsonProperty("normal_credit")
 	private Boolean normalCredit;
+	@JsonIgnore
+	private String access_token;
 	public UserDto() { 
 		
 	}
@@ -175,6 +177,14 @@ public class UserDto implements Parcelable{
 	public void setNormalCredit(Boolean normalCredit) {
 		this.normalCredit = normalCredit;
 	}
+	
+	
+	public String getAccess_token() {
+		return access_token;
+	}
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -202,6 +212,7 @@ public class UserDto implements Parcelable{
         dest.writeInt(numberPictureCanUpload);
         dest.writeString(nextTimeCanUpload);
         dest.writeByte((byte) (normalCredit ? 1 : 0)); 
+        dest.writeString(access_token);
 	}
 	private void readFromParcel(Parcel in) {
 		method = in.readString();
@@ -224,6 +235,7 @@ public class UserDto implements Parcelable{
 		numberPictureCanUpload = in.readInt();
 		nextTimeCanUpload = in.readString();
 		normalCredit = in.readByte() != 0; 
+		access_token = in.readString();
 	}
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public UserDto createFromParcel(Parcel parcel) {
