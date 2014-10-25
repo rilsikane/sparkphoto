@@ -24,6 +24,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.dropbox.client.DropboxClient;
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.Entry;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.session.AppKeyPair;
+import com.dropbox.client2.session.Session.AccessType;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -46,6 +53,11 @@ public class MainPhotoSelectActivity extends Activity {
     private static final String IMG_FROM_FACEBOOK = "imgFace";
     private static final String IMG_FROM_DROPBOX = "imgDrop";
     private static final String IMG_FROM_GALLERY = "imgGal";
+    
+    final static private String APP_KEY = "6lxmgb1olxyc2jz";
+    final static private String APP_SECRET = "ldlb1b0s4vtzqir";
+    final static private AccessType ACCESS_TYPE = AccessType.AUTO;
+    private DropboxAPI<AndroidAuthSession> mDBApi;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +71,10 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
 		ImageView activityNoti = (ImageView) findViewById(R.id.activityNoti);
 		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
+		
+		//10-25 20:43:44.529: E/AndroidRuntime(26692): java.lang.IllegalStateException: URI scheme in your app's manifest is not set up correctly. You should have a com.dropbox.client2.android.AuthActivity with the scheme: db-qpymnrzmlfix2lj
+
+		
 		
 		perkIcon.setOnClickListener(new OnClickListener() {
 			
@@ -127,12 +143,24 @@ public class MainPhotoSelectActivity extends Activity {
 				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
 				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
 				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
+				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
 				closeDialog.setOnClickListener(new OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						dialog.dismiss();
+					}
+				});
+				dropBoxBtn.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+							AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+							AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+							mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+							mDBApi.getSession().startOAuth2Authentication(MainPhotoSelectActivity.this);					
 					}
 				});
 				photoFromSD.setOnClickListener(new OnClickListener() {
@@ -260,6 +288,39 @@ public class MainPhotoSelectActivity extends Activity {
 	public void onBackPressed(){
 		
 	}
+	//10-25 23:03:33.536: I/System.out(6825): ->>>>>>>>>>>>>>>> NsHpCmf0GuQAAAAAAAADn0rVQSYKg2Pz67oGK7_1trfOV-VzqJRkqadfc9euQUJO
+
+	@Override
+	protected void onResume() {
+	    super.onResume();
+
+	    if (mDBApi!=null) {
+	    	 if (mDBApi.getSession().authenticationSuccessful()) {
+	    	        try {
+	    	            // Required to complete auth, sets the access token on the session
+	    	            mDBApi.getSession().finishAuthentication();
+	    	            
+	    	            String accessToken = mDBApi.getSession().getOAuth2AccessToken();
+	    	            
+	    	            Entry contact = mDBApi.metadata("/", 0, null, true, null);
+	    	            List<Entry> CFolder = contact.contents;
+	    	            for (Entry entry : CFolder) {
+	    	            	
+	    	            	Log.i("DbExampleLog", "Folder: " + entry.fileName());
+	    	            	
+	    	            }
+	    	            
+	    	            
+	    	        } catch (IllegalStateException e) {
+	    	            Log.i("DbAuthLog", "Error authenticating", e);
+	    	        } catch (DropboxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    	    }
+
+	    }
+	}
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -295,6 +356,7 @@ public class MainPhotoSelectActivity extends Activity {
                         .show();
             }
         }
+
         if (currentSession.isOpened()) {
             Session.openActiveSession(this, true, new Session.StatusCallback() {
 
