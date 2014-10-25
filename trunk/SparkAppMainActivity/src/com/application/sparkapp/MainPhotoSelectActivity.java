@@ -141,6 +141,7 @@ public class MainPhotoSelectActivity extends Activity {
 						i.putExtra("loadImageState", 1);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						finish();
 					}
 				});
 				facebookBtn.setOnClickListener(new OnClickListener() {
@@ -165,6 +166,7 @@ public class MainPhotoSelectActivity extends Activity {
 				                        i.putExtra("loadImageState", 0);
 	                                    startActivity(i);
 	                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	                                    finish();
 				                    }
 				                }
 				            });
@@ -313,6 +315,7 @@ public class MainPhotoSelectActivity extends Activity {
                                     i.putExtra("loadImageState", 0);
                                     startActivity(i);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
                                 }
                             }
                         });

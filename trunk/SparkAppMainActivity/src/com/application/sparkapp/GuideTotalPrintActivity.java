@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 public class GuideTotalPrintActivity extends Activity {
 	private Utils utils;
+	private Bitmap croppedImage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class GuideTotalPrintActivity extends Activity {
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.spark_guidesummary, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
 		
-		final Bitmap croppedImage = (Bitmap) getIntent().getParcelableExtra("croppedImage");
+		croppedImage = (Bitmap) getIntent().getParcelableExtra("croppedImage");
 		
 		fullGuid.setOnClickListener(new OnClickListener() {
 			
@@ -41,5 +42,12 @@ public class GuideTotalPrintActivity extends Activity {
 			}
 		});
 	}
-
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(GuideTotalPrintActivity.this,ImagePageSummaryActivity.class);
+		i.putExtra("croppedImage", croppedImage);
+		startActivity(i);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		finish();
+	}
 }

@@ -131,6 +131,13 @@ public class ImageListActivity extends Activity {
 			return false;
 		}
 	}
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(ImageListActivity.this,MainPhotoSelectActivity.class);
+		startActivity(i);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
+	}
 	public class LoadListAdapter extends BaseAdapter{
 		public ArrayList<TempListContentView> _list;
 		public LoadListAdapter(ArrayList<TempListContentView> list){
@@ -206,6 +213,7 @@ public class ImageListActivity extends Activity {
 			i.putStringArrayListExtra("imgList", temps.getImgList());
 			startActivity(i);
 			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+			finish();
 		}
 		
 	}

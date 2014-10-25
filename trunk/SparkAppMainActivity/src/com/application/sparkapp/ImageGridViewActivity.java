@@ -32,7 +32,7 @@ public class ImageGridViewActivity extends Activity {
 		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
 		
-		ArrayList<String> imgList = getIntent().getStringArrayListExtra("imgList");
+		final ArrayList<String> imgList = getIntent().getStringArrayListExtra("imgList");
 		backToPrevious.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -40,7 +40,7 @@ public class ImageGridViewActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
 				if(getIntent().hasExtra("facebookUserId")){
-				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 				}
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -52,7 +52,6 @@ public class ImageGridViewActivity extends Activity {
 		gridView = (GridView) findViewById(R.id.gridView1);
 		InitilizeGridLayout();		
 		ArrayList<String> tempList = imgList;
-		
 		
 		adapter = new GridViewImageAdapter(this, tempList,columnWidth);
 		gridView.setAdapter(adapter);

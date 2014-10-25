@@ -66,16 +66,16 @@ public class TutorialPageOneActivity extends FragmentActivity {
 	public void onBackPressed(){
 		if(getIntent().hasExtra("INTENT_FROM")){
 			if(getIntent().getStringExtra("INTENT_FROM").equals("touLogin")){
-				Intent i = new Intent(TutorialPageOneActivity.this,TermOfUseMainActivity.class);
+				Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
 				startActivity(i);
 			}else if(getIntent().getStringExtra("INTENT_FROM").equals("facebookLogin")||getIntent().getStringExtra("INTENT_FROM").equals("emailLogin")){
-				Intent i = new Intent(TutorialPageOneActivity.this,SparkAppMainActivity.class);
+				Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
 				startActivity(i);
 			}					
 			finish();
 			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		}else{
-			Intent i = new Intent(TutorialPageOneActivity.this,SparkAppMainActivity.class);
+			Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
 			startActivity(i);
 			finish();
 			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

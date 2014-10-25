@@ -1,25 +1,19 @@
 package com.application.sparkapp;
 
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.ExifInterface;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.application.sparkapp.ImageListActivity.ViewHolder;
 import com.application.sparkapp.util.BitmapTransform;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +21,13 @@ import com.squareup.picasso.Picasso;
 public class GridViewImageAdapter extends BaseAdapter {
 
 	private Activity _activity;
-	private List<String> imgPaths;
+	private ArrayList<String> imgPaths;
 	private int imageWidth;
 	private Utils utils;
 	private int size;
 	private ViewHolder viewHolder;
 
-	public GridViewImageAdapter(Activity activity, List<String> menus,
+	public GridViewImageAdapter(Activity activity, ArrayList<String> menus,
 			int imageWidth) {
 		this._activity = activity;
 		this.imgPaths = menus;
@@ -85,8 +79,10 @@ public class GridViewImageAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+//				Toast.makeText(_activity, "Hello "+imgPaths.size(), Toast.LENGTH_SHORT).show();
 				Intent i = new Intent(_activity,ImageGuidCropActivity.class);
 				i.putExtra("imgPath", filename);
+				i.putStringArrayListExtra("IMG_LIST", imgPaths);
 				_activity.startActivity(i);
 				_activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				_activity.finish();
