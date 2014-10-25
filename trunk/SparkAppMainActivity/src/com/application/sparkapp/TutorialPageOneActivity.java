@@ -26,8 +26,7 @@ public class TutorialPageOneActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_tutorial_page_one);
 
 		List<Fragment> fragments = getFragments();
@@ -62,6 +61,25 @@ public class TutorialPageOneActivity extends FragmentActivity {
 			}
 		});
 		pager.setAdapter(pageAdapter);
+	}
+	@Override
+	public void onBackPressed(){
+		if(getIntent().hasExtra("INTENT_FROM")){
+			if(getIntent().getStringExtra("INTENT_FROM").equals("touLogin")){
+				Intent i = new Intent(TutorialPageOneActivity.this,TermOfUseMainActivity.class);
+				startActivity(i);
+			}else if(getIntent().getStringExtra("INTENT_FROM").equals("facebookLogin")||getIntent().getStringExtra("INTENT_FROM").equals("emailLogin")){
+				Intent i = new Intent(TutorialPageOneActivity.this,SparkAppMainActivity.class);
+				startActivity(i);
+			}					
+			finish();
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		}else{
+			Intent i = new Intent(TutorialPageOneActivity.this,SparkAppMainActivity.class);
+			startActivity(i);
+			finish();
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		}
 	}
 
 	private List<Fragment> getFragments() {

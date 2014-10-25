@@ -210,6 +210,7 @@ public class MainPhotoSelectActivity extends Activity {
 		});
 	
 	}
+
 	private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
  
@@ -250,10 +251,7 @@ public class MainPhotoSelectActivity extends Activity {
     }
 	@Override
 	public void onBackPressed(){
-		Intent i = new Intent(MainPhotoSelectActivity.this,SparkAppMainActivity.class);
-		startActivity(i);
-		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		finish();
+		
 	}
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

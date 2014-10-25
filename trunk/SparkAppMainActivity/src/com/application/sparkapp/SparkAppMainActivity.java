@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -28,7 +27,7 @@ import com.roscopeco.ormdroid.ORMDroidApplication;
 
 @SuppressWarnings("deprecation")
 public class SparkAppMainActivity extends Activity {
-
+	private static String PAGE_FROM = "facebookLogin";
     private Utils utils;
     String FILENAME = "AndroidSSO_data";
 
@@ -82,6 +81,7 @@ public class SparkAppMainActivity extends Activity {
                     Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
 
                 } else if (!currentSession.isOpened()) {
                     // Ask for username and password
@@ -135,8 +135,7 @@ public class SparkAppMainActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode,
-                    resultCode, data);
+            Session.getActiveSession().onActivityResult(this, requestCode,resultCode, data);
         }
 
         Session currentSession = Session.getActiveSession();
@@ -165,9 +164,11 @@ public class SparkAppMainActivity extends Activity {
                                     user.getId();
                                     user.getName();
                                     
-                                    Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
+                                    Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
+                                    i.putExtra("INTENT_FROM", PAGE_FROM);
                                     startActivity(i);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
                                 }
                             }
                         });

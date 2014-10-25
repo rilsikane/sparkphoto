@@ -2,36 +2,37 @@ package com.application.sparkapp;
 
 import java.util.Date;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.util.DateUtil;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
-import android.graphics.drawable.BitmapDrawable;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-
 @SuppressLint("NewApi")
 public class EmailLoginActivity extends Activity {
 	private Utils utils;
 	private EditText email,password;
 	private Button btnLogin;
-	
+	private static String PAGE_FROM = "emailLogin";
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,19 @@ public class EmailLoginActivity extends Activity {
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
         BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, screenWidth, screenHeight));
         root_id.setBackgroundDrawable(ob);
+        ImageView goBack = (ImageView) findViewById(R.id.imageView1);
         
+        goBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);				
+		        startActivity(i);
+		        finish();
+		        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			}
+		});
         btnLogin.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -63,7 +76,6 @@ public class EmailLoginActivity extends Activity {
 				UserDto user = new UserDto();
 				user.setEmail(email.getText().toString());
 				user.setPassword(password.getText().toString());
-				//CommonDto common = JSONParserForGetList.getInstance().Login(user);
 				new InitAndLoadData(user).execute();
 			}
 		});
@@ -97,10 +109,9 @@ public class EmailLoginActivity extends Activity {
 					  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
 					  login.save();
 					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-					  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
 	                  startActivity(i);
-//					  Intent i = new Intent(EmailLoginActivity.this,ImagePageSummaryActivity.class);
-//					  startActivity(i);
+	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	                  finish();
 					 } catch (Exception e) {
 						e.printStackTrace();
@@ -130,5 +141,12 @@ public class EmailLoginActivity extends Activity {
 		}
 
 
+	}
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);		
+        startActivity(i);
+        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}
 }

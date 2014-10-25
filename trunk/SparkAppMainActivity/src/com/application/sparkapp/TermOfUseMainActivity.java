@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TermOfUseMainActivity extends Activity {
-
+	private static String PAGE_FROM = "touLogin";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,6 +29,7 @@ public class TermOfUseMainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(TermOfUseMainActivity.this,TutorialPageOneActivity.class);
+				i.putExtra("INTENT_FROM", PAGE_FROM);
 				startActivity(i);
 				finish();
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -40,7 +41,7 @@ public class TermOfUseMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
+				Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -49,7 +50,7 @@ public class TermOfUseMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
+		Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();

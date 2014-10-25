@@ -78,7 +78,11 @@ import com.application.sparkapp.json.JSONParserForGetList;
 	}
 	@Override
 	public void onBackPressed() {
-		
+		Intent intent = new Intent(AddressMainActivity.this,SignUpPageOneMainActivity.class);
+		intent.putExtra("userDto",(Parcelable) userDto);
+		startActivity(intent);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
 	}
 	public class InitAndLoadData extends AsyncTask<String, Void, CommonDto> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
@@ -106,7 +110,8 @@ import com.application.sparkapp.json.JSONParserForGetList;
 		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 		                public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
-							Intent intent = new Intent(AddressMainActivity.this,TutorialPageOneActivity.class);
+		                    //By pass to term of use main activity
+							Intent intent = new Intent(AddressMainActivity.this,TermOfUseMainActivity.class);
 							startActivity(intent);
 							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 							finish();
@@ -138,7 +143,6 @@ import com.application.sparkapp.json.JSONParserForGetList;
 			// TODO Auto-generated method stub
 			mProgressHUD.dismiss();
 		}
-
 
 	}
 }
