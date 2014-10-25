@@ -25,6 +25,7 @@ import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.Login;
+import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
 
 @SuppressLint("NewApi")
@@ -80,7 +81,7 @@ public class EmailLoginActivity extends Activity {
 			}
 		});
 	}
-	public class InitAndLoadData extends AsyncTask<String, Void, CommonDto> implements OnCancelListener{
+	public class InitAndLoadData extends AsyncTask<String, Void, UserDto> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
 		UserDto user;
 		public InitAndLoadData(UserDto user){
@@ -92,22 +93,21 @@ public class EmailLoginActivity extends Activity {
     		super.onPreExecute();
     	}
 		@Override
-		protected CommonDto doInBackground(String... params) {
+		protected UserDto doInBackground(String... params) {
 			// TODO Auto-generated method stub			
 			
 			return JSONParserForGetList.getInstance().Login(user);
 		}
 		
 		@Override
-		protected void onPostExecute(CommonDto result) {
+		protected void onPostExecute(UserDto result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				if(result.isFlag()){
 					 try {
-					  Login login = new Login();
-					  login.ac_token = result.getToken();
-					  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
-					  login.save();
+					  UserVO user = new UserVO();
+					  user = user.convertDtoToVo(result);
+					  user.id = 0;
+					  user.save();
 					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
 					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
 	                  startActivity(i);
@@ -116,20 +116,17 @@ public class EmailLoginActivity extends Activity {
 					 } catch (Exception e) {
 						e.printStackTrace();
 					}
-				}else{
-					final AlertDialog.Builder builder1 = new AlertDialog.Builder(EmailLoginActivity.this);
-		            builder1.setMessage("Email and Password are not correctly");
-		            builder1.setCancelable(true);
-		            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
-		                public void onClick(DialogInterface dialog, int id) {
-		                    dialog.cancel();
-		                }
-		            });
-		            AlertDialog alert11 = builder1.create();
-		            alert11.show();
-				}
-				mProgressHUD.dismiss();
 			} else {
+				final AlertDialog.Builder builder1 = new AlertDialog.Builder(EmailLoginActivity.this);
+	            builder1.setMessage("Email and Password are not correctly");
+	            builder1.setCancelable(true);
+	            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    dialog.cancel();
+	                }
+	            });
+	            AlertDialog alert11 = builder1.create();
+	            alert11.show();
 				mProgressHUD.dismiss();
 			}
 			
