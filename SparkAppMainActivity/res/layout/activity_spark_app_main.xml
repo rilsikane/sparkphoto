@@ -40,8 +40,8 @@
             android:layout_marginLeft="30dp"
             android:text="Create new account"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textColor="#ffffff"            
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -73,7 +73,7 @@
             android:text="Login via"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -101,7 +101,6 @@
             android:layout_marginRight="25dp"
             android:layout_toLeftOf="@+id/imageView4"
             android:background="#cf965d" />
-
     </RelativeLayout>
 
 </RelativeLayout>

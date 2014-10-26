@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -29,7 +29,8 @@
             android:layout_centerVertical="true"
             android:text="SUMMARY"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -41,7 +42,8 @@
             android:layout_marginRight="15dp"
             android:text="@string/next_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -68,7 +70,8 @@
             android:layout_marginLeft="50dp"
             android:text="Add more"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -96,8 +99,7 @@
         android:layout_above="@+id/buttomLayout"
         android:layout_below="@+id/relativeLayout2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" 
-        >
+        android:layout_marginTop="20dp" >
     </ListView>
 
     <RelativeLayout
@@ -116,7 +118,8 @@
             android:layout_marginRight="20dp"
             android:text="/ 10"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -127,7 +130,8 @@
             android:layout_toLeftOf="@+id/totalAmountImage"
             android:text="10"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imageView4"

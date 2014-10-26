@@ -35,7 +35,8 @@
             android:layout_centerVertical="true"
             android:text="PHOTOS"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <GridView

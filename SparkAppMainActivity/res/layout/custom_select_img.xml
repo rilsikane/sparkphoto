@@ -13,7 +13,8 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Which album would you like to print from?"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView8"
@@ -38,7 +39,8 @@
         android:layout_centerHorizontal="true"
         android:text="Phone Gallery"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -83,7 +85,8 @@
             android:layout_marginLeft="10dp"
             android:text="Facebook"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView5"
@@ -93,15 +96,16 @@
             android:layout_below="@+id/imageView3"
             android:layout_marginLeft="11dp"
             android:text="Dropbox"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/relativeLayout1" >
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="20dp" >
 
         <View
             android:layout_width="match_parent"
@@ -124,7 +128,8 @@
                 android:layout_centerVertical="true"
                 android:text="Cancel"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
         </RelativeLayout>
     </RelativeLayout>
 

@@ -10,7 +10,7 @@
         android:background="#000000"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="5dp" >
 
         <View
             android:id="@+id/view1"
@@ -37,7 +37,8 @@
             android:layout_toRightOf="@+id/view2"
             android:lines="2"
             android:text="ORDER003 is on its way to your address Thank you for using our service."
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -48,7 +49,8 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/view2"
             android:text="STATUS:"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -58,7 +60,8 @@
             android:layout_alignBottom="@+id/textView2"
             android:layout_toRightOf="@+id/textView2"
             android:text="Complete"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView4"
@@ -69,7 +72,8 @@
             android:layout_alignRight="@+id/textView1"
             android:text="12 Apr 2014, 18:00"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#40ffffff" />
+            android:textColor="#40ffffff"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>
