@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.application.sparkapp.model.UserVO;
 import com.dropbox.client.DropboxClient;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -39,6 +40,7 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.roscopeco.ormdroid.Entity;
 
 public class MainPhotoSelectActivity extends Activity {
 	
@@ -53,7 +55,7 @@ public class MainPhotoSelectActivity extends Activity {
     private static final String IMG_FROM_FACEBOOK = "imgFace";
     private static final String IMG_FROM_DROPBOX = "imgDrop";
     private static final String IMG_FROM_GALLERY = "imgGal";
-    
+    private boolean nextTimeCanUpload;
     final static private String APP_KEY = "6lxmgb1olxyc2jz";
     final static private String APP_SECRET = "ldlb1b0s4vtzqir";
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
@@ -72,9 +74,10 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView activityNoti = (ImageView) findViewById(R.id.activityNoti);
 		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
 		
-		//10-25 20:43:44.529: E/AndroidRuntime(26692): java.lang.IllegalStateException: URI scheme in your app's manifest is not set up correctly. You should have a com.dropbox.client2.android.AuthActivity with the scheme: db-qpymnrzmlfix2lj
-
-		
+		UserVO user = Entity.query(UserVO.class).execute();
+		if(user!=null){
+			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
+		}
 		
 		perkIcon.setOnClickListener(new OnClickListener() {
 			
@@ -167,20 +170,24 @@ public class MainPhotoSelectActivity extends Activity {
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+						
+						if(nextTimeCanUpload){
 						Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
 						i.putExtra("loadImageState", 1);
 						i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 						finish();
+						}else{
+							showPerkDialog();
+						}
 					}
 				});
 				facebookBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+						if(nextTimeCanUpload){
 						if (session!=null) {
 
 				            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
@@ -236,9 +243,11 @@ public class MainPhotoSelectActivity extends Activity {
 			                    session.openForPublish(op);
 			                }
 				        }
+						}else{
+							showPerkDialog();
+						}
 					}
 				});
-				
 				dialog.show();
 				
 			}
@@ -259,6 +268,21 @@ public class MainPhotoSelectActivity extends Activity {
 	public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
+	public void showPerkDialog(){
+		final Dialog perkDialog = new Dialog(MainPhotoSelectActivity.this);
+		perkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		perkDialog.setContentView(R.layout.custom);	
+		RelativeLayout closePerkDialog = (RelativeLayout) perkDialog.findViewById(R.id.close_dialog_layout);
+		closePerkDialog.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				perkDialog.dismiss();
+			}
+		});
+		perkDialog.show();
+	}
 	private static File getOutputMediaFile(int type) {
 		 
         // External sdcard location

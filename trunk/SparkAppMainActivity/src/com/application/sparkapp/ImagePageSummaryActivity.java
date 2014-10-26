@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
+import com.application.sparkapp.model.UserVO;
 import com.roscopeco.ormdroid.Entity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,8 +33,11 @@ import android.widget.TextView;
 public class ImagePageSummaryActivity extends Activity {
 	private Utils utils;
 	private ListView summaryList;
-	private TextView goToNextPage;
+	private TextView goToNextPage,picCount,picTotal;
 	private Activity _activity;
+	private int picCt,total;
+	private UserVO user;
+	private int newRes;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,13 @@ public class ImagePageSummaryActivity extends Activity {
 		goToNextPage = (TextView) findViewById(R.id.textView2);
 		_activity = ImagePageSummaryActivity.this;
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
+		
+		picCount = (TextView) findViewById(R.id.textView4);
+		picTotal = (TextView) findViewById(R.id.totalAmountImage);
+		user = Entity.query(UserVO.class).execute();
+		total = Integer.parseInt(user.numberPictureCanUpload);
+		picTotal.setText("/"+total);
+		
 		goBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -86,10 +97,13 @@ public class ImagePageSummaryActivity extends Activity {
 					img.setBgicon(tmp.originPath);
 					String[] temp = tmp.path.split("\\.");
 					img.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
+					picCt += Integer.parseInt(tmp.amt);
 					tempList.add(img);
 					
 				}
+				picCount.setText(picCt+"");
 			}
+			
 		}				
 		LoadListAdapter adapter = new LoadListAdapter(tempList);
 		summaryList.setAdapter(adapter);
@@ -131,11 +145,20 @@ public class ImagePageSummaryActivity extends Activity {
 		
 		
 	}
+	public void updatePicAmt(int id){
+		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(id).execute();
+		tempImage.amt = newRes+"";
+		tempImage.save();
+	}
+	public void checkAmt(){
+		
+	}
+	
 	public class LoadListAdapter extends BaseAdapter{
 		private ViewHolder viewHolder;
 		public List<TempImg> _list;
 		private int size;
-		private int newRes;
+		
 		public LoadListAdapter(List<TempImg> list){
 			this._list = list;
 			utils = new Utils(_activity, _activity);
@@ -175,6 +198,7 @@ public class ImagePageSummaryActivity extends Activity {
 			viewHolder.amt = (TextView) convertView.findViewById(R.id.textView3);
 			viewHolder.minusBt = (TextView) convertView.findViewById(R.id.textView2);
 			viewHolder.plusBt = (TextView) convertView.findViewById(R.id.textView4);
+			viewHolder.viewClick = (RelativeLayout) convertView.findViewById(R.id.summary_content);
 			
 			convertView.setTag(viewHolder);
 			}else{
@@ -182,14 +206,22 @@ public class ImagePageSummaryActivity extends Activity {
 			}
 			newRes = 0;
 			viewHolder.amt.setText(newRes+"");
+			viewHolder.viewClick.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					
+				}
+			});
 			viewHolder.minusBt.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if(newRes>0){
-						viewHolder.amt.setText(""+(newRes-1));
 						newRes--;
+						viewHolder.amt.setText(""+(newRes));
+						
 					}
 					
 				}
@@ -200,8 +232,9 @@ public class ImagePageSummaryActivity extends Activity {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					if(newRes<10){
-						viewHolder.amt.setText(""+(newRes+1));
 						newRes++;
+						viewHolder.amt.setText(""+(newRes));
+						
 					}
 				}
 			});
@@ -220,6 +253,7 @@ public class ImagePageSummaryActivity extends Activity {
 			public TextView minusBt,plusBt,amt;
 			public ImageView cropImg;
 			public ImageView bgImg;
+			public RelativeLayout viewClick;
 		}
 		
 	}
