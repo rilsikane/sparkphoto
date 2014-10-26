@@ -2,9 +2,13 @@ package com.application.sparkapp;
 
 import java.util.Date;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -38,6 +42,7 @@ public class EmailLoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		 requestWindowFeature(Window.FEATURE_NO_TITLE);
 	     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_email_login);
@@ -108,11 +113,11 @@ public class EmailLoginActivity extends Activity {
 					  user = user.convertDtoToVo(result);
 					  user.id = 0;
 					  user.save();
-//					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-//					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
-//	                  startActivity(i);
-	                  Intent i = new Intent(EmailLoginActivity.this,GuideTotalPrintActivity.class);
-	  				  startActivity(i);
+					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
+	                  startActivity(i);
+//	                  Intent i = new Intent(EmailLoginActivity.this,GuideTotalPrintActivity.class);
+//	  				  startActivity(i);
 	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	                  finish();
 					 } catch (Exception e) {
@@ -148,4 +153,8 @@ public class EmailLoginActivity extends Activity {
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
 }
