@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -30,7 +30,8 @@
             android:layout_centerVertical="true"
             android:text="@string/signup_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -42,7 +43,8 @@
             android:layout_marginRight="15dp"
             android:text="@string/next_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <TextView
@@ -52,10 +54,12 @@
         android:layout_below="@+id/relativeLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:lines="2"
         android:text="@string/signup_desc_text"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -85,7 +89,7 @@
             <EditText
                 android:id="@+id/editText1"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_toLeftOf="@+id/textView4"
@@ -100,7 +104,7 @@
             <EditText
                 android:id="@+id/editText2"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/textView4"
                 android:background="#30ffffff"
@@ -113,7 +117,7 @@
             <EditText
                 android:id="@+id/editText3"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText1"
                 android:layout_below="@+id/editText1"
                 android:layout_marginTop="2dp"
@@ -128,7 +132,7 @@
             <EditText
                 android:id="@+id/editText4"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText3"
                 android:layout_below="@+id/editText3"
                 android:layout_marginTop="2dp"
@@ -142,7 +146,7 @@
             <EditText
                 android:id="@+id/editText5"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_below="@+id/editText4"
                 android:layout_marginTop="2dp"
                 android:layout_toLeftOf="@+id/editText2"
@@ -167,7 +171,7 @@
             <EditText
                 android:id="@+id/editText6"
                 android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/editText5"
                 android:layout_toRightOf="@+id/View01"
@@ -182,7 +186,7 @@
             <EditText
                 android:id="@+id/editText7"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText5"
                 android:layout_marginTop="2dp"
@@ -197,7 +201,7 @@
             <EditText
                 android:id="@+id/editText8"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText7"
                 android:layout_marginTop="2dp"
@@ -212,7 +216,7 @@
             <EditText
                 android:id="@+id/editText9"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText8"
                 android:layout_marginTop="2dp"
@@ -227,7 +231,7 @@
             <EditText
                 android:id="@+id/editText10"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText9"
                 android:layout_marginTop="2dp"
@@ -241,7 +245,7 @@
             <EditText
                 android:id="@+id/editText11"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText10"
                 android:layout_marginTop="2dp"

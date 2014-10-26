@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -27,6 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="ABOUT US"
+            android:textSize="30sp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff" />
 

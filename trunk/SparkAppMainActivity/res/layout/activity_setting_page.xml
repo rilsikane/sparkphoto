@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
@@ -29,7 +29,8 @@
             android:layout_centerVertical="true"
             android:text="SETTINGS"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -69,7 +70,8 @@
                 android:layout_marginTop="10dp"
                 android:text="TOTAL ORDERS"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#40ffffff" />
+                android:textColor="#40ffffff"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -80,7 +82,7 @@
                 android:layout_marginTop="15dp"
                 android:text="3"
                 android:textColor="#ffffff"
-                android:textSize="28sp" />
+                android:textSize="30sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,7 +102,8 @@
                 android:layout_marginTop="10dp"
                 android:text="COMPLETED"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#40ffffff" />
+                android:textColor="#40ffffff"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -111,7 +114,7 @@
                 android:layout_marginTop="15dp"
                 android:text="2"
                 android:textColor="#ffffff"
-                android:textSize="28sp" />
+                android:textSize="30sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -143,7 +146,8 @@
                 android:layout_marginTop="10dp"
                 android:text="PROCESSING"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#40ffffff" />
+                android:textColor="#40ffffff"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView35"
@@ -154,7 +158,7 @@
                 android:layout_marginTop="15dp"
                 android:text="1"
                 android:textColor="#ffffff"
-                android:textSize="28sp" />
+                android:textSize="30sp" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -183,19 +187,19 @@
             android:layout_marginLeft="10dp"
             android:text="10 FREE PHOTO CREDITS"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <ListView
         android:id="@+id/settingList"
         android:layout_width="match_parent"
-        android:divider="@null"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttomLayout"
         android:layout_below="@+id/relativeLayout3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
-
+        android:layout_marginTop="20dp"
+        android:divider="@null" >
     </ListView>
 
 </RelativeLayout>
