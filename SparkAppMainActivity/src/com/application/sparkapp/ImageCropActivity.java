@@ -146,6 +146,7 @@ public class ImageCropActivity extends Activity {
 				fOut3.close();
 				MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
 				
+				temp.amt = "1";
 				temp.save();
 				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 				startActivity(i);

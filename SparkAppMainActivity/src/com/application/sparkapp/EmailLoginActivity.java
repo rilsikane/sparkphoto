@@ -108,9 +108,11 @@ public class EmailLoginActivity extends Activity {
 					  user = user.convertDtoToVo(result);
 					  user.id = 0;
 					  user.save();
-					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
-	                  startActivity(i);
+//					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+//					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
+//	                  startActivity(i);
+	                  Intent i = new Intent(EmailLoginActivity.this,GuideTotalPrintActivity.class);
+	  				  startActivity(i);
 	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	                  finish();
 					 } catch (Exception e) {
