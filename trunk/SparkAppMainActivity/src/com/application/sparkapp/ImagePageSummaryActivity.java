@@ -3,6 +3,9 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
@@ -43,6 +46,7 @@ public class ImagePageSummaryActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_page_summary);
 		System.gc();
@@ -257,4 +261,8 @@ public class ImagePageSummaryActivity extends Activity {
 		}
 		
 	}
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
 }

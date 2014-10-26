@@ -3,8 +3,12 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -34,6 +39,7 @@ public class SparkAppMainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_spark_app_main);
@@ -48,7 +54,7 @@ public class SparkAppMainActivity extends Activity {
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
         BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.spark_welcome, screenWidth, screenHeight));
         root_id.setBackgroundDrawable(ob);
-
+        
         ImageView loginWithFacebook = (ImageView) findViewById(R.id.imageView3);
         ImageView emailLogin = (ImageView) findViewById(R.id.imageView4);
         ImageView logo = (ImageView) findViewById(R.id.imageView1);
@@ -103,6 +109,7 @@ public class SparkAppMainActivity extends Activity {
                 }
             }
         });
+        
         emailLogin.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -126,7 +133,10 @@ public class SparkAppMainActivity extends Activity {
             }
         });
     }
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
     public void call(Session session, SessionState state, Exception exception) {
 
     }
