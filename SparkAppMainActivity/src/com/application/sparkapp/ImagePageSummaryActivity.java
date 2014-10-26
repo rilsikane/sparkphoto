@@ -5,7 +5,8 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
+import com.application.sparkapp.ImageListActivity.OnSelectImgListener;
+import com.application.sparkapp.ImageListActivity.TempListContentView;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
@@ -102,6 +103,7 @@ public class ImagePageSummaryActivity extends Activity {
 					String[] temp = tmp.path.split("\\.");
 					img.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
 					picCt += Integer.parseInt(tmp.amt);
+					img.setTempImage(tmp);
 					tempList.add(img);
 					
 				}
@@ -125,6 +127,7 @@ public class ImagePageSummaryActivity extends Activity {
 	public class TempImg{
 		private String bgicon,cropIcon;
 		private int amt;
+		private TempImage tempImage;
 		
 		
 		public String getBgicon() {
@@ -145,6 +148,13 @@ public class ImagePageSummaryActivity extends Activity {
 		public void setAmt(int amt) {
 			this.amt = amt;
 		}
+		public TempImage getTempImage() {
+			return tempImage;
+		}
+		public void setTempImage(TempImage tempImage) {
+			this.tempImage = tempImage;
+		}
+		
 		
 		
 		
@@ -209,7 +219,7 @@ public class ImagePageSummaryActivity extends Activity {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 			newRes = 0;
-			viewHolder.amt.setText(newRes+"");
+			
 			viewHolder.viewClick.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -217,38 +227,17 @@ public class ImagePageSummaryActivity extends Activity {
 					
 				}
 			});
-			viewHolder.minusBt.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					if(newRes>0){
-						newRes--;
-						viewHolder.amt.setText(""+(newRes));
-						
-					}
-					
-				}
-			});
-			viewHolder.plusBt.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					if(newRes<10){
-						newRes++;
-						viewHolder.amt.setText(""+(newRes));
-						
-					}
-				}
-			});
+		
 			
 			TempImg temp = _list.get(position);
+			viewHolder.amt.setText(temp.getAmt()+"");
 			Bitmap bgBitmap = BitmapFactory.decodeFile(temp.getBgicon());
 			viewHolder.bgImg.setImageBitmap(bgBitmap);
 			
 			 Bitmap myBitmap = BitmapFactory.decodeFile(temp.getCropIcon());
 			viewHolder.cropImg.setImageBitmap(myBitmap);
+			viewHolder.minusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp,0));
+			viewHolder.plusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp,1));
 			
 			return convertView;
 		}
@@ -258,6 +247,42 @@ public class ImagePageSummaryActivity extends Activity {
 			public ImageView cropImg;
 			public ImageView bgImg;
 			public RelativeLayout viewClick;
+		}
+		public class OnButtongListener implements OnClickListener{
+			private TextView val;
+			private TempImg temp;
+			private int type;
+			public OnButtongListener(TextView val,TempImg temp,int type){
+				this.val = val;
+				this.type = type;
+				this.temp = temp;
+			}
+			
+			@Override
+			public void onClick(View v) {
+				switch (type) {
+				case 0:
+					newRes = temp.getAmt();
+					if(newRes>0){
+						newRes--;
+						val.setText(""+(newRes));
+						temp.getTempImage().amt = newRes+"";
+						temp.getTempImage().save();
+					}
+					break;
+				case 1:
+					if(newRes<10){
+						newRes++;
+						val.setText(""+(newRes));
+						temp.getTempImage().amt = newRes+"";
+						temp.getTempImage().save();
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			
 		}
 		
 	}
