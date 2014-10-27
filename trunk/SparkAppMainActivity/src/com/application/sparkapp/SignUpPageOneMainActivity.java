@@ -36,7 +36,7 @@ public class SignUpPageOneMainActivity extends Activity {
 	private EditText email, firstname, lastname, nric, password, cfPassword,
 			phoneno, service, occuption, dob, gender;
 	private UserDto userDto;
-	private AlertDialog levelDialog, occuDialog,serDialog;
+	private AlertDialog levelDialog, occuDialog, serDialog;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -87,7 +87,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			service.setText(userDto.getPhone_service());
 			occuption.setText(userDto.getOccupation());
 			dob.setText(userDto.getBirthday());
-			gender.setText("0".equals(userDto.getGender())?"Male":"Female");
+			gender.setText("0".equals(userDto.getGender()) ? "Male" : "Female");
 		} else {
 			userDto = new UserDto();
 		}
@@ -104,18 +104,21 @@ public class SignUpPageOneMainActivity extends Activity {
 				myCalendar.set(Calendar.MONTH, monthOfYear);
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-				dob.setText(year + "-" + ((monthOfYear + 1) < 10 ? "0" : "")+ (monthOfYear + 1) + "-" + dayOfMonth);
+				dob.setText(year + "-" + ((monthOfYear + 1) < 10 ? "0" : "")
+						+ (monthOfYear + 1) + "-" + dayOfMonth);
 			}
 
 		};
 		service.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final CharSequence[] items = { "m1", "SingT","StarH","MyRepublic"};
+				final CharSequence[] items = { "m1", "SingT", "StarH",
+						"MyRepublic" };
 
-				AlertDialog.Builder builder = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						SignUpPageOneMainActivity.this);
 				builder.setTitle("Select Services");
 				builder.setSingleChoiceItems(items, -1,
 						new DialogInterface.OnClickListener() {
@@ -149,15 +152,15 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final CharSequence[] items = { "Administrative & Secretarial", "Consultant "
-						, "Events management","Home-maker"
-						,"Human Resources","National Service"
-						,"Others","Pre-university Student"
-						,"Professional","Public Relations"
-						,"University Post-graduate","University Undergraduate"
-						,"Self-employed"};
+				final CharSequence[] items = { "Administrative & Secretarial",
+						"Consultant ", "Events management", "Home-maker",
+						"Human Resources", "National Service", "Others",
+						"Pre-university Student", "Professional",
+						"Public Relations", "University Post-graduate",
+						"University Undergraduate", "Self-employed" };
 
-				AlertDialog.Builder builder = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						SignUpPageOneMainActivity.this);
 				builder.setTitle("Select Occupations");
 				builder.setSingleChoiceItems(items, -1,
 						new DialogInterface.OnClickListener() {
@@ -203,7 +206,7 @@ public class SignUpPageOneMainActivity extends Activity {
 									occuption.setText(items[12]);
 									break;
 								}
-								
+
 								occuDialog.dismiss();
 							}
 						});
@@ -259,10 +262,18 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				if (utils.isNotEmpty(password.getText().toString())
+				if (utils.isNotEmpty(gender.getText().toString())
+						&& utils.isNotEmpty(dob.getText().toString())
+						&& utils.isNotEmpty(occuption.getText().toString())
+						&& utils.isNotEmpty(service.getText().toString())
+						&& utils.isNotEmpty(phoneno.getText().toString())
+						&& utils.isNotEmpty(email.getText().toString())
+						&& utils.isNotEmpty(nric.getText().toString())
+						&& utils.isNotEmpty(lastname.getText().toString())
+						&& utils.isNotEmpty(firstname.getText().toString())
+						&& utils.isNotEmpty(password.getText().toString())
 						&& utils.isNotEmpty(cfPassword.getText().toString())) {
-					if (!cfPassword.getText().toString()
-							.equals(password.getText().toString())) {
+					if (!cfPassword.getText().toString().equals(password.getText().toString())) {
 						cfPassword.setError("Password is not match");
 					} else {
 						userDto.setFirstname(firstname.getText().toString());
@@ -274,20 +285,36 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setPhone_service(service.getText().toString());
 						userDto.setOccupation(occuption.getText().toString());
 						userDto.setBirthday(dob.getText().toString());
-						userDto.setGender("Male".equals(gender.getText().toString())?"0":"1");
+						userDto.setGender("Male".equals(gender.getText().toString()) ? "0" : "1");
 
-						Intent i = new Intent(SignUpPageOneMainActivity.this,
-								AddressMainActivity.class);
+						Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
 						i.putExtra("userDto", (Parcelable) userDto);
 						startActivity(i);
-						overridePendingTransition(R.anim.slide_in_left,
-								R.anim.slide_out_left);
+						overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 						finish();
 					}
+				} else if (firstname.getText().toString().isEmpty()) {
+					firstname.setError("Please enter first name");
+				} else if (lastname.getText().toString().isEmpty()) {
+					lastname.setError("Please enter last name");
+				} else if (nric.getText().toString().isEmpty()) {
+					nric.setError("Please enter NRIC/FIN");
+				} else if (email.getText().toString().isEmpty()) {
+					email.setError("Please enter Email");
 				} else if (password.getText().toString().isEmpty()) {
 					password.setError("Please enter password");
 				} else if (cfPassword.getText().toString().isEmpty()) {
 					cfPassword.setError("Please enter confirm password");
+				} else if (dob.getText().toString().isEmpty()) {
+					dob.setError("Please select Date of Birth");
+				} else if (gender.getText().toString().isEmpty()) {
+					gender.setError("Please select Gender");
+				} else if (phoneno.getText().toString().isEmpty()) {
+					phoneno.setError("Please enter Phone Number");
+				} else if (service.getText().toString().isEmpty()) {
+					service.setError("Please select Service");
+				} else if (occuption.getText().toString().isEmpty()) {
+					occuption.setError("Please select Occupation");
 				}
 			}
 		});
