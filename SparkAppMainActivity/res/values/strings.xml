@@ -34,5 +34,7 @@
     <string name="title_activity_contact_us">ContactUsActivity</string>
     <string name="title_activity_activity_notification">ActivityNotificationActivity</string>
     <string name="title_activity_perk_page">PerkPageActivity</string>
+    <string name="cancel_confirmation_header">Cancel Confirmation</string>
+    <string name="cancel_confirmation_desc">Do you want to cancel your order?</string>
 
 </resources>

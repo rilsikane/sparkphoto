@@ -11,8 +11,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,10 +47,10 @@ import com.dropbox.client2.session.Session.AccessType;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
-import com.facebook.SessionState;
 import com.facebook.Session.Builder;
 import com.facebook.Session.OpenRequest;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.roscopeco.ormdroid.Entity;
 
@@ -129,6 +131,7 @@ public class ImagePageSummaryActivity extends Activity {
 				});
 				dropBoxBtn.setOnClickListener(new OnClickListener() {
 					
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
@@ -237,10 +240,25 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
-				startActivity(i);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				finish();
+				new AlertDialog.Builder(ImagePageSummaryActivity.this)
+			    .setTitle(getResources().getString(R.string.cancel_confirmation_header))
+			    .setMessage(getResources().getString(R.string.cancel_confirmation_desc))
+			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+						Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+						startActivity(i);
+						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						finish();
+			        }
+			     })
+			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        	dialog.dismiss();
+			        }
+			     })
+			    .setIcon(android.R.drawable.ic_dialog_alert)
+			     .show();						
 			}
 		});
 		goToNextPage.setOnClickListener(new OnClickListener() {
@@ -282,12 +300,27 @@ public class ImagePageSummaryActivity extends Activity {
 		
 	}
 	@Override
-	public void onBackPressed(){
-		Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
-//		i.putExtra("croppedImage", (Bitmap) getIntent().getParcelableExtra("croppedImage"));
-		startActivity(i);
-		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		finish();
+	public void onBackPressed(){		
+		new AlertDialog.Builder(this)
+	    .setTitle(getResources().getString(R.string.cancel_confirmation_header))
+	    .setMessage(getResources().getString(R.string.cancel_confirmation_desc))
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	    		Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+//	    		i.putExtra("croppedImage", (Bitmap) getIntent().getParcelableExtra("croppedImage"));
+	    		startActivity(i);
+	    		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	    		finish();
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        	dialog.dismiss();
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
 	}
 	public class TempImg{
 		private String bgicon,cropIcon;
