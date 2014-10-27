@@ -40,7 +40,7 @@
             android:layout_marginLeft="30dp"
             android:text="Create new account"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"            
+            android:textColor="#ffffff"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -81,8 +81,8 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="47dp"
-            android:layout_toRightOf="@+id/textView1"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/viewNaja"
             android:src="@drawable/facebook_icon" />
 
         <ImageView
@@ -91,14 +91,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="48dp"
+            android:layout_marginRight="40dp"
             android:src="@drawable/main_icon" />
 
         <View
+            android:id="@+id/viewNaja"
             android:layout_width="2dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="25dp"
+            android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/imageView4"
             android:background="#cf965d" />
     </RelativeLayout>

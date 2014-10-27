@@ -449,8 +449,8 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			 Bitmap myBitmap = BitmapFactory.decodeFile(temp.getCropIcon());
 			viewHolder.cropImg.setImageBitmap(myBitmap);
-			viewHolder.minusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp,0));
-			viewHolder.plusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp,1));
+			viewHolder.minusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp));
+			viewHolder.plusBt.setOnClickListener(new OnButtongListenerPlus(viewHolder.amt,temp));
 			
 			return convertView;
 		}
@@ -462,44 +462,69 @@ public class ImagePageSummaryActivity extends Activity {
 			public ImageView bgImg;
 			public RelativeLayout viewClick;
 		}
+		public class OnButtongListenerPlus implements OnClickListener{
+			private TextView val;
+			private TempImg temp;
+			public OnButtongListenerPlus(TextView val,TempImg temp){
+				this.val = val;
+				this.temp = temp;
+			}
+			
+			@Override
+			public void onClick(View v) {				
+
+			newRes = temp.getAmt();
+			if(newRes<10 && picCt<total){
+				newRes++;
+				picCt++;
+				val.setText(""+(newRes));
+				temp.getTempImage().amt = newRes+"";
+				temp.getTempImage().save();
+				temp.setAmt(newRes);
+			}
+				picCount.setText(picCt+"");
+			}
+			
+		}
 		public class OnButtongListener implements OnClickListener{
 			private TextView val;
 			private TempImg temp;
-			private int type;
-			public OnButtongListener(TextView val,TempImg temp,int type){
+			public OnButtongListener(TextView val,TempImg temp){
 				this.val = val;
-				this.type = type;
 				this.temp = temp;
 			}
 			
 			@Override
 			public void onClick(View v) {
-				switch (type) {
-				case 0:
-					newRes = temp.getAmt();
-					if(newRes>0){
-						newRes--;
-						picCt--;
-						val.setText(""+(newRes));
-						temp.getTempImage().amt = newRes+"";
-						temp.getTempImage().save();
-						temp.setAmt(newRes);
-					}
-					break;
-				case 1:
-					newRes = temp.getAmt();
-					if(newRes<10 && picCt<total){
-						newRes++;
-						picCt++;
-						val.setText(""+(newRes));
-						temp.getTempImage().amt = newRes+"";
-						temp.getTempImage().save();
-						temp.setAmt(newRes);
-					}
-					break;
-				default:
-					break;
+				if(val.getText().toString().equals("0")){
+					new AlertDialog.Builder(ImagePageSummaryActivity.this)
+				    .setTitle("Delete Confirmation")
+				    .setMessage("Do you want to delete this item?")
+				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				    		dialog.dismiss();
+				        }
+				     })
+				    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				            // do nothing
+				        	dialog.dismiss();
+				        }
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				     .show();
 				}
+				
+				newRes = temp.getAmt();
+				if(newRes>0){
+					newRes--;
+					picCt--;
+					val.setText(""+(newRes));
+					temp.getTempImage().amt = newRes+"";
+					temp.getTempImage().save();
+					temp.setAmt(newRes);
+				}
+				
 				picCount.setText(picCt+"");
 			}
 			
