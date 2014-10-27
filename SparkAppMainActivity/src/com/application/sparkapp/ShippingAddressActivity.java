@@ -116,6 +116,12 @@ public class ShippingAddressActivity extends Activity {
 						}
 						running = false;
 						dialog.dismiss();
+						List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
+			    		if(tmpList!=null && tmpList.size()>0){
+			    			for(TempImage t : tmpList){
+			    				t.delete();
+			    			}
+			    		}
 						Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
