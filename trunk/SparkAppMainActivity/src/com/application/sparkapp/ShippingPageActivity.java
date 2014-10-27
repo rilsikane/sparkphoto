@@ -6,7 +6,9 @@ import com.roscopeco.ormdroid.Entity;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ public class ShippingPageActivity extends Activity {
 	private ImageView goToPreviousPage;
 	private TextView goToNextPage;
 	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob,gender;
+	private AlertDialog levelDialog, occuDialog,serDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +52,73 @@ public class ShippingPageActivity extends Activity {
 		
 		goToPreviousPage = (ImageView) findViewById(R.id.imageView1);
 		goToNextPage = (TextView) findViewById(R.id.textView2);
+		
+		
+		service.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final CharSequence[] items = { "m1", "SingT","StarH","MyRepublic"};
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(ShippingPageActivity.this);
+				builder.setTitle("Select Services");
+				builder.setSingleChoiceItems(items, -1,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								switch (item) {
+								case 0:
+									service.setText(items[0]);
+									break;
+								case 1:
+									// Your code when 2nd option seletced
+									service.setText(items[1]);
+									break;
+								case 2:
+									// Your code when 2nd option seletced
+									service.setText(items[2]);
+									break;
+								case 3:
+									// Your code when 2nd option seletced
+									service.setText(items[3]);
+									break;
+								}
+								serDialog.dismiss();
+							}
+						});
+				serDialog = builder.create();
+				serDialog.show();
+			}
+		});
+		gender.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final CharSequence[] items = { " Male ", " Female " };
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						ShippingPageActivity.this);
+				builder.setTitle("Select Genders");
+				builder.setSingleChoiceItems(items, -1,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								switch (item) {
+								case 0:
+									gender.setText(items[0]);
+									break;
+								case 1:
+									// Your code when 2nd option seletced
+									gender.setText(items[1]);
+									break;
+								}
+								levelDialog.dismiss();
+							}
+						});
+				levelDialog = builder.create();
+				levelDialog.show();
+			}
+		});
 		goToNextPage.setOnClickListener(new OnClickListener() {
 			
 			@Override

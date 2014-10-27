@@ -239,6 +239,7 @@
                 android:drawableLeft="@drawable/service_icon"
                 android:ems="10"
                 android:hint="Service"
+                android:focusable="false"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -252,6 +253,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/occupied_icon"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Occupation"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />

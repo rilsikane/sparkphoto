@@ -158,6 +158,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/gender_icon"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Gender"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -186,6 +187,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/service_icon"
                 android:ems="10"
+                android:focusable="false"
                 android:hint="Service"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
