@@ -86,6 +86,8 @@ public class SignUpPageOneMainActivity extends Activity {
 			phoneno.setText(userDto.getPhone());
 			service.setText(userDto.getPhone_service());
 			occuption.setText(userDto.getOccupation());
+			dob.setText(userDto.getBirthday());
+			gender.setText("0".equals(userDto.getGender())?"Male":"Female");
 		} else {
 			userDto = new UserDto();
 		}
@@ -272,6 +274,7 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setPhone_service(service.getText().toString());
 						userDto.setOccupation(occuption.getText().toString());
 						userDto.setBirthday(dob.getText().toString());
+						userDto.setGender("Male".equals(gender.getText().toString())?"0":"1");
 
 						Intent i = new Intent(SignUpPageOneMainActivity.this,
 								AddressMainActivity.class);
