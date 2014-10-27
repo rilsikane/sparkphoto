@@ -47,6 +47,8 @@ public class ImageGridViewActivity extends Activity {
 				if(getIntent().hasExtra("facebookUserId")){
 					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 				}
+				i.putExtra("loadImageState", 1);
+				i.putExtra("LOAD_STATE", "imgGal");
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
