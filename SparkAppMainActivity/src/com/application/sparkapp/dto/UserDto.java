@@ -42,11 +42,11 @@ public class UserDto implements Parcelable{
 	@JsonProperty("credit_extra")
 	private String creditExtra;
 	@JsonProperty("number_picture_can_upload")
-	private Integer numberPictureCanUpload;
+	private int numberPictureCanUpload;
 	@JsonProperty("next_time_can_upload")
 	private String nextTimeCanUpload;
 	@JsonProperty("normal_credit")
-	private Boolean normalCredit;
+	private boolean normalCredit;
 	@JsonIgnore
 	private String access_token;
 	public UserDto() { 
@@ -159,10 +159,10 @@ public class UserDto implements Parcelable{
 	public void setCreditExtra(String creditExtra) {
 		this.creditExtra = creditExtra;
 	}
-	public Integer getNumberPictureCanUpload() {
+	public int getNumberPictureCanUpload() {
 		return numberPictureCanUpload;
 	}
-	public void setNumberPictureCanUpload(Integer numberPictureCanUpload) {
+	public void setNumberPictureCanUpload(int numberPictureCanUpload) {
 		this.numberPictureCanUpload = numberPictureCanUpload;
 	}
 	public String getNextTimeCanUpload() {
@@ -171,10 +171,10 @@ public class UserDto implements Parcelable{
 	public void setNextTimeCanUpload(String nextTimeCanUpload) {
 		this.nextTimeCanUpload = nextTimeCanUpload;
 	}
-	public Boolean getNormalCredit() {
+	public boolean getNormalCredit() {
 		return normalCredit;
 	}
-	public void setNormalCredit(Boolean normalCredit) {
+	public void setNormalCredit(boolean normalCredit) {
 		this.normalCredit = normalCredit;
 	}
 	
