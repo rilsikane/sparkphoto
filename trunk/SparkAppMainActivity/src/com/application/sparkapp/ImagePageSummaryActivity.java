@@ -245,7 +245,13 @@ public class ImagePageSummaryActivity extends Activity {
 			    .setMessage(getResources().getString(R.string.cancel_confirmation_desc))
 			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) { 
-						Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+			        	List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
+			    		if(tmpList!=null && tmpList.size()>0){
+			    			for(TempImage t : tmpList){
+			    				t.delete();
+			    			}
+			    		}
+			        	Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
 						startActivity(i);
 						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 						finish();
@@ -306,7 +312,13 @@ public class ImagePageSummaryActivity extends Activity {
 	    .setMessage(getResources().getString(R.string.cancel_confirmation_desc))
 	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) { 
-	    		Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
+	    		List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
+	    		if(tmpList!=null && tmpList.size()>0){
+	    			for(TempImage t : tmpList){
+	    				t.delete();
+	    			}
+	    		}
+	        	Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
 //	    		i.putExtra("croppedImage", (Bitmap) getIntent().getParcelableExtra("croppedImage"));
 	    		startActivity(i);
 	    		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
