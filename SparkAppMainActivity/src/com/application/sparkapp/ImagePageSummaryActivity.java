@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -422,8 +423,8 @@ public class ImagePageSummaryActivity extends Activity {
 			viewHolder.bgImg = (ImageView) convertView.findViewById(R.id.imgBg);
 			viewHolder.cropImg = (ImageView) convertView.findViewById(R.id.imageView1);
 			viewHolder.amt = (TextView) convertView.findViewById(R.id.textView3);
-			viewHolder.minusBt = (TextView) convertView.findViewById(R.id.textView2);
-			viewHolder.plusBt = (TextView) convertView.findViewById(R.id.textView4);
+			viewHolder.minusBt = (Button) convertView.findViewById(R.id.textView2);
+			viewHolder.plusBt = (Button) convertView.findViewById(R.id.textView4);
 			viewHolder.viewClick = (RelativeLayout) convertView.findViewById(R.id.summary_content);
 			
 			convertView.setTag(viewHolder);
@@ -455,7 +456,8 @@ public class ImagePageSummaryActivity extends Activity {
 		}
 
 		public class ViewHolder{
-			public TextView minusBt,plusBt,amt;
+			public Button minusBt,plusBt;
+			public TextView amt;
 			public ImageView cropImg;
 			public ImageView bgImg;
 			public RelativeLayout viewClick;

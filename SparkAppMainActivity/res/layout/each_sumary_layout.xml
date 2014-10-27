@@ -69,7 +69,7 @@
             android:textSize="16sp" />
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -86,29 +86,29 @@
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
-            <TextView
+            <Button
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:background="#40ffffff"
                 android:text="-"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
-            <TextView
+            <Button
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:background="#40ffffff"
                 android:text="+"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
     </RelativeLayout>
 
