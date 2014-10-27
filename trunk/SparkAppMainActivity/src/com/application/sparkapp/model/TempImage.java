@@ -1,5 +1,7 @@
 package com.application.sparkapp.model;
 
+import java.util.List;
+
 import com.roscopeco.ormdroid.Entity;
 
 public class TempImage extends Entity{
@@ -22,6 +24,15 @@ public class TempImage extends Entity{
 		this.originPath = originPath;
 	}
 	
-	
+	public int getPk(){
+		List<TempImage> list = null;
+		int key = 1;
+		list = query(TempImage.class).executeMulti();
+		if(list!=null && !list.isEmpty()){
+			key = list.size()+1;
+		}
+		return key;
+		
+	}
 
 }

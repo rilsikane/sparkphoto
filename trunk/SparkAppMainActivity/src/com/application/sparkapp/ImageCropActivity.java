@@ -108,7 +108,11 @@ public class ImageCropActivity extends Activity {
 				try{
 				Bitmap tempCrop = cropImageView.getCroppedImage();
 				croppedImage = cropImageView.getCroppedImage();
-				
+				if(portraitFlag){
+				croppedImage = getResizedBitmap(croppedImage, 1800, 1200);
+				}else{
+				croppedImage = getResizedBitmap(croppedImage, 1200, 1800);	
+				}
 				Login login = Entity.query(Login.class).execute();
 				TempImage temp = new TempImage();
 				temp.ac_token = login.ac_token;
@@ -152,6 +156,7 @@ public class ImageCropActivity extends Activity {
 				MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
 				
 				temp.amt = "1";
+				temp.id = temp.getPk();
 				temp.save();
 				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 				startActivity(i);

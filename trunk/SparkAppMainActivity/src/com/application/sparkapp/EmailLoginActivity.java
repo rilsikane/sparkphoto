@@ -111,12 +111,12 @@ public class EmailLoginActivity extends Activity {
 					 try {
 					  UserVO user = new UserVO();
 					  user = user.convertDtoToVo(result);
-					  user.id = 0;
+					  user.id = 1;
 					  user.save();
 					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
 					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
 	                  startActivity(i);
-//	                  Intent i = new Intent(EmailLoginActivity.this,GuideTotalPrintActivity.class);
+//	                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
 //	  				  startActivity(i);
 	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 	                  finish();

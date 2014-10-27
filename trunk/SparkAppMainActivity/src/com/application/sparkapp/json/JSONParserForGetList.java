@@ -126,7 +126,9 @@ public class JSONParserForGetList {
 		      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
 		      
 		      if(!jsUser.isNull("user")){
+		    	 
 		    	  user = (UserDto) getDataMappingToObject(jsUser, UserDto.class, "user");
+		    	  user.setAccess_token(commonDto.getToken());
 		      }
 		      
 			  

@@ -1,5 +1,8 @@
 package com.application.sparkapp;
 
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ public class ShippingPageActivity extends Activity {
 	private Utils utils;
 	private ImageView goToPreviousPage;
 	private TextView goToNextPage;
+	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob,gender;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +37,15 @@ public class ShippingPageActivity extends Activity {
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.address_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
+		
+		firstname = (EditText) findViewById(R.id.editText1);
+		lastname = (EditText) findViewById(R.id.editText2);
+		nric = (EditText) findViewById(R.id.editText3);
+		email = (EditText) findViewById(R.id.editText4);
+		phoneno = (EditText) findViewById(R.id.editText9);
+		service = (EditText) findViewById(R.id.editText10);
+		gender = (EditText) findViewById(R.id.editText8);
+		dob = (EditText) findViewById(R.id.editText7);
 		
 		goToPreviousPage = (ImageView) findViewById(R.id.imageView1);
 		goToNextPage = (TextView) findViewById(R.id.textView2);
@@ -57,6 +71,16 @@ public class ShippingPageActivity extends Activity {
 				finish();
 			}
 		});
+		UserVO user = Entity.query(UserVO.class).execute();
+		if(user!=null){
+			firstname.setText(user.firstname);
+			lastname.setText(user.lastname);
+			nric.setText(user.nric_fin);
+			email.setText(user.email);
+			phoneno.setText(user.phone);
+			service.setText(user.phone_service);
+			dob.setText(user.birthday);
+		}
 	}
 	@Override
 	public void onBackPressed(){

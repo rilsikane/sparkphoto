@@ -59,6 +59,7 @@ public class ImageListActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageListActivity.this,MainPhotoSelectActivity.class);
+				
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -70,7 +71,7 @@ public class ImageListActivity extends Activity {
 			facebookUserId = getIntent().getStringExtra("facebookUserId");
 		}
 		//Check isFacebook
-		if(getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
+		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
 			new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
 	        	public void onCompleted(Response response) {
 	        		JSONArray albumArr;
@@ -115,7 +116,7 @@ public class ImageListActivity extends Activity {
 	        	    }
 	        	}).executeAsync();
 		}
-		if(getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
+		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
 			listContent = getAlbums();

@@ -75,6 +75,7 @@ public class ImagePageSummaryActivity extends Activity {
     final static private String APP_SECRET = "ldlb1b0s4vtzqir";
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
+    List<TempImg> tempList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -246,15 +247,16 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				if(picCt==total){
 				Intent i = new Intent(ImagePageSummaryActivity.this,ShippingPageActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();
+				}
 			}
 		});
 		Login login = Entity.query(Login.class).execute();
-		List<TempImg> tempList = new ArrayList<TempImg>();
+		tempList = new ArrayList<TempImg>();
 		if(login!=null){
 			List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token").eq(login.ac_token).executeMulti();
 			if(imgList!=null && !imgList.isEmpty()){
@@ -328,7 +330,9 @@ public class ImagePageSummaryActivity extends Activity {
 		tempImage.save();
 	}
 	public void checkAmt(){
-		
+		for(TempImg tmp : tempList){
+			
+		}
 	}
 	
 	public class LoadListAdapter extends BaseAdapter{
@@ -428,22 +432,28 @@ public class ImagePageSummaryActivity extends Activity {
 					newRes = temp.getAmt();
 					if(newRes>0){
 						newRes--;
+						picCt--;
 						val.setText(""+(newRes));
 						temp.getTempImage().amt = newRes+"";
 						temp.getTempImage().save();
+						temp.setAmt(newRes);
 					}
 					break;
 				case 1:
-					if(newRes<10){
+					newRes = temp.getAmt();
+					if(newRes<10 && picCt<total){
 						newRes++;
+						picCt++;
 						val.setText(""+(newRes));
 						temp.getTempImage().amt = newRes+"";
 						temp.getTempImage().save();
+						temp.setAmt(newRes);
 					}
 					break;
 				default:
 					break;
 				}
+				picCount.setText(picCt+"");
 			}
 			
 		}
