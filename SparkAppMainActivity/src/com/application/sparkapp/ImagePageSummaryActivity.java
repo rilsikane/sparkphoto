@@ -472,7 +472,18 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {				
-
+			if(Integer.parseInt(picCount.getText().toString())==total){
+				new AlertDialog.Builder(ImagePageSummaryActivity.this)
+			    .setMessage("You have used all your credits")
+			    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        	dialog.dismiss();
+			        }
+			     })
+			    .setIcon(android.R.drawable.ic_dialog_alert)
+			    .show();
+			}
 			newRes = temp.getAmt();
 			if(newRes<10 && picCt<total){
 				newRes++;
