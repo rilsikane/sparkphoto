@@ -26,10 +26,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import com.application.sparkapp.model.UserVO;
-import com.dropbox.client.DropboxClient;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -375,14 +372,14 @@ public class MainPhotoSelectActivity extends Activity {
             	
             } else if (resultCode == RESULT_CANCELED) {
                 // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(getApplicationContext(),
+//                        "User cancelled image capture", Toast.LENGTH_SHORT)
+//                        .show();
             } else {
                 // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(getApplicationContext(),
+//                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+//                        .show();
             }
         }
 
@@ -401,7 +398,7 @@ public class MainPhotoSelectActivity extends Activity {
                             public void onCompleted(GraphUser user, Response response) {
                                 if (user != null) {
                                     session.getAccessToken();
-                                    Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
                                     user.getFirstName();
                                     user.getId();
                                     user.getName();

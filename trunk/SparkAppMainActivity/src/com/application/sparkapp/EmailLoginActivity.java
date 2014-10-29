@@ -1,7 +1,5 @@
 package com.application.sparkapp;
 
-import java.util.Date;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -25,12 +23,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.UserVO;
-import com.application.sparkapp.util.DateUtil;
 
 @SuppressLint("NewApi")
 public class EmailLoginActivity extends Activity {

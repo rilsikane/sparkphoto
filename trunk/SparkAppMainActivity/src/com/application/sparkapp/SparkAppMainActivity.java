@@ -8,7 +8,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -17,9 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -169,7 +165,7 @@ public class SparkAppMainActivity extends Activity {
                             public void onCompleted(GraphUser user, Response response) {
                                 if (user != null) {
                                     session.getAccessToken();
-                                    Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getApplicationContext(), "Welcome "+user.getName(), Toast.LENGTH_SHORT).show();
                                     user.getFirstName();
                                     user.getId();
                                     user.getName();
