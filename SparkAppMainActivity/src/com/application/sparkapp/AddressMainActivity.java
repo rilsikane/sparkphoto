@@ -72,8 +72,6 @@ public class AddressMainActivity extends Activity {
 					userDto.setAddress_unit_number(address_unit_number.getText().toString());
 					userDto.setAddress_postal(address_postal.getText().toString());
 					new InitAndLoadData().execute();
-				}else if(address_block.getText().toString().isEmpty()){
-					address_block.setError("Please enter Block / House number");
 				}else if(address_street_name.getText().toString().isEmpty()){
 					address_street_name.setError("Please enter Street name");
 				}else if(address_postal.getText().toString().isEmpty()){
