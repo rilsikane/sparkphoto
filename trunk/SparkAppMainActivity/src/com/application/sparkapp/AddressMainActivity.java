@@ -156,7 +156,14 @@ public class AddressMainActivity extends Activity {
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							AddressMainActivity.this);
-					builder1.setMessage("Error"+result.getMsg().split("\\:")[1]+"Please try again");
+					String[] msgs =  result.getMsg().split(":");
+					String msg = "Error Please try again /n";
+					if(msgs!=null && msgs.length>0){
+						for(String ms : msgs){
+							msg += ms+"/n";
+						}
+					}
+					builder1.setMessage(msg);
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
