@@ -93,7 +93,7 @@ public class JSONParserForGetList {
         	 commonDto.setToken(json.getString("app_access_token"));
          }else{
         	 commonDto.setFlag(false);
-        	 commonDto.setToken(json.getString("message"));
+        	 commonDto.setMsg(json.getString("message"));
          }
 		}catch (Exception e) {
 			e.printStackTrace();
