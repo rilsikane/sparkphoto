@@ -154,16 +154,19 @@ public class AddressMainActivity extends Activity {
 					alert11.show();
 
 				} else {
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(
-							AddressMainActivity.this);
-					String[] msgs =  result.getMsg().split(":");
-					String msg = "Error Please try again /n";
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+					
+					String[] msgs =  result.getMsg().replaceAll("\\[", "").replaceAll("\\]","").split(",");
 					if(msgs!=null && msgs.length>0){
-						for(String ms : msgs){
-							msg += ms+"/n";
+						String msg = "Error Please try again "+System.getProperty("line.separator");
+						if(msgs!=null && msgs.length>0){
+							for(String ms : msgs){
+								msg += ("-"+ms+System.getProperty("line.separator"));
+							}
+						
 						}
+						builder1.setMessage(msg);
 					}
-					builder1.setMessage(msg);
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
