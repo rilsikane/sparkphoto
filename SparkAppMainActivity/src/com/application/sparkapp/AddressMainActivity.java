@@ -156,7 +156,7 @@ public class AddressMainActivity extends Activity {
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							AddressMainActivity.this);
-					builder1.setMessage("Error  Please try again");
+					builder1.setMessage("Error"+result.getMsg().split("\\:")[1]+"Please try again");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
