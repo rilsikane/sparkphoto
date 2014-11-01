@@ -37,7 +37,15 @@ public class SignUpPageOneMainActivity extends Activity {
 			phoneno, service, occuption, dob, gender;
 	private UserDto userDto;
 	private AlertDialog levelDialog, occuDialog, serDialog;
-
+	private int occSel,servSel;
+	private static CharSequence[] service_items = { "m1", "SingT", "StarH",
+	"MyRepublic" };
+	private static CharSequence[] occ_items = { "Administrative & Secretarial",
+			"Consultant ", "Events management", "Home-maker",
+			"Human Resources", "National Service","Pre-university Student", 
+			"Professional","Public Relations","Self-employed", 
+			"University Post-graduate","University Undergraduate", "Others" };
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +92,10 @@ public class SignUpPageOneMainActivity extends Activity {
 			password.setText(userDto.getPassword());
 			cfPassword.setText(userDto.getPassword());
 			phoneno.setText(userDto.getPhone());
-			service.setText(userDto.getPhone_service());
-			occuption.setText(userDto.getOccupation());
+			service.setText(Utils.isNotEmpty(userDto.getPhone_service()) ? service_items[ 
+					Integer.parseInt(userDto.getPhone_service())]:"");
+			occuption.setText(Utils.isNotEmpty(userDto.getOccupation())? 
+					occ_items[Integer.parseInt(userDto.getOccupation())]:"");
 			dob.setText(userDto.getBirthday());
 			gender.setText("0".equals(userDto.getGender()) ? "Male" : "Female");
 		} else {
@@ -114,30 +124,30 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final CharSequence[] items = { "m1", "SingT", "StarH",
-						"MyRepublic" };
+				
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						SignUpPageOneMainActivity.this);
 				builder.setTitle("Select Services");
-				builder.setSingleChoiceItems(items, -1,
+				builder.setSingleChoiceItems(service_items, -1,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									service.setText(items[0]);
+									servSel=0;
+									service.setText(service_items[0]);
 									break;
 								case 1:
-									// Your code when 2nd option seletced
-									service.setText(items[1]);
+									servSel=1;
+									service.setText(service_items[1]);
 									break;
 								case 2:
-									// Your code when 2nd option seletced
-									service.setText(items[2]);
+									servSel=2;
+									service.setText(service_items[2]);
 									break;
 								case 3:
-									// Your code when 2nd option seletced
-									service.setText(items[3]);
+									servSel=3;
+									service.setText(service_items[3]);
 									break;
 								}
 								serDialog.dismiss();
@@ -152,58 +162,66 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final CharSequence[] items = { "Administrative & Secretarial",
-						"Consultant ", "Events management", "Home-maker",
-						"Human Resources", "National Service", "Others",
-						"Pre-university Student", "Professional",
-						"Public Relations", "University Post-graduate",
-						"University Undergraduate", "Self-employed" };
+				
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						SignUpPageOneMainActivity.this);
 				builder.setTitle("Select Occupations");
-				builder.setSingleChoiceItems(items, -1,
+				builder.setSingleChoiceItems(occ_items, -1,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									occuption.setText(items[0]);
+									occSel=0;
+									occuption.setText(occ_items[0]);
 									break;
 								case 1:
-									occuption.setText(items[1]);
+									occSel=1;
+									occuption.setText(occ_items[1]);
 									break;
 								case 2:
-									occuption.setText(items[2]);
+									occSel=2;
+									occuption.setText(occ_items[2]);
 									break;
 								case 3:
-									occuption.setText(items[3]);
+									occSel=3;
+									occuption.setText(occ_items[3]);
 									break;
 								case 4:
-									occuption.setText(items[4]);
+									occSel=4;
+									occuption.setText(occ_items[4]);
 									break;
 								case 5:
-									occuption.setText(items[5]);
+									occSel=5;
+									occuption.setText(occ_items[5]);
 									break;
 								case 6:
-									occuption.setText(items[6]);
+									occSel=6;
+									occuption.setText(occ_items[6]);
 									break;
 								case 7:
-									occuption.setText(items[7]);
+									occSel=7;
+									occuption.setText(occ_items[7]);
 									break;
 								case 8:
-									occuption.setText(items[8]);
+									occSel=8;
+									occuption.setText(occ_items[8]);
 									break;
 								case 9:
-									occuption.setText(items[9]);
+									occSel=9;
+									occuption.setText(occ_items[9]);
 									break;
 								case 10:
-									occuption.setText(items[10]);
+									occSel=10;
+									occuption.setText(occ_items[10]);
 									break;
 								case 11:
-									occuption.setText(items[11]);
+									occSel=11;
+									occuption.setText(occ_items[11]);
 									break;
 								case 12:
-									occuption.setText(items[12]);
+									occSel=12;
+									occuption.setText(occ_items[12]);
 									break;
 								}
 
@@ -282,8 +300,8 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setPassword(password.getText().toString());
 						userDto.setEmail(email.getText().toString());
 						userDto.setPhone(phoneno.getText().toString());
-						userDto.setPhone_service(service.getText().toString());
-						userDto.setOccupation(occuption.getText().toString());
+						userDto.setPhone_service(servSel+"");
+						userDto.setOccupation(occSel+"");
 						userDto.setBirthday(dob.getText().toString());
 						userDto.setGender("Male".equals(gender.getText().toString()) ? "0" : "1");
 
@@ -293,27 +311,38 @@ public class SignUpPageOneMainActivity extends Activity {
 						overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 						finish();
 					}
-				} else if (firstname.getText().toString().isEmpty()) {
+				}
+				if (firstname.getText().toString().isEmpty()) {
 					firstname.setError("Please enter first name");
-				} else if (lastname.getText().toString().isEmpty()) {
+				}
+				if (lastname.getText().toString().isEmpty()) {
 					lastname.setError("Please enter last name");
-				} else if (nric.getText().toString().isEmpty()) {
+				}
+				if (nric.getText().toString().isEmpty()) {
 					nric.setError("Please enter NRIC/FIN");
-				} else if (email.getText().toString().isEmpty()) {
+				}
+				if (email.getText().toString().isEmpty()) {
 					email.setError("Please enter Email");
-				} else if (password.getText().toString().isEmpty()) {
+				} 
+				if (password.getText().toString().isEmpty()) {
 					password.setError("Please enter password");
-				} else if (cfPassword.getText().toString().isEmpty()) {
+				}
+				if (cfPassword.getText().toString().isEmpty()) {
 					cfPassword.setError("Please enter confirm password");
-				} else if (dob.getText().toString().isEmpty()) {
+				}
+				if (dob.getText().toString().isEmpty()) {
 					dob.setError("Please select Date of Birth");
-				} else if (gender.getText().toString().isEmpty()) {
+				}
+				if (gender.getText().toString().isEmpty()) {
 					gender.setError("Please select Gender");
-				} else if (phoneno.getText().toString().isEmpty()) {
+				}
+				if (phoneno.getText().toString().isEmpty()) {
 					phoneno.setError("Please enter Phone Number");
-				} else if (service.getText().toString().isEmpty()) {
+				}
+				if (service.getText().toString().isEmpty()) {
 					service.setError("Please select Service");
-				} else if (occuption.getText().toString().isEmpty()) {
+				}
+				if (occuption.getText().toString().isEmpty()) {
 					occuption.setError("Please select Occupation");
 				}
 			}
