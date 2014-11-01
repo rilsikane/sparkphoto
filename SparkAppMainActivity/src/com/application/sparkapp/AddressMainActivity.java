@@ -14,6 +14,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -65,15 +67,16 @@ public class AddressMainActivity extends Activity {
 			address_unit_number.setText(utils.isNotEmpty(userDto.getAddress_unit_number())?userDto.getAddress_unit_number():"");
 			address_postal.setText(utils.isNotEmpty(userDto.getAddress_postal())?userDto.getAddress_postal():"");
 		}
-
+		
+		address_street_name.addTextChangedListener(new EditTextWatcher(address_street_name, "Please enter Street name"));
+		address_postal.addTextChangedListener(new EditTextWatcher(address_postal, "Please enter Postal code"));
+		
 		goToNextPage.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				if (utils.isNotEmpty(address_block.getText().toString())
-						&& utils.isNotEmpty(address_street_name.getText().toString())
-						&& utils.isNotEmpty(address_postal.getText().toString())) {
+				if (utils.isNotEmpty(address_street_name.getText().toString())&& utils.isNotEmpty(address_postal.getText().toString())) {
 					userDto.setAddress_block(address_block.getText().toString());
 					userDto.setAddress_street_name(address_street_name.getText().toString());
 					userDto.setAddress_unit_number(address_unit_number.getText().toString());
@@ -203,5 +206,38 @@ public class AddressMainActivity extends Activity {
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+	}
+	public class EditTextWatcher implements TextWatcher{
+		public EditText _edt;
+		public String _msg;
+		
+		public EditTextWatcher(EditText edT, String msg){
+			this._edt= edT;
+			this._msg = msg;
+		}
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			if(utils.isNotEmpty(_edt.getText().toString())){
+				_edt.setError(null);
+			}else{
+				_edt.setError(_msg);
+			}
+		}
+		
 	}
 }

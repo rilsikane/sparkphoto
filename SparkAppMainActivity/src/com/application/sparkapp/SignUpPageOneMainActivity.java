@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -102,6 +104,18 @@ public class SignUpPageOneMainActivity extends Activity {
 			userDto = new UserDto();
 		}
 
+		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
+		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
+		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
+		email.addTextChangedListener(new EditTextWatcher(email, "Please enter Email"));
+		password.addTextChangedListener(new EditTextWatcher(password, "Please enter password"));
+		cfPassword.addTextChangedListener(new EditTextWatcher(cfPassword, "Please enter confirm password"));
+		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
+		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
+		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
+		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
+		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
+		
 		final Calendar myCalendar = Calendar.getInstance();
 
 		final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -397,5 +411,37 @@ public class SignUpPageOneMainActivity extends Activity {
 		finish();
 
 	}
+	public class EditTextWatcher implements TextWatcher{
+		public EditText _edt;
+		public String _msg;
+		
+		public EditTextWatcher(EditText edT, String msg){
+			this._edt= edT;
+			this._msg = msg;
+		}
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
 
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			if(utils.isNotEmpty(_edt.getText().toString())){
+				_edt.setError(null);
+			}else{
+				_edt.setError(_msg);
+			}
+		}
+		
+	}
 }
