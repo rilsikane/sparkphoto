@@ -58,6 +58,13 @@ public class AddressMainActivity extends Activity {
 		address_postal = (EditText) findViewById(R.id.editText8);
 		utils = new Utils(this, this);
 		userDto = getIntent().getExtras().getParcelable("userDto");
+		
+		if(userDto!=null){
+			address_block.setText(utils.isNotEmpty(userDto.getAddress_block())?userDto.getAddress_block():"");
+			address_street_name.setText(utils.isNotEmpty(userDto.getAddress_street_name())?userDto.getAddress_street_name():"");
+			address_unit_number.setText(utils.isNotEmpty(userDto.getAddress_unit_number())?userDto.getAddress_unit_number():"");
+			address_postal.setText(utils.isNotEmpty(userDto.getAddress_postal())?userDto.getAddress_postal():"");
+		}
 
 		goToNextPage.setOnClickListener(new OnClickListener() {
 
