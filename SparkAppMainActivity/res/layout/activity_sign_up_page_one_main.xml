@@ -143,7 +143,6 @@
                 android:drawableLeft="@drawable/png_icon"
                 android:ems="10"
                 android:hint="Email address"
-                android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
