@@ -99,7 +99,7 @@
                 android:hint="First name"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
+                android:textColorHint="#ffffff"                
                 android:textSize="20sp" />
 
             <EditText
@@ -141,7 +141,7 @@
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/png_icon"
-                android:ems="10"
+                android:ems="10"                
                 android:hint="Email address"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
