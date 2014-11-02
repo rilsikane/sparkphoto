@@ -1,5 +1,8 @@
 package com.application.sparkapp;
 
+import java.text.BreakIterator;
+import java.util.Arrays;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -79,7 +82,8 @@ public class AddressMainActivity extends Activity {
 				if (utils.isNotEmpty(address_street_name.getText().toString())&& utils.isNotEmpty(address_postal.getText().toString())) {
 					userDto.setAddress_block(address_block.getText().toString());
 					userDto.setAddress_street_name(address_street_name.getText().toString());
-					userDto.setAddress_unit_number(address_unit_number.getText().toString());
+					String unitNumber = address_unit_number.getText().toString();
+					userDto.setAddress_unit_number(utils.isNotEmpty(unitNumber)?unitNumber:" ");
 					userDto.setAddress_postal(address_postal.getText().toString());
 					new InitAndLoadData().execute();
 				}else if(address_street_name.getText().toString().isEmpty()){
@@ -138,35 +142,22 @@ public class AddressMainActivity extends Activity {
 		@Override
 		protected void onPostExecute(CommonDto result) {
 			super.onPostExecute(result);
-			if (result != null) {
-				if (result.isFlag()) {
-					AlertDialog.Builder builder1 = new AlertDialog.Builder(
-							AddressMainActivity.this);
-					builder1.setMessage("Register Completed");
-					builder1.setCancelable(true);
-					builder1.setPositiveButton("Ok",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									// By pass to term of use main activity
-									Intent intent = new Intent(
-											AddressMainActivity.this,
-											TermOfUseMainActivity.class);
-									startActivity(intent);
-									overridePendingTransition(
-											R.anim.slide_in_left,
-											R.anim.slide_out_left);
-									finish();
-								}
-							});
-					AlertDialog alert11 = builder1.create();
-					alert11.show();
+			if (result != null && utils.isNotEmpty(result.getMsg())) {
+				String[] msgs = result.getMsg().replaceAll("\\[", "")
+						.replaceAll("\\]", "").split(",");
+				if (contains(msgs, "term")) {
+					Intent intent = new Intent(
+							AddressMainActivity.this,
+							TermOfUseMainActivity.class);
+					intent.putExtra("userDto", (Parcelable) userDto);
+					startActivity(intent);
+					overridePendingTransition(
+							R.anim.slide_in_left,
+							R.anim.slide_out_left);
+					finish();
 
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
-					
-					String[] msgs =  result.getMsg().replaceAll("\\[", "").replaceAll("\\]","").split(",");
 					if(msgs!=null && msgs.length>0){
 						String msg = "Error Please try again "+System.getProperty("line.separator");
 						if(msgs!=null && msgs.length>0){
@@ -239,5 +230,14 @@ public class AddressMainActivity extends Activity {
 			}
 		}
 		
+	}
+	public static  boolean contains(final String[] array, final String v) {
+	    if (v != null) {
+	        for (final String e : array)
+	            if (e.contains(v))
+	                return true;
+	    } 
+
+	    return false;
 	}
 }

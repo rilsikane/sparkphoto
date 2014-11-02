@@ -6,13 +6,23 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.PerksDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -90,6 +100,39 @@ public class PerkPageActivity extends Activity {
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
 	}
+	public class InitAndLoadData extends AsyncTask<String, Void, List<PerksDto>>
+	implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(PerkPageActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected List<PerksDto> doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			UserVO user = Entity.query(UserVO.class).execute();
+			return JSONParserForGetList.getInstance().getListPerks(user.ac_token);
+		}
+
+		@Override
+		protected void onPostExecute(List<PerksDto> result) {
+			super.onPostExecute(result);
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+	}
+	
+	
 	public class ListViewAdapter extends BaseAdapter{
 		List<TempPerk> temp = new ArrayList<TempPerk>();
 		public ListViewAdapter(){

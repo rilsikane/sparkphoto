@@ -51,8 +51,8 @@ public class EmailLoginActivity extends Activity {
         email = (EditText) findViewById(R.id.editText3);
         password = (EditText) findViewById(R.id.editText4);
         
-        email.setText("test4@gmail.com");
-        password.setText("q12345");
+        email.setText("test@gmail.com");
+        password.setText("123456");
 		utils = new Utils(getApplicationContext(), this);
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
         BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, screenWidth, screenHeight));

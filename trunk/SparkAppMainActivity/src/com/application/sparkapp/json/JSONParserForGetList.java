@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.UserVO;
@@ -82,6 +83,8 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
          nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         nameValuePairs.add(new BasicNameValuePair("confirm_term_of_use", userDto.isConfrim()+""));
+         
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
          }
@@ -140,6 +143,19 @@ public class JSONParserForGetList {
 			e.printStackTrace();
 		}
          return user;
+	}
+	
+	public List<PerksDto> getListPerks(String acToken){
+		List<PerksDto> perksList =null;
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
+	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
+	    JSONObject jObj = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+	    
+	    if(!jObj.isNull("perks")){
+	    	perksList = (List<PerksDto>) getDataMappingToObject(jObj, PerksDto.class, "perks");
+	    }
+		return perksList;
 	}
 	
 	
