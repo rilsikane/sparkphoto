@@ -9,7 +9,6 @@ import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +17,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +26,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.application.sparkapp.model.UserVO;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -61,6 +63,7 @@ public class MainPhotoSelectActivity extends Activity {
     final static private String APP_SECRET = "ldlb1b0s4vtzqir";
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
+    private boolean doubleBackToExitPressedOnce;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -312,9 +315,22 @@ public class MainPhotoSelectActivity extends Activity {
     }
 	@Override
 	public void onBackPressed(){
-		
+		if (doubleBackToExitPressedOnce) {
+	        super.onBackPressed();
+	        return;
+	    }
+
+	    this.doubleBackToExitPressedOnce = true;
+	    Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+	    new Handler().postDelayed(new Runnable() {
+
+	        @Override
+	        public void run() {
+	            doubleBackToExitPressedOnce=false;                       
+	        }
+	    }, 2000);
 	}
-	//10-25 23:03:33.536: I/System.out(6825): ->>>>>>>>>>>>>>>> NsHpCmf0GuQAAAAAAAADn0rVQSYKg2Pz67oGK7_1trfOV-VzqJRkqadfc9euQUJO
 
 	@Override
 	protected void onResume() {
