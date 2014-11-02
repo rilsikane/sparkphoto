@@ -178,6 +178,12 @@
             android:enabled="true"
             android:exported="false"
             android:label="Dropbox Sync" />
+
+        <activity
+            android:name="com.application.sparkapp.PerkDetailMainActivity"
+            android:label="@string/title_activity_perk_detail_main"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
