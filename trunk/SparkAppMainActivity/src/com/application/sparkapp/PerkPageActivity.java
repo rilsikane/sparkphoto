@@ -177,7 +177,7 @@ public class PerkPageActivity extends Activity {
 				viewHolder = new ViewHolder();
 				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				convertView = inflater.inflate(R.layout.each_perk_layout, null);
-				
+				viewHolder.click = (RelativeLayout) convertView.findViewById(R.id.perkClick);
 				viewHolder.perkName = (TextView) convertView.findViewById(R.id.perkName);
 				viewHolder.expire = (TextView) convertView.findViewById(R.id.textView2);
 				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
@@ -192,6 +192,18 @@ public class PerkPageActivity extends Activity {
 			viewHolder.expire.setText(model.getTimeExpire());
 			viewHolder.sponsorName.setText(model.getBrandname());
 			Picasso.with(getApplicationContext()).load(model.getThumnailImages()).into(viewHolder.perImg);
+			
+			viewHolder.click.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent i = new Intent(PerkPageActivity.this,PerkDetailMainActivity.class);
+					startActivity(i);
+					finish();
+				}
+			});
+			
 			return convertView;
 		}
 		public class ViewHolder{

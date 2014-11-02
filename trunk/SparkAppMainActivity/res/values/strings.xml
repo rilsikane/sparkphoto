@@ -36,5 +36,6 @@
     <string name="title_activity_perk_page">PerkPageActivity</string>
     <string name="cancel_confirmation_header">Cancel Confirmation</string>
     <string name="cancel_confirmation_desc">Do you want to cancel your order?</string>
+    <string name="title_activity_perk_detail_main">PerkDetailMainActivity</string>
 
 </resources>
