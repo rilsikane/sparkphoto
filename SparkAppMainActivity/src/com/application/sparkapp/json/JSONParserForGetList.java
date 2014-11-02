@@ -150,11 +150,20 @@ public class JSONParserForGetList {
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
 	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
-	    JSONObject jObj = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
-	    
-	    if(!jObj.isNull("perks")){
-	    	perksList = (List<PerksDto>) getDataMappingToObject(jObj, PerksDto.class, "perks");
-	    }
+	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"perks");
+	    try{
+		    if(jsonArr!=null){
+		    	perksList = new ArrayList<PerksDto>();
+		    	for(int i=0;i<jsonArr.length();i++){
+		    		PerksDto perks = new PerksDto();
+		    		JSONObject json =jsonArr.getJSONObject(i);
+		    		perks = (PerksDto) getDataMappingToObject(json, PerksDto.class);
+		    		perksList.add(perks);
+		    	}
+		    }
+	    }catch (Exception e) {
+			e.printStackTrace();
+		}
 		return perksList;
 	}
 	
