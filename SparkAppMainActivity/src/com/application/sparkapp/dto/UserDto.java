@@ -49,6 +49,8 @@ public class UserDto implements Parcelable{
 	private boolean normalCredit;
 	@JsonIgnore
 	private String access_token;
+	@JsonIgnore
+	private boolean confrim;
 	public UserDto() { 
 		
 	}
@@ -185,6 +187,14 @@ public class UserDto implements Parcelable{
 	public void setAccess_token(String access_token) {
 		this.access_token = access_token;
 	}
+	
+	
+	public boolean isConfrim() {
+		return confrim;
+	}
+	public void setConfrim(boolean confrim) {
+		this.confrim = confrim;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -213,6 +223,7 @@ public class UserDto implements Parcelable{
         dest.writeString(nextTimeCanUpload);
         dest.writeByte((byte) (normalCredit ? 1 : 0)); 
         dest.writeString(access_token);
+        dest.writeByte((byte) (confrim ? 1 : 0)); 
 	}
 	private void readFromParcel(Parcel in) {
 		method = in.readString();
@@ -236,6 +247,7 @@ public class UserDto implements Parcelable{
 		nextTimeCanUpload = in.readString();
 		normalCredit = in.readByte() != 0; 
 		access_token = in.readString();
+		confrim = in.readByte() != 0; 
 	}
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public UserDto createFromParcel(Parcel parcel) {

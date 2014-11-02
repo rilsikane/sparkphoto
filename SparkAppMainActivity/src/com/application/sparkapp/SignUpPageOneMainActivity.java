@@ -1,5 +1,6 @@
 package com.application.sparkapp;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -12,7 +13,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
@@ -29,7 +32,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
+import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -40,6 +46,7 @@ public class SignUpPageOneMainActivity extends Activity {
 	private UserDto userDto;
 	private AlertDialog levelDialog, occuDialog, serDialog;
 	private int occSel,servSel;
+	private boolean isValid;
 	private static CharSequence[] service_items = { "m1", "SingT", "StarH",
 	"MyRepublic" };
 	private static CharSequence[] occ_items = { "Administrative & Secretarial",
@@ -98,6 +105,8 @@ public class SignUpPageOneMainActivity extends Activity {
 					Integer.parseInt(userDto.getPhone_service())]:"");
 			occuption.setText(Utils.isNotEmpty(userDto.getOccupation())? 
 					occ_items[Integer.parseInt(userDto.getOccupation())]:"");
+			occSel = Utils.isNotEmpty(userDto.getOccupation())?Integer.parseInt(userDto.getOccupation()):0;
+			servSel =  Utils.isNotEmpty(userDto.getPhone_service())?Integer.parseInt(userDto.getPhone_service()):0;
 			dob.setText(userDto.getBirthday());
 			gender.setText("0".equals(userDto.getGender()) ? "Male" : "Female");
 		} else {
@@ -318,12 +327,8 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setOccupation(occSel+"");
 						userDto.setBirthday(dob.getText().toString());
 						userDto.setGender("Male".equals(gender.getText().toString()) ? "0" : "1");
-
-						Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
-						i.putExtra("userDto", (Parcelable) userDto);
-						startActivity(i);
-						overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
-						finish();
+						new InitAndLoadData().execute();
+						
 					}
 				}
 				if (firstname.getText().toString().isEmpty()) {
@@ -443,5 +448,78 @@ public class SignUpPageOneMainActivity extends Activity {
 			}
 		}
 		
+	}
+
+	public class InitAndLoadData extends AsyncTask<String, Void, CommonDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(SignUpPageOneMainActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CommonDto common = JSONParserForGetList.getInstance().Register(
+					userDto);
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null && utils.isNotEmpty(result.getMsg())) {
+			String[] msgs = result.getMsg().replaceAll("\\[", "")
+					.replaceAll("\\]", "").split(",");
+				if (msgs.length==4) {
+					Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
+					i.putExtra("userDto", (Parcelable) userDto);
+					startActivity(i);
+					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+					finish();
+				} else {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							SignUpPageOneMainActivity.this);
+
+					if (msgs != null && msgs.length > 0) {
+						String msg = "Error Please try again "
+								+ System.getProperty("line.separator");
+						if (msgs != null && msgs.length > 0) {
+							for (String ms : msgs) {
+								msg += ("-" + ms + System
+										.getProperty("line.separator"));
+							}
+
+						}
+						builder1.setMessage(msg);
+					}
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
 	}
 }
