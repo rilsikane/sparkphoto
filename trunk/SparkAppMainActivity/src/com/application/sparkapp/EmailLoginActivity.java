@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("NewApi")
 public class EmailLoginActivity extends Activity {
@@ -104,7 +105,10 @@ public class EmailLoginActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 					 try {
-					  UserVO user = new UserVO();
+					  UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+					  if(user==null){
+						  user = new UserVO();
+					  }
 					  user = user.convertDtoToVo(result);
 					  user.id = 1;
 					  user.save();

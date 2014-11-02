@@ -6,6 +6,7 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import com.application.sparkapp.ImageListActivity.ViewHolder;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 
 public class PerkPageActivity extends Activity {
 	private Utils utils;
+	private ListView perkList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +54,21 @@ public class PerkPageActivity extends Activity {
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.setting_page, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-		final ListView perkList = (ListView) findViewById(R.id.listView1);
-		ListViewAdapter adapter = new ListViewAdapter();
-		perkList.setAdapter(adapter);
+		perkList = (ListView) findViewById(R.id.listView1);
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		final ImageView premim = (ImageView) findViewById(R.id.imageView2);
 		final ImageView regular = (ImageView) findViewById(R.id.imageView3);
+		new InitAndLoadData().execute("1");
 		premim.setOnClickListener(new OnClickListener() {
 					
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				ListViewAdapter adapter = new ListViewAdapter();
-				perkList.setAdapter(adapter);
+//				ListViewAdapter adapter = new ListViewAdapter();
+//				perkList.setAdapter(adapter);
 				premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_selected));
 				regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_default));
+				new InitAndLoadData().execute("1");
 			}
 		});
 		regular.setOnClickListener(new OnClickListener() {
@@ -74,10 +76,11 @@ public class PerkPageActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				ListViewAdapter adapter = new ListViewAdapter();
-				perkList.setAdapter(adapter);
+//				ListViewAdapter adapter = new ListViewAdapter();
+//				perkList.setAdapter(adapter);
 				regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_selected));
 				premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_default));
+				new InitAndLoadData().execute("2");
 			}
 		});
 		goBack.setOnClickListener(new OnClickListener() {
@@ -114,14 +117,25 @@ public class PerkPageActivity extends Activity {
 		@Override
 		protected List<PerksDto> doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			UserVO user = Entity.query(UserVO.class).execute();
-			return JSONParserForGetList.getInstance().getListPerks(user.ac_token);
+			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			List<PerksDto> result = new ArrayList<PerksDto>();
+			List<PerksDto> perkList = JSONParserForGetList.getInstance().getListPerks(user.ac_token);
+			if(perkList!=null && perkList.size()>0){
+				for(PerksDto dto : perkList){
+					if(dto.getType().equals(params[0])){
+						result.add(dto);
+					}
+				}
+			}
+			return result;
 		}
 
 		@Override
 		protected void onPostExecute(List<PerksDto> result) {
 			super.onPostExecute(result);
-
+			ListViewAdapter adapter = new ListViewAdapter(result);
+			perkList.setAdapter(adapter);
+			mProgressHUD.dismiss();
 		}
 
 		@Override
@@ -134,33 +148,21 @@ public class PerkPageActivity extends Activity {
 	
 	
 	public class ListViewAdapter extends BaseAdapter{
-		List<TempPerk> temp = new ArrayList<TempPerk>();
-		public ListViewAdapter(){
-			TempPerk tempP = new TempPerk();
-			tempP.setGift(true);
-			tempP.setPerkExpire("30 Aug 2014");
-			tempP.setPerkImage("");
-			tempP.setPerkName("10% off on total bill");
-			tempP.setSponsorName("SPONSOR NAME");
-			temp.add(tempP);
-			
-			tempP.setGift(true);
-			tempP.setPerkExpire("30 Aug 2014");
-			tempP.setPerkImage("");
-			tempP.setPerkName("Exclusive dining privileges");
-			tempP.setSponsorName("SPONSOR NAME");
-			temp.add(tempP);
+		private List<PerksDto> listPerks;
+		private ViewHolder viewHolder;
+		public ListViewAdapter(List<PerksDto> listPerks){
+			this.listPerks = listPerks;
 		}
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return temp.size();
+			return listPerks!=null ? listPerks.size() :0;
 		}
 
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return temp.get(position);
+			return listPerks.get(position);
 		}
 
 		@Override
@@ -171,59 +173,35 @@ public class PerkPageActivity extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.each_perk_layout, null);
-			TempPerk model = temp.get(position);
-			TextView perkName = (TextView) convertView.findViewById(R.id.perkName);
-			TextView expire = (TextView) convertView.findViewById(R.id.textView2);
-			TextView sponsorName = (TextView) convertView.findViewById(R.id.textView3);
-			ImageView perImg = (ImageView) convertView.findViewById(R.id.imageView1);
-			perkName.setText(model.getPerkName());
-			expire.setText(model.getPerkExpire());
-			sponsorName.setText(model.getSponsorName());
-			Picasso.with(getApplicationContext()).load(R.drawable.pepper_p).into(perImg);
+			if(convertView== null){
+				viewHolder = new ViewHolder();
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.each_perk_layout, null);
+				
+				viewHolder.perkName = (TextView) convertView.findViewById(R.id.perkName);
+				viewHolder.expire = (TextView) convertView.findViewById(R.id.textView2);
+				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
+				viewHolder.perImg = (ImageView) convertView.findViewById(R.id.imageView1);
+				convertView.setTag(viewHolder);
+			}else{
+				viewHolder = (ViewHolder) convertView.getTag();
+			}
+			PerksDto model = listPerks.get(position);
+			
+			viewHolder.perkName.setText(model.getName());
+			viewHolder.expire.setText(model.getTimeExpire());
+			viewHolder.sponsorName.setText(model.getBrandname());
+			Picasso.with(getApplicationContext()).load(model.getThumnailImages()).into(viewHolder.perImg);
 			return convertView;
+		}
+		public class ViewHolder{
+			public TextView perkName,expire,sponsorName;
+			public ImageView perImg;
+			public RelativeLayout click;
 		}
 		
 	}
-	public class TempPerk{
-		private String perkName;
-		private String perkImage;
-		private String perkExpire;
-		private String sponsorName;
-		private boolean isGift;
-		public String getPerkName() {
-			return perkName;
-		}
-		public void setPerkName(String perkName) {
-			this.perkName = perkName;
-		}
-		public String getPerkImage() {
-			return perkImage;
-		}
-		public void setPerkImage(String perkImage) {
-			this.perkImage = perkImage;
-		}
-		public String getPerkExpire() {
-			return perkExpire;
-		}
-		public void setPerkExpire(String perkExpire) {
-			this.perkExpire = perkExpire;
-		}
-		public String getSponsorName() {
-			return sponsorName;
-		}
-		public void setSponsorName(String sponsorName) {
-			this.sponsorName = sponsorName;
-		}
-		public boolean isGift() {
-			return isGift;
-		}
-		public void setGift(boolean isGift) {
-			this.isGift = isGift;
-		}			
-	}
+	
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
