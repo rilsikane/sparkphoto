@@ -5,9 +5,10 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -53,14 +54,30 @@ public class SettingPageActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(Session.getActiveSession()!=null){
-					Session.getActiveSession().closeAndClearTokenInformation();
-				}
-				Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
+				// TODO Auto-generated method stub								
+				new AlertDialog.Builder(SettingPageActivity.this)
+			    .setTitle("Logout Confirmation")
+			    .setMessage("Are you sure to logout?")
+			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // continue with delete
+			        	if(Session.getActiveSession()!=null){
+							Session.getActiveSession().closeAndClearTokenInformation();
+						}
+						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
+		                startActivity(i);
+		                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		                finish();
+			        }
+			     })
+			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			            // do nothing
+			        }
+			     })
+			    .setIcon(android.R.drawable.ic_dialog_alert)
+			     .show();
+								
 			}
 		});
 		backIcon.setOnClickListener(new OnClickListener() {
