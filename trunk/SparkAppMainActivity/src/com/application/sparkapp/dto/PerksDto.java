@@ -37,6 +37,8 @@ private String timeExpire;
 private String timeCreated;
 @JsonProperty("used")
 private Boolean used;
+@JsonProperty("brandname")
+private String brandname;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -298,6 +300,17 @@ return used;
 @JsonProperty("used")
 public void setUsed(Boolean used) {
 this.used = used;
+}
+
+
+
+@JsonProperty("brandname")
+public String getBrandname() {
+	return brandname;
+}
+
+public void setBrandname(String brandname) {
+	this.brandname = brandname;
 }
 
 @JsonAnyGetter
