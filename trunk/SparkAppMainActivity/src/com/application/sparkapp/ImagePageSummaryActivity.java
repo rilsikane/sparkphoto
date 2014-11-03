@@ -115,117 +115,130 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final Dialog dialog = new Dialog(ImagePageSummaryActivity.this);
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				dialog.setContentView(R.layout.custom_select_img);	
-				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
-				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
-				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
-				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
-				closeDialog.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-					}
-				});
-				dropBoxBtn.setOnClickListener(new OnClickListener() {
-					
-					@SuppressWarnings("deprecation")
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-							AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-							AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-							mDBApi = new DropboxAPI<AndroidAuthSession>(session);
-							mDBApi.getSession().startOAuth2Authentication(ImagePageSummaryActivity.this);					
-					}
-				});
-				photoFromSD.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						
-						if(nextTimeCanUpload){
-						Intent i = new Intent(ImagePageSummaryActivity.this,ImageListActivity.class);
-						i.putExtra("loadImageState", 1);
-						i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
-						startActivity(i);
-						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-						finish();
-						}else{
-							showPerkDialog();
-						}
-					}
-				});
-				facebookBtn.setOnClickListener(new OnClickListener() {
-					
-					@SuppressWarnings("deprecation")
-					@Override
-					public void onClick(View v) {
-						if(nextTimeCanUpload){
-						if (session!=null) {
-
-				            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-				                @Override
-				                public void onCompleted(GraphUser user, Response response) {
-				                    if (user != null) {
-				                        session.getAccessToken();				                        
-				                        user.getFirstName();
-				                        user.getId();
-				                        user.getName();
-				                        //Facebook API:https://developers.facebook.com/tools/explorer/
-				                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-				                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-				                        i.putExtra("facebookUserId", user.getId());
-				                        i.putExtra("loadImageState", 0);
-	                                    startActivity(i);
-	                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-	                                    finish();
-				                    }
-				                }
-				            });
-				        }else{
-				        	Session currentSession = Session.getActiveSession();
-			                if (currentSession == null || currentSession.getState().isClosed()) {
-			                    Session session = new Session.Builder(getApplicationContext()).build();
-			                    Session.setActiveSession(session);
-			                    currentSession = session;
-			                }
-
-			                if (currentSession.isOpened()) {
-			                    // Do whatever u want. User has logged in
-			                    Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-			                    startActivity(i);
-			                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-			                } else if (!currentSession.isOpened()) {
-			                    // Ask for username and password
-			                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
-
-			                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
-			                    op.setCallback(null);
-
-			                    List<String> permissions = new ArrayList<String>();
-			                    permissions.add("publish_stream");
-			                    permissions.add("user_likes");
-			                    permissions.add("email");
-			                    permissions.add("user_birthday");
-			                    op.setPermissions(permissions);
-
-			                    Session session = new Builder(ImagePageSummaryActivity.this).build();
-			                    Session.setActiveSession(session);
-			                    session.openForPublish(op);
-			                }
+				if(total>=10){
+					new AlertDialog.Builder(ImagePageSummaryActivity.this)
+				    .setMessage("You have used all your credits")
+				    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				            // do nothing
+				        	dialog.dismiss();
 				        }
-						}else{
-							showPerkDialog();
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				    .show();
+				}else{
+					final Dialog dialog = new Dialog(ImagePageSummaryActivity.this);
+					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+					dialog.setContentView(R.layout.custom_select_img);	
+					RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
+					ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
+					ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
+					ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
+					closeDialog.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
 						}
-					}
-				});
-				dialog.show();
+					});
+					dropBoxBtn.setOnClickListener(new OnClickListener() {
+						
+						@SuppressWarnings("deprecation")
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+								AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+								AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+								mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+								mDBApi.getSession().startOAuth2Authentication(ImagePageSummaryActivity.this);					
+						}
+					});
+					photoFromSD.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							
+							if(nextTimeCanUpload){
+							Intent i = new Intent(ImagePageSummaryActivity.this,ImageListActivity.class);
+							i.putExtra("loadImageState", 1);
+							i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
+							startActivity(i);
+							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+							finish();
+							}else{
+								showPerkDialog();
+							}
+						}
+					});
+					facebookBtn.setOnClickListener(new OnClickListener() {
+						
+						@SuppressWarnings("deprecation")
+						@Override
+						public void onClick(View v) {
+							if(nextTimeCanUpload){
+							if (session!=null) {
+	
+					            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+	
+					                @Override
+					                public void onCompleted(GraphUser user, Response response) {
+					                    if (user != null) {
+					                        session.getAccessToken();				                        
+					                        user.getFirstName();
+					                        user.getId();
+					                        user.getName();
+					                        //Facebook API:https://developers.facebook.com/tools/explorer/
+					                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
+					                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+					                        i.putExtra("facebookUserId", user.getId());
+					                        i.putExtra("loadImageState", 0);
+		                                    startActivity(i);
+		                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		                                    finish();
+					                    }
+					                }
+					            });
+					        }else{
+					        	Session currentSession = Session.getActiveSession();
+				                if (currentSession == null || currentSession.getState().isClosed()) {
+				                    Session session = new Session.Builder(getApplicationContext()).build();
+				                    Session.setActiveSession(session);
+				                    currentSession = session;
+				                }
+	
+				                if (currentSession.isOpened()) {
+				                    // Do whatever u want. User has logged in
+				                    Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
+				                    startActivity(i);
+				                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	
+				                } else if (!currentSession.isOpened()) {
+				                    // Ask for username and password
+				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
+	
+				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+				                    op.setCallback(null);
+	
+				                    List<String> permissions = new ArrayList<String>();
+				                    permissions.add("publish_stream");
+				                    permissions.add("user_likes");
+				                    permissions.add("email");
+				                    permissions.add("user_birthday");
+				                    op.setPermissions(permissions);
+	
+				                    Session session = new Builder(ImagePageSummaryActivity.this).build();
+				                    Session.setActiveSession(session);
+				                    session.openForPublish(op);
+				                }
+					        }
+							}else{
+								showPerkDialog();
+							}
+						}
+					});
+					dialog.show();
+				}
 			}
 		});
 		captureMoreImage.setOnClickListener(new OnClickListener() {
@@ -233,7 +246,20 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				captureImage();
+				if(total>=10){
+					new AlertDialog.Builder(ImagePageSummaryActivity.this)
+				    .setMessage("You have used all your credits")
+				    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				            // do nothing
+				        	dialog.dismiss();
+				        }
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				    .show();
+				}else{
+					captureImage();
+				}
 			}
 		});
 		goBack.setOnClickListener(new OnClickListener() {
