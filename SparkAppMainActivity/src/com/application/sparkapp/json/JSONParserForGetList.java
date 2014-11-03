@@ -146,14 +146,13 @@ public class JSONParserForGetList {
 	}
 	
 	public List<PerksDto> getListPerks(String acToken){
-		List<PerksDto> perksList =null;
+		List<PerksDto> perksList = new ArrayList<PerksDto>();;
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
 	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
 	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"perks");
 	    try{
 		    if(jsonArr!=null){
-		    	perksList = new ArrayList<PerksDto>();
 		    	for(int i=0;i<jsonArr.length();i++){
 		    		PerksDto perks = new PerksDto();
 		    		JSONObject json =jsonArr.getJSONObject(i);

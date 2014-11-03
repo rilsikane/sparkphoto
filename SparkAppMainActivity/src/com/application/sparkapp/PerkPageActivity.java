@@ -3,9 +3,13 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bouncycastle.asn1.x509.sigi.PersonalData;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import com.application.sparkapp.ImageListActivity.OnSelectImgListener;
+import com.application.sparkapp.ImageListActivity.TempListContentView;
 import com.application.sparkapp.ImageListActivity.ViewHolder;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.PerksDto;
@@ -182,6 +186,8 @@ public class PerkPageActivity extends Activity {
 				viewHolder.expire = (TextView) convertView.findViewById(R.id.textView2);
 				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
 				viewHolder.perImg = (ImageView) convertView.findViewById(R.id.imageView1);
+				viewHolder.gift = (ImageView) convertView.findViewById(R.id.imageView2);
+				
 				convertView.setTag(viewHolder);
 			}else{
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -192,24 +198,36 @@ public class PerkPageActivity extends Activity {
 			viewHolder.expire.setText(model.getTimeExpire());
 			viewHolder.sponsorName.setText(model.getBrandname());
 			Picasso.with(getApplicationContext()).load(model.getThumnailImages()).into(viewHolder.perImg);
-			
-			viewHolder.click.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent i = new Intent(PerkPageActivity.this,PerkDetailMainActivity.class);
-					startActivity(i);
-					finish();
-				}
-			});
-			
+			if(model.getUsed()){
+			Picasso.with(getApplicationContext()).load(R.drawable.gift_icon).into(viewHolder.gift);	
+			}else{
+			Picasso.with(getApplicationContext()).load(R.drawable.redeem_icon).into(viewHolder.gift);		
+			}
+			viewHolder.click.setOnClickListener(new OnSelectPerksListener(position,model));
 			return convertView;
 		}
 		public class ViewHolder{
 			public TextView perkName,expire,sponsorName;
-			public ImageView perImg;
+			public ImageView perImg,gift;
 			public RelativeLayout click;
+			
+		}
+		
+	}
+	public class OnSelectPerksListener implements OnClickListener{
+		private int _position;
+		private PerksDto dto;
+		public OnSelectPerksListener(int position,PerksDto dto){
+			this._position = position;
+			this.dto = dto;
+		}
+		
+		@Override
+		public void onClick(View v) {
+			Intent i = new Intent(PerkPageActivity.this,PerkDetailMainActivity.class);
+			i.putExtra("perksDto",dto);
+			startActivity(i);
+			finish();
 		}
 		
 	}
