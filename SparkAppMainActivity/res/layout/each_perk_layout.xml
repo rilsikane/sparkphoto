@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/perkClick"
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
+        android:layout_height="120dp" >
 
         <ImageView
             android:id="@+id/imageView1"
@@ -40,10 +40,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
+                android:includeFontPadding="false"
                 android:text="10% off on total bill"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/perkName"
                 android:layout_below="@+id/perkName"
-                android:layout_marginTop="5dp"
+                android:includeFontPadding="false"
                 android:text="Expire |"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
@@ -65,6 +66,7 @@
                 android:layout_alignBottom="@+id/textView1"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/textView1"
+                android:includeFontPadding="false"
                 android:text="30 Aug 2014"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff"
@@ -85,11 +87,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/view1"
                 android:layout_below="@+id/view1"
-                android:layout_marginTop="5dp"
+                android:includeFontPadding="false"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#ffffff"
-                android:textSize="16sp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/imageView2"
