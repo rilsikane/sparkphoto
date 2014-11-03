@@ -125,7 +125,6 @@
             android:layout_alignLeft="@+id/view1"
             android:layout_below="@+id/view1"
             android:layout_marginTop="5dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
             android:textColor="#ffffff"
             android:textSize="20sp" />
 
@@ -146,6 +145,15 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/check_selected" />
+
+        <ImageView
+            android:id="@+id/reedem"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignLeft="@+id/dueDate"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/noreedem" />
+
     </RelativeLayout>
 
 </RelativeLayout>
