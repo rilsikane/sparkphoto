@@ -16,13 +16,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.application.sparkapp.dto.PerksDto;
+import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 public class PerkDetailMainActivity extends Activity {
@@ -40,10 +44,26 @@ public class PerkDetailMainActivity extends Activity {
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.setting_page, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
 		ImageView sponserImage = (ImageView) findViewById(R.id.imageView3);
+		ImageView perksImage = (ImageView) findViewById(R.id.imageView2);
+		TextView perksName = (TextView) findViewById(R.id.perkName);
+		TextView dueDate = (TextView) findViewById(R.id.duedate);
+		TextView perk_detail = (TextView) findViewById(R.id.perk_detail);
+		ImageView reedem = (ImageView) findViewById(R.id.reedem);
+		 
+		
+		
+		PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
+		Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
+		perksName.setText(perksDto.getName());
+		dueDate.setText(perksDto.getTimeExpire());
+		perk_detail.setText(perksDto.getDescription());
+		if(!perksDto.getUsed()){
+			Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);
+		}
 		
 		URL url_value;
 		try {
-			url_value = new URL("http://a.u1sf.com/j/2427473/5d10613e669.jpg");
+			url_value = new URL(perksDto.getThumnailImages());
 			Bitmap mIcon1 = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
 			sponserImage.setImageBitmap(new CircleTransform().transform(mIcon1));
 		} catch (MalformedURLException e) {
