@@ -47,7 +47,7 @@ public class SignUpPageOneMainActivity extends Activity {
 	private AlertDialog levelDialog, occuDialog, serDialog;
 	private int occSel,servSel;
 	private boolean isValid;
-	private static CharSequence[] service_items = { "m1", "SingT", "StarH",
+	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
 	"MyRepublic" };
 	private static CharSequence[] occ_items = { "Administrative & Secretarial",
 			"Consultant ", "Events management", "Home-maker",

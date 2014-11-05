@@ -37,5 +37,21 @@
     <string name="cancel_confirmation_header">Cancel Confirmation</string>
     <string name="cancel_confirmation_desc">Do you want to cancel your order?</string>
     <string name="title_activity_perk_detail_main">PerkDetailMainActivity</string>
+    <string name="faq_no_1_header">1. How many photos can we print for free?</string>
+    <string name="faq_no_1_detail">Every SPARK member is given 10 credits to use each month and is entitled to print 10 free photos. Your credits will be renewed one month after the date they have been used.</string>
+    <string name="faq_no_2_header">2. Why are the photos free?</string>
+    <string name="faq_no_2_detail">No hidden costs, no strings attached. Your valued prints will be delivered to you absolutely free. This is possible thanks to our sponsors who support the cost of printing, and will use the back of each photo or envelope inserts, to advertise relevant promotions, discounts and even more freebies for you!</string>
+    <string name="faq_no_3_header">3. How long will my order take to arrive?</string>
+    <string name="faq_no_3_detail">Your order will be delivered by SingPost and should take about 7 working days from the date of confirmation to reach you. However, please understand we cannot warrant the efficiency and standards of SingPost. As such, some orders might take longer than others.</string>
+    <string name="faq_no_4_header">4. What if I don’t receive my prints?</string>
+    <string name="faq_no_4_detail">Please inform us if your prints have not reached you after 12 working days. Drop us an E-mail at orders@spark-asia.com and we will take it from there.</string>
+    <string name="faq_no_5_header">5. What will you do with my personal data?</string>
+    <string name="faq_no_5_detail">Your privacy is of utmost importance to us. We will never, ever disclose your information to any third party vendor and will take all reasonable measures to ensure your personal data is protected. Your particulars will be used by us, and only us, to match suitable promotions and discounts from our sponsors that you are likely to be interested in. We will endevour to streamline relevant information to each and every SPARK member!</string>
+    <string name="faq_no_6_header">6. What will you do with my photos?</string>
+    <string name="faq_no_6_detail">We do not and will not reserve the right to use your personal photos for marketing purposes. The photos you send to us are solely for processing purposes. Soon after your order is processed, we will destroy the soft copy to minimize exposure of your privacy. We will only keep it for so long as reasonably necessary in ensuring your order reaches you safely.</string>
+    <string name="faq_no_7_header">7. What is the size and quality of the photos?</string>
+    <string name="faq_no_7_detail">The photos are printed on traditional 4R gloss photo paper.</string>
+    <string name="faq_no_8_header">8. Can I print more than the number of credits given to me?</string>
+    <string name="faq_no_8_detail">There is currently no option to print more than the credits you are given each month. However, do keep peeled to your seats because we will be throwing in the occasional reward of additional credits and allow you to print more photos in that month.</string>
 
 </resources>
