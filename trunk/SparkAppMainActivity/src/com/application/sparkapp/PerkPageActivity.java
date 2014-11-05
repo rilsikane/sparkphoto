@@ -3,31 +3,17 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bouncycastle.asn1.x509.sigi.PersonalData;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import com.application.sparkapp.ImageListActivity.OnSelectImgListener;
-import com.application.sparkapp.ImageListActivity.TempListContentView;
-import com.application.sparkapp.ImageListActivity.ViewHolder;
-import com.application.sparkapp.dto.CommonDto;
-import com.application.sparkapp.dto.PerksDto;
-import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
-import com.roscopeco.ormdroid.Entity;
-import com.squareup.picasso.Picasso;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +25,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.application.sparkapp.dto.PerksDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
+import com.squareup.picasso.Picasso;
 
 public class PerkPageActivity extends Activity {
 	private Utils utils;
@@ -183,6 +175,8 @@ public class PerkPageActivity extends Activity {
 				convertView = inflater.inflate(R.layout.each_perk_layout, null);
 				viewHolder.click = (RelativeLayout) convertView.findViewById(R.id.perkClick);
 				viewHolder.perkName = (TextView) convertView.findViewById(R.id.perkName);
+				Typeface face = Typeface.createFromAsset(getAssets(),"fonts/ThaiSansNeue-Bold.ttf");
+				viewHolder.perkName.setTypeface(face);
 				viewHolder.expire = (TextView) convertView.findViewById(R.id.textView2);
 				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
 				viewHolder.perImg = (ImageView) convertView.findViewById(R.id.imageView1);
