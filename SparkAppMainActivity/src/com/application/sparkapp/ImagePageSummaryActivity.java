@@ -3,6 +3,8 @@ package com.application.sparkapp;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -115,7 +117,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(total>=10){
+				if(picCt>=total){
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setMessage("You have used all your credits")
 				    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -246,7 +248,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(total>=10){
+				if(picCt>=total){
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setMessage("You have used all your credits")
 				    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -326,7 +328,8 @@ public class ImagePageSummaryActivity extends Activity {
 				picCount.setText(picCt+"");
 			}
 			
-		}				
+		}
+		 Collections.reverse(tempList);
 		LoadListAdapter adapter = new LoadListAdapter(tempList);
 		summaryList.setAdapter(adapter);
 
@@ -503,7 +506,7 @@ public class ImagePageSummaryActivity extends Activity {
 			    .setMessage("You have used all your credits")
 			    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
+			        	
 			        	dialog.dismiss();
 			        }
 			     })
@@ -511,7 +514,7 @@ public class ImagePageSummaryActivity extends Activity {
 			    .show();
 			}
 			newRes = temp.getAmt();
-			if(newRes<10 && picCt<total){
+			if(newRes<total && picCt<total){
 				newRes++;
 				picCt++;
 				val.setText(""+(newRes));
@@ -533,12 +536,18 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if(val.getText().toString().equals("0")){
+				if(val.getText().toString().equals("1")){
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setTitle("Delete Confirmation")
 				    .setMessage("Do you want to delete this item?")
 				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) { 
+				        public void onClick(DialogInterface dialog, int which) {
+				        	tempList.remove(temp);
+				        	LoadListAdapter adapter = new LoadListAdapter(tempList);
+				    		summaryList.setAdapter(adapter);
+				    		summaryList.invalidateViews();
+				    		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(temp.getTempImage().id).execute();
+				    		tempImage.delete();
 				    		dialog.dismiss();
 				        }
 				     })

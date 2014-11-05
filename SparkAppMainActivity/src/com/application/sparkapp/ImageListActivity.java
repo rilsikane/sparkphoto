@@ -2,6 +2,7 @@ package com.application.sparkapp;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -317,6 +318,7 @@ public class ImageListActivity extends Activity {
 	            
 	            String parent = data.substring(0,data.lastIndexOf('/'));
 	            ArrayList<String> imgList = findImgChild(parent);
+	            Collections.reverse(imgList);
 	            temp.setImgList(imgList);
 	            temp.setNumberOfImage(imgList.size());
 	            tempList.add(temp);
