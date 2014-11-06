@@ -7,7 +7,9 @@ import java.net.URL;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,11 +23,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.application.sparkapp.dto.PerksDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -52,7 +60,7 @@ public class PerkDetailMainActivity extends Activity {
 		 
 		
 		
-		PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
+		final PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
 		Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
 		perksName.setText(perksDto.getName());
 		dueDate.setText(perksDto.getTimeExpire());
@@ -85,6 +93,67 @@ public class PerkDetailMainActivity extends Activity {
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
+			}
+		});
+		reedem.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final EditText input = new EditText(PerkDetailMainActivity.this);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+				input.setLayoutParams(lp);
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(
+						PerkDetailMainActivity.this);
+				builder1.setMessage("Put your reedeem code");
+				builder1.setCancelable(true);
+				builder1.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int id) {
+							String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
+							final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode(input.getText().toString(), perksDto.getId(), acCode);
+								if(dto!=null){
+									AlertDialog.Builder builder1 = new AlertDialog.Builder(
+											PerkDetailMainActivity.this);
+									builder1.setMessage("Code is redeemed sucessfully. Please enjoy your extra print.");
+									builder1.setCancelable(true);
+									builder1.setPositiveButton("Ok",
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog,
+														int id) {
+													UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+													user = user.convertDtoToVo(dto);
+													 user.id = 1;
+													 user.save();
+													dialog.cancel();
+												}
+											});
+									AlertDialog alert11 = builder1.create();
+									alert11.show();
+								}else{
+									AlertDialog.Builder builder1 = new AlertDialog.Builder(
+											PerkDetailMainActivity.this);
+									builder1.setMessage("Code is invaild. Please enter a vaild code.");
+									builder1.setCancelable(true);
+									builder1.setPositiveButton("Ok",
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog,
+														int id) {
+													dialog.cancel();
+												}
+											});
+									AlertDialog alert11 = builder1.create();
+									alert11.show();
+								}
+							}
+						});
+				
+				AlertDialog alert11 = builder1.create();
+				alert11.setView(input);
+				alert11.show();
 			}
 		});
 	}
