@@ -165,7 +165,39 @@ public class JSONParserForGetList {
 		}
 		return perksList;
 	}
-	
+	public UserDto ReedeemCode(String code,String id_perk,String acCode){
+		
+		UserDto user = null;
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "requestPerks"));
+         nameValuePairs.add(new BasicNameValuePair("ac", acCode));
+         nameValuePairs.add(new BasicNameValuePair("id_perk", id_perk));
+         nameValuePairs.add(new BasicNameValuePair("code", code));
+         
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+         
+         if(!json.isNull("success")){
+        	
+			  nameValuePairs = new ArrayList<NameValuePair>(2);
+		      nameValuePairs.add(new BasicNameValuePair("method", "userStatus"));
+		      nameValuePairs.add(new BasicNameValuePair("ac", acCode));
+		      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+		      
+		      if(!jsUser.isNull("user")){
+		    	 
+		    	  user = (UserDto) getDataMappingToObject(jsUser, UserDto.class, "user");
+		    	  user.setAccess_token(acCode);
+		      }
+		      
+			  
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return user;
+	}
 	
 
 	public static <T> Object getDataMappingToObject(JSONObject jsonData, Class<T> objClass) {
