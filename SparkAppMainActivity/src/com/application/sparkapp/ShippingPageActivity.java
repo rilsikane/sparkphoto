@@ -71,15 +71,12 @@ public class ShippingPageActivity extends Activity {
 									service.setText(items[0]);
 									break;
 								case 1:
-									// Your code when 2nd option seletced
 									service.setText(items[1]);
 									break;
 								case 2:
-									// Your code when 2nd option seletced
 									service.setText(items[2]);
 									break;
 								case 3:
-									// Your code when 2nd option seletced
 									service.setText(items[3]);
 									break;
 								}
