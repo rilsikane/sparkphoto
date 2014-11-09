@@ -305,6 +305,17 @@ public class ImagePageSummaryActivity extends Activity {
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();
+				}else{
+					new AlertDialog.Builder(ImagePageSummaryActivity.this)
+				    .setTitle("You aren’t done yet! ")
+				    .setMessage("Please select more images to print!")
+				    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) {				        	
+				    		dialog.dismiss();
+				        }
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				    .show();
 				}
 			}
 		});
@@ -562,13 +573,15 @@ public class ImagePageSummaryActivity extends Activity {
 				}
 				
 				newRes = temp.getAmt();
-				if(newRes>0){
+				if(newRes>0&&newRes!=1){
 					newRes--;
 					picCt--;
 					val.setText(""+(newRes));
 					temp.getTempImage().amt = newRes+"";
 					temp.getTempImage().save();
 					temp.setAmt(newRes);
+				}else{
+					val.setText(""+(newRes));
 				}
 				
 				picCount.setText(picCt+"");

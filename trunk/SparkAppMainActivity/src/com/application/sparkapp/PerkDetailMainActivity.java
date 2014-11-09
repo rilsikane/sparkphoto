@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class PerkDetailMainActivity extends Activity {
 		TextView perksName = (TextView) findViewById(R.id.perkName);
 		TextView dueDate = (TextView) findViewById(R.id.duedate);
 		TextView perk_detail = (TextView) findViewById(R.id.perk_detail);
-		ImageView reedem = (ImageView) findViewById(R.id.reedem);
+		RelativeLayout reedem = (RelativeLayout) findViewById(R.id.reedem);
 		 
 		
 		
@@ -66,7 +67,10 @@ public class PerkDetailMainActivity extends Activity {
 		dueDate.setText(perksDto.getTimeExpire());
 		perk_detail.setText(perksDto.getDescription());
 		if(!perksDto.getUsed()){
-			Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);
+			//reedem.setBackgroundColor(Color.BLACK);
+			reedem.setVisibility(View.GONE);
+//			Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);
+			
 		}
 		
 		URL url_value;
