@@ -129,6 +129,7 @@
             android:textSize="20sp" />
 
         <RelativeLayout
+            android:id="@+id/reedem"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
@@ -146,13 +147,13 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/check_selected" />
 
-        <ImageView
-            android:id="@+id/reedem"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_alignLeft="@+id/dueDate"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/noreedem" />
+<!--         <ImageView -->
+<!--             android:id="@+id/reedem" -->
+<!--             android:layout_width="90dp" -->
+<!--             android:layout_height="90dp" -->
+<!--             android:layout_alignLeft="@+id/dueDate" -->
+<!--             android:layout_alignParentBottom="true" -->
+<!--             android:src="@drawable/noreedem" /> -->
 
     </RelativeLayout>
 
