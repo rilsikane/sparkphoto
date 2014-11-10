@@ -170,7 +170,7 @@ public class DateUtil {
 		format.setCalendar(new GregorianCalendar(enLocale));
 		Date rtnDate = null;
 		try {
-			format.applyPattern(SIMPLE_DATE_PATTERN);
+			format.applyPattern(DEFAULT_DATE_PATTERN);
 			rtnDate = format.parse(stringDate);
 		} catch (ParseException pe1) {
 			try {

@@ -1,9 +1,13 @@
 package com.application.sparkapp;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +24,17 @@ import org.json.JSONObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -34,7 +44,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.model.Login;
+import com.application.sparkapp.EmailLoginActivity.InitAndLoadData;
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.roscopeco.ormdroid.Entity;
@@ -49,6 +62,7 @@ public class ShippingAddressActivity extends Activity {
 	List<TempImage> imgList;
 	int progress = 0;
 	private UserVO user;
+	private List<String> fileList = new ArrayList<String>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,47 +110,14 @@ public class ShippingAddressActivity extends Activity {
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						dialog.dismiss();
+						
 					}
 				});
-				
-				final Runnable r = new Runnable() {
-					public void run() {
-						running = true;
-						while(progress<361) {
-							pw_two.incrementProgress();
-							pw_two.setText((progress*100)/360+"%");
-							progress++;
-							try {
-								uploadFile(imgList.get(0).path);
-								Thread.sleep(15);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						running = false;
-						dialog.dismiss();
-						List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
-			    		if(tmpList!=null && tmpList.size()>0){
-			    			for(TempImage t : tmpList){
-			    				t.delete();
-			    			}
-			    		}
-						Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
-						startActivity(i);
-						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-						finish();
-					}
-		        };
-				
-		        if(!running) {
-					progress = 0;
-					pw_two.resetCount();
-					Thread s = new Thread(r);
-					s.start();
+				for(int i=0;i<imgList.size();i++){
+					new UploadImage(imgList.get(i),dialog).execute();
 				}
-		        
-				dialog.show();
+				
+				
 			}
 		});
 		goToPreviousPage.setOnClickListener(new OnClickListener() {
@@ -162,7 +143,8 @@ public class ShippingAddressActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
-	public boolean uploadFile(String imgPath){
+	public String uploadFile(String imgPath){
+		String image = null;
 		InputStream is = null;
 		String result = "";
 		JSONObject jObject = null;
@@ -189,9 +171,66 @@ public class ShippingAddressActivity extends Activity {
 		is.close();
 		result = sb.toString();
 		jObject = new JSONObject(result);
+		image = jObject.getString("filename");
 		}catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		return false;
+		return image;
 	}
+	public class UploadImage extends AsyncTask<String, Void, List<String>> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		TempImage tempImage;
+		Dialog dialog;
+		public UploadImage(TempImage tempImage,Dialog dialog){
+			this.tempImage = tempImage;
+			this.dialog = dialog;
+		}
+    	@Override
+    	protected void onPreExecute() {
+    		mProgressHUD = ProgressHUD.show(ShippingAddressActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected List<String> doInBackground(String... params) {
+			// TODO Auto-generated method stub			
+			
+			String filename = uploadFile(tempImage.path);
+			filename+="=*="+tempImage.amt;
+			fileList.add(filename);
+			return fileList;
+		}
+		
+		@Override
+		protected void onPostExecute(List<String> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				running = false;
+				dialog.dismiss(); 
+				if(fileList!=null && fileList.size()==imgList.size()){
+					CommonDto commonDto = JSONParserForGetList.getInstance().SubmitOrder(user,fileList);
+		    		if(commonDto.isFlag()){
+		    			List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
+			    		if(tmpList!=null && tmpList.size()>0){
+			    			for(TempImage t : tmpList){
+			    				t.delete();
+			    			}
+			    		}
+						Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
+						startActivity(i);
+						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						finish();
+		    		}
+				}
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
+
 }
