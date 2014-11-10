@@ -74,8 +74,8 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
          nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
-         nameValuePairs.add(new BasicNameValuePair("gender", "1"));
-         nameValuePairs.add(new BasicNameValuePair("birthday", DateUtil.toStringEngDateBySimpleFormat(new Date(), DateUtil.DEFAULT_DATE_PATTERN)));
+         nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
+         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
          nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
          nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
          nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
@@ -90,6 +90,48 @@ public class JSONParserForGetList {
          }
          
          JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
+         
+         if(!json.isNull("success")){
+        	 commonDto.setFlag(true);
+        	 commonDto.setToken(json.getString("app_access_token"));
+         }else{
+        	 commonDto.setFlag(false);
+        	 commonDto.setMsg(json.getString("message"));
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
+	}
+	public CommonDto SubmitOrder(UserVO userDto,List<String>images){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "submitOrder"));
+         nameValuePairs.add(new BasicNameValuePair("email", userDto.email));
+         nameValuePairs.add(new BasicNameValuePair("firstname", userDto.firstname));
+         nameValuePairs.add(new BasicNameValuePair("lastname", userDto.lastname));
+         nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.nric_fin));
+         nameValuePairs.add(new BasicNameValuePair("gender", userDto.gender));
+         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.birthday));
+         nameValuePairs.add(new BasicNameValuePair("phone", userDto.phone));
+         nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.phone_service));
+         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.address_block));
+         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.address_street_name));
+         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.address_unit_number));
+         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.address_postal));
+         nameValuePairs.add(new BasicNameValuePair("ac", userDto.ac_token));
+         StringBuilder sb = new StringBuilder();
+         for(int i=0;i<images.size();i++){
+        	 sb.append(images.get(i));
+        	 if(i<(images.size()-1)){
+             sb.append(",");	 
+        	 }
+         }
+         nameValuePairs.add(new BasicNameValuePair("images[]", sb.toString()));
+         
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
          
          if(!json.isNull("success")){
         	 commonDto.setFlag(true);

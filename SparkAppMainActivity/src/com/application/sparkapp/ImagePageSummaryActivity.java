@@ -18,10 +18,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -40,6 +42,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.Login;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
@@ -553,6 +557,7 @@ public class ImagePageSummaryActivity extends Activity {
 				    .setMessage("Do you want to delete this item?")
 				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int which) {
+				        	picCt--;
 				        	tempList.remove(temp);
 				        	LoadListAdapter adapter = new LoadListAdapter(tempList);
 				    		summaryList.setAdapter(adapter);
@@ -718,4 +723,5 @@ public class ImagePageSummaryActivity extends Activity {
 		});
 		perkDialog.show();
 	}
+	
 }
