@@ -83,14 +83,13 @@ public class ShippingAddressActivity extends Activity {
 		address_unit_number = (EditText) findViewById(R.id.editText7);
 		address_postal = (EditText) findViewById(R.id.editText8);
         
-		user = Entity.query(UserVO.class).execute();
+		user = Entity.query(UserVO.class).where("id").eq(1).execute();
 		if(user!=null){
 			address_block.setText(user.address_block);
 			address_street_name.setText(user.address_street_name);
 			address_unit_number.setText(user.address_unit_number);
 			address_postal.setText(user.address_postal);
 			imgList = Entity.query(TempImage.class).where("ac_token").eq(user.ac_token).executeMulti();
-			
 		}
 		
 		confirmBtn.setOnClickListener(new OnClickListener() {
@@ -113,9 +112,8 @@ public class ShippingAddressActivity extends Activity {
 						
 					}
 				});
-				for(int i=0;i<imgList.size();i++){
-					new UploadImage(imgList.get(i),dialog).execute();
-				}
+				new UploadImage(dialog).execute();
+				
 				
 				
 			}
@@ -179,10 +177,8 @@ public class ShippingAddressActivity extends Activity {
 	}
 	public class UploadImage extends AsyncTask<String, Void, List<String>> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
-		TempImage tempImage;
 		Dialog dialog;
-		public UploadImage(TempImage tempImage,Dialog dialog){
-			this.tempImage = tempImage;
+		public UploadImage(Dialog dialog){
 			this.dialog = dialog;
 		}
     	@Override
@@ -193,10 +189,11 @@ public class ShippingAddressActivity extends Activity {
 		@Override
 		protected List<String> doInBackground(String... params) {
 			// TODO Auto-generated method stub			
-			
-			String filename = uploadFile(tempImage.path);
-			filename+="=*="+tempImage.amt;
-			fileList.add(filename);
+			for(int i=0;i<imgList.size();i++){
+				String filename = uploadFile(imgList.get(i).path);
+				filename+="=*="+imgList.get(i).amt;
+				fileList.add(filename);
+			}
 			return fileList;
 		}
 		
@@ -207,6 +204,7 @@ public class ShippingAddressActivity extends Activity {
 				running = false;
 				dialog.dismiss(); 
 				if(fileList!=null && fileList.size()==imgList.size()){
+					mProgressHUD.dismiss();
 					CommonDto commonDto = JSONParserForGetList.getInstance().SubmitOrder(user,fileList);
 		    		if(commonDto.isFlag()){
 		    			List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
@@ -215,10 +213,26 @@ public class ShippingAddressActivity extends Activity {
 			    				t.delete();
 			    			}
 			    		}
-						Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
-						startActivity(i);
-						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-						finish();
+			    		AlertDialog.Builder builder1 = new AlertDialog.Builder(ShippingAddressActivity.this);
+			            builder1.setMessage("Submit complete.");
+			            builder1.setCancelable(true);
+			            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                    dialog.cancel();
+			                    UserDto userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+			                    UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			                    user = user.convertDtoToVo(userDto);
+			                    user.id = 1;
+								user.save();
+			                    Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
+								startActivity(i);
+								overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+								finish();
+			                }
+			            });
+			            AlertDialog alert11 = builder1.create();
+			            alert11.show();
+						
 		    		}
 				}
 			}

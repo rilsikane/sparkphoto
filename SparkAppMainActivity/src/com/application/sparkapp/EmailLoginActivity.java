@@ -52,8 +52,8 @@ public class EmailLoginActivity extends Activity {
         email = (EditText) findViewById(R.id.editText3);
         password = (EditText) findViewById(R.id.editText4);
         
-        email.setText("test@gmail.com");
-        password.setText("123456");
+//        email.setText("test@gmail.com");
+//        password.setText("123456");
 		utils = new Utils(getApplicationContext(), this);
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
         BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, screenWidth, screenHeight));
@@ -124,7 +124,7 @@ public class EmailLoginActivity extends Activity {
 					}
 			} else {
 				final AlertDialog.Builder builder1 = new AlertDialog.Builder(EmailLoginActivity.this);
-	            builder1.setMessage("Email and Password are not correctly");
+	            builder1.setMessage("Oops! Your email and password don’t match. Please try again");
 	            builder1.setCancelable(true);
 	            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int id) {

@@ -66,7 +66,7 @@ public class PerkDetailMainActivity extends Activity {
 		perksName.setText(perksDto.getName());
 		dueDate.setText(perksDto.getTimeExpire());
 		perk_detail.setText(perksDto.getDescription());
-		if(!perksDto.getUsed()){
+		if(perksDto.getUsed()){
 			//reedem.setBackgroundColor(Color.BLACK);
 			reedem.setVisibility(View.GONE);
 //			Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);

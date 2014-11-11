@@ -64,7 +64,7 @@ public class UserVO extends Entity{
 	}
 	
 	public UserVO convertDtoToVo(UserDto dto){
-		UserVO vo = new UserVO();
+		UserVO vo = this;
 		vo.email = dto.getEmail();
 		vo.password = dto.getPassword();
 		vo.firstname = dto.getFirstname();

@@ -27,6 +27,8 @@ public class ShippingPageActivity extends Activity {
 	private TextView goToNextPage;
 	private EditText email,firstname,lastname,nric,password,cfPassword,phoneno,service,occuption,dob,gender;
 	private AlertDialog levelDialog, occuDialog,serDialog;
+	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
+	"MyRepublic" };
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,25 +61,25 @@ public class ShippingPageActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final CharSequence[] items = { "m1", "SingT","StarH","MyRepublic"};
+				
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(ShippingPageActivity.this);
 				builder.setTitle("Select Services");
-				builder.setSingleChoiceItems(items, -1,
+				builder.setSingleChoiceItems(service_items, -1,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									service.setText(items[0]);
+									service.setText(service_items[0]);
 									break;
 								case 1:
-									service.setText(items[1]);
+									service.setText(service_items[1]);
 									break;
 								case 2:
-									service.setText(items[2]);
+									service.setText(service_items[2]);
 									break;
 								case 3:
-									service.setText(items[3]);
+									service.setText(service_items[3]);
 									break;
 								}
 								serDialog.dismiss();
@@ -140,13 +142,15 @@ public class ShippingPageActivity extends Activity {
 		});
 		UserVO user = Entity.query(UserVO.class).execute();
 		if(user!=null){
+			int selService = user.phone_service!=null ? Integer.parseInt(user.phone_service) : 0;
 			firstname.setText(user.firstname);
 			lastname.setText(user.lastname);
 			nric.setText(user.nric_fin);
 			email.setText(user.email);
 			phoneno.setText(user.phone);
-			service.setText(user.phone_service);
+			service.setText(service_items[selService]);
 			dob.setText(user.birthday);
+			gender.setText("0".equals(user.gender)?"Male":"Female");
 		}
 	}
 	@Override

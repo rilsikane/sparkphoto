@@ -54,7 +54,7 @@ public class PerkPageActivity extends Activity {
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		final ImageView premim = (ImageView) findViewById(R.id.imageView2);
 		final ImageView regular = (ImageView) findViewById(R.id.imageView3);
-		new InitAndLoadData().execute("1");
+		new InitAndLoadData().execute("2");
 		premim.setOnClickListener(new OnClickListener() {
 					
 			@Override
@@ -64,7 +64,7 @@ public class PerkPageActivity extends Activity {
 //				perkList.setAdapter(adapter);
 				premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_selected));
 				regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_default));
-				new InitAndLoadData().execute("1");
+				new InitAndLoadData().execute("2");
 			}
 		});
 		regular.setOnClickListener(new OnClickListener() {
@@ -76,7 +76,7 @@ public class PerkPageActivity extends Activity {
 //				perkList.setAdapter(adapter);
 				regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_selected));
 				premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_default));
-				new InitAndLoadData().execute("2");
+				new InitAndLoadData().execute("1");
 			}
 		});
 		goBack.setOnClickListener(new OnClickListener() {
