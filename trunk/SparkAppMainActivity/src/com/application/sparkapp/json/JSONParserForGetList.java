@@ -121,14 +121,10 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.address_unit_number));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.address_postal));
          nameValuePairs.add(new BasicNameValuePair("ac", userDto.ac_token));
-         StringBuilder sb = new StringBuilder();
          for(int i=0;i<images.size();i++){
-        	 sb.append(images.get(i));
-        	 if(i<(images.size()-1)){
-             sb.append(",");	 
-        	 }
+        	 nameValuePairs.add(new BasicNameValuePair("images[]", images.get(i)));
          }
-         nameValuePairs.add(new BasicNameValuePair("images[]", sb.toString()));
+         
          
          
          JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
@@ -239,6 +235,30 @@ public class JSONParserForGetList {
 			e.printStackTrace();
 		}
          return user;
+	}
+	public UserDto getUserStatus(String acCode){
+		UserDto user = null;
+		try{
+			 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				  nameValuePairs = new ArrayList<NameValuePair>(2);
+			      nameValuePairs.add(new BasicNameValuePair("method", "userStatus"));
+			      nameValuePairs.add(new BasicNameValuePair("ac", acCode));
+			      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+			      
+			      if(!jsUser.isNull("user")){
+			    	 
+			    	  user = (UserDto) getDataMappingToObject(jsUser, UserDto.class, "user");
+			    	  user.setAccess_token(acCode);
+			      }
+			      
+				  
+	         
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return user;
+		
 	}
 	
 

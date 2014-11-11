@@ -93,7 +93,7 @@ public class ImagePageSummaryActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_page_summary);
 		System.gc();
-		UserVO user = Entity.query(UserVO.class).execute();
+		UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 		if(user!=null){
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 		}
@@ -110,7 +110,7 @@ public class ImagePageSummaryActivity extends Activity {
 		
 		picCount = (TextView) findViewById(R.id.textView4);
 		picTotal = (TextView) findViewById(R.id.totalAmountImage);
-		user = Entity.query(UserVO.class).execute();
+		user = Entity.query(UserVO.class).where("id").eq(1).execute();
 		total = Integer.parseInt(user.numberPictureCanUpload);
 		picTotal.setText("/"+total);
 		ImageView captureMoreImage = (ImageView) findViewById(R.id.imageView2);
