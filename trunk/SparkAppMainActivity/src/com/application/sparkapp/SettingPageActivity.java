@@ -104,8 +104,9 @@ public class SettingPageActivity extends Activity {
 		List<String> tempMenuList = new ArrayList<String>();
 		public MenuListAdapter(){
 				tempMenuList.add("Profile");
-				tempMenuList.add("Link with Facebook");
-				tempMenuList.add("Link with Dropbox");
+				tempMenuList.add("Address");
+//				tempMenuList.add("Link with Facebook");
+//				tempMenuList.add("Link with Dropbox");
 				tempMenuList.add("Terms of use");
 				tempMenuList.add("About us");
 				tempMenuList.add("FAQ");
@@ -133,7 +134,7 @@ public class SettingPageActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup arg2) {
 			// TODO Auto-generated method stub
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			if(position==0||position==3||position==4||position==5||position==6){
+			if(position==0||position==3||position==4||position==5||position==1||position==2){
 				convertView = inflater.inflate(R.layout.each_setting_one, null);
 				ImageView logoIc = (ImageView) convertView.findViewById(R.id.imageView1);
 				TextView menuName = (TextView) convertView.findViewById(R.id.textView1);
@@ -143,36 +144,22 @@ public class SettingPageActivity extends Activity {
 				if(position==0){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.profile_icon));
 				}
-				if(position==3){
+				if(position==1){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.street_icon));
+				}
+				if(position==2){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.term_ic));
 				}
-				if(position==4){
+				if(position==3){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.aboutus_ic));
 				}
-				if(position==5){
+				if(position==4){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.faq_ic));
 				}
-				if(position==6){
+				if(position==5){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.contactus_ic));
 				}
 				
-			}else{
-				convertView = inflater.inflate(R.layout.each_setting_two, null);
-				TextView menuName = (TextView) convertView.findViewById(R.id.textView1);
-				ImageView logoIc = (ImageView) convertView.findViewById(R.id.imageView1);
-				ImageView check = (ImageView) convertView.findViewById(R.id.imageView2);
-				menuName.setText(tempMenuList.get(position));
-				if(position==1){
-					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.facebookic));
-					if(Session.getActiveSession()==null){
-						check.setImageDrawable(getResources().getDrawable(R.drawable.check_default));
-					}else{
-						check.setImageDrawable(getResources().getDrawable(R.drawable.check_selected));
-					}
-				}
-				if(position==2){
-					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.dropboxic));
-				}
 			}
 			return convertView;
 		}
@@ -186,19 +173,37 @@ public class SettingPageActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			if(position==4){
+			//Link to profile page
+			if(position==0){
+				Intent i = new Intent(SettingPageActivity.this, ProfilePageActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+			//Link to address page
+			if(position==1){
+				
+			}
+			//Link to term of use page
+			if(position==2){
+				
+			}
+			//Link to about page
+			if(position==3){
 				Intent i = new Intent(SettingPageActivity.this, AboutUsActivity.class);				 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
 			}
-			if(position==5){
+			//Link to faq page
+			if(position==4){
 				Intent i = new Intent(SettingPageActivity.this, FaqActivity.class);				 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
 			}
-			if(position==6){
+			//Link to contact us page
+			if(position==5){
 				Intent i = new Intent(SettingPageActivity.this, ContactUsActivity.class);				 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
