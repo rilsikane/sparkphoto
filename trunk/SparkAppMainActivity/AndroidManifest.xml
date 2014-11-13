@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.application.sparkapp"
     android:largeHeap="true"
-    android:versionCode="2"
-    android:versionName="1.0.2" >
+    android:versionCode="3"
+    android:versionName="1.0.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -182,6 +182,16 @@
         <activity
             android:name="com.application.sparkapp.PerkDetailMainActivity"
             android:label="@string/title_activity_perk_detail_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.ProfilePageActivity"
+            android:label="@string/title_activity_profile_page"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.application.sparkapp.ChangePassActivity"
+            android:label="@string/title_activity_change_pass"
             android:screenOrientation="portrait" >
         </activity>
     </application>
