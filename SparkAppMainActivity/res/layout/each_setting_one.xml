@@ -15,7 +15,7 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/block_house_icon" />
 
         <TextView
