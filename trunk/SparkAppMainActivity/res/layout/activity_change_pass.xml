@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/left_arrow" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="PASSWORD"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="Confirm"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical" >
+
+            <View
+                android:id="@+id/textView4"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#007a3e0a" />
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/password_icon"
+                android:ems="10"
+                android:hint="Current Password"
+                android:inputType="textCapCharacters"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignLeft="@+id/editText3"
+                android:layout_below="@+id/editText3"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/png_icon"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="Email address"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editText5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignRight="@+id/editText4"
+                android:layout_below="@+id/editText4"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/password_icon"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="New password"
+                android:inputType="textCapCharacters"
+                android:password="true"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="20sp" >
+            </EditText>
+
+            <View
+                android:id="@+id/View01"
+                android:layout_width="2dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText4"
+                android:background="#007a3e0a" />
+
+            <EditText
+                android:id="@+id/editText7"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignLeft="@+id/editText5"
+                android:layout_below="@+id/editText5"
+                android:layout_marginTop="2dp"
+                android:background="#30ffffff"
+                android:drawableLeft="@drawable/password_icon"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Confirm Password"
+                android:inputType="textCapCharacters"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

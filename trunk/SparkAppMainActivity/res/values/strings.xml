@@ -53,5 +53,7 @@
     <string name="faq_no_7_detail">The photos are printed on traditional 4R gloss photo paper.</string>
     <string name="faq_no_8_header">8. Can I print more than the number of credits given to me?</string>
     <string name="faq_no_8_detail">There is currently no option to print more than the credits you are given each month. However, do keep peeled to your seats because we will be throwing in the occasional reward of additional credits and allow you to print more photos in that month.</string>
+    <string name="title_activity_profile_page">ProfilePageActivity</string>
+    <string name="title_activity_change_pass">ChangePassActivity</string>
 
 </resources>
