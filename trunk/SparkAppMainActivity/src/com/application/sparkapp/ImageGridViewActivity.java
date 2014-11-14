@@ -60,7 +60,7 @@ public class ImageGridViewActivity extends Activity {
 		InitilizeGridLayout();		
 		ArrayList<String> tempList = imgList;
 		
-		adapter = new GridViewImageAdapter(this, tempList,columnWidth);
+		adapter = new GridViewImageAdapter(this, tempList,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
 		gridView.setAdapter(adapter);
 	}
 

@@ -11,12 +11,14 @@ import org.json.JSONObject;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Log;
@@ -38,6 +40,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.squareup.picasso.Picasso;
 
+@SuppressLint("NewApi")
 public class ImageListActivity extends Activity {
 
 	private TempListContentView temp;
@@ -52,6 +55,9 @@ public class ImageListActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_list);
 		System.gc();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
 		lv = (ListView) findViewById(R.id.listView1);
 		backToPrevious.setOnClickListener(new OnClickListener() {
@@ -83,17 +89,38 @@ public class ImageListActivity extends Activity {
 								
 			                    JSONObject item = albumArr.getJSONObject(i);
 			            		if(checkEmptyCount(item)){
-			            			Log.d("facebook.user.cover.photo", item.getString("cover_photo"));
 				            		temp = new TempListContentView();
 				                    temp.setAlbumsName(item.getString("name"));
-				        	        new Request(Session.getActiveSession(),item.getString("cover_photo")+"/",null,HttpMethod.GET,new Request.Callback() {
-				        	        	public void onCompleted(Response response) {
-				        	        	        	JSONArray photoCover ;
+				                    if(!item.isNull("count")){
+ 				        	        	temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
+ 				        	        }
+				        	        new Request(Session.getActiveSession(),item.getString("id")+"/photos",null,HttpMethod.GET,new Request.Callback() {
+				        	        	public void onCompleted(Response resp) {
+				        	        	        	JSONArray imgArr ;
+				        	        	        	JSONArray dataArr;
 				        	        	        	try {
-														photoCover = response.getGraphObject().getInnerJSONObject().getJSONArray("images");
-														JSONObject item = photoCover.getJSONObject(0);
-														Log.d("facebook.user.cover.photo.img", item.getString("source"));
-														temp.setImgPathUrl(item.getString("source"));
+				        	        	        		dataArr = resp.getGraphObject().getInnerJSONObject().getJSONArray("data");
+				        	        	        		if(dataArr!=null){
+				        	        	        			temp.setImgPathUrl(dataArr.getJSONObject(0).getJSONArray("images").getJSONObject(dataArr.getJSONObject(0).getJSONArray("images").length()-1).getString("source"));
+				        	        	        			ArrayList<String> imgList = new ArrayList<String>();
+				        	        	        			for (int i = 0; i < dataArr.length(); i++) {
+				        	        	        				imgArr = dataArr.getJSONObject(i).getJSONArray("images");
+				        	        	        				if(imgArr!=null){
+								        	        	        		
+								        	        	        		imgList.add((imgArr.getJSONObject(0).getString("source")));
+							        	        	        			
+							        	        	        	}
+							        	        	        		
+				        	        	        			}
+				        	        	        			temp.setImgList(imgList);
+					        	        	        		temp.setType("facebook");
+					     				                    listContent.add(temp);
+	//				        	        	        			JSONObject item = imgArr.getJSONObject(i);
+	//				        	        	        			
+	//				        	        	        	
+					        	        	        		
+				        	        	        		}
+				     				                  
 													} catch (JSONException e) {
 														// TODO Auto-generated catch block
 														e.printStackTrace();
@@ -101,13 +128,11 @@ public class ImageListActivity extends Activity {
 				        	        	        	
 				        	        	        }
 				        	        	    }
-				        	        ).executeAsync();	                    
-				                    temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
-				            		listContent.add(temp);
+				        	        ).executeAndWait();
+				        	       
 			            		}
 			                }
-							LoadListAdapter adapter = new LoadListAdapter(listContent);
-							lv.setAdapter(adapter);
+							  
 							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -115,7 +140,9 @@ public class ImageListActivity extends Activity {
 						}
 
 	        	    }
-	        	}).executeAsync();
+	        	}).executeAndWait();
+			LoadListAdapter adapter = new LoadListAdapter(listContent);
+			lv.setAdapter(adapter);
 		}
 		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
 			//Normal Photo select
@@ -127,14 +154,8 @@ public class ImageListActivity extends Activity {
 		
 	}
 	public boolean checkEmptyCount(JSONObject item){
-		try {
-        	item.get("count");
-    		return true;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
+    		return !item.isNull("count");
+		
 	}
 	@Override
 	public void onBackPressed(){
@@ -216,6 +237,10 @@ public class ImageListActivity extends Activity {
 				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 			}
 			i.putStringArrayListExtra("imgList", temps.getImgList());
+			if("facebook".equals(temps.getType())){
+				i.putExtra("isFacebook", true);
+			}
+			
 			startActivity(i);
 			overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 			finish();
@@ -235,6 +260,8 @@ public class ImageListActivity extends Activity {
 		private int imgDrawable;
 		private int albumId;
 		private ArrayList<String> imgList;
+		private String albumsId;
+		private String type;
 		public String getAlbumsName() {
 			return albumsName;
 		}
@@ -270,6 +297,18 @@ public class ImageListActivity extends Activity {
 		}
 		public void setImgList(ArrayList<String> imgList) {
 			this.imgList = imgList;
+		}
+		public String getAlbumsId() {
+			return albumsId;
+		}
+		public void setAlbumsId(String albumsId) {
+			this.albumsId = albumsId;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
 		}
 		
 		

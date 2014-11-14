@@ -26,14 +26,16 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private Utils utils;
 	private int size;
 	private ViewHolder viewHolder;
+	private boolean isFacebook;
 
 	public GridViewImageAdapter(Activity activity, ArrayList<String> menus,
-			int imageWidth) {
+			int imageWidth,boolean isFacebook) {
 		this._activity = activity;
 		this.imgPaths = menus;
 		this.imageWidth = imageWidth;
 		utils = new Utils(_activity, _activity);
 		size = (int) Math.ceil(Math.sqrt(utils.getScreenWidth() * utils.getScreenHeight()));
+		this.isFacebook = isFacebook;
 	}
 
 	@Override
@@ -68,12 +70,19 @@ public class GridViewImageAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		final String filename = imgPaths.get(position);
+		if(!isFacebook){
 		Picasso.with(_activity).load(new File(filename))
 	    .transform(new BitmapTransform(imageWidth, imageWidth))
 	    .centerCrop()
         .noFade()
 	    .resize(size, size).into(viewHolder.imgView);
-		
+		}else{
+			Picasso.with(_activity).load(filename)
+		    .transform(new BitmapTransform(imageWidth, imageWidth))
+		    .centerCrop()
+	        .noFade()
+		    .resize(size, size).into(viewHolder.imgView);	
+		}
 		viewHolder.imgView.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -83,6 +92,7 @@ public class GridViewImageAdapter extends BaseAdapter {
 				Intent i = new Intent(_activity,ImageGuidCropActivity.class);
 				i.putExtra("imgPath", filename);
 				i.putStringArrayListExtra("IMG_LIST", imgPaths);
+				i.putExtra("isFacebook", isFacebook);
 				_activity.startActivity(i);
 				_activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				_activity.finish();

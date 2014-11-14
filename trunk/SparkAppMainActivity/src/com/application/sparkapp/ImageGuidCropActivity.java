@@ -35,6 +35,7 @@ public class ImageGuidCropActivity extends Activity {
 				
 				Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
 				i.putExtra("imgPath", imgPath);
+				i.putExtra("isFacebook", getIntent().getBooleanExtra("isFacebook", false));
 				i.putStringArrayListExtra("IMG_LIST", getIntent().getStringArrayListExtra("IMG_LIST"));
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

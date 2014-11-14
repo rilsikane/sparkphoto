@@ -147,11 +147,12 @@ public class JSONParserForGetList {
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
          nameValuePairs.add(new BasicNameValuePair("method", "login"));
-         nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
-         nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
-         }
+         }else{
+	         nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
+	         nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
+	      }
          
          JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
          
@@ -171,6 +172,9 @@ public class JSONParserForGetList {
 		    	 
 		    	  user = (UserDto) getDataMappingToObject(jsUser, UserDto.class, "user");
 		    	  user.setAccess_token(commonDto.getToken());
+		    	  if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+		    		  user.setFb_access_token(userDto.getFb_access_token());
+		    	  }
 		      }
 		      
 			  
