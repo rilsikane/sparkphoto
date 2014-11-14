@@ -38,6 +38,8 @@ public class DateUtil {
 	public static final String ORACLE_BAM_DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss:SSSSZ";
 	
 	public static final String ASSOR_DATE_PATTERN = "dd-MM-yyyy";
+	
+	public static final String FACEBOOK_DATE_PATTERN = "MM/dd/yyyy";
 
 	/**
 	 * Utililty For Date Object

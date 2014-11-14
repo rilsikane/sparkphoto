@@ -1,21 +1,30 @@
 package com.application.sparkapp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.DateUtil;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -24,15 +33,20 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.roscopeco.ormdroid.Entity;
 import com.roscopeco.ormdroid.ORMDroidApplication;
 
 @SuppressWarnings("deprecation")
+
 public class SparkAppMainActivity extends Activity {
 	private static String PAGE_FROM = "facebookLogin";
     private Utils utils;
+    private  Session currentSession;
     String FILENAME = "AndroidSSO_data";
 
-    @Override
+    
+	@Override
+	@SuppressLint("NewApi")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
@@ -42,6 +56,8 @@ public class SparkAppMainActivity extends Activity {
         ORMDroidApplication.initialize(SparkAppMainActivity.this);
         
         System.gc();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
         utils = new Utils(getApplicationContext(), this);
         int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
@@ -71,7 +87,7 @@ public class SparkAppMainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Session currentSession = Session.getActiveSession();
+                currentSession = Session.getActiveSession();
                 if (currentSession == null || currentSession.getState().isClosed()) {
                     Session session = new Session.Builder(getApplicationContext()).build();
                     Session.setActiveSession(session);
@@ -79,11 +95,16 @@ public class SparkAppMainActivity extends Activity {
                 }
 
                 if (currentSession.isOpened()) {
-                    // Do whatever u want. User has logged in
-                    Intent i = new Intent(SparkAppMainActivity.this, MainPhotoSelectActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
+                	 Request request = Request.newMeRequest(currentSession, new Request.GraphUserCallback() {
+                         @Override
+                         public void onCompleted(GraphUser user, Response response) {
+                             
+                                faceBookLogin(user, currentSession);
+                             
+                         }   
+                     }); 
+                     Request.executeBatchAsync(request);
+                   
 
                 } else if (!currentSession.isOpened()) {
                     // Ask for username and password
@@ -97,6 +118,7 @@ public class SparkAppMainActivity extends Activity {
                     permissions.add("user_likes");
                     permissions.add("email");
                     permissions.add("user_birthday");
+                    permissions.add("user_photos");
                     op.setPermissions(permissions);
 
                     Session session = new Builder(SparkAppMainActivity.this).build();
@@ -163,24 +185,52 @@ public class SparkAppMainActivity extends Activity {
 
                             @Override
                             public void onCompleted(GraphUser user, Response response) {
-                                if (user != null) {
-                                    session.getAccessToken();
-//                                    Toast.makeText(getApplicationContext(), "Welcome "+user.getName(), Toast.LENGTH_SHORT).show();
-                                    user.getFirstName();
-                                    user.getId();
-                                    user.getName();
-                                    
-                                    Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
-                                    i.putExtra("INTENT_FROM", PAGE_FROM);
-                                    startActivity(i);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    finish();
-                                }
+                                faceBookLogin(user, session);
                             }
                         });
                     }
                 }
             });
+        }
+    } 
+    public void faceBookLogin(GraphUser user,Session session){
+    	if (user != null) {
+    		try{
+			UserDto dto = new UserDto();
+			dto.setFb_access_token(session.getAccessToken());
+			dto.setEmail(user.getProperty("email").toString());
+			dto.setFirstname(user.getFirstName());
+			dto.setLastname(user.getLastName());
+			String gender = user.getProperty("gender").toString();
+			dto.setGender("male".equals(gender) ? "0" : "1");
+			Date dob = DateUtil.convertStringToDateByFormat(user.getBirthday(), DateUtil.FACEBOOK_DATE_PATTERN);
+			dto.setBirthday(DateUtil.toStringThaiDateDefaultFormat(dob));
+			
+			UserDto userDto = JSONParserForGetList.getInstance().Login(dto);
+			if(userDto==null){
+			Intent i = new Intent(SparkAppMainActivity.this, SignUpPageOneMainActivity.class);
+			i.putExtra("userDto", (Parcelable) dto);
+			startActivity(i);
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			finish();
+			}else{
+				 UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+				  if(userVO==null){
+					  userVO = new UserVO();
+				  }
+				  userVO = userVO.convertDtoToVo(userDto);
+				  userVO.id = 1;
+				  userVO.save();
+                  Session.setActiveSession(session);
+				  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
+				  i.putExtra("INTENT_FROM", PAGE_FROM);					  
+                 startActivity(i);
+                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                 finish();
+			}
+    		}catch (Exception e) {
+				e.printStackTrace();
+			}
         }
     }
 }

@@ -2,25 +2,22 @@ package com.application.sparkapp;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.UUID;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import com.application.sparkapp.model.Login;
-import com.application.sparkapp.model.TempImage;
-import com.edmodo.cropper.CropImageView;
-import com.roscopeco.ormdroid.Entity;
-import com.roscopeco.ormdroid.Query;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.Matrix.ScaleToFit;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.os.Bundle;
@@ -31,9 +28,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.application.sparkapp.model.Login;
+import com.application.sparkapp.model.TempImage;
+import com.edmodo.cropper.CropImageView;
+import com.roscopeco.ormdroid.Entity;
 
 public class ImageCropActivity extends Activity {
 	private Utils utils;
@@ -51,6 +52,7 @@ public class ImageCropActivity extends Activity {
     private boolean portraitFlag = true;
     Bitmap croppedImage,bitmap;
     private CropImageView cropImageView;
+    private boolean isFacebook;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class ImageCropActivity extends Activity {
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
 		final String imgPath = getIntent().getStringExtra("imgPath");
-		
+		isFacebook = getIntent().getBooleanExtra("isFacebook", false);
 		cropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
 		final ImageView protraitBt = (ImageView) findViewById(R.id.imageView2);
@@ -72,8 +74,11 @@ public class ImageCropActivity extends Activity {
 		final ImageView landsBt = (ImageView) findViewById(R.id.imageView3);
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
-		
+		if(!isFacebook){
 		bitmap = BitmapFactory.decodeFile(imgPath);
+		}else{
+		bitmap = DownloadImage(imgPath);	
+		}
 		utils.getScreenWidth();
 		//bitmap = getResizedBitmap(bitmap, utils.getScreenWidth()*0.6f, utils.getScreenWidth());
 		try{
@@ -231,5 +236,51 @@ public class ImageCropActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
+    private Bitmap DownloadImage(String URL)
+    {        
+//      System.out.println("image inside="+URL);
+        Bitmap bitmap = null;
+        InputStream in = null;        
+        try {
+            in = OpenHttpConnection(URL);
+            bitmap = BitmapFactory.decodeStream(in);
+            in.close();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+//        System.out.println("image last");
+        return bitmap;                
+    }
+    private InputStream OpenHttpConnection(String urlString)
+            throws IOException
+            {
+                InputStream in = null;
+                int response = -1;
 
+                URL url = new URL(urlString);
+                URLConnection conn = url.openConnection();
+
+                if (!(conn instanceof HttpURLConnection))                    
+                    throw new IOException("Not an HTTP connection");
+
+                try{
+                    HttpURLConnection httpConn = (HttpURLConnection) conn;
+                    httpConn.setAllowUserInteraction(false);
+                    httpConn.setInstanceFollowRedirects(true);
+                    httpConn.setRequestMethod("GET");
+                    httpConn.connect();
+
+                    response = httpConn.getResponseCode();                
+                    if (response == HttpURLConnection.HTTP_OK) 
+                    {
+                        in = httpConn.getInputStream();                                
+                    }                    
+                }
+                catch (Exception ex)
+                {
+                    throw new IOException("Error connecting");            
+                }
+                return in;    
+    }
 }

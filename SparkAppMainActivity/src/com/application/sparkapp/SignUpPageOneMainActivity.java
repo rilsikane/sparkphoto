@@ -36,6 +36,7 @@ import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.util.DateUtil;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -47,6 +48,7 @@ public class SignUpPageOneMainActivity extends Activity {
 	private AlertDialog levelDialog, occuDialog, serDialog;
 	private int occSel,servSel;
 	private boolean isValid;
+	private Calendar myCalendar;
 	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
 	"MyRepublic" };
 	private static CharSequence[] occ_items = { "Administrative & Secretarial",
@@ -125,8 +127,15 @@ public class SignUpPageOneMainActivity extends Activity {
 		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
 		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
 		
-		final Calendar myCalendar = Calendar.getInstance();
-
+		myCalendar = Calendar.getInstance();
+		if(utils.isNotEmpty(userDto.getBirthday())){
+			try {
+				myCalendar.setTime(DateUtil.convertStringToDateByFormat(userDto.getBirthday(), DateUtil.DEFAULT_DATE_PATTERN));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
 			@Override

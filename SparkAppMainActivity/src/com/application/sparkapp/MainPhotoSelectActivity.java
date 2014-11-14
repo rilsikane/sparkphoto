@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,7 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.roscopeco.ormdroid.Entity;
 
+@SuppressLint("NewApi")
 public class MainPhotoSelectActivity extends Activity {
 	
 	AlertDialog.Builder builder;
@@ -59,8 +62,8 @@ public class MainPhotoSelectActivity extends Activity {
     private static final String IMG_FROM_DROPBOX = "imgDrop";
     private static final String IMG_FROM_GALLERY = "imgGal";
     private boolean nextTimeCanUpload;
-    final static private String APP_KEY = "6lxmgb1olxyc2jz";
-    final static private String APP_SECRET = "ldlb1b0s4vtzqir";
+    final static private String APP_KEY = "1534822403398306";
+    final static private String APP_SECRET = "326ad414b4480029738fb29181d4e7f4";
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
     private boolean doubleBackToExitPressedOnce;
@@ -73,6 +76,9 @@ public class MainPhotoSelectActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main_photo_select);
 		System.gc();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		
 		ImageView cameraIcon = (ImageView) findViewById(R.id.imageView2);
 		ImageView selectIcon = (ImageView) findViewById(R.id.imageView3);
 		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
@@ -160,6 +166,7 @@ public class MainPhotoSelectActivity extends Activity {
 						dialog.dismiss();
 					}
 				});
+				dialog.show();
 				dropBoxBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -192,29 +199,31 @@ public class MainPhotoSelectActivity extends Activity {
 					
 					@Override
 					public void onClick(View v) {
+						dialog.dismiss();
 						if(nextTimeCanUpload){
 						if (session!=null) {
-
-				            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-				                @Override
-				                public void onCompleted(GraphUser user, Response response) {
-				                    if (user != null) {
-				                        session.getAccessToken();				                        
-				                        user.getFirstName();
-				                        user.getId();
-				                        user.getName();
-				                        //Facebook API:https://developers.facebook.com/tools/explorer/
-				                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-				                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-				                        i.putExtra("facebookUserId", user.getId());
-				                        i.putExtra("loadImageState", 0);
-	                                    startActivity(i);
-	                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-	                                    finish();
-				                    }
-				                }
-				            });
+							Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+		                         @Override
+		                         public void onCompleted(GraphUser user, Response response) {
+		                             
+		                        	  if (user != null) {
+					                        session.getAccessToken();				                        
+					                        user.getFirstName();
+					                        user.getId();
+					                        user.getName();
+					                        //Facebook API:https://developers.facebook.com/tools/explorer/
+					                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+					                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+					                        i.putExtra("facebookUserId", user.getId());
+					                        i.putExtra("loadImageState", 0);
+		                                    startActivity(i);
+		                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		                                    finish();
+					                    }
+		                             
+		                         }   
+		                     }); 
+		                     Request.executeBatchAsync(request);
 				        }else{
 				        	Session currentSession = Session.getActiveSession();
 			                if (currentSession == null || currentSession.getState().isClosed()) {
@@ -226,6 +235,7 @@ public class MainPhotoSelectActivity extends Activity {
 			                if (currentSession.isOpened()) {
 			                    // Do whatever u want. User has logged in
 			                    Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+			                    
 			                    startActivity(i);
 			                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -241,6 +251,7 @@ public class MainPhotoSelectActivity extends Activity {
 			                    permissions.add("user_likes");
 			                    permissions.add("email");
 			                    permissions.add("user_birthday");
+			                    permissions.add("user_photos");
 			                    op.setPermissions(permissions);
 
 			                    Session session = new Builder(MainPhotoSelectActivity.this).build();
@@ -253,7 +264,7 @@ public class MainPhotoSelectActivity extends Activity {
 						}
 					}
 				});
-				dialog.show();
+				
 				
 			}
 		});
