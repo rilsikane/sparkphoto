@@ -14,8 +14,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,6 +33,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -67,6 +72,7 @@ public class MainPhotoSelectActivity extends Activity {
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
     private boolean doubleBackToExitPressedOnce;
+    private ProgressHUD mProgressHUD;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,20 +136,11 @@ public class MainPhotoSelectActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				captureImage();
-//				final Dialog dialog = new Dialog(MainPhotoSelectActivity.this);
-//				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//				dialog.setContentView(R.layout.custom);	
-//				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
-//				closeDialog.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						// TODO Auto-generated method stub
-//						dialog.dismiss();
-//					}
-//				});
-//				dialog.show();
+				if(nextTimeCanUpload){
+					captureImage();
+				}else{
+					showPerkDialog();
+				}			
 			}
 		});
 		selectIcon.setOnClickListener(new OnClickListener() {
@@ -201,64 +198,74 @@ public class MainPhotoSelectActivity extends Activity {
 					public void onClick(View v) {
 						dialog.dismiss();
 						if(nextTimeCanUpload){
-						if (session!=null) {
-							Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-		                         @Override
-		                         public void onCompleted(GraphUser user, Response response) {
-		                             
-		                        	  if (user != null) {
-					                        session.getAccessToken();				                        
-					                        user.getFirstName();
-					                        user.getId();
-					                        user.getName();
-					                        //Facebook API:https://developers.facebook.com/tools/explorer/
-					                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-					                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-					                        i.putExtra("facebookUserId", user.getId());
-					                        i.putExtra("loadImageState", 0);
-		                                    startActivity(i);
-		                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		                                    finish();
-					                    }
-		                             
-		                         }   
-		                     }); 
-		                     Request.executeBatchAsync(request);
-				        }else{
-				        	Session currentSession = Session.getActiveSession();
-			                if (currentSession == null || currentSession.getState().isClosed()) {
-			                    Session session = new Session.Builder(getApplicationContext()).build();
-			                    Session.setActiveSession(session);
-			                    currentSession = session;
-			                }
+							if (session!=null) {
+	                        	 mProgressHUD= ProgressHUD.show(MainPhotoSelectActivity.this,"Loading ...", true,true,new OnCancelListener() {
+										
+										@Override
+										public void onCancel(DialogInterface dialog) {
+											// TODO Auto-generated method stub
+											mProgressHUD.dismiss();
+										}
+	                        	 });
+								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
 
-			                if (currentSession.isOpened()) {
-			                    // Do whatever u want. User has logged in
-			                    Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-			                    
-			                    startActivity(i);
-			                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			                         @Override
+			                         public void onCompleted(GraphUser user, Response response) {
 
-			                } else if (!currentSession.isOpened()) {
-			                    // Ask for username and password
-			                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
-
-			                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
-			                    op.setCallback(null);
-
-			                    List<String> permissions = new ArrayList<String>();
-			                    permissions.add("publish_stream");
-			                    permissions.add("user_likes");
-			                    permissions.add("email");
-			                    permissions.add("user_birthday");
-			                    permissions.add("user_photos");
-			                    op.setPermissions(permissions);
-
-			                    Session session = new Builder(MainPhotoSelectActivity.this).build();
-			                    Session.setActiveSession(session);
-			                    session.openForPublish(op);
-			                }
-				        }
+			                        	  if (user != null) {
+			                        		    mProgressHUD.dismiss();
+						                        session.getAccessToken();				                        
+						                        user.getFirstName();
+						                        user.getId();
+						                        user.getName();
+						                        //Facebook API:https://developers.facebook.com/tools/explorer/
+						                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+						                        i.putExtra("facebookUserId", user.getId());
+						                        i.putExtra("loadImageState", 0);
+			                                    startActivity(i);
+			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			                                    finish();
+						                    }
+			                             
+			                         }   
+			                     }); 
+			                     Request.executeBatchAsync(request);
+					        }else{
+					        	Session currentSession = Session.getActiveSession();
+				                if (currentSession == null || currentSession.getState().isClosed()) {
+				                    Session session = new Session.Builder(getApplicationContext()).build();
+				                    Session.setActiveSession(session);
+				                    currentSession = session;
+				                }
+	
+				                if (currentSession.isOpened()) {
+				                    // Do whatever u want. User has logged in
+				                    Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+				                    
+				                    startActivity(i);
+				                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+	
+				                } else if (!currentSession.isOpened()) {
+				                    // Ask for username and password
+				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
+	
+				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+				                    op.setCallback(null);
+	
+				                    List<String> permissions = new ArrayList<String>();
+				                    permissions.add("publish_stream");
+				                    permissions.add("user_likes");
+				                    permissions.add("email");
+				                    permissions.add("user_birthday");
+				                    permissions.add("user_photos");
+				                    op.setPermissions(permissions);
+	
+				                    Session session = new Builder(MainPhotoSelectActivity.this).build();
+				                    Session.setActiveSession(session);
+				                    session.openForPublish(op);
+				                }
+					        }
 						}else{
 							showPerkDialog();
 						}
@@ -449,5 +456,5 @@ public class MainPhotoSelectActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
-    
+   
 }
