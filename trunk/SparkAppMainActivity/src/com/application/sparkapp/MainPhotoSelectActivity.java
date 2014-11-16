@@ -236,21 +236,7 @@ public class MainPhotoSelectActivity extends Activity {
 			                     }); 
 			                     Request.executeBatchAsync(request);
 					        }else{
-					        	Session currentSession = Session.getActiveSession();
-				                if (currentSession == null || currentSession.getState().isClosed()) {
-				                    Session session = new Session.Builder(getApplicationContext()).build();
-				                    Session.setActiveSession(session);
-				                    currentSession = session;
-				                }
-	
-				                if (currentSession.isOpened()) {
-				                    // Do whatever u want. User has logged in
-				                    Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-				                    
-				                    startActivity(i);
-				                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-	
-				                } else if (!currentSession.isOpened()) {
+					        	
 				                    // Ask for username and password
 				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
 	
@@ -269,7 +255,7 @@ public class MainPhotoSelectActivity extends Activity {
 				                    Session.setActiveSession(session);
 				                    session.openForPublish(op);
 				                }
-					        }
+					        
 						}else{
 							showPerkDialog();
 						}

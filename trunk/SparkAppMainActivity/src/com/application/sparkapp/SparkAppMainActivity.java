@@ -189,7 +189,7 @@ public class SparkAppMainActivity extends Activity {
 
                             @Override
                             public void onCompleted(GraphUser user, Response response) {
-                            	System.out.println("-----------------> "+user.getId()+" <-----------------> "+session.getAccessToken());
+                            	
                                 faceBookLogin(user, session);
                             }
                         });
