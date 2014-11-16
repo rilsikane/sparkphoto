@@ -213,6 +213,7 @@ public class MainPhotoSelectActivity extends Activity {
 			                         public void onCompleted(GraphUser user, Response response) {
 
 			                        	  if (user != null) {
+			                        		  if (hasPhotoPermissions()){
 			                        		    mProgressHUD.dismiss();
 						                        session.getAccessToken();				                        
 						                        user.getFirstName();
@@ -226,6 +227,9 @@ public class MainPhotoSelectActivity extends Activity {
 			                                    startActivity(i);
 			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			                                    finish();
+			                        		  }else{
+			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(MainPhotoSelectActivity.this, "user_photos"));
+			                        		  }
 						                    }
 			                             
 			                         }   
@@ -456,5 +460,8 @@ public class MainPhotoSelectActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
-   
+    private boolean hasPhotoPermissions() {
+        Session session = Session.getActiveSession();
+        return session.getPermissions().contains("user_photos");
+    }
 }
