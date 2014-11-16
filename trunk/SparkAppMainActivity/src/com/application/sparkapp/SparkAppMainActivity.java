@@ -203,9 +203,10 @@ public class SparkAppMainActivity extends Activity {
 			dto.setLastname(user.getLastName());
 			String gender = user.getProperty("gender").toString();
 			dto.setGender("male".equals(gender) ? "0" : "1");
+			if(user.getBirthday()!=null){
 			Date dob = DateUtil.convertStringToDateByFormat(user.getBirthday(), DateUtil.FACEBOOK_DATE_PATTERN);
 			dto.setBirthday(DateUtil.toStringThaiDateDefaultFormat(dob));
-			
+			}
 			UserDto userDto = JSONParserForGetList.getInstance().Login(dto);
 			if(userDto==null){
 			Intent i = new Intent(SparkAppMainActivity.this, SignUpPageOneMainActivity.class);
