@@ -78,8 +78,12 @@ public class ImageListActivity extends Activity {
 			facebookUserId = getIntent().getStringExtra("facebookUserId");
 		}
 		//Check isFacebook
+		Bundle params = new Bundle();
+		params.putString("name", "{album-name}");
+		params.putString("message", "{album-description}");
+		params.putString("privacy", "{privacy-settings}");
 		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
-			new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
+			new Request(Session.getActiveSession(),facebookUserId+"/albums",params,HttpMethod.GET,new Request.Callback() {
 	        	public void onCompleted(Response response) {
 	        		JSONArray albumArr;
 	        			listContent = new ArrayList<TempListContentView>();
