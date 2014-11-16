@@ -8,9 +8,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
@@ -196,42 +200,79 @@ public class SparkAppMainActivity extends Activity {
     public void faceBookLogin(GraphUser user,Session session){
     	if (user != null) {
     		try{
-			UserDto dto = new UserDto();
-			dto.setFb_access_token(session.getAccessToken());
-			dto.setEmail(user.getProperty("email").toString());
-			dto.setFirstname(user.getFirstName());
-			dto.setLastname(user.getLastName());
-			String gender = user.getProperty("gender").toString();
-			dto.setGender("male".equals(gender) ? "0" : "1");
-			if(user.getBirthday()!=null){
-			Date dob = DateUtil.convertStringToDateByFormat(user.getBirthday(), DateUtil.FACEBOOK_DATE_PATTERN);
-			dto.setBirthday(DateUtil.toStringThaiDateDefaultFormat(dob));
-			}
-			UserDto userDto = JSONParserForGetList.getInstance().Login(dto);
-			if(userDto==null){
-			Intent i = new Intent(SparkAppMainActivity.this, SignUpPageOneMainActivity.class);
-			i.putExtra("userDto", (Parcelable) dto);
-			startActivity(i);
-			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-			finish();
-			}else{
-				 UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
-				  if(userVO==null){
-					  userVO = new UserVO();
-				  }
-				  userVO = userVO.convertDtoToVo(userDto);
-				  userVO.id = 1;
-				  userVO.save();
-                  Session.setActiveSession(session);
-				  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
-				  i.putExtra("INTENT_FROM", PAGE_FROM);					  
-                 startActivity(i);
-                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-                 finish();
-			}
+				UserDto dto = new UserDto();
+				dto.setFb_access_token(session.getAccessToken());
+				dto.setEmail(user.getProperty("email").toString());
+				dto.setFirstname(user.getFirstName());
+				dto.setLastname(user.getLastName());
+				String gender = user.getProperty("gender").toString();
+				dto.setGender("male".equals(gender) ? "0" : "1");
+				if(user.getBirthday()!=null){
+					Date dob = DateUtil.convertStringToDateByFormat(user.getBirthday(), DateUtil.FACEBOOK_DATE_PATTERN);
+					dto.setBirthday(DateUtil.toStringThaiDateDefaultFormat(dob));					
+				}
+				new InitAndLoadData(dto,session).execute();
     		}catch (Exception e) {
 				e.printStackTrace();
 			}
         }
     }
+    
+    
+    public class InitAndLoadData extends AsyncTask<String, Void, UserDto> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		private UserDto dto;
+		private Session session;
+		public InitAndLoadData(UserDto _dto,Session _session){
+			this.dto = _dto;
+			this.session = _session;
+		}
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(SparkAppMainActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected UserDto doInBackground(String... params) {
+			// TODO Auto-generated method stub						
+			return JSONParserForGetList.getInstance().Login(dto);
+		}
+		
+		@Override
+		protected void onPostExecute(UserDto result) {
+			super.onPostExecute(result);
+			if (result == null) {
+				Intent i = new Intent(SparkAppMainActivity.this, SignUpPageOneMainActivity.class);
+				i.putExtra("userDto", (Parcelable) dto);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+				mProgressHUD.dismiss();
+			} else {
+				UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+				  if(userVO==null){
+					  userVO = new UserVO();
+				  }
+				  userVO = userVO.convertDtoToVo(result);
+				  userVO.id = 1;
+				  userVO.save();
+                Session.setActiveSession(session);
+				  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
+				  i.putExtra("INTENT_FROM", PAGE_FROM);	  
+               startActivity(i);
+               overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+               finish();
+				mProgressHUD.dismiss();
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
+    
 }
