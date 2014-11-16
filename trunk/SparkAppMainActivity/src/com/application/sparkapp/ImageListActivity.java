@@ -14,10 +14,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -34,10 +38,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 
 @SuppressLint("NewApi")
@@ -76,74 +84,9 @@ public class ImageListActivity extends Activity {
 		String facebookUserId = "";
 		if(getIntent().hasExtra("facebookUserId")){
 			facebookUserId = getIntent().getStringExtra("facebookUserId");
+			new InitAndLoadData(facebookUserId).execute();
 		}
-		//Check isFacebook
-		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
-			new Request(Session.getActiveSession(),facebookUserId+"/albums",null,HttpMethod.GET,new Request.Callback() {
-	        	public void onCompleted(Response response) {
-	        		JSONArray albumArr;
-	        			listContent = new ArrayList<TempListContentView>();
-						try {
-							albumArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
-							for (int i = 0; i < albumArr.length(); i++) {
-								
-			                    JSONObject item = albumArr.getJSONObject(i);
-			            		if(checkEmptyCount(item)){
-				            		temp = new TempListContentView();
-				                    temp.setAlbumsName(item.getString("name"));
-				                    if(!item.isNull("count")){
- 				        	        	temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
- 				        	        }
-				        	        new Request(Session.getActiveSession(),item.getString("id")+"/photos",null,HttpMethod.GET,new Request.Callback() {
-				        	        	public void onCompleted(Response resp) {
-				        	        	        	JSONArray imgArr ;
-				        	        	        	JSONArray dataArr;
-				        	        	        	try {
-				        	        	        		dataArr = resp.getGraphObject().getInnerJSONObject().getJSONArray("data");
-				        	        	        		if(dataArr!=null){
-				        	        	        			temp.setImgPathUrl(dataArr.getJSONObject(0).getJSONArray("images").getJSONObject(dataArr.getJSONObject(0).getJSONArray("images").length()-1).getString("source"));
-				        	        	        			ArrayList<String> imgList = new ArrayList<String>();
-				        	        	        			for (int i = 0; i < dataArr.length(); i++) {
-				        	        	        				imgArr = dataArr.getJSONObject(i).getJSONArray("images");
-				        	        	        				if(imgArr!=null){
-								        	        	        		
-								        	        	        		imgList.add((imgArr.getJSONObject(0).getString("source")));
-							        	        	        			
-							        	        	        	}
-							        	        	        		
-				        	        	        			}
-				        	        	        			temp.setImgList(imgList);
-					        	        	        		temp.setType("facebook");
-					     				                    listContent.add(temp);
-	//				        	        	        			JSONObject item = imgArr.getJSONObject(i);
-	//				        	        	        			
-	//				        	        	        	
-					        	        	        		
-				        	        	        		}
-				     				                  
-													} catch (JSONException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-													}
-				        	        	        	
-				        	        	        }
-				        	        	    }
-				        	        ).executeAndWait();
-				        	       
-			            		}
-			                }
-							  
-							
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-	        	    }
-	        	}).executeAndWait();
-			LoadListAdapter adapter = new LoadListAdapter(listContent);
-			lv.setAdapter(adapter);
-		}
+		
 		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
@@ -405,4 +348,111 @@ public class ImageListActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
+    public class InitAndLoadData extends AsyncTask<String, Void, ArrayList<TempListContentView>> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		private String facebookUserId;
+		public InitAndLoadData(String facebookUser){
+			this.facebookUserId = facebookUser;
+		}
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(ImageListActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected ArrayList<TempListContentView> doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			
+			//Check isFacebook
+			Bundle params1 = new Bundle();
+			params1.putString("name", "{album-name}");
+			params1.putString("message", "{album-description}");
+			params1.putString("privacy", "{privacy-settings}");
+			if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgFace")){
+				new Request(Session.getActiveSession(),facebookUserId+"/albums",params1,HttpMethod.GET,new Request.Callback() {
+		        	public void onCompleted(Response response) {
+		        		JSONArray albumArr;
+		        			listContent = new ArrayList<TempListContentView>();
+							try {
+								albumArr = response.getGraphObject().getInnerJSONObject().getJSONArray("data");
+								for (int i = 0; i < albumArr.length(); i++) {
+									
+				                    JSONObject item = albumArr.getJSONObject(i);
+				            		if(checkEmptyCount(item)){
+					            		temp = new TempListContentView();
+					                    temp.setAlbumsName(item.getString("name"));
+					                    if(!item.isNull("count")){
+	 				        	        	temp.setNumberOfImage(Integer.parseInt(item.getString("count")));
+	 				        	        }
+					        	        new Request(Session.getActiveSession(),item.getString("id")+"/photos",null,HttpMethod.GET,new Request.Callback() {
+					        	        	public void onCompleted(Response resp) {
+					        	        	        	JSONArray imgArr ;
+					        	        	        	JSONArray dataArr;
+					        	        	        	try {
+					        	        	        		dataArr = resp.getGraphObject().getInnerJSONObject().getJSONArray("data");
+					        	        	        		if(dataArr!=null){
+					        	        	        			temp.setImgPathUrl(dataArr.getJSONObject(0).getJSONArray("images").getJSONObject(dataArr.getJSONObject(0).getJSONArray("images").length()-1).getString("source"));
+					        	        	        			ArrayList<String> imgList = new ArrayList<String>();
+					        	        	        			for (int i = 0; i < dataArr.length(); i++) {
+					        	        	        				imgArr = dataArr.getJSONObject(i).getJSONArray("images");
+					        	        	        				if(imgArr!=null){
+									        	        	        		
+									        	        	        		imgList.add((imgArr.getJSONObject(0).getString("source")));
+								        	        	        			
+								        	        	        	}
+								        	        	        		
+					        	        	        			}
+					        	        	        			temp.setImgList(imgList);
+						        	        	        		temp.setType("facebook");
+						     				                    listContent.add(temp);       	
+						        	        	        		
+					        	        	        		}
+					     				                  
+														} catch (JSONException e) {
+															// TODO Auto-generated catch block
+															e.printStackTrace();
+														}
+					        	        	        	
+					        	        	        }
+					        	        	    }
+					        	        ).executeAndWait();
+					        	       
+				            		}
+				                }
+								  
+								
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+		        	    }
+		        	}).executeAndWait();
+			}			
+			
+			return listContent;
+		}
+		
+		@Override
+		protected void onPostExecute(ArrayList<TempListContentView> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				LoadListAdapter adapter = new LoadListAdapter(result);
+				lv.setAdapter(adapter);
+				mProgressHUD.dismiss();
+			} else {
+				
+				mProgressHUD.dismiss();
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
+    
 }
