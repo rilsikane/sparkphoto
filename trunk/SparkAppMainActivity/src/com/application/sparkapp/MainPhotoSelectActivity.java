@@ -18,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -34,8 +33,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.application.sparkapp.dto.UserDto;
-import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -268,7 +265,7 @@ public class MainPhotoSelectActivity extends Activity {
 				                    // Ask for username and password
 				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
 	
-				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
 				                    op.setCallback(null);
 	
 				                    List<String> permissions = new ArrayList<String>();

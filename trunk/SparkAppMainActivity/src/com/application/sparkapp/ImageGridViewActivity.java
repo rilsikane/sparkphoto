@@ -4,13 +4,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.application.sparkapp.ImageListActivity.LoadListAdapter;
+import com.application.sparkapp.ImageListActivity.TempListContentView;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -19,6 +33,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ImageGridViewActivity extends Activity {
 	private Utils utils;
@@ -36,19 +51,21 @@ public class ImageGridViewActivity extends Activity {
 		utils = new Utils(this, this);
 		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
-		
-		final ArrayList<String> imgList = getIntent().getStringArrayListExtra("imgList");
+				
 		backToPrevious.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
+				
 				if(getIntent().hasExtra("facebookUserId")){
+					Toast.makeText(getApplicationContext(), "facebook User Id: "+getIntent().getStringExtra("facebookUserId"), Toast.LENGTH_LONG).show();
 					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
-				}
-				i.putExtra("loadImageState", 1);
-				i.putExtra("LOAD_STATE", "imgGal");
+				}else{
+					i.putExtra("LOAD_STATE", "imgGal");
+					i.putExtra("loadImageState", 1);
+				}								
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -58,10 +75,8 @@ public class ImageGridViewActivity extends Activity {
 		
 		gridView = (GridView) findViewById(R.id.gridView1);
 		InitilizeGridLayout();		
-		ArrayList<String> tempList = imgList;
+		new InitAndLoadData().execute();
 		
-		adapter = new GridViewImageAdapter(this, tempList,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
-		gridView.setAdapter(adapter);
 	}
 
 	private void InitilizeGridLayout() {
@@ -95,7 +110,9 @@ public class ImageGridViewActivity extends Activity {
 	public void onBackPressed(){
 		Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
 		if(getIntent().hasExtra("facebookUserId")){
-		i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+			i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
+			String faceUID = getIntent().getStringExtra("facebookUserId");
+			
 		}
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -105,4 +122,43 @@ public class ImageGridViewActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
+    
+    public class InitAndLoadData extends AsyncTask<String, Void, ArrayList<String>> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		public InitAndLoadData(){
+		}
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(ImageGridViewActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected ArrayList<String> doInBackground(String... params) {
+			// TODO Auto-generated method stub
+				
+			
+			return getIntent().getStringArrayListExtra("imgList");
+		}
+		
+		@Override
+		protected void onPostExecute(ArrayList<String> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				adapter = new GridViewImageAdapter(ImageGridViewActivity.this, result,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
+				gridView.setAdapter(adapter);
+				mProgressHUD.dismiss();
+			} else {
+				
+				mProgressHUD.dismiss();
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
 }

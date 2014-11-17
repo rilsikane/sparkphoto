@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -81,9 +82,8 @@ public class ImageListActivity extends Activity {
 			}
 		});
 		
-		String facebookUserId = "";
 		if(getIntent().hasExtra("facebookUserId")){
-			facebookUserId = getIntent().getStringExtra("facebookUserId");
+			String facebookUserId = getIntent().getStringExtra("facebookUserId");
 			new InitAndLoadData(facebookUserId).execute();
 		}
 		
@@ -176,11 +176,11 @@ public class ImageListActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+			String fabookUId = getIntent().getStringExtra("facebookUserId");
 			
-			
-			if(getIntent().hasExtra("facebookUserId")){
-				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
-			}
+//			if(getIntent().hasExtra("facebookUserId")){
+				i.putExtra("facebookUserId", fabookUId);
+//			}
 			i.putStringArrayListExtra("imgList", temps.getImgList());
 			if("facebook".equals(temps.getType())){
 				i.putExtra("isFacebook", true);
