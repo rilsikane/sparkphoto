@@ -84,6 +84,7 @@ public class ImagePageSummaryActivity extends Activity {
     final static private String APP_SECRET = "ldlb1b0s4vtzqir";
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
+    private ProgressHUD mProgressHUD;
     List<TempImg> tempList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -183,43 +184,45 @@ public class ImagePageSummaryActivity extends Activity {
 						@Override
 						public void onClick(View v) {
 							if(nextTimeCanUpload){
-							if (session!=null) {
-	
-					            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-	
-					                @Override
-					                public void onCompleted(GraphUser user, Response response) {
-					                    if (user != null) {
-					                        session.getAccessToken();				                        
-					                        user.getFirstName();
-					                        user.getId();
-					                        user.getName();
-					                        //Facebook API:https://developers.facebook.com/tools/explorer/
-					                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-					                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-					                        i.putExtra("facebookUserId", user.getId());
-					                        i.putExtra("loadImageState", 0);
-		                                    startActivity(i);
-		                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		                                    finish();
-					                    }
-					                }
-					            });
+								session = Session.getActiveSession();
+							if (session!=null||session.isOpened()) {
+								mProgressHUD= ProgressHUD.show(ImagePageSummaryActivity.this,"Loading ...", true,true,new OnCancelListener() {
+									
+									@Override
+									public void onCancel(DialogInterface dialog) {
+										// TODO Auto-generated method stub
+										mProgressHUD.dismiss();
+									}
+								});
+								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+			                         @Override
+			                         public void onCompleted(GraphUser user, Response response) {
+
+			                        	  if (user != null) {
+			                        		  if (hasPhotoPermissions()){
+			                        		    mProgressHUD.dismiss();
+						                        session.getAccessToken();				                        
+						                        user.getFirstName();
+						                        user.getId();
+						                        user.getName();
+						                        //Facebook API:https://developers.facebook.com/tools/explorer/
+						                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
+						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+						                        i.putExtra("facebookUserId", user.getId());
+						                        i.putExtra("loadImageState", 0);
+			                                    startActivity(i);
+			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			                                    finish();
+			                        		  }else{
+			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(ImagePageSummaryActivity.this, "user_photos"));
+			                        		  }
+						                    }			                             
+			                         }   
+			                     }); 
+			                     Request.executeBatchAsync(request);
 					        }else{
-					        	Session currentSession = Session.getActiveSession();
-				                if (currentSession == null || currentSession.getState().isClosed()) {
-				                    Session session = new Session.Builder(getApplicationContext()).build();
-				                    Session.setActiveSession(session);
-				                    currentSession = session;
-				                }
-	
-				                if (currentSession.isOpened()) {
-				                    // Do whatever u want. User has logged in
-				                    Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-				                    startActivity(i);
-				                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-	
-				                } else if (!currentSession.isOpened()) {
+					        	
 				                    // Ask for username and password
 				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
 	
@@ -231,13 +234,14 @@ public class ImagePageSummaryActivity extends Activity {
 				                    permissions.add("user_likes");
 				                    permissions.add("email");
 				                    permissions.add("user_birthday");
+				                    permissions.add("user_photos");
 				                    op.setPermissions(permissions);
 	
 				                    Session session = new Builder(ImagePageSummaryActivity.this).build();
 				                    Session.setActiveSession(session);
 				                    session.openForPublish(op);
-				                }
-					        }
+				                
+					        	}
 							}else{
 								showPerkDialog();
 							}
@@ -413,6 +417,10 @@ public class ImagePageSummaryActivity extends Activity {
 		
 		
 		
+	}
+	private boolean hasPhotoPermissions() {
+	   Session session = Session.getActiveSession();
+	   return session.getPermissions().contains("user_photos");
 	}
 	public void updatePicAmt(int id){
 		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(id).execute();

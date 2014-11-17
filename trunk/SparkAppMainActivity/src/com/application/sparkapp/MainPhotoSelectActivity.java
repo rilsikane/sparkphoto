@@ -225,7 +225,8 @@ public class MainPhotoSelectActivity extends Activity {
 					public void onClick(View v) {
 						dialog.dismiss();
 						if(nextTimeCanUpload){
-							if (session!=null) {
+							session = Session.getActiveSession();
+							if (session!=null||session.isOpened()) {
 	                        	 mProgressHUD= ProgressHUD.show(MainPhotoSelectActivity.this,"Loading ...", true,true,new OnCancelListener() {
 										
 										@Override
