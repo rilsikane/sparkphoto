@@ -1,5 +1,8 @@
 package com.application.sparkapp;
 
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,15 +34,17 @@ public class ImageGuidCropActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				
-				Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
-				i.putExtra("imgPath", imgPath);
-				i.putExtra("isFacebook", getIntent().getBooleanExtra("isFacebook", false));
-				i.putStringArrayListExtra("IMG_LIST", getIntent().getStringArrayListExtra("IMG_LIST"));
-				startActivity(i);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				finish();
+					Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
+					i.putExtra("imgPath", imgPath);
+					i.putExtra("isFacebook", getIntent().getBooleanExtra("isFacebook", false));
+					i.putStringArrayListExtra("IMG_LIST", getIntent().getStringArrayListExtra("IMG_LIST"));
+					startActivity(i);
+					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+					finish();
+				
+				
+				
 			}
 		});
 	}

@@ -176,6 +176,8 @@ public class ImageListActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+			
+			
 			if(getIntent().hasExtra("facebookUserId")){
 				i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 			}

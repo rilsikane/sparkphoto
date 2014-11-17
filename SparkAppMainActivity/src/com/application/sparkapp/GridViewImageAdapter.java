@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.BitmapTransform;
+import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 
 @SuppressLint("NewApi")
@@ -87,9 +89,16 @@ public class GridViewImageAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				Toast.makeText(_activity, "Hello "+imgPaths.size(), Toast.LENGTH_SHORT).show();
+				UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+				String tutorial = "";
+				if(user!=null){
+					tutorial = user.tutorial;
+				}
+				
 				Intent i = new Intent(_activity,ImageGuidCropActivity.class);
+				if("A".equals(tutorial)){
+					i = new Intent(_activity,ImageCropActivity.class);
+				}
 				i.putExtra("imgPath", filename);
 				i.putStringArrayListExtra("IMG_LIST", imgPaths);
 				i.putExtra("isFacebook", isFacebook);

@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.facebook.Session;
 import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("NewApi")
@@ -105,20 +106,43 @@ public class EmailLoginActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 					 try {
+						 
 					  UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 					  if(user==null){
 						  user = new UserVO();
+						  user = user.convertDtoToVo(result);
+						  user.id = 1;
+						  user.tutorial = "D";
+						  user.save();
+						  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+						  i.putExtra("INTENT_FROM", PAGE_FROM);					  
+		                  startActivity(i);
+//		                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
+//		  				  startActivity(i);
+		                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		                  finish();
+					  }else{
+						  if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
+							  user = user.convertDtoToVo(result);
+							  user.id = 1;
+							  user.save();
+							  Intent i = new Intent(EmailLoginActivity.this,TutorialPageOneActivity.class);
+							  startActivity(i);
+							  finish();
+							  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+							  mProgressHUD.dismiss();
+							  }else{
+								  user = user.convertDtoToVo(result);
+								  user.id = 1;
+								  user.save();
+								  Intent i = new Intent(EmailLoginActivity.this,MainPhotoSelectActivity.class);
+								  startActivity(i);
+								  finish();
+								  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+								  mProgressHUD.dismiss();
+							  }
 					  }
-					  user = user.convertDtoToVo(result);
-					  user.id = 1;
-					  user.save();
-					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
-	                  startActivity(i);
-//	                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
-//	  				  startActivity(i);
-	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-	                  finish();
+					
 					 } catch (Exception e) {
 						e.printStackTrace();
 					}
