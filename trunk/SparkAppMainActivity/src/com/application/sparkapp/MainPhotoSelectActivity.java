@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -73,6 +74,7 @@ public class MainPhotoSelectActivity extends Activity {
     private DropboxAPI<AndroidAuthSession> mDBApi;
     private boolean doubleBackToExitPressedOnce;
     private ProgressHUD mProgressHUD;
+    private RadioButton radioButton;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +92,16 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView settingIcon = (ImageView) findViewById(R.id.imageView1);
 		ImageView activityNoti = (ImageView) findViewById(R.id.activityNoti);
 		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
+		radioButton = (RadioButton) findViewById(R.id.radioButton1);
 		
-		UserVO user = Entity.query(UserVO.class).execute();
+		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		if(user!=null){
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
+			if("D".equals(user.tutorial)){
+				radioButton.setChecked(false);
+			}else{
+				radioButton.setChecked(true);
+			}
 		}
 		
 		perkIcon.setOnClickListener(new OnClickListener() {
@@ -127,6 +135,25 @@ public class MainPhotoSelectActivity extends Activity {
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
+			}
+		});
+		radioButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if((user.tutorial == null|| "".equals(user.tutorial))){
+					radioButton.setChecked(true);
+					user.tutorial = "I";
+					user.save();
+				}else if("D".equals(user.tutorial)){
+					radioButton.setChecked(true);
+					 user.tutorial = "A";
+					 user.save();
+				}else{
+					 radioButton.setChecked(false);
+					 user.tutorial = "D";
+					 user.save();
+				}
 			}
 		});
 		
@@ -447,7 +474,6 @@ public class MainPhotoSelectActivity extends Activity {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
     private boolean hasPhotoPermissions() {
-        Session session = Session.getActiveSession();
         return session.getPermissions().contains("user_photos");
     }
 }

@@ -253,17 +253,42 @@ public class SparkAppMainActivity extends Activity {
 				UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
 				  if(userVO==null){
 					  userVO = new UserVO();
+					  userVO = userVO.convertDtoToVo(result);
+					  userVO.id = 1;
+					  userVO.tutorial = "D";
+					  userVO.save();
+	                Session.setActiveSession(session);
+					  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
+					  i.putExtra("INTENT_FROM", PAGE_FROM);	  
+	               startActivity(i);
+	               overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+	               finish();
+					mProgressHUD.dismiss();
 				  }
-				  userVO = userVO.convertDtoToVo(result);
-				  userVO.id = 1;
-				  userVO.save();
-                Session.setActiveSession(session);
-				  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
-				  i.putExtra("INTENT_FROM", PAGE_FROM);	  
-               startActivity(i);
-               overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-               finish();
-				mProgressHUD.dismiss();
+				  else{
+					  if(("D".equals(userVO.tutorial)) || "I".equals(userVO.tutorial)){
+					  userVO = userVO.convertDtoToVo(result);
+					  userVO.id = 1;
+					  userVO.save();
+					  Session.setActiveSession(session);
+					  Intent i = new Intent(SparkAppMainActivity.this,TutorialPageOneActivity.class);
+					  startActivity(i);
+					  finish();
+					  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+					  mProgressHUD.dismiss();
+					  }else{
+						  userVO = userVO.convertDtoToVo(result);
+						  userVO.id = 1;
+						  userVO.save();
+						  Session.setActiveSession(session);
+						  Intent i = new Intent(SparkAppMainActivity.this,MainPhotoSelectActivity.class);
+						  startActivity(i);
+						  finish();
+						  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						  mProgressHUD.dismiss();
+					  }
+				  }
+				  
 			}
 			
 		}

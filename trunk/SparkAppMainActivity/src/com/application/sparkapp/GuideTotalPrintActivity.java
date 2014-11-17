@@ -1,5 +1,8 @@
 package com.application.sparkapp;
 
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -33,12 +36,20 @@ public class GuideTotalPrintActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+				String tutorial = "";
+				if(user!=null){
+				tutorial = user.tutorial;
 				Intent i = new Intent(GuideTotalPrintActivity.this,ImagePageSummaryActivity.class);
+				if("I".equals(tutorial)){
+					user.tutorial = "A";
+					user.save();
+				}
 				i.putExtra("croppedImage", croppedImage);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();
+				}
 			}
 		});
 	}
