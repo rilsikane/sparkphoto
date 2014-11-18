@@ -1,11 +1,7 @@
 package com.application.sparkapp;
 
-import java.text.BreakIterator;
-import java.util.Arrays;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,6 +14,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +33,7 @@ public class AddressMainActivity extends Activity {
 
 	private EditText address_block;
 	private EditText address_street_name;
-	private EditText address_unit_number;
+	private EditText address_unit_number1,address_unit_number2;
 	private EditText address_postal;
 	private UserDto userDto;
 	private Utils utils;
@@ -52,22 +49,94 @@ public class AddressMainActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_address_main);
 		System.gc();
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
 		address_block = (EditText) findViewById(R.id.editText3);
 		address_street_name = (EditText) findViewById(R.id.editText4);
-		address_unit_number = (EditText) findViewById(R.id.editText7);
+		address_unit_number1 = (EditText) findViewById(R.id.editText7);
+		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
 		utils = new Utils(this, this);
 		userDto = getIntent().getExtras().getParcelable("userDto");
 		
+		address_unit_number1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
+		address_unit_number1.addTextChangedListener(new TextWatcher() {		
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if(address_unit_number1.getText().length()==0){
+					address_unit_number1.requestFocus();
+				}else if(address_unit_number1.getText().length()==2){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number1.getText().length()>2){
+					address_unit_number2.requestFocus();
+				}else{
+					address_unit_number1.requestFocus();
+				}
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+		address_unit_number2.addTextChangedListener(new TextWatcher() {		
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if(address_unit_number2.getText().length()==0){
+					address_unit_number1.requestFocus();
+				}else if(address_unit_number2.getText().length()==3){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==2){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==1){
+					address_unit_number2.requestFocus();
+				}else{
+					address_unit_number2.requestFocus();
+				}
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 		if(userDto!=null){
 			address_block.setText(Utils.isNotEmpty(userDto.getAddress_block())?userDto.getAddress_block():"");
 			address_street_name.setText(Utils.isNotEmpty(userDto.getAddress_street_name())?userDto.getAddress_street_name():"");
-			address_unit_number.setText(Utils.isNotEmpty(userDto.getAddress_unit_number())?userDto.getAddress_unit_number():"");
+			if(userDto.getAddress_unit_number()!=null){
+				String[] unitNumber = userDto.getAddress_unit_number().split("-");
+				address_unit_number1.setText(Utils.isNotEmpty(unitNumber[0])?unitNumber[0]:"");
+				address_unit_number2.setText(Utils.isNotEmpty(unitNumber[1])?unitNumber[1]:"");
+			}			
 			address_postal.setText(Utils.isNotEmpty(userDto.getAddress_postal())?userDto.getAddress_postal():"");
 		}
 		
@@ -82,7 +151,7 @@ public class AddressMainActivity extends Activity {
 				if (Utils.isNotEmpty(address_street_name.getText().toString())&& Utils.isNotEmpty(address_postal.getText().toString())) {
 					userDto.setAddress_block(address_block.getText().toString());
 					userDto.setAddress_street_name(address_street_name.getText().toString());
-					String unitNumber = address_unit_number.getText().toString();
+					String unitNumber = address_unit_number1.getText().toString()+"-"+address_unit_number2.getText().toString();
 					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:" ");
 					userDto.setAddress_postal(address_postal.getText().toString());
 					new InitAndLoadData().execute();
