@@ -112,6 +112,8 @@ public class ImageGridViewActivity extends Activity {
 			String faceUID = getIntent().getStringExtra("facebookUserId");
 			
 		}
+		i.putExtra("LOAD_STATE", "imgGal");
+		i.putExtra("loadImageState", 1);
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
@@ -145,6 +147,7 @@ public class ImageGridViewActivity extends Activity {
 				adapter = new GridViewImageAdapter(ImageGridViewActivity.this, result,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
 				gridView.setAdapter(adapter);
 				mProgressHUD.dismiss();
+//				Toast.makeText(getApplicationContext(), String.valueOf(getIntent().getStringArrayListExtra("imgList")), Toast.LENGTH_LONG).show();
 			} else {
 				
 				mProgressHUD.dismiss();
