@@ -131,7 +131,9 @@ public class JSONParserForGetList {
          
          if(!json.isNull("success")){
         	 commonDto.setFlag(true);
+        	 if(json.isNull("success")){
         	 commonDto.setToken(json.getString("app_access_token"));
+        	 }
          }else{
         	 commonDto.setFlag(false);
         	 commonDto.setMsg(json.getString("message"));
@@ -187,11 +189,12 @@ public class JSONParserForGetList {
          return user;
 	}
 	
-	public List<PerksDto> getListPerks(String acToken){
+	public List<PerksDto> getListPerks(String acToken,String type){
 		List<PerksDto> perksList = new ArrayList<PerksDto>();;
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
 	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
+	    nameValuePairs.add(new BasicNameValuePair("type", type));
 	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"perks");
 	    try{
 		    if(jsonArr!=null){

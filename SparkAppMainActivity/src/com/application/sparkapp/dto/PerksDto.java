@@ -41,6 +41,13 @@ public class PerksDto implements Parcelable {
 	private Boolean used;
 	@JsonProperty("brandname")
 	private String brandname;
+	@JsonProperty("logo_image")
+	private String logo_image;
+	@JsonProperty("is_spark")
+	private String is_spark;
+	@JsonProperty("link")
+	private String link;
+	
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -303,7 +310,31 @@ public class PerksDto implements Parcelable {
 	public void setBrandname(String brandname) {
 		this.brandname = brandname;
 	}
-
+	
+	
+	@JsonProperty("logo_image")
+	public String getLogo_image() {
+		return logo_image;
+	}
+	public void setLogo_image(String logo_image) {
+		this.logo_image = logo_image;
+	}
+	@JsonProperty("is_spark")
+	public String getIs_spark() {
+		return is_spark;
+	}
+	public void setIs_spark(String is_spark) {
+		this.is_spark = is_spark;
+	}
+	
+	
+	@JsonProperty("link")
+	public String getLink() {
+		return link;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;
@@ -337,7 +368,9 @@ public class PerksDto implements Parcelable {
 		dest.writeString(timeCreated);
 		dest.writeByte((byte) (used ? 1 : 0));
 		dest.writeString(brandname);
-
+		dest.writeString(logo_image);
+		dest.writeString(is_spark);
+		dest.writeString(link);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -355,6 +388,9 @@ public class PerksDto implements Parcelable {
 		timeCreated = in.readString();
 		used = in.readByte() != 0;
 		brandname = in.readString();
+		logo_image = in.readString();
+		is_spark = in.readString();
+		link = in.readString();
 	}
 
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

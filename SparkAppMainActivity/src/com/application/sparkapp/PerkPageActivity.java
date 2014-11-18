@@ -54,7 +54,17 @@ public class PerkPageActivity extends Activity {
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		final ImageView premim = (ImageView) findViewById(R.id.imageView2);
 		final ImageView regular = (ImageView) findViewById(R.id.imageView3);
-		new InitAndLoadData().execute("2");
+		
+		String type = getIntent().hasExtra("type") ? getIntent().getStringExtra("type") : "2";
+		
+		if("2".equals(type)){
+			premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_selected));
+			regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_default));
+		}else{
+			regular.setImageDrawable(getResources().getDrawable(R.drawable.regular_selected));
+			premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_default));
+		}
+		new InitAndLoadData().execute(type);
 		premim.setOnClickListener(new OnClickListener() {
 					
 			@Override
@@ -114,16 +124,9 @@ public class PerkPageActivity extends Activity {
 		protected List<PerksDto> doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
-			List<PerksDto> result = new ArrayList<PerksDto>();
-			List<PerksDto> perkList = JSONParserForGetList.getInstance().getListPerks(user.ac_token);
-			if(perkList!=null && perkList.size()>0){
-				for(PerksDto dto : perkList){
-					if(dto.getType().equals(params[0])){
-						result.add(dto);
-					}
-				}
-			}
-			return result;
+			List<PerksDto> perkList = JSONParserForGetList.getInstance().getListPerks(user.ac_token,params[0]);
+			
+			return perkList;
 		}
 
 		@Override
