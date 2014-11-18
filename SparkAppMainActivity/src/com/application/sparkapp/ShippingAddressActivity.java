@@ -63,6 +63,7 @@ public class ShippingAddressActivity extends Activity {
 	int progress = 0;
 	private UserVO user;
 	private List<String> fileList = new ArrayList<String>();
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,7 +124,7 @@ public class ShippingAddressActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(ShippingAddressActivity.this,ShippingPageActivity.class);
+				Intent i = new Intent(ShippingAddressActivity.this,ImagePageSummaryActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -132,7 +133,7 @@ public class ShippingAddressActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed(){
-		Intent i = new Intent(ShippingAddressActivity.this,ShippingPageActivity.class);
+		Intent i = new Intent(ShippingAddressActivity.this,ImagePageSummaryActivity.class);
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
