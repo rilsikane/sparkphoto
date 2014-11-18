@@ -195,6 +195,11 @@
             android:label="@string/title_activity_change_pass"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.application.sparkapp.TermOfUseSettingMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
     </application>
 
 </manifest>
