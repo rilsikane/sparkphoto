@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -309,7 +310,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(picCt==total){
-				Intent i = new Intent(ImagePageSummaryActivity.this,ShippingPageActivity.class);
+				Intent i = new Intent(ImagePageSummaryActivity.this,ShippingAddressActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();
@@ -327,31 +328,9 @@ public class ImagePageSummaryActivity extends Activity {
 				}
 			}
 		});
-		Login login = Entity.query(Login.class).execute();
-		tempList = new ArrayList<TempImg>();
-		if(login!=null){
-			List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token").eq(login.ac_token).executeMulti();
-			if(imgList!=null && !imgList.isEmpty()){
-				
-				for(TempImage tmp : imgList){
-					TempImg img = new TempImg();
-					img.setAmt(tmp.amt!=null ? Integer.parseInt(tmp.amt) : 0);
-					img.setBgicon(tmp.originPath);
-					String[] temp = tmp.path.split("\\.");
-					img.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
-					picCt += Integer.parseInt(tmp.amt);
-					img.setTempImage(tmp);
-					tempList.add(img);
-					
-				}
-				picCount.setText(picCt+"");
-			}
-			
-		}
-		 Collections.reverse(tempList);
-		LoadListAdapter adapter = new LoadListAdapter(tempList);
-		summaryList.setAdapter(adapter);
-
+		//Login login = Entity.query(Login.class).execute();
+		
+		new InitAndLoadData().execute();
 		
 	}
 	@Override
@@ -730,6 +709,64 @@ public class ImagePageSummaryActivity extends Activity {
 			}
 		});
 		perkDialog.show();
+	}
+    public class InitAndLoadData extends AsyncTask<String, Void, Login> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		public InitAndLoadData(){
+		}
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(ImagePageSummaryActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected Login doInBackground(String... params) {
+			// TODO Auto-generated method stub			
+			return Entity.query(Login.class).execute();
+		}
+		
+		@Override
+		protected void onPostExecute(Login result) {
+			super.onPostExecute(result);
+			if (result != null) {
+
+				mProgressHUD.dismiss();
+				tempList = new ArrayList<TempImg>();
+				if(result!=null){
+					List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token").eq(result.ac_token).executeMulti();
+					if(imgList!=null && !imgList.isEmpty()){
+						
+						for(TempImage tmp : imgList){
+							TempImg img = new TempImg();
+							img.setAmt(tmp.amt!=null ? Integer.parseInt(tmp.amt) : 0);
+							img.setBgicon(tmp.originPath);
+							String[] temp = tmp.path.split("\\.");
+							img.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
+							picCt += Integer.parseInt(tmp.amt);
+							img.setTempImage(tmp);
+							tempList.add(img);
+							
+						}
+						picCount.setText(picCt+"");
+					}
+					
+				}
+				Collections.reverse(tempList);
+				LoadListAdapter adapter = new LoadListAdapter(tempList);
+				summaryList.setAdapter(adapter);
+				
+			} else {				
+				  mProgressHUD.dismiss();
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
 	}
 	
 }
