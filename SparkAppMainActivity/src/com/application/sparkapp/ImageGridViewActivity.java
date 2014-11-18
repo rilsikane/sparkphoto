@@ -60,12 +60,10 @@ public class ImageGridViewActivity extends Activity {
 				Intent i = new Intent(ImageGridViewActivity.this,ImageListActivity.class);
 				
 				if(getIntent().hasExtra("facebookUserId")){
-					Toast.makeText(getApplicationContext(), "facebook User Id: "+getIntent().getStringExtra("facebookUserId"), Toast.LENGTH_LONG).show();
 					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
-				}else{
-					i.putExtra("LOAD_STATE", "imgGal");
-					i.putExtra("loadImageState", 1);
-				}								
+				}
+				i.putExtra("LOAD_STATE", "imgGal");
+				i.putExtra("loadImageState", 1);
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();

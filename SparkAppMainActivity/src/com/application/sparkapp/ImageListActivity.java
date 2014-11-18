@@ -171,9 +171,9 @@ public class ImageListActivity extends Activity {
 			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
 			String fabookUId = getIntent().getStringExtra("facebookUserId");
 			
-//			if(getIntent().hasExtra("facebookUserId")){
+			if(getIntent().hasExtra("facebookUserId")){
 				i.putExtra("facebookUserId", fabookUId);
-//			}
+			}
 			i.putStringArrayListExtra("imgList", temps.getImgList());
 			if("facebook".equals(temps.getType())){
 				i.putExtra("isFacebook", true);
