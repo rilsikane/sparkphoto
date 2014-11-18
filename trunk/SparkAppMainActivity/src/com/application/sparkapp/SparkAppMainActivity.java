@@ -114,7 +114,7 @@ public class SparkAppMainActivity extends Activity {
                     // Ask for username and password
                     OpenRequest op = new Session.OpenRequest(SparkAppMainActivity.this);
 
-                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
                     op.setCallback(null);
 
                     List<String> permissions = new ArrayList<String>();
