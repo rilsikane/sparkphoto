@@ -65,10 +65,10 @@ public class AddressMainActivity extends Activity {
 		userDto = getIntent().getExtras().getParcelable("userDto");
 		
 		if(userDto!=null){
-			address_block.setText(utils.isNotEmpty(userDto.getAddress_block())?userDto.getAddress_block():"");
-			address_street_name.setText(utils.isNotEmpty(userDto.getAddress_street_name())?userDto.getAddress_street_name():"");
-			address_unit_number.setText(utils.isNotEmpty(userDto.getAddress_unit_number())?userDto.getAddress_unit_number():"");
-			address_postal.setText(utils.isNotEmpty(userDto.getAddress_postal())?userDto.getAddress_postal():"");
+			address_block.setText(Utils.isNotEmpty(userDto.getAddress_block())?userDto.getAddress_block():"");
+			address_street_name.setText(Utils.isNotEmpty(userDto.getAddress_street_name())?userDto.getAddress_street_name():"");
+			address_unit_number.setText(Utils.isNotEmpty(userDto.getAddress_unit_number())?userDto.getAddress_unit_number():"");
+			address_postal.setText(Utils.isNotEmpty(userDto.getAddress_postal())?userDto.getAddress_postal():"");
 		}
 		
 		address_street_name.addTextChangedListener(new EditTextWatcher(address_street_name, "Please enter Street name"));
@@ -79,11 +79,11 @@ public class AddressMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				if (utils.isNotEmpty(address_street_name.getText().toString())&& utils.isNotEmpty(address_postal.getText().toString())) {
+				if (Utils.isNotEmpty(address_street_name.getText().toString())&& Utils.isNotEmpty(address_postal.getText().toString())) {
 					userDto.setAddress_block(address_block.getText().toString());
 					userDto.setAddress_street_name(address_street_name.getText().toString());
 					String unitNumber = address_unit_number.getText().toString();
-					userDto.setAddress_unit_number(utils.isNotEmpty(unitNumber)?unitNumber:" ");
+					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:" ");
 					userDto.setAddress_postal(address_postal.getText().toString());
 					new InitAndLoadData().execute();
 				}else if(address_street_name.getText().toString().isEmpty()){
@@ -142,9 +142,8 @@ public class AddressMainActivity extends Activity {
 		@Override
 		protected void onPostExecute(CommonDto result) {
 			super.onPostExecute(result);
-			if (result != null && utils.isNotEmpty(result.getMsg())) {
-				String[] msgs = result.getMsg().replaceAll("\\[", "")
-						.replaceAll("\\]", "").split(",");
+			if (result != null && Utils.isNotEmpty(result.getMsg())) {
+				String[] msgs = result.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
 				if (contains(msgs, "term")) {
 					Intent intent = new Intent(AddressMainActivity.this,TermOfUseMainActivity.class);
 					intent.putExtra("userDto", (Parcelable) userDto);
@@ -219,7 +218,7 @@ public class AddressMainActivity extends Activity {
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
 			// TODO Auto-generated method stub
-			if(utils.isNotEmpty(_edt.getText().toString())){
+			if(Utils.isNotEmpty(_edt.getText().toString())){
 				_edt.setError(null);
 			}else{
 				_edt.setError(_msg);
