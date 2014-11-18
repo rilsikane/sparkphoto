@@ -146,14 +146,10 @@ public class AddressMainActivity extends Activity {
 				String[] msgs = result.getMsg().replaceAll("\\[", "")
 						.replaceAll("\\]", "").split(",");
 				if (contains(msgs, "term")) {
-					Intent intent = new Intent(
-							AddressMainActivity.this,
-							TermOfUseMainActivity.class);
+					Intent intent = new Intent(AddressMainActivity.this,TermOfUseMainActivity.class);
 					intent.putExtra("userDto", (Parcelable) userDto);
 					startActivity(intent);
-					overridePendingTransition(
-							R.anim.slide_in_left,
-							R.anim.slide_out_left);
+					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 					finish();
 
 				} else {
