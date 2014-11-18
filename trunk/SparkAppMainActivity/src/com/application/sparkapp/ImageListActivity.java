@@ -21,7 +21,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
@@ -37,16 +36,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.application.sparkapp.dto.UserDto;
-import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 
 @SuppressLint("NewApi")
