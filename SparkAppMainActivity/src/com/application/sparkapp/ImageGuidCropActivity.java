@@ -52,6 +52,7 @@ public class ImageGuidCropActivity extends Activity {
 	public void onBackPressed(){
 		Intent i = new Intent(ImageGuidCropActivity.this,ImageCropActivity.class);
 		i.putExtra("imgPath", imgPath);
+		i.putStringArrayListExtra("IMG_LIST", getIntent().getStringArrayListExtra("IMG_LIST"));
 		startActivity(i);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
