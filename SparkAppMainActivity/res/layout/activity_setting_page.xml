@@ -80,7 +80,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="3"
+                android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="30sp" />
         </RelativeLayout>
@@ -112,7 +112,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="2"
+                android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="30sp" />
         </RelativeLayout>
@@ -156,7 +156,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="1"
+                android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="30sp" />
         </RelativeLayout>
