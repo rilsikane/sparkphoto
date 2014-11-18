@@ -186,7 +186,10 @@ public class SettingPageActivity extends Activity {
 			}
 			//Link to term of use page
 			if(position==2){
-				
+				Intent i = new Intent(SettingPageActivity.this, TermOfUseSettingMainActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
 			}
 			//Link to about page
 			if(position==3){
