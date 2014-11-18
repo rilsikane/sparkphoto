@@ -56,5 +56,7 @@
     <string name="faq_no_8_detail">There is currently no option to print more than the credits you are given each month. However, do keep peeled to your seats because we will be throwing in the occasional reward of additional credits and allow you to print more photos in that month.</string>
     <string name="title_activity_profile_page">ProfilePageActivity</string>
     <string name="title_activity_change_pass">ChangePassActivity</string>
+    <string name="crash_toast_text">This problem already sent to developer</string>
+    <string name="email_receiver">jutha.se@gmail.com</string>
 
 </resources>
