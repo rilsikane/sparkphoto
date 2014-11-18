@@ -10,6 +10,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -55,6 +55,7 @@ public class TermOfUseMainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
+				intent.putExtra("userDto", (Parcelable) userDto);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -64,6 +65,7 @@ public class TermOfUseMainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
+		intent.putExtra("userDto", (Parcelable) userDto);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
