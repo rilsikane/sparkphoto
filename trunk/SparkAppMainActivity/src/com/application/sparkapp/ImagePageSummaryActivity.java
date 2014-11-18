@@ -551,6 +551,7 @@ public class ImagePageSummaryActivity extends Activity {
 				    		summaryList.invalidateViews();
 				    		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(temp.getTempImage().id).execute();
 				    		tempImage.delete();
+				    		picCount.setText(picCt+"");
 				    		dialog.dismiss();
 				        }
 				     })
