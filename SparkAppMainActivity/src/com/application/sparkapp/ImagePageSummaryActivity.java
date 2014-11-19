@@ -186,7 +186,7 @@ public class ImagePageSummaryActivity extends Activity {
 						public void onClick(View v) {
 							if(nextTimeCanUpload){
 								session = Session.getActiveSession();
-							if (session!=null||session.isOpened()) {
+							if (session!=null) {
 								mProgressHUD= ProgressHUD.show(ImagePageSummaryActivity.this,"Loading ...", true,true,new OnCancelListener() {
 									
 									@Override
@@ -227,7 +227,7 @@ public class ImagePageSummaryActivity extends Activity {
 				                    // Ask for username and password
 				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
 	
-				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
 				                    op.setCallback(null);
 	
 				                    List<String> permissions = new ArrayList<String>();
@@ -629,16 +629,9 @@ public class ImagePageSummaryActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode,
-                    resultCode, data);
+            Session.getActiveSession().onActivityResult(this, requestCode,resultCode, data);
         }
-
-        Session currentSession = Session.getActiveSession();
-        if (currentSession == null || currentSession.getState().isClosed()) {
-            Session session = new Session.Builder(getApplicationContext()).build();
-            Session.setActiveSession(session);
-            currentSession = session;
-        }
+       
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
             	//imgPath
@@ -659,43 +652,53 @@ public class ImagePageSummaryActivity extends Activity {
                         "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                         .show();
             }
+        }else{
+        	 
+
+             Session currentSession = Session.getActiveSession();
+             if (currentSession == null || currentSession.getState().isClosed()) {
+                 Session session = new Session.Builder(getApplicationContext()).build();
+                 Session.setActiveSession(session);
+                 currentSession = session;
+             }
+             if (currentSession.isOpened()) {
+                 Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+                     @SuppressWarnings("deprecation")
+     				@Override
+                     public void call(final Session session, SessionState state, Exception exception) {
+
+                         if (session.isOpened()) {
+
+                             Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+                                 @Override
+                                 public void onCompleted(GraphUser user, Response response) {
+                                     if (user != null) {
+                                         session.getAccessToken();
+                                         //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
+                                         user.getFirstName();
+                                         user.getId();
+                                         user.getName();
+                                         
+                                         Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
+                                         i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+                                         i.putExtra("facebookUserId", user.getId());
+                                         i.putExtra("loadImageState", 0);
+                                         startActivity(i);
+                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                         finish();
+                                     }
+                                 }
+                             });
+                         }
+                     }
+                 });
+             }
         }
 
-        if (currentSession.isOpened()) {
-            Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-                @SuppressWarnings("deprecation")
-				@Override
-                public void call(final Session session, SessionState state, Exception exception) {
-
-                    if (session.isOpened()) {
-
-                        Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-                            @Override
-                            public void onCompleted(GraphUser user, Response response) {
-                                if (user != null) {
-                                    session.getAccessToken();
-                                    //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
-                                    user.getFirstName();
-                                    user.getId();
-                                    user.getName();
-                                    
-                                    Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-                                    i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-                                    i.putExtra("facebookUserId", user.getId());
-                                    i.putExtra("loadImageState", 0);
-                                    startActivity(i);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    finish();
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-}
+        
+    }
     public void showPerkDialog(){
 		final Dialog perkDialog = new Dialog(ImagePageSummaryActivity.this);
 		perkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
