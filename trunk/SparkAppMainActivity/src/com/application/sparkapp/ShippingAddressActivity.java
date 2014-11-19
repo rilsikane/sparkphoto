@@ -1,13 +1,9 @@
 package com.application.sparkapp;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +22,16 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -44,7 +41,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.EmailLoginActivity.InitAndLoadData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -58,7 +54,7 @@ public class ShippingAddressActivity extends Activity {
 	private TextView confirmBtn;
 	private ProgressWheel pw_two;
 	boolean running;
-	private EditText address_block,address_street_name,address_unit_number,address_postal;
+	private EditText address_block,address_street_name,address_unit_number1,address_unit_number2,address_postal;
 	List<TempImage> imgList;
 	int progress = 0;
 	private UserVO user;
@@ -81,14 +77,86 @@ public class ShippingAddressActivity extends Activity {
 		confirmBtn = (TextView) findViewById(R.id.textView2);			
 		address_block = (EditText) findViewById(R.id.editText3);
 		address_street_name = (EditText) findViewById(R.id.editText4);
-		address_unit_number = (EditText) findViewById(R.id.editText7);
+		address_unit_number1 = (EditText) findViewById(R.id.editText7);
+		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
         
+		address_unit_number1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
+		address_unit_number1.addTextChangedListener(new TextWatcher() {		
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if(address_unit_number1.getText().length()==0){
+					address_unit_number1.requestFocus();
+				}else if(address_unit_number1.getText().length()==2){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number1.getText().length()>2){
+					address_unit_number2.requestFocus();
+				}else{
+					address_unit_number1.requestFocus();
+				}
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+		address_unit_number2.addTextChangedListener(new TextWatcher() {		
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if(address_unit_number2.getText().length()==0){
+					address_unit_number1.requestFocus();
+				}else if(address_unit_number2.getText().length()==3){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==2){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==1){
+					address_unit_number2.requestFocus();
+				}else{
+					address_unit_number2.requestFocus();
+				}
+				
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		user = Entity.query(UserVO.class).where("id").eq(1).execute();
 		if(user!=null){
 			address_block.setText(user.address_block);
 			address_street_name.setText(user.address_street_name);
-			address_unit_number.setText(user.address_unit_number);
+			if(user.address_unit_number!=null && user.address_unit_number.length()!=0){
+				String[] unitNumber = user.address_unit_number.split("-");
+				address_unit_number1.setText(Utils.isNotEmpty(unitNumber[0])?unitNumber[0]:"");
+				address_unit_number2.setText(Utils.isNotEmpty(unitNumber[1])?unitNumber[1]:"");
+			}
 			address_postal.setText(user.address_postal);
 			imgList = Entity.query(TempImage.class).where("ac_token").eq(user.ac_token).executeMulti();
 		}
@@ -115,7 +183,7 @@ public class ShippingAddressActivity extends Activity {
 				});
 				new UploadImage(dialog).execute();
 				
-				
+				dialog.show();
 				
 			}
 		});
