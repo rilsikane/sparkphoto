@@ -76,6 +76,7 @@ public class SettingPageActivity extends Activity {
 				             	}
 				             }
 				             user.status = "D";
+				             user.save();
 			        	}
 			        	 
 						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
