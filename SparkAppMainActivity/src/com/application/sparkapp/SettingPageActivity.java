@@ -47,6 +47,9 @@ public class SettingPageActivity extends Activity {
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.setting_page, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
+		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		TextView credit = (TextView) findViewById(R.id.textView);
+		credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
 		
 		backIcon = (ImageView) findViewById(R.id.imageView1);
 		logoutBtn = (ImageView) findViewById(R.id.imageView4);

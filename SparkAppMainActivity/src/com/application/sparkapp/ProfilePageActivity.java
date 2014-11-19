@@ -1,6 +1,8 @@
 package com.application.sparkapp;
 
 import com.application.sparkapp.SignUpPageOneMainActivity.EditTextWatcher;
+import com.application.sparkapp.SignUpPageOneMainActivity.InitAndLoadData;
+import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -8,6 +10,7 @@ import com.roscopeco.ormdroid.Entity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class ProfilePageActivity extends Activity {
 	private Utils utils;
 	private ImageView backIcon;
@@ -43,6 +47,7 @@ public class ProfilePageActivity extends Activity {
 			"Human Resources", "National Service","Pre-university Student", 
 			"Professional","Public Relations","Self-employed", 
 			"University Post-graduate","University Undergraduate", "Others" };
+	private UserDto userDto;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,19 +97,19 @@ public class ProfilePageActivity extends Activity {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									servSel=0;
+									servSel=1;
 									service.setText(service_items[0]);
 									break;
 								case 1:
-									servSel=1;
+									servSel=2;
 									service.setText(service_items[1]);
 									break;
 								case 2:
-									servSel=2;
+									servSel=3;
 									service.setText(service_items[2]);
 									break;
 								case 3:
-									servSel=3;
+									servSel=4;
 									service.setText(service_items[3]);
 									break;
 								}
@@ -195,7 +200,7 @@ public class ProfilePageActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				final CharSequence[] items = { " Male ", " Female " };
+				final CharSequence[] items = { "Male", "Female" };
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(ProfilePageActivity.this);
 				builder.setTitle("Select Genders");
@@ -237,11 +242,58 @@ public class ProfilePageActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent i = new Intent(ProfilePageActivity.this, SettingPageActivity.class);				 
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
+				if (utils.isNotEmpty(gender.getText().toString())
+						&& utils.isNotEmpty(dob.getText().toString())
+						&& utils.isNotEmpty(occuption.getText().toString())
+						&& utils.isNotEmpty(service.getText().toString())
+						&& utils.isNotEmpty(phoneno.getText().toString())
+						&& utils.isNotEmpty(email.getText().toString())
+						&& utils.isNotEmpty(nric.getText().toString())
+						&& utils.isNotEmpty(lastname.getText().toString())
+						&& utils.isNotEmpty(firstname.getText().toString())) {
+					
+
+						userDto.setFirstname(firstname.getText().toString());
+						userDto.setLastname(lastname.getText().toString());
+						userDto.setNric_fin(nric.getText().toString());
+						userDto.setEmail(email.getText().toString());
+						userDto.setPhone(phoneno.getText().toString());
+						userDto.setPhone_service(servSel+"");
+						userDto.setOccupation(occSel+"");
+						userDto.setBirthday(dob.getText().toString());
+						userDto.setGender("Female".equals(gender.getText().toString()) ? "2" : "1");
+						new EditProfileData().execute();
+					
+					
+				}
+				if (firstname.getText().toString().isEmpty()) {
+					firstname.setError("Please enter first name");
+				}
+				if (lastname.getText().toString().isEmpty()) {
+					lastname.setError("Please enter last name");
+				}
+				if (nric.getText().toString().isEmpty()) {
+					nric.setError("Please enter NRIC/FIN");
+				}
+				if (email.getText().toString().isEmpty()) {
+					email.setError("Please enter Email");
+				}
+				if (dob.getText().toString().isEmpty()) {
+					dob.setError("Please select Date of Birth");
+				}
+				if (gender.getText().toString().isEmpty()) {
+					gender.setError("Please select Gender");
+				}
+				if (phoneno.getText().toString().isEmpty()) {
+					phoneno.setError("Please enter Phone Number");
+				}
+				if (service.getText().toString().isEmpty()) {
+					service.setError("Please select Service");
+				}
+				if (occuption.getText().toString().isEmpty()) {
+					occuption.setError("Please select Occupation");
+				}
+				
 			}
 		});
 		backIcon.setOnClickListener(new OnClickListener() {
@@ -283,27 +335,31 @@ public class ProfilePageActivity extends Activity {
 		protected UserDto doInBackground(String... params) {
 			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 			UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+			common.setAccess_token(user.ac_token);
 			return common;
 		}
 
 		@Override
 		protected void onPostExecute(UserDto result) {
 			super.onPostExecute(result);
-			firstname.setText(result.getFirstname());
-			lastname.setText(result.getLastname());
-			nric.setText(result.getNric_fin());
-			email.setText(result.getEmail());
-			password.setText(result.getPassword());
-			phoneno.setText(result.getPhone());
-			service.setText(Utils.isNotEmpty(result.getPhone_service()) ? service_items[ 
-					Integer.parseInt(result.getPhone_service())]:"");
-			occuption.setText(Utils.isNotEmpty(result.getOccupation())? 
-					occ_items[Integer.parseInt(result.getOccupation())]:"");
-			occSel = Utils.isNotEmpty(result.getOccupation())?Integer.parseInt(result.getOccupation()):0;
-			servSel =  Utils.isNotEmpty(result.getPhone_service())?Integer.parseInt(result.getPhone_service()):0;
-			dob.setText(result.getBirthday());
-			gender.setText("0".equals(result.getGender()) ? "Male" : "Female");
-			mProgressHUD.dismiss();
+			if(result!=null){
+				firstname.setText(result.getFirstname());
+				lastname.setText(result.getLastname());
+				nric.setText(result.getNric_fin());
+				email.setText(result.getEmail());
+				changePass.setText(result.getPassword());
+				phoneno.setText(result.getPhone());
+				service.setText(Utils.isNotEmpty(result.getPhone_service()) ? service_items[ 
+						Integer.parseInt(result.getPhone_service())-1]:"");
+				occuption.setText(Utils.isNotEmpty(result.getOccupation())? 
+						occ_items[Integer.parseInt(result.getOccupation())]:"");
+				occSel = Utils.isNotEmpty(result.getOccupation())?Integer.parseInt(result.getOccupation()):0;
+				servSel =  Utils.isNotEmpty(result.getPhone_service())?Integer.parseInt(result.getPhone_service()):0;
+				dob.setText(result.getBirthday());
+				gender.setText("1".equals(result.getGender()) ? "Male" : "Female");
+				userDto=result;
+				mProgressHUD.dismiss();
+			}
 			}
 
 		@Override
@@ -311,6 +367,97 @@ public class ProfilePageActivity extends Activity {
 			mProgressHUD.dismiss();
 		}
 
+
+	}
+
+	public class EditProfileData extends AsyncTask<String, Void, CommonDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(ProfilePageActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
+					userDto,"debug");
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (result.isFlag()) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							ProfilePageActivity.this);
+					builder1.setMessage("EditProfile Completed");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									// By pass to term of use main activity
+									Intent i = new Intent(
+											ProfilePageActivity.this,
+											SettingPageActivity.class);
+									startActivity(i);
+									finish();
+									overridePendingTransition(
+											R.anim.slide_in_left,
+											R.anim.slide_out_left);
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+
+				} else {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							ProfilePageActivity.this);
+
+					String[] msgs = result.getMsg().replaceAll("\\[", "")
+							.replaceAll("\\]", "").split(",");
+					if (msgs != null && msgs.length > 0) {
+						String msg = "Error Please try again "
+								+ System.getProperty("line.separator");
+						if (msgs != null && msgs.length > 0) {
+							for (String ms : msgs) {
+								msg += ("-" + ms + System
+										.getProperty("line.separator"));
+							}
+
+						}
+						builder1.setMessage(msg);
+					}
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
 
 	}
 	public class EditTextWatcher implements TextWatcher{

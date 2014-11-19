@@ -96,6 +96,10 @@ public class MainPhotoSelectActivity extends Activity {
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 			if("D".equals(user.tutorial)){
 				radioButton.setChecked(false);
+			}else if("".equals(user.tutorial)){
+				user.tutorial = "I";
+				user.save();
+				radioButton.setChecked(true);
 			}else{
 				user.tutorial = "A";
 				user.save();
