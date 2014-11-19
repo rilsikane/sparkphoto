@@ -65,6 +65,7 @@ public class ProfilePageActivity extends Activity {
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
 		gender = (EditText) findViewById(R.id.editText8);
+		dob = (EditText) findViewById(R.id.editText7);
 		
 		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
 		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
