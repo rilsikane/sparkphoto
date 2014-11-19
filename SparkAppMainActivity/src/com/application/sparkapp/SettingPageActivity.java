@@ -24,7 +24,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.application.sparkapp.model.TempImage;
+import com.application.sparkapp.model.UserVO;
 import com.facebook.Session;
+import com.roscopeco.ormdroid.Entity;
 
 public class SettingPageActivity extends Activity {
 	private Utils utils;
@@ -64,6 +67,19 @@ public class SettingPageActivity extends Activity {
 			        	if(Session.getActiveSession()!=null){
 							Session.getActiveSession().closeAndClearTokenInformation();
 						}
+			        	List<UserVO> userList = Entity.query(UserVO.class).executeMulti();
+			        	if(userList!=null){
+			        		for(UserVO vo :userList){
+			        			vo.delete();
+			        		}
+			        		List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
+				             if(tempList!=null){
+				             	for(TempImage temp : tempList){
+				             		temp.delete();
+				             	}
+				             }
+			        	}
+			        	 
 						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
 		                startActivity(i);
 		                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
