@@ -66,7 +66,7 @@ public class SparkAppMainActivity extends Activity {
         
        UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 
-       if("A".equals(user)){
+       if("A".equals(user.status)){
         UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
         List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
         if(tempList!=null){
