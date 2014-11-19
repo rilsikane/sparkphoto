@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
 import com.facebook.Request;
@@ -67,6 +68,13 @@ public class SparkAppMainActivity extends Activity {
 
        if(user!=null){
         UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+        List<TempImage> tempList = Entity.query(TempImage.class).where("ac_token").eq(user.ac_token).executeMulti();
+        if(tempList!=null){
+        	for(TempImage temp : tempList){
+        		temp.delete();
+        	}
+        }
+        
         if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
              user = user.convertDtoToVo(result);
              user.id = 1;
