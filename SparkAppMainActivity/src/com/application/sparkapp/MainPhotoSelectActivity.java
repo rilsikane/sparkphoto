@@ -97,6 +97,8 @@ public class MainPhotoSelectActivity extends Activity {
 			if("D".equals(user.tutorial)){
 				radioButton.setChecked(false);
 			}else{
+				user.tutorial = "A";
+				user.save();
 				radioButton.setChecked(true);
 			}
 		}

@@ -66,7 +66,7 @@ public class SparkAppMainActivity extends Activity {
         
        UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 
-       if("A".equals(user.status)){
+       if(user!=null && "A".equals(user.status)){
         UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
         List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
         if(tempList!=null){
@@ -293,7 +293,7 @@ public class SparkAppMainActivity extends Activity {
 					  userVO = userVO.convertDtoToVo(result);
 					  userVO.id = 1;
 					  userVO.status = "A";
-					  userVO.tutorial = "D";
+					  userVO.tutorial = "";
 					  userVO.save();
 	                Session.setActiveSession(session);
 					  Intent i = new Intent(SparkAppMainActivity.this, TutorialPageOneActivity.class);
