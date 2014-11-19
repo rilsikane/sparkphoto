@@ -112,7 +112,7 @@ public class EmailLoginActivity extends Activity {
 						  user = new UserVO();
 						  user = user.convertDtoToVo(result);
 						  user.id = 1;
-						  user.tutorial = "D";
+						  user.tutorial = "";
 						  user.status = "A";
 						  user.save();
 						  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
