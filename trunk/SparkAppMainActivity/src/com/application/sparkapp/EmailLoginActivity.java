@@ -113,6 +113,7 @@ public class EmailLoginActivity extends Activity {
 						  user = user.convertDtoToVo(result);
 						  user.id = 1;
 						  user.tutorial = "D";
+						  user.status = "A";
 						  user.save();
 						  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
 						  i.putExtra("INTENT_FROM", PAGE_FROM);					  
@@ -125,6 +126,7 @@ public class EmailLoginActivity extends Activity {
 						  if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
 							  user = user.convertDtoToVo(result);
 							  user.id = 1;
+							  user.status = "A";
 							  user.save();
 							  Intent i = new Intent(EmailLoginActivity.this,TutorialPageOneActivity.class);
 							  startActivity(i);
@@ -134,6 +136,7 @@ public class EmailLoginActivity extends Activity {
 							  }else{
 								  user = user.convertDtoToVo(result);
 								  user.id = 1;
+								  user.status = "A";
 								  user.save();
 								  Intent i = new Intent(EmailLoginActivity.this,MainPhotoSelectActivity.class);
 								  startActivity(i);

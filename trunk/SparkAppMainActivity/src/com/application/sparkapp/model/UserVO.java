@@ -29,9 +29,10 @@ public class UserVO extends Entity{
 	public String nextTimeCanUpload;
 	public String normalCredit;
 	public String tutorial;
+	public String status;
 	
 	public UserVO(){
-		this(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null);
+		this(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,null,null);
 	}
 	
 	public UserVO(String method, String email, String password,
@@ -40,7 +41,7 @@ public class UserVO extends Entity{
 			String occupation, String address_block,
 			String address_street_name, String address_unit_number,
 			String address_postal, String fb_access_token,String creditExtra, String ac_token,String numberPictureCanUpload, 
-			String nextTimeCanUpload,String normalCredit,String tutorial){
+			String nextTimeCanUpload,String normalCredit,String tutorial,String status){
 		this.method = method;
 		this.email = email;
 		this.password = password;
@@ -63,6 +64,7 @@ public class UserVO extends Entity{
 		this.nextTimeCanUpload = nextTimeCanUpload;
 		this.normalCredit = normalCredit;
 		this.tutorial = tutorial;
+		this.status = status;
 	}
 	
 	public UserVO convertDtoToVo(UserDto dto){
