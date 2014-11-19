@@ -42,7 +42,6 @@
             ProgressWheel:rimColor="#44000000"
             ProgressWheel:rimWidth="25dp"
             ProgressWheel:spinSpeed="3dp"
-            ProgressWheel:text="Click\none of the\nbuttons"
             ProgressWheel:textColor="#ffffff"
             ProgressWheel:textSize="14sp" />
     </LinearLayout>
