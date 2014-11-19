@@ -34,5 +34,4 @@ public class TempImage extends Entity{
 		return key;
 		
 	}
-
 }

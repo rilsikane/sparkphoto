@@ -68,7 +68,7 @@ public class SparkAppMainActivity extends Activity {
 
        if(user!=null){
         UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
-        List<TempImage> tempList = Entity.query(TempImage.class).where("ac_token").eq(user.ac_token).executeMulti();
+        List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
         if(tempList!=null){
         	for(TempImage temp : tempList){
         		temp.delete();
