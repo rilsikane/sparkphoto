@@ -714,7 +714,7 @@ public class ImagePageSummaryActivity extends Activity {
 		});
 		perkDialog.show();
 	}
-    public class InitAndLoadData extends AsyncTask<String, Void, Login> implements OnCancelListener{
+    public class InitAndLoadData extends AsyncTask<String, Void, UserVO> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
 		public InitAndLoadData(){
 		}
@@ -724,13 +724,13 @@ public class ImagePageSummaryActivity extends Activity {
     		super.onPreExecute();
     	}
 		@Override
-		protected Login doInBackground(String... params) {
+		protected UserVO doInBackground(String... params) {
 			// TODO Auto-generated method stub			
-			return Entity.query(Login.class).execute();
+			return Entity.query(UserVO.class).where("id").eq(1).execute();
 		}
 		
 		@Override
-		protected void onPostExecute(Login result) {
+		protected void onPostExecute(UserVO result) {
 			super.onPostExecute(result);
 			if (result != null) {
 
