@@ -104,13 +104,13 @@ public class SignUpPageOneMainActivity extends Activity {
 			cfPassword.setText(userDto.getPassword());
 			phoneno.setText(userDto.getPhone());
 			service.setText(Utils.isNotEmpty(userDto.getPhone_service()) ? service_items[ 
-					Integer.parseInt(userDto.getPhone_service())]:"");
+					Integer.parseInt(userDto.getPhone_service())-1]:"");
 			occuption.setText(Utils.isNotEmpty(userDto.getOccupation())? 
 					occ_items[Integer.parseInt(userDto.getOccupation())]:"");
 			occSel = Utils.isNotEmpty(userDto.getOccupation())?Integer.parseInt(userDto.getOccupation()):0;
-			servSel =  Utils.isNotEmpty(userDto.getPhone_service())?Integer.parseInt(userDto.getPhone_service()):0;
+			servSel =  Utils.isNotEmpty(userDto.getPhone_service())?Integer.parseInt(userDto.getPhone_service())-1:0;
 			dob.setText(userDto.getBirthday());
-			gender.setText("0".equals(userDto.getGender()) ? "Male" : "Female");
+			gender.setText("1".equals(userDto.getGender()) ? "Male" : "Female");
 		} else {
 			userDto = new UserDto();
 		}
@@ -166,19 +166,19 @@ public class SignUpPageOneMainActivity extends Activity {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									servSel=0;
+									servSel=1;
 									service.setText(service_items[0]);
 									break;
 								case 1:
-									servSel=1;
+									servSel=2;
 									service.setText(service_items[1]);
 									break;
 								case 2:
-									servSel=2;
+									servSel=3;
 									service.setText(service_items[2]);
 									break;
 								case 3:
-									servSel=3;
+									servSel=4;
 									service.setText(service_items[3]);
 									break;
 								}
@@ -270,7 +270,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				final CharSequence[] items = { " Male ", " Female " };
+				final CharSequence[] items = { "Male", "Female" };
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						SignUpPageOneMainActivity.this);
@@ -335,7 +335,7 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setPhone_service(servSel+"");
 						userDto.setOccupation(occSel+"");
 						userDto.setBirthday(dob.getText().toString());
-						userDto.setGender("Male".equals(gender.getText().toString()) ? "0" : "1");
+						userDto.setGender("Male".equals(gender.getText().toString()) ? "1" : "2");
 						new InitAndLoadData().execute();
 						
 					}
@@ -484,7 +484,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			if (result != null && utils.isNotEmpty(result.getMsg())) {
 			String[] msgs = result.getMsg().replaceAll("\\[", "")
 					.replaceAll("\\]", "").split(",");
-				if (msgs.length==4) {
+				if (msgs.length<4 && checkAddres(msgs)) {
 					Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
 					i.putExtra("userDto", (Parcelable) userDto);
 					startActivity(i);
@@ -530,5 +530,18 @@ public class SignUpPageOneMainActivity extends Activity {
 			mProgressHUD.dismiss();
 		}
 
+	}
+	public boolean checkAddres(String[]msgs){
+		boolean isContain = false;
+		if(msgs!=null && msgs.length>0){
+			for(int i=0;i<msgs.length;i++){
+				if(msgs[i].contains("postal") || msgs[i].contains("street") || msgs[i].contains("block")){
+					isContain = true;
+					break;
+				}
+			}
+			
+		}
+		return isContain;
 	}
 }
