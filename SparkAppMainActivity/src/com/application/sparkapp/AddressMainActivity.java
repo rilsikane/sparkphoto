@@ -132,7 +132,7 @@ public class AddressMainActivity extends Activity {
 		if(userDto!=null){
 			address_block.setText(Utils.isNotEmpty(userDto.getAddress_block())?userDto.getAddress_block():"");
 			address_street_name.setText(Utils.isNotEmpty(userDto.getAddress_street_name())?userDto.getAddress_street_name():"");
-			if(userDto.getAddress_unit_number()!=null){
+			if(userDto.getAddress_unit_number()!=null && userDto.getAddress_unit_number().length()!=0){
 				String[] unitNumber = userDto.getAddress_unit_number().split("-");
 				address_unit_number1.setText(Utils.isNotEmpty(unitNumber[0])?unitNumber[0]:"");
 				address_unit_number2.setText(Utils.isNotEmpty(unitNumber[1])?unitNumber[1]:"");
