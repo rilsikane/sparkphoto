@@ -69,7 +69,6 @@ public class ProfilePageActivity extends Activity {
 		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
 		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
 		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
-		email.addTextChangedListener(new EditTextWatcher(email, "Please enter Email"));
 		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
 		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
 		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
