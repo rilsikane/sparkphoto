@@ -1,5 +1,6 @@
 package com.application.sparkapp;
 
+import com.application.sparkapp.SignUpPageOneMainActivity.EditTextWatcher;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -16,6 +17,8 @@ import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -62,6 +65,18 @@ public class ProfilePageActivity extends Activity {
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
 		gender = (EditText) findViewById(R.id.editText8);
+		
+		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
+		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
+		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
+		email.addTextChangedListener(new EditTextWatcher(email, "Please enter Email"));
+		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
+		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
+		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
+		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
+		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
+		
+		new InitAndLoadData().execute();
 		
 		service.setOnClickListener(new OnClickListener() {
 
@@ -274,8 +289,21 @@ public class ProfilePageActivity extends Activity {
 		@Override
 		protected void onPostExecute(UserDto result) {
 			super.onPostExecute(result);
-			
-				mProgressHUD.dismiss();
+			firstname.setText(result.getFirstname());
+			lastname.setText(result.getLastname());
+			nric.setText(result.getNric_fin());
+			email.setText(result.getEmail());
+			password.setText(result.getPassword());
+			phoneno.setText(result.getPhone());
+			service.setText(Utils.isNotEmpty(result.getPhone_service()) ? service_items[ 
+					Integer.parseInt(result.getPhone_service())]:"");
+			occuption.setText(Utils.isNotEmpty(result.getOccupation())? 
+					occ_items[Integer.parseInt(result.getOccupation())]:"");
+			occSel = Utils.isNotEmpty(result.getOccupation())?Integer.parseInt(result.getOccupation()):0;
+			servSel =  Utils.isNotEmpty(result.getPhone_service())?Integer.parseInt(result.getPhone_service()):0;
+			dob.setText(result.getBirthday());
+			gender.setText("0".equals(result.getGender()) ? "Male" : "Female");
+			mProgressHUD.dismiss();
 			}
 
 		@Override
@@ -284,5 +312,38 @@ public class ProfilePageActivity extends Activity {
 		}
 
 
+	}
+	public class EditTextWatcher implements TextWatcher{
+		public EditText _edt;
+		public String _msg;
+		
+		public EditTextWatcher(EditText edT, String msg){
+			this._edt= edT;
+			this._msg = msg;
+		}
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			if(utils.isNotEmpty(_edt.getText().toString())){
+				_edt.setError(null);
+			}else{
+				_edt.setError(_msg);
+			}
+		}
+		
 	}
 }
