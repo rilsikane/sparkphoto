@@ -181,9 +181,8 @@ public class ShippingAddressActivity extends Activity {
 						
 					}
 				});
-				new UploadImage(dialog).execute();
-				
 				dialog.show();
+				new UploadImage(dialog).execute();
 				
 			}
 		});
@@ -269,12 +268,10 @@ public class ShippingAddressActivity extends Activity {
 		@Override
 		protected void onPostExecute(List<String> result) {
 			super.onPostExecute(result);
-			if (result != null) {
-				running = false;
-				dialog.dismiss(); 
-				if(fileList!=null && fileList.size()==imgList.size()){
+			if (result != null && result.size()==result.size()) {					
+					CommonDto commonDto = JSONParserForGetList.getInstance().SubmitOrder(user,result);
+					dialog.dismiss(); 
 					mProgressHUD.dismiss();
-					CommonDto commonDto = JSONParserForGetList.getInstance().SubmitOrder(user,fileList);
 		    		if(commonDto.isFlag()){
 		    			List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
 			    		if(tmpList!=null && tmpList.size()>0){
@@ -303,7 +300,6 @@ public class ShippingAddressActivity extends Activity {
 			            alert11.show();
 						
 		    		}
-				}
 			}
 			
 		}
