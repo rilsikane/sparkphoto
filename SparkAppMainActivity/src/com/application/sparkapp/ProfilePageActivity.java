@@ -1,12 +1,23 @@
 package com.application.sparkapp;
 
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -21,6 +32,7 @@ public class ProfilePageActivity extends Activity {
 	private ImageView backIcon;
 	private TextView comfirmText;
 	private EditText changePass;
+	private EditText email, firstname, lastname, nric, password,phoneno, service, occuption, dob, gender;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +47,15 @@ public class ProfilePageActivity extends Activity {
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.setting_page, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
+		firstname = (EditText) findViewById(R.id.editText1);
+		lastname = (EditText) findViewById(R.id.editText2);
+		nric = (EditText) findViewById(R.id.editText3);
+		email = (EditText) findViewById(R.id.editText4);
+		phoneno = (EditText) findViewById(R.id.editText9);
+		service = (EditText) findViewById(R.id.editText10);
+		occuption = (EditText) findViewById(R.id.editText11);
+		gender = (EditText) findViewById(R.id.editText8);
+		
 		
 		comfirmText = (TextView) findViewById(R.id.textView2);
 		changePass = (EditText) findViewById(R.id.editText5);
@@ -84,4 +105,37 @@ public class ProfilePageActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
+    
+	public class InitAndLoadData extends AsyncTask<String, Void, UserDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(ProfilePageActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected UserDto doInBackground(String... params) {
+			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(UserDto result) {
+			super.onPostExecute(result);
+			
+				mProgressHUD.dismiss();
+			}
+
+		@Override
+		public void onCancel(DialogInterface arg0) {
+			mProgressHUD.dismiss();
+		}
+
+
+	}
 }
