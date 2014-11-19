@@ -107,15 +107,16 @@
 
             <EditText
                 android:id="@+id/editText7"
-                android:layout_width="match_parent"
+                android:layout_width="80dp"
                 android:layout_height="50dp"
-                android:layout_alignRight="@+id/editText4"
                 android:layout_below="@+id/editText4"
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/unit_icon"
                 android:ems="10"
-                android:hint="Unit number"
+                android:gravity="center"
+                android:hint="xx"
+                android:inputType="number"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -123,13 +124,41 @@
                 android:id="@+id/editText8"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignRight="@+id/editText7"
+                android:layout_alignRight="@+id/editText4"
                 android:layout_below="@+id/editText7"
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/postal_code_icon"
                 android:ems="10"
                 android:hint="Postal code"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/editText7"
+                android:layout_alignBottom="@+id/editText7"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/editText7"
+                android:text="-"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/EditText01"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_above="@+id/editText8"
+                android:layout_toRightOf="@+id/textView46"
+                android:background="#30ffffff"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="xxx"
+                android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
         </RelativeLayout>
