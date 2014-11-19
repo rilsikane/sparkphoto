@@ -62,9 +62,36 @@ public class SparkAppMainActivity extends Activity {
         System.gc();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
+        
+       UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+
+       if(user!=null){
+        UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+        if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
+             user = user.convertDtoToVo(result);
+             user.id = 1;
+             user.save();
+             Intent i = new Intent(SparkAppMainActivity.this,TutorialPageOneActivity.class);
+             startActivity(i);
+             finish();
+             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+         }else{
+             user = user.convertDtoToVo(result);
+             user.id = 1;
+             user.save();
+            Intent i = new Intent(SparkAppMainActivity.this,MainPhotoSelectActivity.class);
+            startActivity(i);
+            finish();
+             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+       }
+
+
         utils = new Utils(getApplicationContext(), this);
         int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
+
+
 
         utils = new Utils(getApplicationContext(), this);
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
