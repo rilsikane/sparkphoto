@@ -66,7 +66,7 @@ public class SparkAppMainActivity extends Activity {
         
        UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 
-       if(user!=null){
+       if("A".equals(user)){
         UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
         List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
         if(tempList!=null){
@@ -78,6 +78,7 @@ public class SparkAppMainActivity extends Activity {
         if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
              user = user.convertDtoToVo(result);
              user.id = 1;
+             user.status = "A";
              user.save();
              Intent i = new Intent(SparkAppMainActivity.this,TutorialPageOneActivity.class);
              startActivity(i);
@@ -86,6 +87,7 @@ public class SparkAppMainActivity extends Activity {
          }else{
              user = user.convertDtoToVo(result);
              user.id = 1;
+             user.status = "A";
              user.save();
             Intent i = new Intent(SparkAppMainActivity.this,MainPhotoSelectActivity.class);
             startActivity(i);
@@ -290,6 +292,7 @@ public class SparkAppMainActivity extends Activity {
 					  userVO = new UserVO();
 					  userVO = userVO.convertDtoToVo(result);
 					  userVO.id = 1;
+					  userVO.status = "A";
 					  userVO.tutorial = "D";
 					  userVO.save();
 	                Session.setActiveSession(session);
@@ -304,6 +307,7 @@ public class SparkAppMainActivity extends Activity {
 					  if(("D".equals(userVO.tutorial)) || "I".equals(userVO.tutorial)){
 					  userVO = userVO.convertDtoToVo(result);
 					  userVO.id = 1;
+					  userVO.status = "A";
 					  userVO.save();
 					  Session.setActiveSession(session);
 					  Intent i = new Intent(SparkAppMainActivity.this,TutorialPageOneActivity.class);
@@ -314,6 +318,7 @@ public class SparkAppMainActivity extends Activity {
 					  }else{
 						  userVO = userVO.convertDtoToVo(result);
 						  userVO.id = 1;
+						  userVO.status = "A";
 						  userVO.save();
 						  Session.setActiveSession(session);
 						  Intent i = new Intent(SparkAppMainActivity.this,MainPhotoSelectActivity.class);

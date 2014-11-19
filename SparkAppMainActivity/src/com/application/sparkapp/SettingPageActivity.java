@@ -67,17 +67,15 @@ public class SettingPageActivity extends Activity {
 			        	if(Session.getActiveSession()!=null){
 							Session.getActiveSession().closeAndClearTokenInformation();
 						}
-			        	List<UserVO> userList = Entity.query(UserVO.class).executeMulti();
-			        	if(userList!=null){
-			        		for(UserVO vo :userList){
-			        			vo.delete();
-			        		}
+			        	 UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			        	if(user!=null){
 			        		List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
 				             if(tempList!=null){
 				             	for(TempImage temp : tempList){
 				             		temp.delete();
 				             	}
 				             }
+				             user.status = "D";
 			        	}
 			        	 
 						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
