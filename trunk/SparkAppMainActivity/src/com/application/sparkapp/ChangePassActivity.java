@@ -71,9 +71,7 @@ public class ChangePassActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if (utils.isNotEmpty(curPass.getText().toString())
-						&& utils.isNotEmpty(nwPass.getText().toString())
-						&& utils.isNotEmpty(conPass.getText().toString())){
+				if (utils.isNotEmpty(curPass.getText().toString())&& utils.isNotEmpty(nwPass.getText().toString())&& utils.isNotEmpty(conPass.getText().toString())){
 					if (!conPass.getText().toString().equals(nwPass.getText().toString())) {
 						conPass.setError("Password is not match");
 					}else{
@@ -83,6 +81,33 @@ public class ChangePassActivity extends Activity {
 					}
 					
 					
+				}else if(utils.isNotEmpty(curPass.getText().toString())|| utils.isNotEmpty(nwPass.getText().toString())|| utils.isNotEmpty(conPass.getText().toString())){
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(ChangePassActivity.this);
+					builder1.setMessage("Please enter valid information");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+									
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}else{
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(ChangePassActivity.this);
+					builder1.setMessage("Password is not change");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									Intent i = new Intent(ChangePassActivity.this,ProfilePageActivity.class);
+									startActivity(i);
+									finish();
+									overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+																	
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
 				}
 				
 			}
