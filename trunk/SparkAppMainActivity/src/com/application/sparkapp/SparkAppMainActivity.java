@@ -30,6 +30,7 @@ import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -139,7 +140,17 @@ public class SparkAppMainActivity extends Activity {
                 	 Request request = Request.newMeRequest(currentSession, new Request.GraphUserCallback() {
                          @Override
                          public void onCompleted(GraphUser user, Response response) {
-                             
+                        		new Request(
+                             			 Session.getActiveSession(),
+                             		    "/me/permissions",
+                             		    null,
+                             		    HttpMethod.DELETE,
+                             		    new Request.Callback() {
+                             		        public void onCompleted(Response response) {
+                             		        	
+                             		        }
+                             		    }
+                             		).executeAndWait();
                                 faceBookLogin(user, currentSession);
                              
                          }   
@@ -148,7 +159,7 @@ public class SparkAppMainActivity extends Activity {
                    
 
                 } else if (!currentSession.isOpened()) {
-                    // Ask for username and password
+                	
                     OpenRequest op = new Session.OpenRequest(SparkAppMainActivity.this);
 
                     op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
@@ -197,13 +208,16 @@ public class SparkAppMainActivity extends Activity {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
     public void call(Session session, SessionState state, Exception exception) {
-
+    	System.out.println("TESTTTTT");
     }
+    
+    
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Session.getActiveSession() != null) {
+        
             Session.getActiveSession().onActivityResult(this, requestCode,resultCode, data);
         }
 
@@ -213,6 +227,7 @@ public class SparkAppMainActivity extends Activity {
             Session.setActiveSession(session);
             currentSession = session;
         }
+        
 
         if (currentSession.isOpened()) {
             Session.openActiveSession(this, true, new Session.StatusCallback() {
