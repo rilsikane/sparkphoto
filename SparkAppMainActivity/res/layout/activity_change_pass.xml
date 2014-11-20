@@ -48,7 +48,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
@@ -80,6 +80,7 @@
                 android:ems="10"
                 android:hint="Current Password"
                 android:inputType="textCapCharacters"
+                android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -133,11 +134,12 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
-                android:focusable="false"
                 android:hint="Confirm Password"
                 android:inputType="textCapCharacters"
+                android:password="true"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff" >
+            </EditText>
         </RelativeLayout>
     </ScrollView>
 
