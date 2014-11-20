@@ -200,7 +200,10 @@ public class SettingPageActivity extends Activity {
 			}
 			//Link to address page
 			if(position==1){
-				
+				Intent i = new Intent(SettingPageActivity.this, AddressSettingPageActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
 			}
 			//Link to term of use page
 			if(position==2){
