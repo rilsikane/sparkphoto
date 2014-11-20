@@ -49,7 +49,11 @@ public class SettingPageActivity extends Activity {
 		root_id.setBackgroundDrawable(ob);
 		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		TextView credit = (TextView) findViewById(R.id.textView);
+		if(user!=null){
 		credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
+		}else{
+		credit.setText("0  FREE PHOTO CREDITS");	
+		}
 		
 		backIcon = (ImageView) findViewById(R.id.imageView1);
 		logoutBtn = (ImageView) findViewById(R.id.imageView4);
