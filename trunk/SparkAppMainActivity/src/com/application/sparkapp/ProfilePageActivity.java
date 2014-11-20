@@ -1,22 +1,17 @@
 package com.application.sparkapp;
 
-import com.application.sparkapp.SignUpPageOneMainActivity.EditTextWatcher;
-import com.application.sparkapp.SignUpPageOneMainActivity.InitAndLoadData;
-import com.application.sparkapp.dto.CommonDto;
-import com.application.sparkapp.dto.UserDto;
-import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
-import com.roscopeco.ormdroid.Entity;
+import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,10 +21,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("NewApi")
 public class ProfilePageActivity extends Activity {
@@ -38,6 +40,7 @@ public class ProfilePageActivity extends Activity {
 	private TextView comfirmText;
 	private EditText changePass;
 	private int occSel,servSel;
+	private Calendar myCalendar;
 	private AlertDialog levelDialog, occuDialog, serDialog;
 	private EditText email, firstname, lastname, nric, password,phoneno, service, occuption, dob, gender;
 	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
@@ -80,9 +83,36 @@ public class ProfilePageActivity extends Activity {
 		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
 		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
 		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
-		
+		dob.setInputType(0);
 		new InitAndLoadData().execute();
 		
+		myCalendar = Calendar.getInstance();
+		final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				// TODO Auto-generated method stub
+				myCalendar.set(Calendar.YEAR, year);
+				myCalendar.set(Calendar.MONTH, monthOfYear);
+				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+				dob.setText(year + "-" + ((monthOfYear + 1) < 10 ? "0" : "")
+						+ (monthOfYear + 1) + "-" + dayOfMonth);
+			}
+
+		};
+		dob.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new DatePickerDialog(ProfilePageActivity.this, date,
+						myCalendar.get(Calendar.YEAR), myCalendar
+								.get(Calendar.MONTH), myCalendar
+								.get(Calendar.DAY_OF_MONTH)).show();
+			}
+		});
 		service.setOnClickListener(new OnClickListener() {
 
 			@Override
