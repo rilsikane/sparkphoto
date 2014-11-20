@@ -153,8 +153,10 @@ import android.widget.TextView;
 				if (Utils.isNotEmpty(address_street_name.getText().toString())&& Utils.isNotEmpty(address_postal.getText().toString())) {
 					userDto.setAddress_block(address_block.getText().toString());
 					userDto.setAddress_street_name(address_street_name.getText().toString());
+					if(Utils.isNotEmpty(address_unit_number1.getText().toString()) && Utils.isNotEmpty(address_unit_number2.getText().toString())){
 					String unitNumber = address_unit_number1.getText().toString()+"-"+address_unit_number2.getText().toString();
-					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:" ");
+					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:"");
+					}
 					userDto.setAddress_postal(address_postal.getText().toString());
 					new EditProfileData().execute();
 				}else if(address_street_name.getText().toString().isEmpty()){
