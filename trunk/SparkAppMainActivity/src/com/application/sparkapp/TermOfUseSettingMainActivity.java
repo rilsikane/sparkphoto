@@ -20,7 +20,7 @@ public class TermOfUseSettingMainActivity extends Activity {
 		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_term_of_use_main);
+		setContentView(R.layout.settingpage_tou);
 		System.gc();
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);	
 		
