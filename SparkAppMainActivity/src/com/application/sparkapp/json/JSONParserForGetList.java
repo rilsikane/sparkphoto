@@ -119,7 +119,7 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
          nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
          nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
-         nameValuePairs.add(new BasicNameValuePair("address_unit_number", "55-X12"));
+         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
          nameValuePairs.add(new BasicNameValuePair("debug", debug));
          

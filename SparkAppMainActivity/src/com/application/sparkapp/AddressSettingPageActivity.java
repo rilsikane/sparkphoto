@@ -1,15 +1,25 @@
 package com.application.sparkapp;
 
 import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
+import com.application.sparkapp.ProfilePageActivity.EditProfileData;
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -27,6 +37,7 @@ import android.widget.TextView;
 	private EditText address_unit_number1,address_unit_number2;
 	private EditText address_postal;
 	private Utils utils;
+	private UserDto userDto;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +56,24 @@ import android.widget.TextView;
 		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
 		utils = new Utils(this, this);
+		
+		UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+		common.setAccess_token(user.ac_token);
+		
+		if(common!=null){
+			address_block.setText(common.getAddress_block());
+			address_street_name.setText(common.getAddress_street_name());
+			if(utils.isNotEmpty(common.getAddress_unit_number())){
+				String[] units = common.getAddress_unit_number().split("-");
+				if(units.length>1){
+					address_unit_number1.setText(units[0]);
+					address_unit_number2.setText(units[1]);
+				}
+			}
+			address_postal.setText(common.getAddress_postal());
+			userDto= common;
+		}
 		
 		address_unit_number1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
 		address_unit_number1.addTextChangedListener(new TextWatcher() {		
@@ -122,8 +151,12 @@ import android.widget.TextView;
 			public void onClick(View v) {
 
 				if (Utils.isNotEmpty(address_street_name.getText().toString())&& Utils.isNotEmpty(address_postal.getText().toString())) {
-					
-					
+					userDto.setAddress_block(address_block.getText().toString());
+					userDto.setAddress_street_name(address_street_name.getText().toString());
+					String unitNumber = address_unit_number1.getText().toString()+"-"+address_unit_number2.getText().toString();
+					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:" ");
+					userDto.setAddress_postal(address_postal.getText().toString());
+					new EditProfileData().execute();
 				}else if(address_street_name.getText().toString().isEmpty()){
 					address_street_name.setError("Please enter Street name");
 				}else if(address_postal.getText().toString().isEmpty()){
@@ -189,5 +222,96 @@ import android.widget.TextView;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+	}
+
+	public class EditProfileData extends AsyncTask<String, Void, CommonDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(AddressSettingPageActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
+					userDto, "debug");
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (result.isFlag()) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							AddressSettingPageActivity.this);
+					builder1.setMessage("Edit Address Completed");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									// By pass to term of use main activity
+									Intent i = new Intent(
+											AddressSettingPageActivity.this,
+											SettingPageActivity.class);
+									startActivity(i);
+									finish();
+									overridePendingTransition(
+											R.anim.slide_in_left,
+											R.anim.slide_out_left);
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+
+				} else {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							AddressSettingPageActivity.this);
+
+					String[] msgs = result.getMsg().replaceAll("\\[", "")
+							.replaceAll("\\]", "").split(",");
+					if (msgs != null && msgs.length > 0) {
+						String msg = "Error Please try again "
+								+ System.getProperty("line.separator");
+						if (msgs != null && msgs.length > 0) {
+							for (String ms : msgs) {
+								msg += ("-" + ms + System
+										.getProperty("line.separator"));
+							}
+
+						}
+						builder1.setMessage(msg);
+					}
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
 	}
 }
