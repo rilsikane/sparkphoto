@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -31,8 +34,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
@@ -72,6 +78,7 @@ public class MainPhotoSelectActivity extends Activity {
     private boolean doubleBackToExitPressedOnce;
     private ProgressHUD mProgressHUD;
     private RadioButton radioButton;
+    private UserDto userDto;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +100,8 @@ public class MainPhotoSelectActivity extends Activity {
 		
 		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		if(user!=null){
-			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
+			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+			nextTimeCanUpload = userDto.getNextTimeCanUpload().equals("now");
 			if("D".equals(user.tutorial)){
 				radioButton.setChecked(false);
 			}else if("".equals(user.tutorial)){
@@ -317,6 +325,22 @@ public class MainPhotoSelectActivity extends Activity {
 		perkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		perkDialog.setContentView(R.layout.custom);	
 		RelativeLayout closePerkDialog = (RelativeLayout) perkDialog.findViewById(R.id.close_dialog_layout);
+		TextView day = (TextView) perkDialog.findViewById(R.id.textView7);
+		TextView hour = (TextView) perkDialog.findViewById(R.id.textView2);
+		TextView min = (TextView) perkDialog.findViewById(R.id.textView4);
+		UserDto dto = JSONParserForGetList.getInstance().getUserStatus(userDto.getAccess_token());
+		if(dto.getNextTimeCanUpload()!=null){
+			Long sec = Long.parseLong(dto.getNextTimeCanUpload());
+			 int days = (int)TimeUnit.SECONDS.toDays(sec);        
+			 long hours = TimeUnit.SECONDS.toHours(sec) - (days *24);
+			 long minute = TimeUnit.SECONDS.toMinutes(sec) - (TimeUnit.SECONDS.toHours(sec)* 60);
+			 //long second = TimeUnit.SECONDS.toSeconds(sec) - (TimeUnit.SECONDS.toMinutes(sec) *60);
+			 
+			 day.setText(days+"");
+			 hour.setText(hours+"");
+			 min.setText(minute+"");
+		}
+		
 		closePerkDialog.setOnClickListener(new OnClickListener() {
 			
 			@Override
