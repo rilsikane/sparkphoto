@@ -42,11 +42,9 @@ public class AddressMainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf",
-				R.attr.fontPath);
+		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf",R.attr.fontPath);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_address_main);
 		System.gc();
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
