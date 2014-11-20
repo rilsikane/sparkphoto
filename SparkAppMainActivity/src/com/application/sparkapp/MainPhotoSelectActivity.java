@@ -192,7 +192,7 @@ public class MainPhotoSelectActivity extends Activity {
 				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
 				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
 //				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
-				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
+//				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
 				closeDialog.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -202,17 +202,17 @@ public class MainPhotoSelectActivity extends Activity {
 					}
 				});
 				dialog.show();
-				dropBoxBtn.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-							AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-							AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-							mDBApi = new DropboxAPI<AndroidAuthSession>(session);
-							mDBApi.getSession().startOAuth2Authentication(MainPhotoSelectActivity.this);					
-					}
-				});
+//				dropBoxBtn.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						// TODO Auto-generated method stub
+//							AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+//							AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
+//							mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+//							mDBApi.getSession().startOAuth2Authentication(MainPhotoSelectActivity.this);					
+//					}
+//				});
 				photoFromSD.setOnClickListener(new OnClickListener() {
 					
 					@Override
