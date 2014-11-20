@@ -58,35 +58,26 @@
             android:layout_centerVertical="true"
             android:text="" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/textView3"
-            android:src="@drawable/select_image_from_facebook_icon" />
+<!--         <ImageView -->
+<!--             android:id="@+id/imageView2" -->
+<!--             android:layout_width="80dp" -->
+<!--             android:layout_height="80dp" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:layout_marginRight="20dp" -->
+<!--             android:layout_toLeftOf="@+id/textView3" -->
+<!--             android:src="@drawable/select_image_from_facebook_icon" /> -->
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/textView3"
-            android:src="@drawable/select_image_from_dropbox_icon" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/imageView2"
-            android:layout_below="@+id/imageView2"
-            android:layout_marginLeft="10dp"
-            android:text="Facebook"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+<!--         <TextView -->
+<!--             android:id="@+id/textView4" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignLeft="@+id/imageView2" -->
+<!--             android:layout_below="@+id/imageView2" -->
+<!--             android:layout_marginLeft="10dp" -->
+<!--             android:text="Facebook" -->
+<!--             android:textAppearance="?android:attr/textAppearanceSmall" -->
+<!--             android:textColor="#ffffff" -->
+<!--             android:textSize="18sp" /> -->
 
         <TextView
             android:id="@+id/textView5"
@@ -98,6 +89,15 @@
             android:text="Dropbox"
             android:textColor="#ffffff"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/select_image_from_dropbox_icon" />
+
     </RelativeLayout>
 
     <RelativeLayout
