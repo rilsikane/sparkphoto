@@ -145,6 +145,50 @@ public class JSONParserForGetList {
 		}
          return commonDto;
 	}
+	public CommonDto changePassword(UserDto userDto,String debug,String password){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "editProfile"));
+         nameValuePairs.add(new BasicNameValuePair("ac", userDto.getAccess_token()));
+         nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
+         nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
+         nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
+         nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
+         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
+         nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
+         nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
+         nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
+         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
+         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
+         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
+         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         nameValuePairs.add(new BasicNameValuePair("old_password", userDto.getPassword()));
+         nameValuePairs.add(new BasicNameValuePair("new_password", password));
+         nameValuePairs.add(new BasicNameValuePair("debug", debug));
+         
+         if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+        	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
+         }
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+         
+         if(!json.isNull("success")){
+        	 commonDto.setFlag(true);
+        	 commonDto.setToken(json.getString("app_access_token"));
+         }else{
+        	 commonDto.setFlag(false);
+        	 if(!json.isNull("message")){
+        		 commonDto.setMsg(json.getString("message"));
+        	 }else{
+        		 commonDto.setMsg("Error!");
+        	 }
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
+	}
 	public CommonDto SubmitOrder(UserVO userDto,List<String>images){
 		CommonDto commonDto = new CommonDto();
 		try{
