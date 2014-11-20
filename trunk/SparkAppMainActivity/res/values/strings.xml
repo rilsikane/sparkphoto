@@ -58,5 +58,6 @@
     <string name="title_activity_change_pass">ChangePassActivity</string>
     <string name="crash_toast_text">This problem already sent to developer</string>
     <string name="email_receiver">jutha.se@gmail.com</string>
+    <string name="title_activity_address_setting_page">AddressSettingPageActivity</string>
 
 </resources>
