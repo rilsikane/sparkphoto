@@ -1,0 +1,774 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup_background"
+    tools:context=".SignUpPageOneMainActivity" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/left_arrow" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="TERMS OF USE"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:text="Accept"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#30ffffff"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="7dp" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:text="MOBILE APPLICATION TERMS OF US"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView3"
+                android:layout_marginTop="10dp"
+                android:text="LAST UPDATED: 9 October 2014"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView4"
+                android:layout_marginTop="10dp"
+                android:text="1. ACCEPTANCE OF TERMS"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView5"
+                android:layout_marginTop="10dp"
+                android:text="1.1 We are Social Prints Asia Pte. Ltd. (”SPA”, “us”, “our” and “we”) and we own and operate this mobile application (which includes the back-end CMS panel, unless otherwise specifically stated), SPARK (“SPARK” and the “App”)."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView6"
+                android:layout_marginTop="10dp"
+                android:text="1.2 Your use of the App is subject to these Terms of Use. By using the service, you are deemed to have accepted and agreed to be bound by these Terms of Use. We may at our discretion make changes to these Terms of Use from time to time. We may notify you of such changes by any reasonable means, including, but not limited to, posting a revised version of the Terms of Use on the App. Your use of our services following changes to these Terms of Use will constitute your acceptance of those changes."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView7"
+                android:layout_marginTop="10dp"
+                android:text="2. REGISTRATION"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView8"
+                android:layout_marginTop="10dp"
+                android:text="2.1 You will need to register and set up a user account to use the App."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView9"
+                android:layout_marginTop="10dp"
+                android:text="2.2 By doing so, you affirm that"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView10"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(a) you are either more than 18 years of age, or possess legal parental or guardian consent, and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in these Terms of Use, and to abide by and comply with these Terms of Use; and"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView11"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(b) you have provided us with true, accurate and current information about yourself during the registration process (including, but not limited to, your name, valid email address, mobile number and mailing address)."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView12"
+                android:layout_marginTop="10dp"
+                android:text="2.3 You agree to provide and maintain true, complete and current account information, and your email address must remain valid as long as your account remains active. Registration data and other information that you provide are governed by our Privacy Policy. You may not access or use the App without legal parental or guardian consent if you are younger than 18 years old."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView13"
+                android:layout_marginTop="10dp"
+                android:text="3. APP SERVICES"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView14"
+                android:layout_marginTop="10dp"
+                android:text="3.1 The App include certain services that are available via a mobile device including:"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView15"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(a) the ability to upload content to the App;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView16"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(b) the ability to browse the App, except the CMS panel; and"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView17"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(c) the ability to access certain features through an application downloaded and installed on a mobile device (collectively, the &apos;App Services&apos;)."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView18"
+                android:layout_marginTop="10dp"
+                android:text="3.2 To the extent you may access the App through a mobile device, your wireless service carrier&apos;s standard charges, data rates and other fees may apply. In addition, downloading, installing, or using certain App Services may be prohibited or restricted by your carrier, and not all App Services may work with all carriers or devices."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView19"
+                android:layout_marginTop="10dp"
+                android:text="3.3 By using the App Services, you understand that certain information about your usage of the App Services may be communicated to us."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView20"
+                android:layout_marginTop="10dp"
+                android:text="4. ACCESS TO SITE AND SERVICES"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView21"
+                android:layout_marginTop="10dp"
+                android:text="4.1 You are solely responsible for all access to the App that occurs under your account, even if the access is by another person."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView22"
+                android:layout_marginTop="10dp"
+                android:text="4.2 You are also solely responsible for ensuring that you exit or log-off from your account at the end of each session of use. Your password is confidential, and you may not give it to anyone else. You will notify us immediately of any unauthorized use of your account or password or any other breach of security that is known or suspected by you."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView23"
+                android:layout_marginTop="10dp"
+                android:text="4.3 We will use reasonable efforts to ensure that the App Services are available at all times. However, we cannot guarantee that the App Services or any individual function or feature of the App will always be available and/or error free. The App Services may be unavailable during periods when we are implementing upgrades or carrying our essential maintenance on the App."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView24"
+                android:layout_marginTop="10dp"
+                android:text="5. ACCESS TO THE APP OUTSIDE OF SINGAPORE"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView25"
+                android:layout_marginTop="10dp"
+                android:text="We make no promise that the materials on the App are appropriate or available for use in locations outside Singapore. Accessing the App from territories where its contents are illegal or unlawful is prohibited. If you choose to access the App from elsewhere, you do so on your own initiative and are responsible for compliance with local laws."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView26"
+                android:layout_marginTop="10dp"
+                android:text="6. YOUR USE OF THE APP"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView27"
+                android:layout_marginTop="10dp"
+                android:text="6.1 The App Services that we offer are for your personal use only. Your permission to use the App Services is personal to you and non-transferable, and you may not use the App for commercial purposes."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView28"
+                android:layout_marginTop="10dp"
+                android:text="6.2 In accessing and using the App Services, you may submit to us your own images, photographs, text or other content (collectively &apos;Your Content&apos;). SPA does not claim ownership of Your Content. By submitting Your Content to us, you give us permission to store Your Content on our servers and use your content for the limited purpose of providing the Site and Services. We will not use Your Content to market, promote or advertise the Site or Services without your express consent. You represent and warrant that you either own Your Content or have permission from the applicable intellectual property rights owner to make Your Content available to us for use on the App."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView29"
+                android:layout_marginTop="10dp"
+                android:text="6.3 No compensation will be paid with respect to the use of your Content, as provided herein. SPA is under no obligation to post or use any of Your Content provided and may remove any Your Content at any time in our sole discretion."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView30"
+                android:layout_marginTop="10dp"
+                android:text="6.4 Your use of the App and App Services is conditional on your compliance with the rules of conduct set forth in these Terms of Use and you agree that you will not:"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView31"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(a) Use the App Services and/or App Services for any fraudulent or unlawful purpose;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView32"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(b) Use the App and/or the App Services to defame, abuse, harass, stalk, threaten or otherwise violate the rights of others, including without limitation others’ privacy rights or rights of publicity;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView33"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(c) Impersonate any person or entity, false state or otherwise misrepresent your affiliation with any person or entity in connection with the App and/or App Services or express or imply that we endorse any statement you make;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView34"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(d) Interfere with or disrupt the operation of the App or the servers or networks used to make the App available, or violate any requirements, procedures, policies or regulations of such networks;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView35"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(e) Transmit or otherwise make available in connection with the App with any virus, worm or other computer code that is harmful or invasive or may or is intended to damage the operation of, or to monitor the use of, any hardware, software, or equipment;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView36"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(f) Reproduce, duplicate, copy, sell, resell or otherwise exploit for any commercial purposes, any portion of, use of, or access to the App;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView37"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(g) Modify, adapt, translate, reverse engineer, decompile or disassemble any portion of the App. If you wish to reverse engineer any part of the App to create an interoperable program you must contact us and we may provide interface data subject to verification of your identity and other information;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView38"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(h) Remove any copyright, trade mark or other proprietary rights notice from the App or materials originating from the App;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView39"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(h) Remove any copyright, trade mark or other proprietary rights notice from the App or materials originating from the App;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView40"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(j) Create a database by systematically downloading and storing the App content;"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView41"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(k) Use any manual or automatic device in any way to gather content of the App or reproduce or circumvent the navigational structure or presentation of the App without our express prior written consent. Notwithstanding the foregoing, we grant the operators of public online search engines limited permission to use search retrieval applications to reproduce materials from the App for the sole purpose of and solely to the extent necessary for creating publicly available searchable indices of such materials solely in connection with each operator&apos;s public online search service."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView42"
+                android:layout_marginTop="10dp"
+                android:text="6.5 We reserve the right to:"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView43"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(a) revoke these exceptions either generally or in specific instances; and"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView44"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="(b) investigate and take appropriate legal action against anyone who, in our sole discretion, violates these Terms, including without limitation, removing the offending content from the App, suspending or terminating the account of such violators and reporting the violators to appropriate law enforcement authorities."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView45"
+                android:layout_marginTop="10dp"
+                android:text="6.6 All rights not expressly granted in these Terms are hereby expressly reserved by SPA."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView46"
+                android:layout_marginTop="10dp"
+                android:text="7. THIRD PARTY SERVICES
+
+7.1 You may enable various online services, such as social networking sites, to be directly integrated into your experience with the App. To take advantage of these features, we may ask you to register for or log into the services on the websites of their respective providers.
+
+7.2 By enabling third party services within the App, you are allowing and authorizing us (a) to pass your log-in information to these service providers for this purpose and (b) to receive information and content (including but not limited to content such as photographs) from such third party services.
+
+7.3 Please remember that the manner in which third party services use, store and disclose your information is governed solely by their, and SPA will have no liability or responsibility for the privacy practices or other actions of any third party website or service that may be enabled within the App.
+
+8. THIRD PARTY WEBSITES
+
+8.1 The App may provide links to other websites and online resources. We are not responsible for and do not endorse such external sites or resources. Your use of third party websites and resources is at your own risk.
+
+8.2 You may create a link to this App, provided that:
+
+(a) The link is fair and legal and is not presented in a way that is:
+
+(i) Misleading or could suggest any type of association, approval or endorsement by us that does not exist, or
+
+(ii) Harmful to our reputation or the reputation of any of our affiliates;
+
+(b) You retain the legal right and technical ability to immediately remove the link at any time, following a request by us to do so.
+
+8.3 We reserve the right to require you to immediately remove any link to the App at any time and you shall immediately comply with any request by us to remove any such link.
+
+9. OUR INTELLECTUAL PROPERTY
+
+9.1 The intellectual property rights in the App and all of the text, pictures, videos, graphics, user interfaces, visual interfaces, trademarks, logos, applications, programs, computer code and other content made available on it are owned by us and our licensors.
+
+9.2 You may not:
+
+(a) print or otherwise make copies of any such content without our express prior permission; and
+
+(b) delete, change or modify in any way the copyright, trademark or other intellectual property notices contained in the App.
+
+9.3 All goodwill generated from the use of our trademark will inure to our exclusive benefit.
+
+10. THIRD PARTY INTELLECTUAL PROPERTY
+
+The images, photographs, card designs and other content (collectively, the 'Third Party Content') contained in our App may consist of the copyrights, trademarks, service marks, trade names or other intellectual property of third parties. These portions of the Third Party Content are provided for the convenience of certain users of the App who are expressly authorized to use them by their owners. You may not use any third party intellectual property without such express authorization.
+
+11. RETURNS
+
+Due to the personalized nature of the products, all orders are final when you submit your order. Please carefully review all your selections before finalizing your order. Our re-mailing policy is discretionary and is done on a case-by-case basis. SPA is not compelled to disclose to whom, and why, they choose to re-mail certain orders.
+
+12. LIMITATION OF LIABILITY
+
+12.1 We provide the App on an “as is” basis and make no representations as to the quality, completeness or accuracy of any content made available on the App. To the maximum extent permitted by law, we expressly exclude:
+
+(a) all conditions, warranties and other terms that might otherwise by implied by law into these Terms of Use; and
+
+(b) any and all liability to you, whether arising under these Terms of Use or otherwise in connection with your use of the App.
+
+12.2 Without limitation, SPA shall not be liable in any manner for any data or usage limits, caps or restrictions, or any rates or charges, applied to or assessed on your devices by any third party that result from your use of the App or otherwise.
+
+12.3 The foregoing is a comprehensive limitation of liability that applies to all damages of any kind, including (without limitation) compensatory, direct, indirect or consequential damages, loss of data, income or profit, loss of or damage to property and claims of third parties. Notwithstanding the foregoing, nothing in these Terms of Use is intended to exclude or limit any liability that may not by law be excluded or limited, and in particular none of the exclusions and limitations in this clause are intended to limit any rights you may have as a consumer under Singapore law or statutory rights which may not be excluded, nor in any way to exclude or limit (site owner) liability to you for death or personal injury resulting from our negligence or that of our employees or agents.
+
+13. COMMUNICATION TO US
+
+Any communication we receive from you will be considered NOT to be confidential. By sending SPA any information (other than information we may agree to keep confidential under our Privacy Policy) you grant us an nonexclusive, worldwide, royalty free, fully paid up, transferable, sublicenseable, perpetual, irrevocable license to reproduce, copy, create derivative works of, display, transmit, perform, distribute, cache, store, resell, market, promote, modify and otherwise use and exploit that information.
+
+14. COLLECTION OF PERSONAL INFORMATION
+
+We may collect and use information about you in accordance with our privacy policy. You can view a copy of this policy below.
+
+15. TERMINATION OF ACCOUNT
+
+You may terminate your account at any time. Further to clause 6.4 (b), if you violate these Terms, we reserve the right to limit your access to the App or terminate your account. You agree that any termination of your access to the App and deactivation of your account under any provision of these Terms may be effected without prior notice, and that we may immediately delete all related information, files and content in your account. We will not be liable in any manner for such termination and deactivation.
+
+16. DURATION OF TERMS
+
+These Terms of Use are effective until terminated. We may, at any time and for any reason, terminate your access to or use of App . If we terminate your access to the App, you will not have the right to bring claims against us or our affiliates with respect to such termination. We and our affiliates shall not be liable for any termination of your access to the Site and/or the Services.
+
+17. ENTIRE AGREEMENT
+
+These Terms constitute the entire agreement between you and us governing your use of the App. If there is any conflict or inconsistency between these Terms and any other terms or conditions available elsewhere regarding the App, these Terms will prevail and be given precedence.
+
+18. WAIVER
+
+The waiver of any right under these Terms will not operate as past, present or future waiver of that right or of any other right. No waiver shall be effective in any case unless acknowledged and agreed to by us in writing.
+
+19. SEVERABILITY
+
+If any provisions of these Terms should is held contrary to law or invalid or unenforceable, then such provision or part, as the case may be, shall be deemed to be severed from the Terms and the other provisions shall remain in full force and effect.
+
+20. RELATIONSHIP BETWEEN SPA AND YOUR SELF
+
+No joint venture, partnership, employment, or agency relationship exists between you and SPA as a result of these Terms or the use of the App. SPA has the right to assign any or all of its rights and obligations under these Terms at any time; however, all rights that you may have under these Terms or otherwise in and to the App may not be assigned by you without our express written consent.
+
+21. THIRD PARTY RIGHTS
+
+No third party shall have any right to enforce any of the provisions under the Contracts (Right of Third Party) Act (Cap. 53 5B).
+
+22. GOVERNING LAW
+
+These Terms of Use will be governed by and construed in accordance with the laws of Singapore, and the courts of Singapore will have non-exclusive jurisdiction over any claim or dispute arising under or in connection with these Terms of Use.
+
+________________________________________________
+
+PRIVACY POLICY
+
+IN COMPLIANCE WITH THE PERSONAL DATA PROTECTION ACT 2012 (“PDPA”)
+
+LAST UPDATED: 18th October 2014
+
+Social Prints Asia Pte. Ltd. ('SPA', 'us', 'our' and 'we') takes your privacy very seriously and is committed to protect it. This privacy policy (the “Policy”) contains important information about the collection and use of your personal data. This Policy applies to information we collection our website at www.spark-asia.com and its sub-domains (the “Site”) and our desktop and mobile applications (the “Services”) about:
+
+(a) visitors to the Site; and
+
+(b) people who registered an user account with us to use the Services.
+
+By using the Site and the Services, you consent to the data practices described in this Policy.
+
+COLLECTION OF YOUR PERSONAL DATA
+
+SPA collects:
+
+(a) personally identifiable information, such as your e-mail address, name, home or work address or telephone number; and
+
+(b) anonymous demographic information, which is not unique to you, such as your postal code, age, gender, occupation, income, mobile service provider, education qualification, preferences, interests and favorites,
+
+through the Site, the Services and the use of cookies in Site.
+
+There may also be information about your computer hardware and software that is automatically collected by SPA. This information can, but is not limited to, include: your IP address, browser type, domain names, access times and referring Web site addresses. This information is used by SPA for the operation of the service, to maintain quality of the service, and to provide general statistics regarding use of the Site and/or the Services.
+
+We may also collect information about you from commercially available sources. Such information may, but is not limited to, include your name, address, email address and demographic data. The information that we may collect from these sources may be used along with the information that we collect from you when you visit the Site or use the Services.
+
+USE OF YOUR PERSONAL DATA
+
+Your personal data may be used by SPA for the following purposes:
+
+(a) to operate the Site and deliver the services you have requested;
+
+(b) to inform you of other products or services available from SPA and the external advertising parties related to SPA;
+
+(c) to send you surveys to conduct research about your opinion of current services or of potential new services that may be offered; and
+
+(d) to keep track of the Site which our customers visit;
+
+(e) to deliver customized content and advertising within SPA to customers whose behavior indicates that they are interested in a particular subject area;
+
+(f) send to trusted partners to help us perform statistical analysis, send you email or postal mail, provide customer support, or arrange for deliveries; and
+
+(g) contact you on behalf of external business partners about a particular offering that may be of interest to you.
+
+SPA does not:
+
+(a) sell, rent or lease its customer lists to third parties; and
+
+(b) use or disclose sensitive personal information, such as race, religion, or political affiliations, without your explicit consent.
+
+SPA will disclose your personal data, without notice, only if required to do so by law or in the good faith belief that such action is necessary to:
+
+(a) conform to the edicts of the law or comply with legal process served on the Site;
+
+(b) protect and defend the rights or property of SPA; and
+
+(c) act under exigent circumstances to protect the personal safety of users of the Site and/or the Services, or the public.
+
+All third parties are prohibited from using your personal information except to provide these services to SPA, and they are required to maintain the confidentiality of your information.
+
+USE OF COOKIES
+
+The Site uses 'cookies'. A cookie is a text file that is placed on your hard disk by a Web page server to collect standard Internet log information and visitor behavior information. Cookies cannot be used to run programs or deliver viruses to your computer. Cookies are uniquely assigned to you, and can only be read by a web server in the domain that issued the cookie to you.
+
+You have the ability to accept or decline cookies. Most Web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. If you choose to decline cookies, you may not be able to fully experience the interactive features of the Site.
+
+SECURITY OF YOUR PERSONAL DATA
+
+SPA secures your personal information from unauthorized access, use or disclosure. SPA secures the personally identifiable information you provide on computer servers in a controlled, secured environment, protected from unauthorized access, use or disclosure. When personal information is transmitted to other websites, it is protected through the use of encryption, namely, the Secure Socket Layer (SSL) protocol.
+
+ACCESS TO YOUR PERSONAL DATA AND UPDATING AND CORRECTION OF YOUR PERSONAL DATA
+
+Subject to the exceptions referred to in Section 21(2) of the PDPA, you have the right to request a copy of the information that we hold about you. If you would like a copy of some or all of your personal data, please contact us at the contact information under “Contact Us”. This request may be subjected to a small fee charge.
+
+In order to ensure that your personal data is accurate and up to date, if any of your personal data provided to us changes, you may update the information by accessing your user account through the use of the Services. If updating of your personal data through your user account fails, you may send your up to date information to the contact person under “Contact Us”. If you would like to remove your personal data, you may delete your user account through the use of the Site or the Services. However the removal of your personal data through the use of the Site or the Services fails, you may also contact us at the contact information under “Contact Us”.
+
+LINKS TO OTHER WEBSITES
+
+The Site may contain links to other websites. This Policy only applies to the Site. SPA encourages you to review the privacy statements of websites you choose to link to from the Site and/or the Services so that you can understand how those websites collect, use and share your information. We are not responsible for the privacy statements or other content on websites outside of the Site and the Services.
+
+CHANGES TO THE POLICY
+
+We keep the Policy under regular review. If we change the Policy, we will post the changes on this page, and may place notices on other pages of the Site, so that you may be aware of the information we collect and how we use it at all times.
+
+CONTACT US
+
+Comments, questions, complaints about or requests relating to this Policy may be sent to our Data Protection Officer at the address below:
+
+By Email: Dennis@spark-asia.com
+
+By Post: 45 Kallang Pudding, Alpha Building, #09-11 (s) 349317 (Attn: Dennis)
+
+We will use reasonable efforts to promptly determine and remedy the issues relating to the Policy."
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
