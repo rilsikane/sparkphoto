@@ -119,9 +119,9 @@ public class ImageCropActivity extends Activity {
 				}else{
 				croppedImage = getResizedBitmap(croppedImage, 1200, 1800);	
 				}
-				Login login = Entity.query(Login.class).execute();
+				UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
 				TempImage temp = new TempImage();
-				temp.ac_token = login.ac_token;
+				temp.ac_token = userVO.ac_token;
 				temp.originPath = imgPath;
 				File directory = new File(
 						Environment.getExternalStorageDirectory()
