@@ -77,6 +77,9 @@ public class ImageCropActivity extends Activity {
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		if(!isFacebook){
 		bitmap = BitmapFactory.decodeFile(imgPath);
+		if(bitmap.getWidth()>3984){
+			bitmap = getResizedBitmap(bitmap, bitmap.getHeight(), 3984);
+		}
 		}else{
 		bitmap = DownloadImage(imgPath);	
 		}
