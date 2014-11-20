@@ -79,31 +79,36 @@ public class ImageViewUtil {
         int resultX;
         int resultY;
 
-        double viewToBitmapWidthRatio = (double) viewWidth / (double) bitmapWidth;
-        double viewToBitmapHeightRatio = (double) viewHeight / (double) bitmapHeight;
+        double viewToBitmapWidthRatio = Double.POSITIVE_INFINITY;
+        double viewToBitmapHeightRatio = Double.POSITIVE_INFINITY;
 
-//        // Checks if either width or height needs to be fixed
-//        if (viewWidth < bitmapWidth) {
-//            viewToBitmapWidthRatio = (double) viewWidth / (double) bitmapWidth;
-//        }
-//        if (viewHeight < bitmapHeight) {
-//            viewToBitmapHeightRatio = (double) viewHeight / (double) bitmapHeight;
-//        }
+        // Checks if either width or height needs to be fixed
+        if (viewWidth < bitmapWidth) {
+            viewToBitmapWidthRatio = (double) viewWidth / (double) bitmapWidth;
+        }
+        if (viewHeight < bitmapHeight) {
+            viewToBitmapHeightRatio = (double) viewHeight / (double) bitmapHeight;
+        }
 
         // If either needs to be fixed, choose smallest ratio and calculate from
         // there
-        if (viewToBitmapWidthRatio<= viewToBitmapHeightRatio)
+        if (viewToBitmapWidthRatio != Double.POSITIVE_INFINITY || viewToBitmapHeightRatio != Double.POSITIVE_INFINITY)
         {
-        	  resultWidth = viewWidth;
-              resultHeight = (bitmapHeight * resultWidth / bitmapWidth);
-        }else{
-              resultHeight = viewHeight;
-              resultWidth = (bitmapWidth * resultHeight / bitmapHeight);
-            
+            if (viewToBitmapWidthRatio <= viewToBitmapHeightRatio) {
+                resultWidth = viewWidth;
+                resultHeight = (bitmapHeight * resultWidth / bitmapWidth);
+            }
+            else {
+                resultHeight = viewHeight;
+                resultWidth = (bitmapWidth * resultHeight / bitmapHeight);
+            }
         }
         // Otherwise, the picture is within frame layout bounds. Desired width
         // is simply picture size
-
+        else {
+            resultHeight = bitmapHeight;
+            resultWidth = bitmapWidth;
+        }
 
         // Calculate the position of the bitmap inside the ImageView.
         if (resultWidth == viewWidth) {
@@ -118,9 +123,9 @@ public class ImageViewUtil {
             resultY = (int) Math.round((viewHeight - resultHeight) / 2);
         }
 
-        final Rect result = new Rect(0,
+        final Rect result = new Rect(resultX,
                                      resultY,
-                                     (resultX + (int) Math.ceil(resultWidth))+resultX,
+                                     resultX + (int) Math.ceil(resultWidth),
                                      resultY + (int) Math.ceil(resultHeight));
 
         return result;
