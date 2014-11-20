@@ -34,7 +34,7 @@ public class TermOfUseMainActivity extends Activity {
 		setContentView(R.layout.activity_term_of_use_main);
 		System.gc();
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
-//		ImageView touImage = (ImageView) findViewById(R.id.imageView2);
+		ImageView touImage = (ImageView) findViewById(R.id.imageView2);
 		TextView accept = (TextView) findViewById(R.id.textView2);
 		userDto = getIntent().getExtras().getParcelable("userDto");
 		
@@ -48,7 +48,7 @@ public class TermOfUseMainActivity extends Activity {
 				
 			}
 		});
-//		touImage.getLayoutParams().height = (new Utils(getApplicationContext(),this).getScreenHeight()*70)/100;
+		touImage.getLayoutParams().height = (new Utils(getApplicationContext(),this).getScreenHeight()*70)/100;
 		backIcon.setOnClickListener(new OnClickListener() {
 			
 			@Override
