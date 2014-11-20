@@ -27,12 +27,14 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="14dp"
+            android:visibility="gone"
             android:src="@drawable/png_icon" />
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:visibility="gone"
             android:layout_alignRight="@+id/activityNoti"
             android:layout_alignTop="@+id/imageView1"
             android:src="@drawable/circle_red" />
@@ -44,7 +46,7 @@
             android:layout_alignRight="@+id/activityNoti"
             android:layout_alignTop="@+id/imageView5"
             android:layout_marginRight="6dp"
-            
+            android:visibility="gone"
             android:text="4"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
