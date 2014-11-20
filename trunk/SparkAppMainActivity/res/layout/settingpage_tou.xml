@@ -41,6 +41,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:text="Accept"
+            android:visibility="invisible"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="22sp" />
