@@ -162,7 +162,7 @@ public class ChangePassActivity extends Activity {
 				if (result.isFlag()) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							ChangePassActivity.this);
-					builder1.setMessage("EditProfile Completed");
+					builder1.setMessage("Password is Changed");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {

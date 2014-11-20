@@ -280,7 +280,7 @@ public class ShippingAddressActivity extends Activity {
 			    			}
 			    		}
 			    		AlertDialog.Builder builder1 = new AlertDialog.Builder(ShippingAddressActivity.this);
-			            builder1.setMessage("Submit complete.");
+			            builder1.setMessage("Success!");
 			            builder1.setCancelable(true);
 			            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 			                public void onClick(DialogInterface dialog, int id) {

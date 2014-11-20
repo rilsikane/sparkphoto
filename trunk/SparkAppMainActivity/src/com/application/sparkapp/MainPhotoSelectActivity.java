@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -101,7 +103,7 @@ public class MainPhotoSelectActivity extends Activity {
 		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		if(user!=null){
 			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
-			nextTimeCanUpload = userDto.getNextTimeCanUpload().equals("now");
+			nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
 			if("D".equals(user.tutorial)){
 				radioButton.setChecked(false);
 			}else if("".equals(user.tutorial)){
@@ -308,14 +310,10 @@ public class MainPhotoSelectActivity extends Activity {
 	}
 
 	private void captureImage() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
- 
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
- 
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
- 
-        // start the image capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+		fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+		 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+	        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+	        startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
 	public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
@@ -504,4 +502,42 @@ public class MainPhotoSelectActivity extends Activity {
     private boolean hasPhotoPermissions() {
         return session.getPermissions().contains("user_photos");
     }
+
+	public class CaptureImage extends AsyncTask<String, Void, Uri>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(MainPhotoSelectActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Uri doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			 fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+			return fileUri;
+		}
+
+		@Override
+		protected void onPostExecute(Uri result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+	}
 }

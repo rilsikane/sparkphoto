@@ -261,11 +261,12 @@ public class ProfilePageActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				if(!Utils.isNotEmpty(userDto.getFb_access_token())){
 				Intent i = new Intent(ProfilePageActivity.this, ChangePassActivity.class);				 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
+				}
 			}
 		});
 		comfirmText.setOnClickListener(new OnClickListener() {
@@ -426,7 +427,7 @@ public class ProfilePageActivity extends Activity {
 				if (result.isFlag()) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							ProfilePageActivity.this);
-					builder1.setMessage("EditProfile Completed");
+					builder1.setMessage("Profile Edited");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {

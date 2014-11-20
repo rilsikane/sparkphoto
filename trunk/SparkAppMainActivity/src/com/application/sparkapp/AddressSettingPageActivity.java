@@ -252,7 +252,7 @@ import android.widget.TextView;
 				if (result.isFlag()) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							AddressSettingPageActivity.this);
-					builder1.setMessage("Edit Address Completed");
+					builder1.setMessage("Address changed");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {

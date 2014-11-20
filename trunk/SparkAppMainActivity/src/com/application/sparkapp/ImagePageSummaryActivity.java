@@ -19,9 +19,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -457,6 +461,7 @@ public class ImagePageSummaryActivity extends Activity {
 			viewHolder.minusBt = (Button) convertView.findViewById(R.id.textView2);
 			viewHolder.plusBt = (Button) convertView.findViewById(R.id.textView4);
 			viewHolder.viewClick = (RelativeLayout) convertView.findViewById(R.id.summary_content);
+			viewHolder.imgLayout = (RelativeLayout) convertView.findViewById(R.id.rl1);
 			
 			convertView.setTag(viewHolder);
 			}else{
@@ -471,14 +476,20 @@ public class ImagePageSummaryActivity extends Activity {
 					
 				}
 			});
-		
+			
 			
 			TempImg temp = _list.get(position);
 			viewHolder.amt.setText(temp.getAmt()+"");
 			Bitmap bgBitmap = BitmapFactory.decodeFile(temp.getBgicon());
+			Bitmap myBitmap = BitmapFactory.decodeFile(temp.getCropIcon());
+			if(bgBitmap.getWidth()>bgBitmap.getHeight()){
+				Resources r = getResources();
+				viewHolder.imgLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics());
+				viewHolder.imgLayout.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, r.getDisplayMetrics());
+				viewHolder.cropImg.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 82, r.getDisplayMetrics());
+				viewHolder.cropImg.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 55, r.getDisplayMetrics());;
+			}
 			viewHolder.bgImg.setImageBitmap(bgBitmap);
-			
-			 Bitmap myBitmap = BitmapFactory.decodeFile(temp.getCropIcon());
 			viewHolder.cropImg.setImageBitmap(myBitmap);
 			viewHolder.minusBt.setOnClickListener(new OnButtongListener(viewHolder.amt,temp));
 			viewHolder.plusBt.setOnClickListener(new OnButtongListenerPlus(viewHolder.amt,temp));
@@ -491,7 +502,7 @@ public class ImagePageSummaryActivity extends Activity {
 			public TextView amt;
 			public ImageView cropImg;
 			public ImageView bgImg;
-			public RelativeLayout viewClick;
+			public RelativeLayout viewClick,imgLayout;
 		}
 		public class OnButtongListenerPlus implements OnClickListener{
 			private TextView val;
@@ -772,5 +783,6 @@ public class ImagePageSummaryActivity extends Activity {
 
 
 	}
+    
 	
 }
