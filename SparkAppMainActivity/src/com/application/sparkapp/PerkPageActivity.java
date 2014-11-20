@@ -196,9 +196,9 @@ public class PerkPageActivity extends Activity {
 			viewHolder.sponsorName.setText(model.getBrandname());
 			Picasso.with(getApplicationContext()).load(model.getThumnailImages()).into(viewHolder.perImg);
 			if(model.getUsed()){
-			Picasso.with(getApplicationContext()).load(R.drawable.gift_icon).into(viewHolder.gift);	
+				Picasso.with(getApplicationContext()).load(R.drawable.redeem_icon).into(viewHolder.gift);	
 			}else{
-			Picasso.with(getApplicationContext()).load(R.drawable.redeem_icon).into(viewHolder.gift);		
+				Picasso.with(getApplicationContext()).load(R.drawable.gift_icon).into(viewHolder.gift);		
 			}
 			viewHolder.click.setOnClickListener(new OnSelectPerksListener(position,model));
 			return convertView;
