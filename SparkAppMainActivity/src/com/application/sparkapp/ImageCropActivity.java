@@ -77,9 +77,17 @@ public class ImageCropActivity extends Activity {
 		ImageView imgImageView = (ImageView) findViewById(R.id.ImageView_image);
 		if(!isFacebook){
 		bitmap = BitmapFactory.decodeFile(imgPath);
-		if(bitmap.getWidth()>3984){
-			bitmap = getResizedBitmap(bitmap, bitmap.getHeight(), 3984);
-		}
+			if(bitmap.getWidth()>3984){
+				bitmap = getResizedBitmap(bitmap, bitmap.getHeight(), 3984);
+			}else if(bitmap.getWidth()>bitmap.getHeight()){
+				if(bitmap.getWidth()<1800){
+					bitmap = getResizedBitmap(bitmap, 1200, 1800);
+				}
+			}else if(bitmap.getWidth()<bitmap.getHeight()){
+				if(bitmap.getHeight()<1800){
+					bitmap = getResizedBitmap(bitmap, 1800, 1200);
+				}
+			}
 		}else{
 		bitmap = DownloadImage(imgPath);	
 		}
