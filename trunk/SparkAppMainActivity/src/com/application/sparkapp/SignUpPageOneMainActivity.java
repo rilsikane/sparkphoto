@@ -1,6 +1,5 @@
 package com.application.sparkapp;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -20,6 +19,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +29,9 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -48,6 +47,8 @@ public class SignUpPageOneMainActivity extends Activity {
 	private AlertDialog levelDialog, occuDialog, serDialog;
 	private int occSel,servSel;
 	private boolean isValid;
+	private PopupWindow pwMyPopWindow,pwMyPopWindow2;// popupwindow
+	private ImageView nricInfoIcon,phoneInfoIcon;
 	private Calendar myCalendar;
 	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
 	"MyRepublic" };
@@ -75,12 +76,10 @@ public class SignUpPageOneMainActivity extends Activity {
 		dob.setInputType(0);
 		utils = new Utils(getApplicationContext(), this);
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
-		BitmapDrawable ob = new BitmapDrawable(
-				utils.decodeSampledBitmapFromResource(getResources(),
-						R.drawable.signup_background, utils.getScreenWidth(),
-						utils.getScreenHeight()));
+		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.signup_background, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-
+		nricInfoIcon = (ImageView) findViewById(R.id.imageView2);
+		phoneInfoIcon = (ImageView) findViewById(R.id.imageView3);
 		firstname = (EditText) findViewById(R.id.editText1);
 		lastname = (EditText) findViewById(R.id.editText2);
 		nric = (EditText) findViewById(R.id.editText3);
@@ -91,7 +90,39 @@ public class SignUpPageOneMainActivity extends Activity {
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
 		gender = (EditText) findViewById(R.id.editText8);
+		
+		iniPopupWindowForPhone();
+		phoneInfoIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (pwMyPopWindow2.isShowing()) {
 
+					pwMyPopWindow2.dismiss();
+				} else {
+
+					pwMyPopWindow2.showAsDropDown(phoneInfoIcon);
+				}
+			}
+		});
+		
+		iniPopupWindowForNRIC();
+		nricInfoIcon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (pwMyPopWindow.isShowing()) {
+
+					pwMyPopWindow.dismiss();
+				} else {
+
+					pwMyPopWindow.showAsDropDown(nricInfoIcon);
+				}
+			}
+		});
+		
 		if (getIntent().hasExtra("userDto")) {
 			userDto = (UserDto) getIntent().getExtras().get("userDto");
 		}
@@ -375,27 +406,7 @@ public class SignUpPageOneMainActivity extends Activity {
 				}
 			}
 		});
-		infoIconForNRIC.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				final int DRAWABLE_LEFT = 0;
-				final int DRAWABLE_TOP = 1;
-				final int DRAWABLE_RIGHT = 2;
-				final int DRAWABLE_BOTTOM = 3;
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (event.getRawX() >= (infoIconForNRIC.getRight() - infoIconForNRIC
-							.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds()
-							.width())) {
-						// your action here
-						// Toast.makeText(getApplicationContext(),
-						// "Hello Information", Toast.LENGTH_SHORT).show();
-						return true;
-					}
-				}
-				return false;
-			}
-		});
+		
 		backIcon.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -543,5 +554,33 @@ public class SignUpPageOneMainActivity extends Activity {
 			
 		}
 		return isContain;
+	}
+	private void iniPopupWindowForNRIC() {
+
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.popup_for_phone, null);
+		pwMyPopWindow = new PopupWindow(layout);
+		pwMyPopWindow.setFocusable(true);
+		TextView desc =(TextView) layout.findViewById(R.id.textView1);
+		desc.setText("This is for us to verify you are a unique SPARK user and ensure each individual does not  create multiple accounts");
+		pwMyPopWindow.setWidth(650);
+		pwMyPopWindow.setHeight(250);
+		
+		pwMyPopWindow.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bg_popupwindow_2));
+		pwMyPopWindow.setOutsideTouchable(true);
+	}
+	private void iniPopupWindowForPhone() {
+
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.popup_for_phone, null);
+		pwMyPopWindow2 = new PopupWindow(layout);
+		pwMyPopWindow2.setFocusable(true);
+		TextView desc =(TextView) layout.findViewById(R.id.textView1);
+		desc.setText("This is for us to send you an SMS for your OTP confirmation");
+		pwMyPopWindow2.setWidth(550);
+		pwMyPopWindow2.setHeight(250);
+		
+		pwMyPopWindow2.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bg_popupwindow_3));
+		pwMyPopWindow2.setOutsideTouchable(true);
 	}
 }
