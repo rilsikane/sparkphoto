@@ -79,7 +79,6 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Current Password"
-                android:inputType="textCapCharacters"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -110,7 +109,6 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="New password"
-                android:inputType="textCapCharacters"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
@@ -135,7 +133,6 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Confirm Password"
-                android:inputType="textCapCharacters"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" >
