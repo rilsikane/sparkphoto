@@ -125,7 +125,6 @@
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/nric_icon"
-                android:drawableRight="@drawable/info_icon"
                 android:ems="10"
                 android:hint="NRIC/FIN"
                 android:inputType="textCapCharacters"
@@ -227,7 +226,6 @@
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/phone_icon"
-                android:drawableRight="@drawable/info_icon"
                 android:ems="10"
                 android:hint="Phone number"
                 android:inputType="textCapCharacters"
@@ -265,6 +263,24 @@
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/editText3"
+                android:layout_alignRight="@+id/editText3"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/info_icon" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/editText9"
+                android:layout_alignRight="@+id/editText9"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/info_icon" />
         </RelativeLayout>
     </ScrollView>
 

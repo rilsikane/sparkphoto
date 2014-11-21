@@ -1,6 +1,5 @@
 package com.application.sparkapp;
 
-import com.application.sparkapp.SignUpPageOneMainActivity.EditTextWatcher;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
