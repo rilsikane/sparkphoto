@@ -74,23 +74,23 @@
             android:textColor="#ffffff"
             android:textSize="35sp" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/perkName"
-            android:layout_below="@+id/perkName"
-            android:text="privileges"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
-            android:textSize="35sp" />
+        <!-- <TextView -->
+        <!-- android:id="@+id/textView3" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_alignLeft="@+id/perkName" -->
+        <!-- android:layout_below="@+id/perkName" -->
+        <!-- android:text="privileges" -->
+        <!-- android:textAppearance="?android:attr/textAppearanceLarge" -->
+        <!-- android:textColor="#ffffff" -->
+        <!-- android:textSize="35sp" /> -->
 
         <TextView
             android:id="@+id/dueDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView3"
-            android:layout_below="@+id/textView3"
+            android:layout_alignLeft="@+id/perkName"
+            android:layout_below="@+id/perkName"
             android:layout_marginTop="10dp"
             android:text="Expire |"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -139,22 +139,32 @@
         </RelativeLayout>
 
         <ImageView
+            android:id="@+id/imageView66"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignBottom="@+id/perkName"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/backgroundperkcircle" />
+
+        <ImageView
             android:id="@+id/imageView3"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_alignBottom="@+id/perkName"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="25dp"
             android:src="@drawable/check_selected" />
 
-<!--         <ImageView -->
-<!--             android:id="@+id/reedem" -->
-<!--             android:layout_width="90dp" -->
-<!--             android:layout_height="90dp" -->
-<!--             android:layout_alignLeft="@+id/dueDate" -->
-<!--             android:layout_alignParentBottom="true" -->
-<!--             android:src="@drawable/noreedem" /> -->
+        <!-- <ImageView -->
+        <!-- android:id="@+id/reedem" -->
+        <!-- android:layout_width="90dp" -->
+        <!-- android:layout_height="90dp" -->
+        <!-- android:layout_alignLeft="@+id/dueDate" -->
+        <!-- android:layout_alignParentBottom="true" -->
+        <!-- android:src="@drawable/noreedem" /> -->
 
     </RelativeLayout>
 
