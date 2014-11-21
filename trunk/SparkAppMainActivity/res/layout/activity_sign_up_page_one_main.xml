@@ -99,7 +99,7 @@
                 android:hint="First name"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff"                
+                android:textColorHint="#ffffff"
                 android:textSize="20sp" />
 
             <EditText
@@ -141,7 +141,7 @@
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/png_icon"
-                android:ems="10"                
+                android:ems="10"
                 android:hint="Email address"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -157,7 +157,6 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Password"
-                android:inputType="textCapCharacters"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
@@ -183,7 +182,6 @@
                 android:drawableLeft="@drawable/space_icon"
                 android:ems="10"
                 android:hint="Confirm"
-                android:inputType="textCapCharacters"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
