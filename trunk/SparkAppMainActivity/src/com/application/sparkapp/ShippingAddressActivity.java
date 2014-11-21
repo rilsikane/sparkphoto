@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -279,6 +280,9 @@ public class ShippingAddressActivity extends Activity {
 			    				t.delete();
 			    			}
 			    		}
+			    		deleteRecursive(new File(
+						Environment.getExternalStorageDirectory()
+								+ "/Spark/temp_image/"));
 			    		AlertDialog.Builder builder1 = new AlertDialog.Builder(ShippingAddressActivity.this);
 			            builder1.setMessage("Success!");
 			            builder1.setCancelable(true);
@@ -310,6 +314,13 @@ public class ShippingAddressActivity extends Activity {
 		}
 
 
+	}
+	public void deleteRecursive(File fileOrDirectory) {
+	    if (fileOrDirectory.isDirectory())
+	        for (File child : fileOrDirectory.listFiles())
+	        	deleteRecursive(child);
+
+	    fileOrDirectory.delete();
 	}
 
 }
