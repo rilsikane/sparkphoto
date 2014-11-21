@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res/com.application.sparkapp"
     android:id="@+id/root_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -138,17 +139,7 @@
             android:background="@drawable/buttom_redeem_image" >
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/imageView66"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignBottom="@+id/perkName"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/backgroundperkcircle" />
-
-        <ImageView
+        <com.pkmmte.circularimageview.CircularImageView
             android:id="@+id/imageView3"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -156,7 +147,11 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="25dp"
-            android:src="@drawable/check_selected" />
+            android:scaleType="fitXY"
+            android:src="@drawable/check_selected"
+            app:border="true"
+            app:border_color="#ffffff"
+            app:shadow="true" />
 
         <!-- <ImageView -->
         <!-- android:id="@+id/reedem" -->
