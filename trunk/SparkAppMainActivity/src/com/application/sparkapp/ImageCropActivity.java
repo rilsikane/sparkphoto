@@ -149,7 +149,11 @@ public class ImageCropActivity extends Activity {
 				temp.path = file.getAbsolutePath();
 				
 				fOut2 = new FileOutputStream(tumb);
-				bitmap = getResizedBitmap(bitmap, 100, 100);
+				if(portraitFlag){
+				bitmap = getResizedBitmap(bitmap, 180, 120);
+				}else{
+				bitmap = getResizedBitmap(bitmap, 120, 180);	
+				}
 				bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
 				fOut2.flush();
 				fOut2.close();
@@ -158,7 +162,11 @@ public class ImageCropActivity extends Activity {
 				
 				
 				fOut3 = new FileOutputStream(tmb);
-				tempCrop = getResizedBitmap(tempCrop, 100, 100);
+				if(portraitFlag){
+					tempCrop = getResizedBitmap(bitmap, 180, 120);
+					}else{
+					tempCrop = getResizedBitmap(bitmap, 120, 180);	
+				}
 				tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
 				fOut3.flush();
 				fOut3.close();
