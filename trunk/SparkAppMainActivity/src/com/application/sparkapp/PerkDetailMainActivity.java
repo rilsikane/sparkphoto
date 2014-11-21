@@ -20,7 +20,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -31,12 +30,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.ImagePageSummaryActivity.LoadListAdapter;
 import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
+import com.pkmmte.circularimageview.CircularImageView;
 import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -55,7 +53,9 @@ public class PerkDetailMainActivity extends Activity {
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.setting_page, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-		ImageView sponserImage = (ImageView) findViewById(R.id.imageView3);
+		
+		CircularImageView  sponserImage = (CircularImageView ) findViewById(R.id.imageView3);
+		
 		ImageView perksImage = (ImageView) findViewById(R.id.imageView2);
 		TextView perksName = (TextView) findViewById(R.id.perkName);
 		TextView dueDate = (TextView) findViewById(R.id.duedate);
@@ -80,7 +80,7 @@ public class PerkDetailMainActivity extends Activity {
 		try {
 			url_value = new URL(perksDto.getLogo_image());
 			Bitmap mIcon1 = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
-			sponserImage.setImageBitmap(new CircleTransform().transform(mIcon1));
+			sponserImage.setImageBitmap(mIcon1);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
