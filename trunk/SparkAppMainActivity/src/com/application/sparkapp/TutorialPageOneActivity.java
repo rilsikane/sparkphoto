@@ -12,8 +12,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,7 +24,7 @@ import android.widget.RelativeLayout;
 
 @SuppressLint("ValidFragment")
 public class TutorialPageOneActivity extends FragmentActivity {
-
+	private ViewPager pager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,34 +36,51 @@ public class TutorialPageOneActivity extends FragmentActivity {
 
 		MyPageAdapter pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
 
-		ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
-		pager.setOnPageChangeListener(new OnPageChangeListener() {
-			
-			@Override
-			public void onPageSelected(int arg0) {
-				// TODO Auto-generated method stub
-				if(arg0==2){
-					Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
-					startActivity(i);
-					finish();
-					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				}
-				
-			}
-			
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		pager = (ViewPager) findViewById(R.id.viewpager);
+		
+		pager.setOnPageChangeListener(new PageListener());
+		
 		pager.setAdapter(pageAdapter);
+	}
+	public class PageListener extends SimpleOnPageChangeListener{
+		private boolean isDrag=false;
+		public void onPageSelected(int position) {
+           if(position==1){
+        	  pager.setOnTouchListener(new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					if(event.getAction() == android.view.MotionEvent.ACTION_UP){
+						if(!isDrag){
+							Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
+							startActivity(i);
+							finish();
+							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						}
+						
+					}
+					
+					return false;
+				}
+			});
+           }
+		}
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			// TODO Auto-generated method stub
+			isDrag = true;
+		}
+		
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+			if(arg0==0){
+				isDrag=false;
+			}else{
+				isDrag=true;
+			}
+		}
 	}
 	@Override
 	public void onBackPressed(){
@@ -90,7 +110,7 @@ public class TutorialPageOneActivity extends FragmentActivity {
 
 		fList.add(MyFragment.newInstance("2"));
 
-		fList.add(MyFragment.newInstance("3"));
+//		fList.add(MyFragment.newInstance("3"));
 
 		return fList;
 
