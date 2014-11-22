@@ -8,18 +8,23 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -31,7 +36,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.model.Login;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.edmodo.cropper.CropImageView;
@@ -122,79 +128,80 @@ public class ImageCropActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				new InitAndLoadData().execute();
 				try{
-				Bitmap tempCrop = cropImageView.getCroppedImage();
-				croppedImage = cropImageView.getCroppedImage();
-				if(portraitFlag){
-				croppedImage = getResizedBitmap(croppedImage, 1800, 1200);
-				}else{
-				croppedImage = getResizedBitmap(croppedImage, 1200, 1800);	
-				}
-				UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
-				TempImage temp = new TempImage();
-				temp.ac_token = userVO.ac_token;
-				temp.originPath = imgPath;
-				File directory = new File(
-						Environment.getExternalStorageDirectory()
-								+ "/Spark/temp_image/");
-				if (!directory.exists()) {
-					directory.mkdirs();
-				}
-				OutputStream fOut = null;
-				OutputStream fOut2 = null;
-				OutputStream fOut3 = null;
-				
-				String cropName = ""+UUID.randomUUID();
-				File file = new File(directory, ""+cropName+".jpg");
-				File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
-				File tmb = new File(directory, ""+cropName+"_tmb.jpg");
-				
-				fOut = new FileOutputStream(file);
-				croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
-				fOut.flush();
-				fOut.close();
-				MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
-				temp.path = file.getAbsolutePath();
-				
-				fOut2 = new FileOutputStream(tumb);
-				if(portraitFlag){
-				bitmap = getResizedBitmap(bitmap, 180, 120);
-				}else{
-				bitmap = getResizedBitmap(bitmap, 120, 180);	
-				}
-				bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
-				fOut2.flush();
-				fOut2.close();
-				MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
-				temp.originPath = tumb.getAbsolutePath();
-				
-				
-				fOut3 = new FileOutputStream(tmb);
-				if(portraitFlag){
-					tempCrop = getResizedBitmap(bitmap, 180, 120);
+					Bitmap tempCrop = cropImageView.getCroppedImage();
+					croppedImage = cropImageView.getCroppedImage();
+					if(portraitFlag){
+						croppedImage = getResizedBitmap(croppedImage, 1800, 1200);
 					}else{
-					tempCrop = getResizedBitmap(bitmap, 120, 180);	
-				}
-				tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
-				fOut3.flush();
-				fOut3.close();
-				MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
-				
-				temp.amt = "1";
-				temp.id = temp.getPk();
-				temp.save();
-				UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
-				String tutorial = "";
-				if(user!=null){
-					tutorial = user.tutorial;
-				}
-				Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
-				if("A".equals(tutorial)){
-					i = new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
-				}
-				startActivity(i);
-				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-				finish();
+						croppedImage = getResizedBitmap(croppedImage, 1200, 1800);	
+					}
+					
+					UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+					TempImage temp = new TempImage();
+					temp.ac_token = userVO.ac_token;
+					temp.originPath = imgPath;
+					File directory = new File(Environment.getExternalStorageDirectory()+ "/Spark/temp_image/");
+					if (!directory.exists()) {
+						directory.mkdirs();
+					}
+					OutputStream fOut = null;
+					OutputStream fOut2 = null;
+					OutputStream fOut3 = null;
+					
+					String cropName = ""+UUID.randomUUID();
+					File file = new File(directory, ""+cropName+".jpg");
+					File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
+					File tmb = new File(directory, ""+cropName+"_tmb.jpg");
+					
+					fOut = new FileOutputStream(file);
+					croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+					fOut.flush();
+					fOut.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+					temp.path = file.getAbsolutePath();
+					
+					fOut2 = new FileOutputStream(tumb);
+					if(portraitFlag){
+						bitmap = getResizedBitmap(bitmap, 180, 120);
+					}else{
+						bitmap = getResizedBitmap(bitmap, 120, 180);	
+					}
+						bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
+					fOut2.flush();
+					fOut2.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
+					temp.originPath = tumb.getAbsolutePath();
+					
+					
+					fOut3 = new FileOutputStream(tmb);
+					if(portraitFlag){
+						tempCrop = getResizedBitmap(bitmap, 180, 120);
+						}else{
+						tempCrop = getResizedBitmap(bitmap, 120, 180);	
+					}
+					tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
+					fOut3.flush();
+					fOut3.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
+					
+					temp.amt = "1";
+					temp.id = temp.getPk();				
+					temp.save();
+					
+					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+					String tutorial = "";
+					if(user!=null){
+						tutorial = user.tutorial;
+					}
+					Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
+					if("A".equals(tutorial)){
+						i = new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
+					}
+					startActivity(i);
+					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+					finish();
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -280,9 +287,7 @@ public class ImageCropActivity extends Activity {
 //        System.out.println("image last");
         return bitmap;                
     }
-    private InputStream OpenHttpConnection(String urlString)
-            throws IOException
-            {
+    private InputStream OpenHttpConnection(String urlString)throws IOException{
                 InputStream in = null;
                 int response = -1;
 
@@ -311,4 +316,42 @@ public class ImageCropActivity extends Activity {
                 }
                 return in;    
     }
+    public class InitAndLoadData extends AsyncTask<String, Void, List<String>> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+		public InitAndLoadData(){
+		}
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(ImageCropActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected List<String> doInBackground(String... params) {
+			// TODO Auto-generated method stub			
+			List<String> test = new ArrayList<String>();
+			for(int i =0;i<20;i++){
+				test.add("");
+			}
+			return test;
+		}
+		
+		@Override
+		protected void onPostExecute(List<String> result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				mProgressHUD.dismiss();
+			} else {
+				
+				mProgressHUD.dismiss();
+			}
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
 }
