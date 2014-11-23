@@ -241,7 +241,7 @@ import android.widget.TextView;
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
-					userDto, "debug");
+					userDto, "debug",false);
 			return common;
 		}
 

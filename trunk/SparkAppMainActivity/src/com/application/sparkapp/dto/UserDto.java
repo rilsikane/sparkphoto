@@ -51,6 +51,11 @@ public class UserDto implements Parcelable{
 	private String access_token;
 	@JsonIgnore
 	private boolean confrim;
+	@JsonIgnore
+	private String otp_token;
+	@JsonIgnore
+	private String user_validateCode;
+	
 	public UserDto() { 
 		
 	}
@@ -195,6 +200,22 @@ public class UserDto implements Parcelable{
 	public void setConfrim(boolean confrim) {
 		this.confrim = confrim;
 	}
+	
+	
+	public String getOtp_token() {
+		return otp_token;
+	}
+	public void setOtp_token(String otp_token) {
+		this.otp_token = otp_token;
+	}
+	
+	
+	public String getUser_validateCode() {
+		return user_validateCode;
+	}
+	public void setUser_validateCode(String user_validateCode) {
+		this.user_validateCode = user_validateCode;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -224,6 +245,8 @@ public class UserDto implements Parcelable{
         dest.writeByte((byte) (normalCredit ? 1 : 0)); 
         dest.writeString(access_token);
         dest.writeByte((byte) (confrim ? 1 : 0)); 
+        dest.writeString(otp_token);
+        dest.writeString(user_validateCode);
 	}
 	private void readFromParcel(Parcel in) {
 		method = in.readString();
@@ -248,6 +271,8 @@ public class UserDto implements Parcelable{
 		normalCredit = in.readByte() != 0; 
 		access_token = in.readString();
 		confrim = in.readByte() != 0; 
+		otp_token = in.readString();
+		user_validateCode = in.readString();
 	}
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public UserDto createFromParcel(Parcel parcel) {
