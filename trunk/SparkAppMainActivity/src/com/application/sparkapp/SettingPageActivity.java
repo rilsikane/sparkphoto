@@ -67,7 +67,7 @@ public class SettingPageActivity extends Activity {
 				// TODO Auto-generated method stub								
 				new AlertDialog.Builder(SettingPageActivity.this)
 			    .setTitle("Logout Confirmation")
-			    .setMessage("Are you sure to logout?")
+			    .setMessage("Are you sure you would like to log out?")
 			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) { 
 			            // continue with delete
