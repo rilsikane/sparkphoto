@@ -1,5 +1,7 @@
 package com.application.sparkapp;
 
+import org.codehaus.jackson.JsonParseException;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
@@ -213,12 +215,41 @@ public class AddressMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null && Utils.isNotEmpty(result.getMsg())) {
 				String[] msgs = result.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-				if (contains(msgs, "term")) {
-					Intent intent = new Intent(AddressMainActivity.this,TermOfUseMainActivity.class);
+				if (contains(msgs, "otp")) {
+					CommonDto commonDto = JSONParserForGetList.getInstance().getOTP(userDto);
+					if(commonDto.isFlag()){
+					userDto.setOtp_token(commonDto.getToken());
+					Intent intent = new Intent(AddressMainActivity.this,PinValidateMainActivity.class);
 					intent.putExtra("userDto", (Parcelable) userDto);
 					startActivity(intent);
 					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 					finish();
+					}else if(commonDto.getMsg()!=null){
+						String[] errMsgs = commonDto.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+							AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
+							if(errMsgs!=null && errMsgs.length>0){
+								String msg = "Error Please try again "+System.getProperty("line.separator");
+								if(errMsgs!=null && errMsgs.length>0){
+									for(String ms : errMsgs){
+										msg += ("-"+ms+System.getProperty("line.separator"));
+									}
+								
+								}
+								builder1.setMessage(msg);
+							}
+							builder1.setCancelable(true);
+							builder1.setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int id) {
+											dialog.cancel();
+										}
+									});
+							AlertDialog alert11 = builder1.create();
+							alert11.show();
+						
+						
+					}
 
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);

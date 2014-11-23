@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PinValidateMainActivity extends Activity {
+public class SettingPinValidateMainActivity extends Activity {
 
 	private EditText firstPin,secondPin,thirdPin,forthPin;
 	private UserDto userDto;
@@ -165,7 +165,7 @@ public class PinValidateMainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(PinValidateMainActivity.this,
+				Intent intent = new Intent(SettingPinValidateMainActivity.this,
 						AddressMainActivity.class);
 				intent.putExtra("userDto", (Parcelable) userDto);
 				startActivity(intent);
@@ -176,7 +176,7 @@ public class PinValidateMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(PinValidateMainActivity.this,AddressMainActivity.class);
+		Intent intent = new Intent(SettingPinValidateMainActivity.this,AddressMainActivity.class);
 		intent.putExtra("userDto", (Parcelable) userDto);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -190,7 +190,7 @@ public class PinValidateMainActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			mProgressHUD = ProgressHUD.show(PinValidateMainActivity.this,
+			mProgressHUD = ProgressHUD.show(SettingPinValidateMainActivity.this,
 					"Loading ...", true, true, this);
 			super.onPreExecute();
 		}
@@ -198,63 +198,45 @@ public class PinValidateMainActivity extends Activity {
 		@Override
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			CommonDto common = JSONParserForGetList.getInstance().Register(
-					userDto);
+			CommonDto common = JSONParserForGetList.getInstance().EditProfile(userDto, "debug", true);
 			return common;
 		}
 
 		@Override
 		protected void onPostExecute(CommonDto result) {
 			super.onPostExecute(result);
-			if (result != null && Utils.isNotEmpty(result.getMsg())) {
-				String[] msgs = result.getMsg().replaceAll("\\[", "")
-						.replaceAll("\\]", "").split(",");
-				if (contains(msgs, "term")) {
-					CommonDto commonDto = JSONParserForGetList.getInstance()
-							.getOTP(userDto);
-					if (commonDto.isFlag()) {
-						userDto.setOtp_token(commonDto.getToken());
-						Intent intent = new Intent(PinValidateMainActivity.this,
-								TermOfUseMainActivity.class);
-						intent.putExtra("userDto", (Parcelable) userDto);
-						startActivity(intent);
-						overridePendingTransition(R.anim.slide_in_left,
-								R.anim.slide_out_left);
-						finish();
-					} else if (commonDto.getMsg() != null) {
-						String[] errMsgs = commonDto.getMsg()
-								.replaceAll("\\[", "").replaceAll("\\]", "")
-								.split(",");
+			if (result != null) {
+					if (result.isFlag()) {
 						AlertDialog.Builder builder1 = new AlertDialog.Builder(
-								PinValidateMainActivity.this);
-						if (errMsgs != null && errMsgs.length > 0) {
-							String msg = "Error Please try again "
-									+ System.getProperty("line.separator");
-							if (errMsgs != null && errMsgs.length > 0) {
-								for (String ms : errMsgs) {
-									msg += ("-" + ms + System
-											.getProperty("line.separator"));
-								}
-
-							}
-							builder1.setMessage(msg);
-						}
+								SettingPinValidateMainActivity.this);
+						builder1.setMessage("Profile Edited");
 						builder1.setCancelable(true);
 						builder1.setPositiveButton("Ok",
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int id) {
 										dialog.cancel();
+										// By pass to term of use main activity
+										Intent i = new Intent(
+												SettingPinValidateMainActivity.this,
+												SettingPageActivity.class);
+										startActivity(i);
+										finish();
+										overridePendingTransition(
+												R.anim.slide_in_left,
+												R.anim.slide_out_left);
 									}
 								});
 						AlertDialog alert11 = builder1.create();
 						alert11.show();
-
-					}
+					
 
 				} else {
+					String[] msgs = result.getMsg()
+							.replaceAll("\\[", "").replaceAll("\\]", "")
+							.split(",");
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
-							PinValidateMainActivity.this);
+							SettingPinValidateMainActivity.this);
 					if (msgs != null && msgs.length > 0) {
 						String msg = "Error Please try again "
 								+ System.getProperty("line.separator");

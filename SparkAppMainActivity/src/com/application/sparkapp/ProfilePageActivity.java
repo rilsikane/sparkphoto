@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -283,17 +284,40 @@ public class ProfilePageActivity extends Activity {
 						&& utils.isNotEmpty(lastname.getText().toString())
 						&& utils.isNotEmpty(firstname.getText().toString())) {
 					
-
+						
 						userDto.setFirstname(firstname.getText().toString());
 						userDto.setLastname(lastname.getText().toString());
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setEmail(email.getText().toString());
-						userDto.setPhone(phoneno.getText().toString());
+						//userDto.setPhone(phoneno.getText().toString());
 						userDto.setPhone_service(servSel+"");
 						userDto.setOccupation(occSel+"");
 						userDto.setBirthday(dob.getText().toString());
 						userDto.setGender("Female".equals(gender.getText().toString()) ? "2" : "1");
-						new EditProfileData().execute();
+						if(userDto.getPhone().equals(phoneno.getText().toString())){
+							new EditProfileData().execute();
+						}else{
+							UserDto dto = new UserDto();
+							dto.setPhone(phoneno.getText().toString());
+							dto.setPhone_service(servSel+"");
+							CommonDto common = JSONParserForGetList.getInstance().Register(
+									dto);
+							if(common.getMsg()!=null){
+								String[] errMsgs = common.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+								if(!contains(errMsgs, "phone")){
+									CommonDto commonDto = JSONParserForGetList.getInstance().getOTP(userDto);
+									if(commonDto.isFlag()){
+									userDto.setOtp_token(commonDto.getToken());
+									userDto.setPhone(phoneno.getText().toString());
+									Intent intent = new Intent(ProfilePageActivity.this,SettingPinValidateMainActivity.class);
+									intent.putExtra("userDto", (Parcelable) userDto);
+									startActivity(intent);
+									overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+									finish();
+									}
+								}
+							}
+						}
 					
 					
 				}
@@ -416,7 +440,7 @@ public class ProfilePageActivity extends Activity {
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
-					userDto,"debug");
+					userDto,"debug",false);
 			return common;
 		}
 
@@ -523,5 +547,14 @@ public class ProfilePageActivity extends Activity {
 			}
 		}
 		
+	}
+	public static  boolean contains(final String[] array, final String v) {
+	    if (v != null) {
+	        for (final String e : array)
+	            if (e.contains(v))
+	                return true;
+	    } 
+
+	    return false;
 	}
 }

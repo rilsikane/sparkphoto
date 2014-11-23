@@ -35,7 +35,9 @@ import android.widget.TextView;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
+import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -126,6 +128,13 @@ public class SignUpPageOneMainActivity extends Activity {
 		if (getIntent().hasExtra("userDto")) {
 			userDto = (UserDto) getIntent().getExtras().get("userDto");
 		}
+		
+		//for debug data
+		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+		
+		
+		
 		if (userDto != null) {
 			firstname.setText(userDto.getFirstname());
 			lastname.setText(userDto.getLastname());
@@ -546,7 +555,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		boolean isContain = false;
 		if(msgs!=null && msgs.length>0){
 			for(int i=0;i<msgs.length;i++){
-				if(msgs[i].contains("postal") || msgs[i].contains("street") || msgs[i].contains("block")){
+				if(msgs[i].contains("postal") || msgs[i].contains("street") || msgs[i].contains("block")||msgs[i].contains("otp")){
 					isContain = true;
 					break;
 				}

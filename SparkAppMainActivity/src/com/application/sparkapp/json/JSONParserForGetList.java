@@ -84,6 +84,9 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
          nameValuePairs.add(new BasicNameValuePair("confirm_term_of_use", userDto.isConfrim()+""));
+         nameValuePairs.add(new BasicNameValuePair("token_otp", userDto.getOtp_token()));
+         nameValuePairs.add(new BasicNameValuePair("user_validate_code", userDto.getUser_validateCode()));
+         
          
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
@@ -103,7 +106,7 @@ public class JSONParserForGetList {
 		}
          return commonDto;
 	}
-	public CommonDto EditProfile(UserDto userDto,String debug){
+	public CommonDto EditProfile(UserDto userDto,String debug,boolean changePhone){
 		CommonDto commonDto = new CommonDto();
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -114,7 +117,6 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
          nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
          nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
-         nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
          nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
          nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
          nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
@@ -122,6 +124,14 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
          nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
          nameValuePairs.add(new BasicNameValuePair("debug", debug));
+         if(changePhone){
+        	 nameValuePairs.add(new BasicNameValuePair("change_phone", "true"));
+        	 nameValuePairs.add(new BasicNameValuePair("token_otp", userDto.getOtp_token()));
+             nameValuePairs.add(new BasicNameValuePair("user_validate_code", userDto.getUser_validateCode()));
+             nameValuePairs.add(new BasicNameValuePair("new_phone", userDto.getPhone()));
+         }else{
+        	  nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
+         }
          
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
@@ -351,6 +361,34 @@ public class JSONParserForGetList {
 			}
 		
 		return user;
+		
+	}
+	public CommonDto getOTP(UserDto userDto){
+		CommonDto commonDto = null;
+		try{
+			 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				  nameValuePairs = new ArrayList<NameValuePair>(2);
+			      nameValuePairs.add(new BasicNameValuePair("method", "requestOtp"));
+			      nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
+			      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+			      
+			      if(!jsUser.isNull("success")){
+			    	 commonDto = new CommonDto();
+			    	 commonDto.setFlag(true);
+			    	 commonDto.setToken(jsUser.getString("token_otp"));
+			      }else{
+			    	  commonDto = new CommonDto();
+			    	  commonDto.setFlag(false);
+			    	  commonDto.setMsg(jsUser.getString("message"));
+			      }
+			      
+				  
+	         
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return commonDto;
 		
 	}
 	
