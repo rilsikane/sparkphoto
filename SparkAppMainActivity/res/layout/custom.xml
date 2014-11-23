@@ -111,6 +111,7 @@
             android:background="#ffffff" />
 
         <RelativeLayout
+            android:id="@+id/gotoPerk"
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
