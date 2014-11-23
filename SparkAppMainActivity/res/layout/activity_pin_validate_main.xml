@@ -94,7 +94,7 @@
                     android:background="@drawable/underscore_pin"
                     android:ems="10"
                     android:gravity="center"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:maxLength="1"
                     android:textColor="#ffffff"
                     android:textSize="40sp" />
@@ -109,7 +109,7 @@
                     android:background="@drawable/underscore_pin"
                     android:ems="10"
                     android:gravity="center"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:maxLength="1"
                     android:textColor="#ffffff"
                     android:textSize="40sp" />
@@ -125,7 +125,7 @@
                     android:background="@drawable/underscore_pin"
                     android:ems="10"
                     android:gravity="center"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:maxLength="1"
                     android:textColor="#ffffff"
                     android:textSize="40sp" />
@@ -141,7 +141,7 @@
                     android:background="@drawable/underscore_pin"
                     android:ems="10"
                     android:gravity="center"
-                    android:inputType="phone"
+                    android:inputType="number"
                     android:maxLength="1"
                     android:textColor="#ffffff"
                     android:textSize="40sp" />
