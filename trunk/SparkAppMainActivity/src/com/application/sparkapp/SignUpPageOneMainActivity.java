@@ -130,8 +130,8 @@ public class SignUpPageOneMainActivity extends Activity {
 		}
 		
 		//for debug data
-		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
-		userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+//		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+//		userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 		
 		
 		

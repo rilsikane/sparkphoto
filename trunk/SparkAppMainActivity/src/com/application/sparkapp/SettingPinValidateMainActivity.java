@@ -166,8 +166,8 @@ public class SettingPinValidateMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(SettingPinValidateMainActivity.this,
-						AddressMainActivity.class);
-				intent.putExtra("userDto", (Parcelable) userDto);
+						SettingPageActivity.class);
+				
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -176,8 +176,7 @@ public class SettingPinValidateMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(SettingPinValidateMainActivity.this,AddressMainActivity.class);
-		intent.putExtra("userDto", (Parcelable) userDto);
+		Intent intent = new Intent(SettingPinValidateMainActivity.this,SettingPageActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
