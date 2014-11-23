@@ -124,8 +124,10 @@ public class PerkPageActivity extends Activity {
 		protected List<PerksDto> doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
-			List<PerksDto> perkList = JSONParserForGetList.getInstance().getListPerks(user.ac_token,params[0]);
-			
+			List<PerksDto> perkList = new ArrayList<PerksDto>();
+			if(user!=null){
+				perkList = JSONParserForGetList.getInstance().getListPerks(user.ac_token,params[0]);
+			}
 			return perkList;
 		}
 
