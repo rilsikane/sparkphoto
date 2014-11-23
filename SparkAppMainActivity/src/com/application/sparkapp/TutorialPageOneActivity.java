@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 @SuppressLint("ValidFragment")
 public class TutorialPageOneActivity extends FragmentActivity {
 	private ViewPager pager;
-	private boolean isDrag;
 	private int x;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +39,15 @@ public class TutorialPageOneActivity extends FragmentActivity {
 
 		pager = (ViewPager) findViewById(R.id.viewpager);
 		
-		//pager.setOnPageChangeListener(new PageListener());
+		pager.setOnPageChangeListener(new PageListener());
 		
 		pager.setAdapter(pageAdapter);
-		
-		 pager.setOnTouchListener(new OnTouchListener() {
+	}
+	public class PageListener extends SimpleOnPageChangeListener{
+		private boolean isDrag=false;
+		public void onPageSelected(int position) {
+           if(position==1){
+        	  pager.setOnTouchListener(new OnTouchListener() {
 				
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
@@ -53,6 +56,7 @@ public class TutorialPageOneActivity extends FragmentActivity {
 						x = (int) event.getRawX();
 						break;
 					case MotionEvent.ACTION_UP:
+						int now = (int) event.getRawX();
 						if(!isDrag){
 							Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
 							startActivity(i);
@@ -64,7 +68,14 @@ public class TutorialPageOneActivity extends FragmentActivity {
 								pager.setCurrentItem(1);
 								break;
 							case 1:
-								pager.setCurrentItem(0);
+								if(now>x){
+									pager.setCurrentItem(0);
+								}else{
+									Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
+									startActivity(i);
+									finish();
+									overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+								}
 								break;		
 							default:
 								break;
@@ -74,7 +85,8 @@ public class TutorialPageOneActivity extends FragmentActivity {
 						break;
 					case MotionEvent.ACTION_MOVE:
 						int nowX = (int) event.getRawX();
-						if(x!=nowX){
+						int sumX = x - nowX;
+						if(Math.abs(sumX)>5){
 						isDrag = true;
 						}else{
 						isDrag = false;	
@@ -86,30 +98,8 @@ public class TutorialPageOneActivity extends FragmentActivity {
 					}
 					return true;
 				}
-		});
-	}
-	public class PageListener extends SimpleOnPageChangeListener{
-		
-		public void onPageSelected(int position) {
-			 pager.setOnTouchListener(new OnTouchListener() {
-					
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						
-						if(event.getAction() == android.view.MotionEvent.ACTION_UP){
-							if(!isDrag){
-								Intent i = new Intent(TutorialPageOneActivity.this,MainPhotoSelectActivity.class);
-								startActivity(i);
-								finish();
-								overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-							}
-						}else if(event.getAction() == android.view.MotionEvent.ACTION_MOVE){
-							isDrag = true;
-						}
-						
-						return false;
-					}
 			});
+           }
 		}
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
@@ -120,7 +110,7 @@ public class TutorialPageOneActivity extends FragmentActivity {
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
 			// TODO Auto-generated method stub
-//			if(arg0==1){
+//			if(arg0==0){
 //				isDrag=false;
 //			}else{
 //				isDrag=true;

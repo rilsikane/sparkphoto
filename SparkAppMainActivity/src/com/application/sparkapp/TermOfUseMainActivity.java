@@ -102,7 +102,7 @@ public class TermOfUseMainActivity extends Activity {
 				if (result.isFlag()) {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							TermOfUseMainActivity.this);
-					builder1.setMessage("Register Completed");
+					builder1.setMessage("Registration complete");
 					builder1.setCancelable(true);
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
