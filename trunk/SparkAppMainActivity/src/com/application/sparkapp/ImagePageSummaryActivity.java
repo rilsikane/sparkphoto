@@ -715,12 +715,24 @@ public class ImagePageSummaryActivity extends Activity {
 		perkDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		perkDialog.setContentView(R.layout.custom);	
 		RelativeLayout closePerkDialog = (RelativeLayout) perkDialog.findViewById(R.id.close_dialog_layout);
+		RelativeLayout goToPerk = (RelativeLayout) perkDialog.findViewById(R.id.gotoPerk);
 		closePerkDialog.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				perkDialog.dismiss();
+			}
+		});
+		goToPerk.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(ImagePageSummaryActivity.this,PerkPageActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
 			}
 		});
 		perkDialog.show();

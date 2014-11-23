@@ -326,6 +326,7 @@ public class MainPhotoSelectActivity extends Activity {
 		TextView day = (TextView) perkDialog.findViewById(R.id.textView7);
 		TextView hour = (TextView) perkDialog.findViewById(R.id.textView2);
 		TextView min = (TextView) perkDialog.findViewById(R.id.textView4);
+		RelativeLayout goToPerk = (RelativeLayout) perkDialog.findViewById(R.id.gotoPerk);
 		UserDto dto = JSONParserForGetList.getInstance().getUserStatus(userDto.getAccess_token());
 		if(dto.getNextTimeCanUpload()!=null){
 			Long sec = Long.parseLong(dto.getNextTimeCanUpload());
@@ -338,7 +339,17 @@ public class MainPhotoSelectActivity extends Activity {
 			 hour.setText(hours+"");
 			 min.setText(minute+"");
 		}
-		
+		goToPerk.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(MainPhotoSelectActivity.this,PerkPageActivity.class);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}
+		});
 		closePerkDialog.setOnClickListener(new OnClickListener() {
 			
 			@Override
