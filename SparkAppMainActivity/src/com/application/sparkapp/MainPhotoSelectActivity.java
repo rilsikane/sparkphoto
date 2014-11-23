@@ -103,17 +103,19 @@ public class MainPhotoSelectActivity extends Activity {
 		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		if(user!=null){
 			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
-			nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
-			if("D".equals(user.tutorial)){
-				radioButton.setChecked(false);
-			}else if("".equals(user.tutorial)){
-				user.tutorial = "I";
-				user.save();
-				radioButton.setChecked(true);
-			}else{
-				user.tutorial = "A";
-				user.save();
-				radioButton.setChecked(true);
+			if(userDto!=null){
+				nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
+				if("D".equals(user.tutorial)){
+					radioButton.setChecked(false);
+				}else if("".equals(user.tutorial)){
+					user.tutorial = "I";
+					user.save();
+					radioButton.setChecked(true);
+				}else{
+					user.tutorial = "A";
+					user.save();
+					radioButton.setChecked(true);
+				}
 			}
 		}
 		
