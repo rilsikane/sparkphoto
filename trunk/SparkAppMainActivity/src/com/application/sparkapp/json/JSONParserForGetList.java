@@ -28,18 +28,16 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.application.sparkapp.dto.CommonDto;
-import com.application.sparkapp.dto.PerksDto;
-import com.application.sparkapp.dto.UserDto;
-import com.application.sparkapp.model.Login;
-import com.application.sparkapp.model.UserVO;
-import com.application.sparkapp.util.DateUtil;
-import com.application.sparkapp.util.GlobalVariable;
-
 import android.app.Activity;
 import android.os.Environment;
 import android.text.Html;
 import android.util.Log;
+
+import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.PerksDto;
+import com.application.sparkapp.dto.UserDto;
+import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 
 public class JSONParserForGetList {
 	public Activity a;
@@ -257,10 +255,6 @@ public class JSONParserForGetList {
          if(!json.isNull("success")){
         	 commonDto.setFlag(true);
         	 commonDto.setToken(json.getString("app_access_token"));
-        	 Login login = new Login();
-			  login.ac_token = commonDto.getToken();
-			  login.loginDt = DateUtil.toStringEngDateSimpleFormat(new Date());
-			  login.save();
 			  nameValuePairs = new ArrayList<NameValuePair>(2);
 		      nameValuePairs.add(new BasicNameValuePair("method", "userStatus"));
 		      nameValuePairs.add(new BasicNameValuePair("ac", commonDto.getToken()));

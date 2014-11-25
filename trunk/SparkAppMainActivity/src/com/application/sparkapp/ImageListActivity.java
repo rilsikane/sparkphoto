@@ -313,15 +313,16 @@ public class ImageListActivity extends Activity {
 		File file = new File(path);
 
 		File imageList[] = file.listFiles();
-
-		 for(int i=0;i<imageList.length;i++)
-		 {
-			String filename = imageList[i].getAbsolutePath();
-			if(checkImage(filename)){
-				imgList.add(filename);
-			}
-
-		 }
+		if(imageList!=null && imageList.length>0){
+			 for(int i=0;i<imageList.length;i++)
+			 {
+				String filename = imageList[i].getAbsolutePath();
+				if(checkImage(filename)){
+					imgList.add(filename);
+				}
+	
+			 }
+		}
 		 
 		 return imgList;
 	}

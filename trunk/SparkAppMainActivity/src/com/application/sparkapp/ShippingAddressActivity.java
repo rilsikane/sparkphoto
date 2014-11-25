@@ -284,7 +284,7 @@ public class ShippingAddressActivity extends Activity {
 						Environment.getExternalStorageDirectory()
 								+ "/Spark/temp_image/"));
 			    		AlertDialog.Builder builder1 = new AlertDialog.Builder(ShippingAddressActivity.this);
-			            builder1.setMessage("Success!");
+			            builder1.setMessage("Success! Your prints are on the way! ");
 			            builder1.setCancelable(true);
 			            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 			                public void onClick(DialogInterface dialog, int id) {
@@ -303,6 +303,34 @@ public class ShippingAddressActivity extends Activity {
 			            AlertDialog alert11 = builder1.create();
 			            alert11.show();
 						
+		    		}else{
+		    			AlertDialog.Builder builder1 = new AlertDialog.Builder(
+								ShippingAddressActivity.this);
+
+						String[] msgs = commonDto.getMsg().replaceAll("\\[", "")
+								.replaceAll("\\]", "").split(",");
+						if (msgs != null && msgs.length > 0) {
+							String msg = "Error Please try again "
+									+ System.getProperty("line.separator");
+							if (msgs != null && msgs.length > 0) {
+								for (String ms : msgs) {
+									msg += ("-" + ms + System
+											.getProperty("line.separator"));
+								}
+
+							}
+							builder1.setMessage(msg);
+						}
+						builder1.setCancelable(true);
+						builder1.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+									}
+								});
+						AlertDialog alert11 = builder1.create();
+						alert11.show();
 		    		}
 			}
 			

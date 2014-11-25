@@ -331,7 +331,7 @@ public class MainPhotoSelectActivity extends Activity {
 		RelativeLayout goToPerk = (RelativeLayout) perkDialog.findViewById(R.id.gotoPerk);
 		UserDto dto = JSONParserForGetList.getInstance().getUserStatus(userDto.getAccess_token());
 		if(dto.getNextTimeCanUpload()!=null){
-			Long sec = Long.parseLong(dto.getNextTimeCanUpload());
+			Long sec = Long.parseLong(Utils.isNumeric(dto.getNextTimeCanUpload())?dto.getNextTimeCanUpload():"0");
 			 int days = (int)TimeUnit.SECONDS.toDays(sec);        
 			 long hours = TimeUnit.SECONDS.toHours(sec) - (days *24);
 			 long minute = TimeUnit.SECONDS.toMinutes(sec) - (TimeUnit.SECONDS.toHours(sec)* 60);
