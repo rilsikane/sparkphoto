@@ -109,5 +109,17 @@ public class Utils {
 	public static boolean isNotEmpty(String str) {
 	    return (str != null && !str.isEmpty());
 	}
+	public static boolean isNumeric(String str)  
+	{  
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return true;  
+	}
 	
 }
