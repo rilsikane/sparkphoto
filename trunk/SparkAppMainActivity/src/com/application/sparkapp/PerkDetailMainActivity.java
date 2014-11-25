@@ -3,7 +3,6 @@ package com.application.sparkapp;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
@@ -11,14 +10,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +41,10 @@ import com.squareup.picasso.Transformation;
 
 public class PerkDetailMainActivity extends Activity {
 	private Utils utils;
+	private ImageView perksImage;
+	private TextView perksName,dueDate,perk_detail;
+	private RelativeLayout reedem;
+	private CircularImageView  sponserImage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,140 +58,213 @@ public class PerkDetailMainActivity extends Activity {
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.setting_page, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
 		
-		CircularImageView  sponserImage = (CircularImageView ) findViewById(R.id.imageView3);
+		 sponserImage = (CircularImageView ) findViewById(R.id.imageView3);
 		
-		ImageView perksImage = (ImageView) findViewById(R.id.imageView2);
-		TextView perksName = (TextView) findViewById(R.id.perkName);
-		TextView dueDate = (TextView) findViewById(R.id.duedate);
-		TextView perk_detail = (TextView) findViewById(R.id.perk_detail);
-		final RelativeLayout reedem = (RelativeLayout) findViewById(R.id.reedem);
+		 perksImage = (ImageView) findViewById(R.id.imageView2);
+		 perksName = (TextView) findViewById(R.id.perkName);
+		 dueDate = (TextView) findViewById(R.id.duedate);
+		 perk_detail = (TextView) findViewById(R.id.perk_detail);
+		 reedem = (RelativeLayout) findViewById(R.id.reedem);
 		 
 		
 		
-		final PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
-		Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
-		perksName.setText(perksDto.getBrandname());
-		dueDate.setText(perksDto.getTimeExpire());
-		perk_detail.setText(perksDto.getDescription());
-		if(perksDto.getUsed()){
-			//reedem.setBackgroundColor(Color.BLACK);
-			reedem.setVisibility(View.GONE);
-//			Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);
-			
+		//final PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
+		 new InitAndLoadData().execute();
+	
+	}
+	public class InitAndLoadData extends AsyncTask<String, Void, PerksDto>
+	implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(PerkDetailMainActivity.this,"Loading ...", true, true, this);
+			super.onPreExecute();
 		}
-		
-		URL url_value;
-		try {
-			url_value = new URL(perksDto.getLogo_image());
-			Bitmap mIcon1 = BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
-			sponserImage.setImageBitmap(mIcon1);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		@Override
+		protected PerksDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			
+			return getIntent().getExtras().getParcelable("perksDto");
 		}
-		
-		
-		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
-		backIcon.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent i = new Intent(PerkDetailMainActivity.this,PerkPageActivity.class);
-				i.putExtra("type",perksDto.getType());
-				startActivity(i);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				finish();
+
+		@Override
+		protected void onPostExecute(final PerksDto perksDto) {
+			super.onPostExecute(perksDto);
+				if(perksDto!=null){
+					Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
+					perksName.setText(perksDto.getBrandname());
+					dueDate.setText(perksDto.getTimeExpire());
+					perk_detail.setText(perksDto.getDescription());
+					if(perksDto.getUsed()){
+						//reedem.setBackgroundColor(Color.BLACK);
+						reedem.setVisibility(View.GONE);
+//						Picasso.with(getApplicationContext()).load(R.drawable.redeem).into(reedem);
+						
+					}
+					
+					URL url_value = null;
+					new InitAndLoadData2(url_value,perksDto).execute();
+					//sponserImage.setImageBitmap(mIcon1);
+					
+					
+					ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
+					backIcon.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							Intent i = new Intent(PerkDetailMainActivity.this,PerkPageActivity.class);
+							i.putExtra("type",perksDto.getType());
+							startActivity(i);
+							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+							finish();
+						}
+					});
+					reedem.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							new AlertDialog.Builder(PerkDetailMainActivity.this)
+						    .setTitle("Redeem Confirmation")
+						    .setMessage("Are you sure you would like to redeem this Perk now?")
+						    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+						        public void onClick(DialogInterface dialog, int which) {
+						        	if(!utils.isNotEmpty(perksDto.getLink())){
+						        		final EditText input = new EditText(PerkDetailMainActivity.this);
+										LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						                        LinearLayout.LayoutParams.MATCH_PARENT,
+						                        LinearLayout.LayoutParams.MATCH_PARENT);
+										input.setLayoutParams(lp);
+										AlertDialog.Builder builder1 = new AlertDialog.Builder(
+												PerkDetailMainActivity.this);
+										builder1.setMessage("Put your reedeem code");
+										builder1.setCancelable(true);
+										builder1.setPositiveButton("Ok",
+												new DialogInterface.OnClickListener() {
+													public void onClick(DialogInterface dialog,
+															int id) {
+													String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
+													final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode(input.getText().toString(), perksDto.getId(), acCode);
+														if(dto!=null){
+															AlertDialog.Builder builder1 = new AlertDialog.Builder(
+																	PerkDetailMainActivity.this);
+															builder1.setMessage("Code is redeemed sucessfully. Please enjoy your extra print.");
+															builder1.setCancelable(true);
+															builder1.setPositiveButton("Ok",
+																	new DialogInterface.OnClickListener() {
+																		public void onClick(DialogInterface dialog,
+																				int id) {
+																			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+																			user = user.convertDtoToVo(dto);
+																			 user.id = 1;
+																			 user.save();
+																			 reedem.setVisibility(View.GONE);
+																			dialog.cancel();
+																		}
+																	});
+															AlertDialog alert11 = builder1.create();
+															alert11.show();
+														}else{
+															AlertDialog.Builder builder1 = new AlertDialog.Builder(
+																	PerkDetailMainActivity.this);
+															builder1.setMessage("Code is invaild. Please enter a vaild code.");
+															builder1.setCancelable(true);
+															builder1.setPositiveButton("Ok",
+																	new DialogInterface.OnClickListener() {
+																		public void onClick(DialogInterface dialog,
+																				int id) {
+																			dialog.cancel();
+																		}
+																	});
+															AlertDialog alert11 = builder1.create();
+															alert11.show();
+														}
+													}
+												});
+										
+										AlertDialog alert11 = builder1.create();
+										alert11.setView(input);
+										alert11.show();
+										dialog.dismiss();
+						        	}else{
+						        		Intent i = new Intent(Intent.ACTION_VIEW);
+						        		i.setData(Uri.parse(perksDto.getLink()));
+						        		startActivity(i);
+						        		dialog.dismiss();
+						        	}
+						    		
+						        }
+						     })
+						    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+						        public void onClick(DialogInterface dialog, int which) { 
+						            // do nothing
+						        	dialog.dismiss();
+						        }
+						     })
+						    .setIcon(android.R.drawable.ic_dialog_alert)
+						     .show();
+						}
+					});
+				}
+			mProgressHUD.dismiss();
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+	}
+	public class InitAndLoadData2 extends AsyncTask<String, Void, Bitmap> implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+		private URL url_value;
+		private PerksDto perksDto;
+		public InitAndLoadData2(URL url,PerksDto perk){
+			this.url_value = url;
+			this.perksDto = perk;
+		}
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(PerkDetailMainActivity.this,"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				url_value = new URL(perksDto.getLogo_image());
+				return BitmapFactory.decodeStream(url_value.openConnection().getInputStream());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		});
-		reedem.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				new AlertDialog.Builder(PerkDetailMainActivity.this)
-			    .setTitle("Redeem Confirmation")
-			    .setMessage("Are you sure you would like to redeem this Perk now?")
-			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) {
-			        	if(!utils.isNotEmpty(perksDto.getLink())){
-			        		final EditText input = new EditText(PerkDetailMainActivity.this);
-							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			                        LinearLayout.LayoutParams.MATCH_PARENT,
-			                        LinearLayout.LayoutParams.MATCH_PARENT);
-							input.setLayoutParams(lp);
-							AlertDialog.Builder builder1 = new AlertDialog.Builder(
-									PerkDetailMainActivity.this);
-							builder1.setMessage("Put your reedeem code");
-							builder1.setCancelable(true);
-							builder1.setPositiveButton("Ok",
-									new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog,
-												int id) {
-										String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
-										final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode(input.getText().toString(), perksDto.getId(), acCode);
-											if(dto!=null){
-												AlertDialog.Builder builder1 = new AlertDialog.Builder(
-														PerkDetailMainActivity.this);
-												builder1.setMessage("Code is redeemed sucessfully. Please enjoy your extra print.");
-												builder1.setCancelable(true);
-												builder1.setPositiveButton("Ok",
-														new DialogInterface.OnClickListener() {
-															public void onClick(DialogInterface dialog,
-																	int id) {
-																UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
-																user = user.convertDtoToVo(dto);
-																 user.id = 1;
-																 user.save();
-																 reedem.setVisibility(View.GONE);
-																dialog.cancel();
-															}
-														});
-												AlertDialog alert11 = builder1.create();
-												alert11.show();
-											}else{
-												AlertDialog.Builder builder1 = new AlertDialog.Builder(
-														PerkDetailMainActivity.this);
-												builder1.setMessage("Code is invaild. Please enter a vaild code.");
-												builder1.setCancelable(true);
-												builder1.setPositiveButton("Ok",
-														new DialogInterface.OnClickListener() {
-															public void onClick(DialogInterface dialog,
-																	int id) {
-																dialog.cancel();
-															}
-														});
-												AlertDialog alert11 = builder1.create();
-												alert11.show();
-											}
-										}
-									});
-							
-							AlertDialog alert11 = builder1.create();
-							alert11.setView(input);
-							alert11.show();
-							dialog.dismiss();
-			        	}else{
-			        		Intent i = new Intent(Intent.ACTION_VIEW);
-			        		i.setData(Uri.parse(perksDto.getLink()));
-			        		startActivity(i);
-			        		dialog.dismiss();
-			        	}
-			    		
-			        }
-			     })
-			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
-			        	dialog.dismiss();
-			        }
-			     })
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			     .show();
-			}
-		});
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute( Bitmap bitMap) {
+			super.onPostExecute(bitMap);
+				if(bitMap!=null){
+					sponserImage.setImageBitmap(bitMap);
+					mProgressHUD.dismiss();
+				}else{
+					mProgressHUD.dismiss();
+				}
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
 	}
     @Override
     protected void attachBaseContext(Context newBase) {
