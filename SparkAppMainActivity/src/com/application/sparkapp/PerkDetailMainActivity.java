@@ -94,7 +94,7 @@ public class PerkDetailMainActivity extends Activity {
 			super.onPostExecute(perksDto);
 				if(perksDto!=null){
 					Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
-					perksName.setText(perksDto.getBrandname());
+					perksName.setText(perksDto.getName());
 					dueDate.setText(perksDto.getTimeExpire());
 					perk_detail.setText(perksDto.getDescription());
 					if(perksDto.getUsed()){
@@ -131,7 +131,7 @@ public class PerkDetailMainActivity extends Activity {
 						    .setMessage("Are you sure you would like to redeem this Perk now?")
 						    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 						        public void onClick(DialogInterface dialog, int which) {
-						        	if(!utils.isNotEmpty(perksDto.getLink())){
+						        	if(!Utils.isNotEmpty(perksDto.getLink()) && Utils.isNotEmpty(perksDto.getCode())){
 						        		final EditText input = new EditText(PerkDetailMainActivity.this);
 										LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 						                        LinearLayout.LayoutParams.MATCH_PARENT,
@@ -188,6 +188,30 @@ public class PerkDetailMainActivity extends Activity {
 										alert11.setView(input);
 										alert11.show();
 										dialog.dismiss();
+						        	}else if(!Utils.isNotEmpty(perksDto.getLink()) && !Utils.isNotEmpty(perksDto.getCode()))
+						        	{
+						        		String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
+						        		final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode("", perksDto.getId(), acCode);
+						        		if(dto!=null){
+											AlertDialog.Builder builder1 = new AlertDialog.Builder(
+													PerkDetailMainActivity.this);
+											builder1.setMessage("Code is redeemed sucessfully. Please enjoy your extra print.");
+											builder1.setCancelable(true);
+											builder1.setPositiveButton("Ok",
+													new DialogInterface.OnClickListener() {
+														public void onClick(DialogInterface dialog,
+																int id) {
+															UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+															user = user.convertDtoToVo(dto);
+															 user.id = 1;
+															 user.save();
+															 reedem.setVisibility(View.GONE);
+															dialog.cancel();
+														}
+													});
+											AlertDialog alert11 = builder1.create();
+											alert11.show();
+										}
 						        	}else{
 						        		Intent i = new Intent(Intent.ACTION_VIEW);
 						        		i.setData(Uri.parse(perksDto.getLink()));
