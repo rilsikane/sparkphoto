@@ -186,8 +186,7 @@ public class SignUpPageOneMainActivity extends Activity {
 				myCalendar.set(Calendar.MONTH, monthOfYear);
 				myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-				dob.setText(year + "-" + ((monthOfYear + 1) < 10 ? "0" : "")
-						+ (monthOfYear + 1) + "-" + dayOfMonth);
+				dob.setText(DateUtil.toStringEngDateBySimpleFormat(myCalendar.getTime(), DateUtil.DEFAULT_DATE_PATTERN));
 			}
 
 		};
