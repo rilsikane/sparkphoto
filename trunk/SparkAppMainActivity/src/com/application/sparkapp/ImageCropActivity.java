@@ -84,7 +84,7 @@ public class ImageCropActivity extends Activity {
 		if(!isFacebook){
 		bitmap = BitmapFactory.decodeFile(imgPath);
 			if(bitmap.getWidth()>3984){
-				bitmap = getResizedBitmap(bitmap, 2988, 3984);
+				bitmap = getResizedBitmap(bitmap, 1836, 3264);
 			}else if(bitmap.getWidth()>bitmap.getHeight()){
 				if(bitmap.getWidth()<1800){
 					bitmap = getResizedBitmap(bitmap, 1200, 1800);
