@@ -53,6 +53,18 @@ public class PinValidateMainActivity extends Activity {
 					String pin = firstPin.getText().toString()+secondPin.getText().toString()+thirdPin.getText().toString()+forthPin.getText().toString();
 					userDto.setUser_validateCode(pin);
 					new InitAndLoadData().execute();
+				}else{
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(PinValidateMainActivity.this);					
+					builder1.setMessage("Please enter valid PIN number");				
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
 				}
 			}
 		});

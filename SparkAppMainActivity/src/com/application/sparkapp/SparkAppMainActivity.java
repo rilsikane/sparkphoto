@@ -164,7 +164,7 @@ public class SparkAppMainActivity extends Activity {
                 	
                     OpenRequest op = new Session.OpenRequest(SparkAppMainActivity.this);
 
-                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
                     op.setCallback(null);
 
                     List<String> permissions = new ArrayList<String>();
