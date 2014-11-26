@@ -283,7 +283,7 @@ public class MainPhotoSelectActivity extends Activity {
 //				                    // Ask for username and password
 //				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
 //	
-//				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+//				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
 //				                    op.setCallback(null);
 //	
 //				                    List<String> permissions = new ArrayList<String>();
@@ -440,17 +440,7 @@ public class MainPhotoSelectActivity extends Activity {
 	@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode,
-                    resultCode, data);
-        }
 
-        Session currentSession = Session.getActiveSession();
-        if (currentSession == null || currentSession.getState().isClosed()) {
-            Session session = new Session.Builder(getApplicationContext()).build();
-            Session.setActiveSession(session);
-            currentSession = session;
-        }
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
             	//imgPath
@@ -460,53 +450,56 @@ public class MainPhotoSelectActivity extends Activity {
             	finish();
             	overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             	
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-//                Toast.makeText(getApplicationContext(),
-//                        "User cancelled image capture", Toast.LENGTH_SHORT)
-//                        .show();
-            } else {
-                // failed to capture image
-//                Toast.makeText(getApplicationContext(),
-//                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-//                        .show();
+            } else if (resultCode == RESULT_CANCELED) {} else {}
+        }else{
+            if (Session.getActiveSession() != null) {
+                Session.getActiveSession().onActivityResult(this, requestCode,
+                        resultCode, data);
+            }
+
+            Session currentSession = Session.getActiveSession();
+            if (currentSession == null || currentSession.getState().isClosed()) {
+                Session session = new Session.Builder(getApplicationContext()).build();
+                Session.setActiveSession(session);
+                currentSession = session;
+            }
+            if (currentSession.isOpened()) {
+                Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+                    @SuppressWarnings("deprecation")
+    				@Override
+                    public void call(final Session session, SessionState state, Exception exception) {
+
+                        if (session.isOpened()) {
+
+                            Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+                                @Override
+                                public void onCompleted(GraphUser user, Response response) {
+                                    if (user != null) {
+                                        session.getAccessToken();
+                                        //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
+                                        user.getFirstName();
+                                        user.getId();
+                                        user.getName();
+                                        
+                                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+                                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+                                        i.putExtra("facebookUserId", user.getId());
+                                        i.putExtra("loadImageState", 0);
+                                        startActivity(i);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
         }
 
-        if (currentSession.isOpened()) {
-            Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-                @SuppressWarnings("deprecation")
-				@Override
-                public void call(final Session session, SessionState state, Exception exception) {
-
-                    if (session.isOpened()) {
-
-                        Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-
-                            @Override
-                            public void onCompleted(GraphUser user, Response response) {
-                                if (user != null) {
-                                    session.getAccessToken();
-                                    //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
-                                    user.getFirstName();
-                                    user.getId();
-                                    user.getName();
-                                    
-                                    Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-                                    i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-                                    i.putExtra("facebookUserId", user.getId());
-                                    i.putExtra("loadImageState", 0);
-                                    startActivity(i);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    finish();
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        
     }
     @Override
     protected void attachBaseContext(Context newBase) {

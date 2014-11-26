@@ -220,7 +220,7 @@ public class ImagePageSummaryActivity extends Activity {
 //				                    // Ask for username and password
 //				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
 //	
-//				                    op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+//				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
 //				                    op.setCallback(null);
 //	
 //				                    List<String> permissions = new ArrayList<String>();
@@ -628,9 +628,7 @@ public class ImagePageSummaryActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode,resultCode, data);
-        }
+       
        
         if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -641,19 +639,11 @@ public class ImagePageSummaryActivity extends Activity {
             	finish();
             	overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             	
-            } else if (resultCode == RESULT_CANCELED) {
-                // user cancelled Image capture
-                Toast.makeText(getApplicationContext(),
-                        "User cancelled image capture", Toast.LENGTH_SHORT)
-                        .show();
-            } else {
-                // failed to capture image
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
-                        .show();
-            }
+            } else if (resultCode == RESULT_CANCELED) {} else {}
         }else{
-        	 
+        	 if (Session.getActiveSession() != null) {
+                 Session.getActiveSession().onActivityResult(this, requestCode,resultCode, data);
+             }
 
              Session currentSession = Session.getActiveSession();
              if (currentSession == null || currentSession.getState().isClosed()) {
