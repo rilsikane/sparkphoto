@@ -37,7 +37,9 @@ import android.widget.TextView;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
+import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -126,15 +128,21 @@ public class SignUpPageOneMainActivity extends Activity {
 		
 		if (getIntent().hasExtra("userDto")) {
 			userDto = (UserDto) getIntent().getExtras().get("userDto");
+		}else{
+			//for debug data
+//			UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+//			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+			
 		}
 		
-		//for debug data
-//		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
-//		userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 		
 		
 		
-		if (userDto != null) {
+		
+		if (userDto == null) {
+			userDto = new UserDto();
+		} else {
+			
 			firstname.setText(userDto.getFirstname());
 			lastname.setText(userDto.getLastname());
 			nric.setText(userDto.getNric_fin());
@@ -145,13 +153,11 @@ public class SignUpPageOneMainActivity extends Activity {
 			service.setText(Utils.isNotEmpty(userDto.getPhone_service()) ? service_items[ 
 					Integer.parseInt(userDto.getPhone_service())-1]:"");
 			occuption.setText(Utils.isNotEmpty(userDto.getOccupation())? 
-					occ_items[Integer.parseInt(userDto.getOccupation())]:"");
+					occ_items[Integer.parseInt(userDto.getOccupation())-1]:"");
 			occSel = Utils.isNotEmpty(userDto.getOccupation())?Integer.parseInt(userDto.getOccupation()):0;
-			servSel =  Utils.isNotEmpty(userDto.getPhone_service())?Integer.parseInt(userDto.getPhone_service())-1:0;
+			servSel =  Utils.isNotEmpty(userDto.getPhone_service())?Integer.parseInt(userDto.getPhone_service()):0;
 			dob.setText(userDto.getBirthday());
 			gender.setText("1".equals(userDto.getGender()) ? "Male" : "Female");
-		} else {
-			userDto = new UserDto();
 		}
 
 		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
@@ -242,55 +248,55 @@ public class SignUpPageOneMainActivity extends Activity {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
-									occSel=0;
+									occSel=1;
 									occuption.setText(occ_items[0]);
 									break;
 								case 1:
-									occSel=1;
+									occSel=2;
 									occuption.setText(occ_items[1]);
 									break;
 								case 2:
-									occSel=2;
+									occSel=3;
 									occuption.setText(occ_items[2]);
 									break;
 								case 3:
-									occSel=3;
+									occSel=4;
 									occuption.setText(occ_items[3]);
 									break;
 								case 4:
-									occSel=4;
+									occSel=5;
 									occuption.setText(occ_items[4]);
 									break;
 								case 5:
-									occSel=5;
+									occSel=6;
 									occuption.setText(occ_items[5]);
 									break;
 								case 6:
-									occSel=6;
+									occSel=7;
 									occuption.setText(occ_items[6]);
 									break;
 								case 7:
-									occSel=7;
+									occSel=8;
 									occuption.setText(occ_items[7]);
 									break;
 								case 8:
-									occSel=8;
+									occSel=9;
 									occuption.setText(occ_items[8]);
 									break;
 								case 9:
-									occSel=9;
+									occSel=10;
 									occuption.setText(occ_items[9]);
 									break;
 								case 10:
-									occSel=10;
+									occSel=11;
 									occuption.setText(occ_items[10]);
 									break;
 								case 11:
-									occSel=11;
+									occSel=12;
 									occuption.setText(occ_items[11]);
 									break;
 								case 12:
-									occSel=12;
+									occSel=13;
 									occuption.setText(occ_items[12]);
 									break;
 								}
@@ -369,6 +375,9 @@ public class SignUpPageOneMainActivity extends Activity {
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setPassword(password.getText().toString());
 						userDto.setEmail(email.getText().toString());
+						if(userDto.getPhone()!=null && !userDto.getPhone().equals(phoneno.getText().toString())){
+							userDto.setOtp_token(null);
+						}
 						userDto.setPhone(phoneno.getText().toString());
 						userDto.setPhone_service(servSel+"");
 						userDto.setOccupation(occSel+"");
@@ -502,7 +511,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			if (result != null && utils.isNotEmpty(result.getMsg())) {
 			String[] msgs = result.getMsg().replaceAll("\\[", "")
 					.replaceAll("\\]", "").split(",");
-				if (msgs.length<4 && checkAddres(msgs)) {
+				if (checkAddres(msgs)) {
 					Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
 					i.putExtra("userDto", (Parcelable) userDto);
 					startActivity(i);
@@ -553,7 +562,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		boolean isContain = false;
 		if(msgs!=null && msgs.length>0){
 			for(int i=0;i<msgs.length;i++){
-				if(msgs[i].contains("postal") || msgs[i].contains("street") || msgs[i].contains("block")||msgs[i].contains("otp")){
+				if(msgs[i].contains("postal") || msgs[i].contains("street") || msgs[i].contains("block")||msgs[i].contains("otp")||msgs[i].contains("term")){
 					isContain = true;
 					break;
 				}

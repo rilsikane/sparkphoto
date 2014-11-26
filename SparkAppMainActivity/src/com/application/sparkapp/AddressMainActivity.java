@@ -214,7 +214,8 @@ public class AddressMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null && Utils.isNotEmpty(result.getMsg())) {
 				String[] msgs = result.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-				if (contains(msgs, "otp")) {
+				if (contains(msgs, "otp") || contains(msgs, "term")) {
+					if(userDto.getOtp_token()==null){
 					CommonDto commonDto = JSONParserForGetList.getInstance().getOTP(userDto);
 					if(commonDto.isFlag()){
 					userDto.setOtp_token(commonDto.getToken());
@@ -249,6 +250,12 @@ public class AddressMainActivity extends Activity {
 						
 						
 					}
+				}else{
+					Intent intent = new Intent(AddressMainActivity.this,PinValidateMainActivity.class);
+					intent.putExtra("userDto", (Parcelable) userDto);
+					startActivity(intent);
+					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+				}
 
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);

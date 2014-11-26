@@ -270,26 +270,27 @@ public class ShippingAddressActivity extends Activity {
 		@Override
 		protected void onPostExecute(List<String> result) {
 			super.onPostExecute(result);
-			if (result != null && result.size()==result.size()) {					
+			if (result != null && result.size()==result.size() && checkNotNullInList(result)) {					
 					CommonDto commonDto = JSONParserForGetList.getInstance().SubmitOrder(user,result);
 					dialog.dismiss(); 
 					mProgressHUD.dismiss();
 		    		if(commonDto.isFlag()){
-		    			List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
-			    		if(tmpList!=null && tmpList.size()>0){
-			    			for(TempImage t : tmpList){
-			    				t.delete();
-			    			}
-			    		}
-			    		deleteRecursive(new File(
-						Environment.getExternalStorageDirectory()
-								+ "/Spark/temp_image/"));
+		    			
 			    		AlertDialog.Builder builder1 = new AlertDialog.Builder(ShippingAddressActivity.this);
 			            builder1.setMessage("Success! Your prints are on the way! ");
 			            builder1.setCancelable(true);
 			            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 			                public void onClick(DialogInterface dialog, int id) {
 			                    dialog.cancel();
+			                    List<TempImage> tmpList = Entity.query(TempImage.class).executeMulti();
+					    		if(tmpList!=null && tmpList.size()>0){
+					    			for(TempImage t : tmpList){
+					    				t.delete();
+					    			}
+					    		}
+					    		deleteRecursive(new File(
+								Environment.getExternalStorageDirectory()
+										+ "/Spark/temp_image/"));
 			                    UserDto userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 			                    UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 			                    user = user.convertDtoToVo(userDto);
@@ -333,7 +334,22 @@ public class ShippingAddressActivity extends Activity {
 						AlertDialog alert11 = builder1.create();
 						alert11.show();
 		    		}
-			}
+			}else{
+    			AlertDialog.Builder builder1 = new AlertDialog.Builder(
+						ShippingAddressActivity.this);
+
+				builder1.setMessage("An error occur, Please try a again later.");
+				builder1.setCancelable(true);
+				builder1.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int id) {
+								dialog.cancel();
+							}
+						});
+				AlertDialog alert11 = builder1.create();
+				alert11.show();
+    		}
 			
 		}
 		@Override
@@ -350,6 +366,20 @@ public class ShippingAddressActivity extends Activity {
 	        	deleteRecursive(child);
 
 	    fileOrDirectory.delete();
+	}
+	public boolean checkNotNullInList(List<String> imgList){
+		boolean isNotNull = true;
+		if(imgList!=null && imgList.size()>0){
+			for(String s :imgList){
+				if(!Utils.isNotEmpty(s)){
+					isNotNull = false;
+					break;
+				}
+			}
+		}else{
+			isNotNull = false;
+		}
+		return isNotNull;
 	}
 
 }

@@ -97,7 +97,7 @@ public class JSONParserForGetList {
         	 commonDto.setToken(json.getString("app_access_token"));
          }else{
         	 commonDto.setFlag(false);
-        	 commonDto.setMsg(json.getString("message"));
+        	 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
          }
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +143,7 @@ public class JSONParserForGetList {
          }else{
         	 commonDto.setFlag(false);
         	 if(!json.isNull("message")){
-        		 commonDto.setMsg(json.getString("message"));
+        		 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
         	 }else{
         		 commonDto.setMsg("Error!");
         	 }
@@ -187,7 +187,7 @@ public class JSONParserForGetList {
          }else{
         	 commonDto.setFlag(false);
         	 if(!json.isNull("message")){
-        		 commonDto.setMsg(json.getString("message"));
+        		 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
         	 }else{
         		 commonDto.setMsg("Error!");
         	 }
@@ -230,7 +230,7 @@ public class JSONParserForGetList {
         	 }
          }else{
         	 commonDto.setFlag(false);
-        	 commonDto.setMsg(json.getString("message"));
+        	 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
          }
 		}catch (Exception e) {
 			e.printStackTrace();

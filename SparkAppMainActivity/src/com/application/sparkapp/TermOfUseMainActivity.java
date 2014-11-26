@@ -6,11 +6,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.UserVO;
 
 public class TermOfUseMainActivity extends Activity {
 	private static String PAGE_FROM = "touLogin";
@@ -54,7 +57,7 @@ public class TermOfUseMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
+				Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
 				intent.putExtra("userDto", (Parcelable) userDto);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -64,7 +67,7 @@ public class TermOfUseMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(TermOfUseMainActivity.this,AddressMainActivity.class);
+		Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
 		intent.putExtra("userDto", (Parcelable) userDto);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -100,6 +103,7 @@ public class TermOfUseMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 				if (result.isFlag()) {
+					final UserDto dto = JSONParserForGetList.getInstance().Login(userDto);
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							TermOfUseMainActivity.this);
 					builder1.setMessage("Registration complete");
@@ -109,7 +113,20 @@ public class TermOfUseMainActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int id) {
 									dialog.cancel();
-									// By pass to term of use main activity
+									  UserVO user = new UserVO();
+									  user = user.convertDtoToVo(dto);
+									  user.id = 1;
+									  user.tutorial = "";
+									  user.status = "A";
+									  user.save();
+//					                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
+//					  				  startActivity(i);
+					                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+					                  SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+					          		SharedPreferences.Editor editor = settings.edit();
+					          		editor.putInt("resendTime", 0);
+					          		editor.commit();
+					                  finish();
 									Intent i = new Intent(TermOfUseMainActivity.this,TutorialPageOneActivity.class);
 									i.putExtra("INTENT_FROM", PAGE_FROM);
 									startActivity(i);
