@@ -3,14 +3,16 @@ package com.application.sparkapp;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +48,7 @@ public class PerkDetailMainActivity extends Activity {
 	private TextView perksName,dueDate,perk_detail;
 	private RelativeLayout reedem;
 	private CircularImageView  sponserImage;
+	private InputMethodManager imm;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,7 +69,7 @@ public class PerkDetailMainActivity extends Activity {
 		 dueDate = (TextView) findViewById(R.id.duedate);
 		 perk_detail = (TextView) findViewById(R.id.perk_detail);
 		 reedem = (RelativeLayout) findViewById(R.id.reedem);
-		 
+		 imm = (InputMethodManager)this.getSystemService(Service.INPUT_METHOD_SERVICE);
 		
 		
 		//final PerksDto perksDto = getIntent().getExtras().getParcelable("perksDto");
@@ -122,6 +126,7 @@ public class PerkDetailMainActivity extends Activity {
 							finish();
 						}
 					});
+					
 					reedem.setOnClickListener(new OnClickListener() {
 						
 						@Override
@@ -131,12 +136,14 @@ public class PerkDetailMainActivity extends Activity {
 						    .setMessage("Are you sure you would like to redeem this Perk now?")
 						    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 						        public void onClick(DialogInterface dialog, int which) {
-						        	if(!Utils.isNotEmpty(perksDto.getLink()) && Utils.isNotEmpty(perksDto.getCode())){
+						        	if(!Utils.isNotEmpty(perksDto.getLink()) && Utils.isNotEmpty(perksDto.getCode())){						        		
 						        		final EditText input = new EditText(PerkDetailMainActivity.this);
 										LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 						                        LinearLayout.LayoutParams.MATCH_PARENT,
 						                        LinearLayout.LayoutParams.MATCH_PARENT);
 										input.setLayoutParams(lp);
+										input.requestFocus();
+										imm.showSoftInput(input, 0);
 										AlertDialog.Builder builder1 = new AlertDialog.Builder(
 												PerkDetailMainActivity.this);
 										builder1.setMessage("Put your reedeem code");

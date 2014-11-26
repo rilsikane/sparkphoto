@@ -1,7 +1,5 @@
 package com.application.sparkapp;
 
-import org.codehaus.jackson.JsonParseException;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
@@ -59,6 +57,7 @@ public class AddressMainActivity extends Activity {
 		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
 		utils = new Utils(this, this);
+		utils.setupUI(findViewById(R.id.root_id));
 		userDto = getIntent().getExtras().getParcelable("userDto");
 		
 		address_unit_number1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});

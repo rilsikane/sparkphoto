@@ -70,6 +70,7 @@ public class ShippingAddressActivity extends Activity {
 		setContentView(R.layout.activity_shipping_address);
 		System.gc();
 		utils = new Utils(this, this);
+		utils.setupUI(findViewById(R.id.imageGuid));
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.address_background, utils.getScreenWidth(), utils.getScreenHeight()));
