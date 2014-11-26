@@ -4,15 +4,14 @@ import java.util.Calendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,20 +23,21 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
-import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -64,12 +64,10 @@ public class SignUpPageOneMainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf",
-				R.attr.fontPath);
+		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf",R.attr.fontPath);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_sign_up_page_one_main);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.activity_sign_up_page_one_main);		
 		System.gc();
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		final EditText infoIconForNRIC = (EditText) findViewById(R.id.editText3);
@@ -77,6 +75,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		dob = (EditText) findViewById(R.id.editText7);
 		dob.setInputType(0);
 		utils = new Utils(getApplicationContext(), this);
+		utils.setupUI(findViewById(R.id.root_id));
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.signup_background, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
@@ -92,7 +91,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		service = (EditText) findViewById(R.id.editText10);
 		occuption = (EditText) findViewById(R.id.editText11);
 		gender = (EditText) findViewById(R.id.editText8);
-		
+
 		iniPopupWindowForPhone();
 		phoneInfoIcon.setOnClickListener(new OnClickListener() {
 			
@@ -477,7 +476,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		}
 		
 	}
-
+	
 	public class InitAndLoadData extends AsyncTask<String, Void, CommonDto>
 			implements OnCancelListener {
 		ProgressHUD mProgressHUD;

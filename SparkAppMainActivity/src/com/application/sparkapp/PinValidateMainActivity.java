@@ -33,6 +33,7 @@ public class PinValidateMainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_pin_validate_main);
 		System.gc();
+		new Utils(this,this).setupUI(findViewById(R.id.root_id));
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
 		
