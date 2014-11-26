@@ -167,7 +167,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:lines="3"
-        android:text="Feel free to ask or tell us anything Simply drop us an email at enquiries@spark-asia.com or fill in the form"
+        android:text="Feel free to ask us anything. Simply drop us an email at enquiries@spark-Asia.com or fill in the form:"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff"
         android:textSize="22sp" />
