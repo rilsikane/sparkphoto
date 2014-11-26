@@ -3,15 +3,18 @@ package com.application.sparkapp;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.util.GlobalState;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -36,6 +39,7 @@ public class PinValidateMainActivity extends Activity {
 		new Utils(this,this).setupUI(findViewById(R.id.root_id));
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
+		TextView resend = (TextView) findViewById(R.id.textView5);
 		
 		firstPin = (EditText) findViewById(R.id.editText4);
 		secondPin = (EditText) findViewById(R.id.editText1);
@@ -61,6 +65,37 @@ public class PinValidateMainActivity extends Activity {
 					builder1.setPositiveButton("Ok",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
+			}
+		});
+		
+		resend.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PinValidateMainActivity.this);
+				int time = prefs.getInt("resendTime", 0);
+				if(time<5){
+					new ResendLoadData().execute();
+					SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putInt("resendTime", time+1);
+					editor.commit();
+				}else{
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PinValidateMainActivity.this);
+
+					builder1.setMessage("An error occur, Please try a again later.");
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
 									dialog.cancel();
 								}
 							});
@@ -271,6 +306,74 @@ public class PinValidateMainActivity extends Activity {
 		}
 
 }
+
+	public class ResendLoadData extends AsyncTask<String, Void, CommonDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(PinValidateMainActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CommonDto common = JSONParserForGetList.getInstance().getOTP(
+					userDto);
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (!result.isFlag()) {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							PinValidateMainActivity.this);
+					String[] msgs = result.getMsg().replaceAll("\\[", "")
+							.replaceAll("\\]", "").split(",");
+					if (msgs != null && msgs.length > 0) {
+						String msg = "Error Please try again "
+								+ System.getProperty("line.separator");
+						if (msgs != null && msgs.length > 0) {
+							for (String ms : msgs) {
+								msg += ("-" + ms + System
+										.getProperty("line.separator"));
+							}
+
+						}
+						builder1.setMessage(msg);
+					}
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}else{
+					userDto.setOtp_token(result.getToken());
+				}
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+	}
 	public class EditTextWatcher implements TextWatcher{
 		public EditText _edt;
 		public String _msg;
