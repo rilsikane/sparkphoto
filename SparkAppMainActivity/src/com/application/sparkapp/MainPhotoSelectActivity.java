@@ -181,7 +181,14 @@ public class MainPhotoSelectActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				if(user!=null){
+					userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+					if(userDto!=null){
+						nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
+						user = user.convertDtoToVo(userDto);
+						user.save();
+					}
+				}
 				if(nextTimeCanUpload){
 					captureImage();
 				}else{
@@ -201,6 +208,16 @@ public class MainPhotoSelectActivity extends Activity {
 				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
 //				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
 //				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
+				
+				if(user!=null){
+					userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
+					
+					if(userDto!=null){
+						nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
+						user = user.convertDtoToVo(userDto);
+						user.save();
+					}
+				}
 				
 				closeDialog.setOnClickListener(new OnClickListener() {
 					
