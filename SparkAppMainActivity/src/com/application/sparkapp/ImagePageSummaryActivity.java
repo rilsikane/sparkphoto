@@ -634,6 +634,7 @@ public class ImagePageSummaryActivity extends Activity {
             if (resultCode == RESULT_OK) {
             	//imgPath
             	Intent i = new Intent(ImagePageSummaryActivity.this,ImageCropActivity.class);
+            	i.putExtra("ActivtyPageFrom", "ImagePageSummary");
             	i.putExtra("imgPath", filepath);
             	startActivity(i);
             	finish();

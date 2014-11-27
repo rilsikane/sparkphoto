@@ -236,8 +236,19 @@ public class ImageCropActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(ImageCropActivity.this,ImageGridViewActivity.class);	
-				i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+				Intent i = null;
+				//verify from capture with camera
+				if(getIntent().hasExtra("ActivtyPageFrom")){
+					if(getIntent().getStringExtra("ActivtyPageFrom").equals("MainPhotoSelect")){
+						i= new Intent(ImageCropActivity.this,MainPhotoSelectActivity.class);	
+					}else if(getIntent().getStringExtra("ActivtyPageFrom").equals("ImagePageSummary")){
+						i= new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
+					}
+				}else{
+					i= new Intent(ImageCropActivity.this,ImageGridViewActivity.class);
+					i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+				}
+												
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();				
@@ -246,12 +257,22 @@ public class ImageCropActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed(){
-//		Toast.makeText(getApplicationContext(), "Hello "+getIntent().getStringArrayListExtra("IMG_LIST").size(), Toast.LENGTH_SHORT).show();
-		Intent i = new Intent(ImageCropActivity.this,ImageGridViewActivity.class);	
-		i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+		Intent i = null;
+		//verify from capture with camera
+		if(getIntent().hasExtra("ActivtyPageFrom")){
+			if(getIntent().getStringExtra("ActivtyPageFrom").equals("MainPhotoSelect")){
+				i= new Intent(ImageCropActivity.this,MainPhotoSelectActivity.class);	
+			}else if(getIntent().getStringExtra("ActivtyPageFrom").equals("ImagePageSummary")){
+				i= new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
+			}
+		}else{
+			i= new Intent(ImageCropActivity.this,ImageGridViewActivity.class);
+			i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+		}
+										
 		startActivity(i);
 		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-		finish();
+		finish();	
 	}
 	public Bitmap getResizedBitmap(Bitmap bm, float newHeight, float newWidth) {
 	    int width = bm.getWidth();
