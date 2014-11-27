@@ -273,9 +273,9 @@ public class PinValidateMainActivity extends Activity {
 						String msg = "Error Please try again "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
+							msg += "- ";
 							for (String ms : msgs) {
-								msg += ("-" + ms + System
-										.getProperty("line.separator"));
+								msg += ms;
 							}
 
 						}
