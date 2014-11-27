@@ -288,7 +288,7 @@ public class ShippingAddressActivity extends Activity {
 					    				t.delete();
 					    			}
 					    		}
-					    		deleteRecursive(new File(
+					    		Utils.deleteRecursive(new File(
 								Environment.getExternalStorageDirectory()
 										+ "/Spark/temp_image/"));
 			                    UserDto userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
@@ -360,13 +360,7 @@ public class ShippingAddressActivity extends Activity {
 
 
 	}
-	public void deleteRecursive(File fileOrDirectory) {
-	    if (fileOrDirectory.isDirectory())
-	        for (File child : fileOrDirectory.listFiles())
-	        	deleteRecursive(child);
-
-	    fileOrDirectory.delete();
-	}
+	
 	public boolean checkNotNullInList(List<String> imgList){
 		boolean isNotNull = true;
 		if(imgList!=null && imgList.size()>0){

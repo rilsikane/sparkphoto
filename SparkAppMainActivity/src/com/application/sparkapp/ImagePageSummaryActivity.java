@@ -281,6 +281,9 @@ public class ImagePageSummaryActivity extends Activity {
 			    			for(TempImage t : tmpList){
 			    				t.delete();
 			    			}
+			    			Utils.deleteRecursive(new File(
+									Environment.getExternalStorageDirectory()
+											+ "/Spark/temp_image/"));
 			    		}
 			        	Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
 						startActivity(i);
@@ -338,6 +341,9 @@ public class ImagePageSummaryActivity extends Activity {
 	    			for(TempImage t : tmpList){
 	    				t.delete();
 	    			}
+	    			Utils.deleteRecursive(new File(
+							Environment.getExternalStorageDirectory()
+									+ "/Spark/temp_image/"));
 	    		}
 	        	Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
 //	    		i.putExtra("croppedImage", (Bitmap) getIntent().getParcelableExtra("croppedImage"));
