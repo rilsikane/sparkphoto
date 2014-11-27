@@ -98,7 +98,7 @@ public class PerkDetailMainActivity extends Activity {
 			super.onPostExecute(perksDto);
 				if(perksDto!=null){
 					Picasso.with(getApplicationContext()).load(perksDto.getCoverImages()).into(perksImage);
-					perksName.setText(perksDto.getName());
+					perksName.setText(perksDto.getShortDescription());
 					dueDate.setText(perksDto.getTimeExpire());
 					perk_detail.setText(perksDto.getDescription());
 					if(perksDto.getUsed()){
