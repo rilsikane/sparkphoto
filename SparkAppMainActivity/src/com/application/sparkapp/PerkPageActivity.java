@@ -195,7 +195,7 @@ public class PerkPageActivity extends Activity {
 			
 			viewHolder.perkName.setText(model.getName());
 			viewHolder.expire.setText(model.getTimeExpire());
-			viewHolder.sponsorName.setText(model.getName());
+			viewHolder.sponsorName.setText(model.getBrandname());
 			Picasso.with(getApplicationContext()).load(model.getThumnailImages()).into(viewHolder.perImg);
 			if(model.getUsed()){
 				Picasso.with(getApplicationContext()).load(R.drawable.redeem_icon).into(viewHolder.gift);	
