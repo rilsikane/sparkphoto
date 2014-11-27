@@ -446,6 +446,7 @@ public class MainPhotoSelectActivity extends Activity {
             	//imgPath
             	Intent i = new Intent(MainPhotoSelectActivity.this,ImageCropActivity.class);
             	i.putExtra("imgPath", filepath);
+            	i.putExtra("ActivtyPageFrom","MainPhotoSelect");
             	startActivity(i);
             	finish();
             	overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
