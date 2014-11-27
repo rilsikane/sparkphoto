@@ -81,6 +81,7 @@ public class MainPhotoSelectActivity extends Activity {
     private ProgressHUD mProgressHUD;
     private RadioButton radioButton;
     private UserDto userDto;
+    private UserVO user;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +101,11 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
 		radioButton = (RadioButton) findViewById(R.id.radioButton1);
 		
-		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		if(user!=null){
 			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 			if(userDto!=null){
+				
 				nextTimeCanUpload = "now".equals(userDto.getNextTimeCanUpload());
 				if("D".equals(user.tutorial)){
 					radioButton.setChecked(false);
@@ -116,6 +118,8 @@ public class MainPhotoSelectActivity extends Activity {
 					user.save();
 					radioButton.setChecked(true);
 				}
+				user = user.convertDtoToVo(userDto);
+				user.save();
 			}
 		}
 		
@@ -197,6 +201,7 @@ public class MainPhotoSelectActivity extends Activity {
 				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
 //				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
 //				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
+				
 				closeDialog.setOnClickListener(new OnClickListener() {
 					
 					@Override
