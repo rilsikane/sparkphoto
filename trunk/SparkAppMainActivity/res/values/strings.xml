@@ -7,7 +7,7 @@
     <string name="title_activity_sign_up_page_one_main">SignUpPageOneMainActivity</string>
     <string name="signup_text">SIGN UP</string>
     <string name="next_text">Next</string>
-    <string name="signup_desc_text">Please fill in the following fields to create your new SPARK account</string>
+    <string name="signup_desc_text">Please fill in the following fields for us to mail to photos to you. </string>
     <string name="shippping_desc_text">Please confirm the following details before completing your order.</string>
     <string name="shippping_address_desc_text">Please fill in the following fields for us to mail the photos directly to your address</string>
     <string name="signup_addr_text">Please fill in the following fields for us to mail the photos directly to your address</string>
@@ -51,7 +51,7 @@
     <string name="faq_no_6_header">6. What will you do with my photos?</string>
     <string name="faq_no_6_detail">We do not and will not reserve the right to use your personal photos for marketing purposes. The photos you send to us are solely for processing purposes. Soon after your order is processed, we will destroy the soft copy to minimize exposure of your privacy. We will only keep it for so long as reasonably necessary in ensuring your order reaches you safely.</string>
     <string name="faq_no_7_header">7. What is the size and quality of the photos?</string>
-    <string name="faq_no_7_detail">The photos are printed on traditional 4R gloss photo paper.</string>
+    <string name="faq_no_7_detail">The photos are printed on 4R, 280 gsm (twice as thick as regular photo paper!) glossy photo paper.</string>
     <string name="faq_no_8_header">8. Can I print more than the number of credits given to me?</string>
     <string name="faq_no_8_detail">There is currently no option to print more than the credits you are given each month. However, do keep peeled to your seats because we will be throwing in the occasional reward of additional credits and allow you to print more photos in that month.</string>
     <string name="title_activity_profile_page">ProfilePageActivity</string>
