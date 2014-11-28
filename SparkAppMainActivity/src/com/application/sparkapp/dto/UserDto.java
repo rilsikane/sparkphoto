@@ -37,10 +37,6 @@ public class UserDto implements Parcelable{
 	private String address_unit_number;
 	@JsonProperty("address_postal")
 	private String address_postal;
-	@JsonProperty("birthday_bonus")
-	private String birthday_bonus;
-	@JsonProperty("time_last_give_birthday")
-	private String time_last_give_birthday;
 	@JsonIgnore
 	private String fb_access_token;
 	@JsonProperty("credit_extra")
@@ -60,6 +56,11 @@ public class UserDto implements Parcelable{
 	@JsonIgnore
 	private String user_validateCode;
 	
+	@JsonProperty("birthday_bonus")
+	private String birthday_bonus;
+	@JsonProperty("time_last_give_birthday")
+	private String time_last_give_birthday;
+	
 	public UserDto() { 
 		
 	}
@@ -69,20 +70,6 @@ public class UserDto implements Parcelable{
 	
 	public String getMethod() {
 		return method;
-	}
-	
-	
-	public String getTime_last_give_birthday() {
-		return time_last_give_birthday;
-	}
-	public void setTime_last_give_birthday(String time_last_give_birthday) {
-		this.time_last_give_birthday = time_last_give_birthday;
-	}
-	public String getBirthday_bonus() {
-		return birthday_bonus;
-	}
-	public void setBirthday_bonus(String birthday_bonus) {
-		this.birthday_bonus = birthday_bonus;
 	}
 	public void setMethod(String method) {
 		this.method = method;
@@ -234,6 +221,21 @@ public class UserDto implements Parcelable{
 	public void setUser_validateCode(String user_validateCode) {
 		this.user_validateCode = user_validateCode;
 	}
+	
+	
+	
+	public String getBirthday_bonus() {
+		return birthday_bonus;
+	}
+	public void setBirthday_bonus(String birthday_bonus) {
+		this.birthday_bonus = birthday_bonus;
+	}
+	public String getTime_last_give_birthday() {
+		return time_last_give_birthday;
+	}
+	public void setTime_last_give_birthday(String time_last_give_birthday) {
+		this.time_last_give_birthday = time_last_give_birthday;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -252,14 +254,12 @@ public class UserDto implements Parcelable{
         dest.writeString(phone);
         dest.writeString(phone_service);
         dest.writeString(occupation);
-        dest.writeString(time_last_give_birthday);
         dest.writeString(address_block);
         dest.writeString(address_street_name);
         dest.writeString(address_unit_number);
         dest.writeString(address_postal);
         dest.writeString(fb_access_token);
         dest.writeString(creditExtra);
-        dest.writeString(birthday_bonus);
         dest.writeInt(numberPictureCanUpload);
         dest.writeString(nextTimeCanUpload);
         dest.writeByte((byte) (normalCredit ? 1 : 0)); 
@@ -267,6 +267,8 @@ public class UserDto implements Parcelable{
         dest.writeByte((byte) (confrim ? 1 : 0)); 
         dest.writeString(otp_token);
         dest.writeString(user_validateCode);
+        dest.writeString(birthday_bonus);
+        dest.writeString(time_last_give_birthday);
 	}
 	private void readFromParcel(Parcel in) {
 		method = in.readString();
@@ -278,11 +280,9 @@ public class UserDto implements Parcelable{
 		gender = in.readString();
 		birthday = in.readString();
 		phone = in.readString();
-		birthday_bonus = in.readString();
 		phone_service = in.readString();
 		occupation = in.readString();
 		address_block = in.readString();
-		time_last_give_birthday = in.readString();
 		address_street_name = in.readString();
 		address_unit_number = in.readString();
 		address_postal = in.readString();
@@ -295,6 +295,8 @@ public class UserDto implements Parcelable{
 		confrim = in.readByte() != 0; 
 		otp_token = in.readString();
 		user_validateCode = in.readString();
+		birthday_bonus = in.readString();
+		time_last_give_birthday = in.readString();
 	}
 	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public UserDto createFromParcel(Parcel parcel) {
