@@ -368,7 +368,7 @@ public class SignUpPageOneMainActivity extends Activity {
 						&& utils.isNotEmpty(password.getText().toString())
 						&& utils.isNotEmpty(cfPassword.getText().toString())) {
 					if (!cfPassword.getText().toString().equals(password.getText().toString())) {
-						cfPassword.setError("Password is not match");
+						cfPassword.setError("Passwords do not match");
 					} else {
 						userDto.setFirstname(firstname.getText().toString());
 						userDto.setLastname(lastname.getText().toString());
