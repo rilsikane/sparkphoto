@@ -60,6 +60,10 @@ public class ImageCropActivity extends Activity {
     Bitmap croppedImage,bitmap;
     private CropImageView cropImageView;
     private boolean isFacebook;
+    private TempImage temp;
+    private String cropName;
+    private Bitmap tempCrop;
+    private File directory;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -128,9 +132,9 @@ public class ImageCropActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				new InitAndLoadData().execute();
+				
 				try{
-					Bitmap tempCrop = cropImageView.getCroppedImage();
+					tempCrop = cropImageView.getCroppedImage();
 					croppedImage = cropImageView.getCroppedImage();
 					if(portraitFlag){
 						croppedImage = getResizedBitmap(croppedImage, 1800, 1200);
@@ -139,69 +143,21 @@ public class ImageCropActivity extends Activity {
 					}
 					
 					UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
-					TempImage temp = new TempImage();
+					temp = new TempImage();
 					temp.ac_token = userVO.ac_token;
 					temp.originPath = imgPath;
-					File directory = new File(Environment.getExternalStorageDirectory()+ "/Spark/temp_image/");
+					directory = new File(Environment.getExternalStorageDirectory()+ "/Spark/temp_image/");
 					if (!directory.exists()) {
 						directory.mkdirs();
 					}
 					OutputStream fOut = null;
-					OutputStream fOut2 = null;
-					OutputStream fOut3 = null;
 					
-					String cropName = ""+UUID.randomUUID();
-					File file = new File(directory, ""+cropName+".jpg");
-					File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
-					File tmb = new File(directory, ""+cropName+"_tmb.jpg");
-					
+					cropName = ""+UUID.randomUUID();
+					File file = new File(directory, ""+cropName+".jpg");									
 					fOut = new FileOutputStream(file);
-					croppedImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
-					fOut.flush();
-					fOut.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
-					temp.path = file.getAbsolutePath();
-					
-					fOut2 = new FileOutputStream(tumb);
-					if(portraitFlag){
-						bitmap = getResizedBitmap(bitmap, 180, 120);
-					}else{
-						bitmap = getResizedBitmap(bitmap, 120, 180);	
-					}
-						bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
-					fOut2.flush();
-					fOut2.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
-					temp.originPath = tumb.getAbsolutePath();
+					new InitAndLoadData(croppedImage, fOut,file).execute();
 					
 					
-					fOut3 = new FileOutputStream(tmb);
-					if(portraitFlag){
-						tempCrop = getResizedBitmap(bitmap, 180, 120);
-						}else{
-						tempCrop = getResizedBitmap(bitmap, 120, 180);	
-					}
-					tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
-					fOut3.flush();
-					fOut3.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
-					
-					temp.amt = "1";
-					temp.id = temp.getPk();				
-					temp.save();
-					
-					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
-					String tutorial = "";
-					if(user!=null){
-						tutorial = user.tutorial;
-					}
-					Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
-					if("A".equals(tutorial)){
-						i = new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
-					}
-					startActivity(i);
-					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-					finish();
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -337,9 +293,15 @@ public class ImageCropActivity extends Activity {
                 }
                 return in;    
     }
-    public class InitAndLoadData extends AsyncTask<String, Void, List<String>> implements OnCancelListener{
+    public class InitAndLoadData extends AsyncTask<String, Void, Boolean> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
-		public InitAndLoadData(){
+		Bitmap bitmap;
+		OutputStream fOut;
+		File file;
+		public InitAndLoadData(Bitmap bit,OutputStream fOuts,File file){
+			this.bitmap = bit;
+			this.fOut = fOuts;
+			this.file = file;
 		}
     	@Override
     	protected void onPreExecute() {
@@ -347,20 +309,73 @@ public class ImageCropActivity extends Activity {
     		super.onPreExecute();
     	}
 		@Override
-		protected List<String> doInBackground(String... params) {
+		protected Boolean doInBackground(String... params) {
 			// TODO Auto-generated method stub			
-			List<String> test = new ArrayList<String>();
-			for(int i =0;i<20;i++){
-				test.add("");
-			}
-			return test;
+			
+			return bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
 		}
 		
 		@Override
-		protected void onPostExecute(List<String> result) {
+		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-			if (result != null) {
+			if (result) {							
+				try {
+					fOut.flush();
+					fOut.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+					temp.path = file.getAbsolutePath();
+					
+					OutputStream fOut2 = null;
+					OutputStream fOut3 = null;
+					File tumb = new File(directory, "tmb_"+UUID.randomUUID()+".jpg");
+					File tmb = new File(directory, ""+cropName+"_tmb.jpg");
+					
+					fOut2 = new FileOutputStream(tumb);
+					if(portraitFlag){
+						bitmap = getResizedBitmap(bitmap, 180, 120);
+					}else{
+						bitmap = getResizedBitmap(bitmap, 120, 180);	
+					}
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
+					fOut2.flush();
+					fOut2.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
+					temp.originPath = tumb.getAbsolutePath();
+					
+					fOut3 = new FileOutputStream(tmb);
+					if(portraitFlag){
+						tempCrop = getResizedBitmap(bitmap, 180, 120);
+						}else{
+						tempCrop = getResizedBitmap(bitmap, 120, 180);	
+					}
+					tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
+					fOut3.flush();
+					fOut3.close();
+					MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
+					
+					temp.amt = "1";
+					temp.id = temp.getPk();				
+					temp.save();
+					
+					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+					String tutorial = "";
+					if(user!=null){
+						tutorial = user.tutorial;
+					}
+					Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
+					if("A".equals(tutorial)){
+						i = new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
+					}
+					startActivity(i);
+					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+					finish();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}								
 				mProgressHUD.dismiss();
+				
 			} else {
 				
 				mProgressHUD.dismiss();
