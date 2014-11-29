@@ -67,13 +67,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignRight="@+id/imageView3"
-            android:layout_below="@+id/imageView3"
+            android:layout_below="@+id/imageView2"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/imageView3"
             android:text="Exclusive dining"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
-            android:textSize="35sp" />
+            android:textSize="30sp" />
 
         <!-- <TextView -->
         <!-- android:id="@+id/textView3" -->
@@ -92,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/perkName"
             android:layout_below="@+id/perkName"
-            android:text="Expiry |"
+            android:text="Expires |"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
             android:textSize="20sp" />
@@ -148,12 +149,12 @@
 
         <com.pkmmte.circularimageview.CircularImageView
             android:id="@+id/imageView3"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/imageView2"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="155dp"
             android:scaleType="fitXY"
             app:border="true"
             app:border_color="#ffffff"
