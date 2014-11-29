@@ -156,7 +156,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:text="You will receive and OTP message shortly"
+                android:text="You will receive an OTP message shortly"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="#ffffff" />
 
