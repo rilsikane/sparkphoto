@@ -6,11 +6,14 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonAnyGetter;
 import org.codehaus.jackson.annotate.JsonAnySetter;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class PerksDto implements Parcelable {
 
 	@JsonProperty("id")
