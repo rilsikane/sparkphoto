@@ -8,8 +8,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ActivityNotificationActivity extends Activity {
-
+	private ListView activityList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +36,7 @@ public class ActivityNotificationActivity extends Activity {
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_activity_notification);
 		System.gc();
-		ListView activityList = (ListView) findViewById(R.id.listView1);
+		activityList = (ListView) findViewById(R.id.listView1);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		backIcon.setOnClickListener(new OnClickListener() {
 			
@@ -45,8 +49,7 @@ public class ActivityNotificationActivity extends Activity {
 		        finish();
 			}
 		});
-		ListAdapter adapter = new ListAdapter();
-		activityList.setAdapter(adapter);
+		new InitLoadData().execute();
 	}
 	@Override
 	public void onBackPressed(){
@@ -103,4 +106,40 @@ public class ActivityNotificationActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
+    public class InitLoadData extends AsyncTask<String, Void, List<String>>implements OnCancelListener {
+			ProgressHUD mProgressHUD;
+			
+			@Override
+			protected void onPreExecute() {
+				mProgressHUD = ProgressHUD.show(ActivityNotificationActivity.this,"Loading ...", true, true, this);
+				super.onPreExecute();
+			}
+			
+			@Override
+			protected List<String> doInBackground(String... params) {
+				// TODO Auto-generated method stub
+				 
+				return new ArrayList<String>();
+			}
+			
+			@Override
+			protected void onPostExecute(List<String> result) {
+				super.onPostExecute(result);
+				if (result != null) {
+					ListAdapter adapter = new ListAdapter();
+					activityList.setAdapter(adapter);
+					mProgressHUD.dismiss();
+				} else {
+					mProgressHUD.dismiss();
+				}
+			
+			}
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				// TODO Auto-generated method stub
+				mProgressHUD.dismiss();
+			}
+
+    	}
 }
