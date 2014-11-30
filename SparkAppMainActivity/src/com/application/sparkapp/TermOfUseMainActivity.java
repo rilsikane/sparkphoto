@@ -103,7 +103,7 @@ public class TermOfUseMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 				if (result.isFlag()) {
-					final UserDto dto = JSONParserForGetList.getInstance().Login(userDto);
+					
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							TermOfUseMainActivity.this);
 					builder1.setMessage("Registration complete");
@@ -112,6 +112,7 @@ public class TermOfUseMainActivity extends Activity {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
+									UserDto dto = JSONParserForGetList.getInstance().Login(userDto);
 									dialog.cancel();
 									  UserVO user = new UserVO();
 									  user = user.convertDtoToVo(dto);
