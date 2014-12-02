@@ -98,16 +98,29 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttomLayout"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:layout_centerHorizontal="true" >
     </ListView>
+
+    <TextView
+        android:id="@+id/textView99"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Warning: if you exit the app before sending all your 10 photos to print, your current selection will be lost."
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_below="@+id/relativeLayout1"
-        android:layout_centerHorizontal="true" >
+        android:layout_below="@+id/textView99"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/totalAmountImage"

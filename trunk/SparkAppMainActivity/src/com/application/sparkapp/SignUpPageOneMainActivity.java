@@ -19,14 +19,10 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,9 +33,7 @@ import android.widget.TextView;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.DateUtil;
-import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
