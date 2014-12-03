@@ -123,6 +123,10 @@ public class ShippingAddressActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(address_unit_number2.getText().length()==0){
 					address_unit_number1.requestFocus();
+				}else if(address_unit_number2.getText().length()==5){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==4){
+					address_unit_number2.requestFocus();
 				}else if(address_unit_number2.getText().length()==3){
 					address_unit_number2.requestFocus();
 				}else if(address_unit_number2.getText().length()==2){
