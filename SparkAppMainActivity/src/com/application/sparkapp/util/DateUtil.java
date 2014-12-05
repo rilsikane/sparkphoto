@@ -456,6 +456,13 @@ public class DateUtil {
 		String finalString = newFormat.format(date);
 		return finalString;
 	}
+	public static String convertStringToStringDatetimeFormat(String start_dt) throws ParseException{
+		DateFormat formatter = new SimpleDateFormat(DEFAULT_DATETIME_PATTERN); 
+		Date date = (Date)formatter.parse(start_dt);
+		SimpleDateFormat newFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
+		String finalString = newFormat.format(date);
+		return finalString;
+	}
 	
 	public static java.sql.Date getCurrentSqlDate() {
 		return new java.sql.Date(new java.util.Date().getTime());

@@ -34,6 +34,7 @@ import android.text.Html;
 import android.util.Log;
 
 import com.application.sparkapp.dto.CommonDto;
+import com.application.sparkapp.dto.NotificationDto;
 import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.model.UserVO;
@@ -300,19 +301,19 @@ public class JSONParserForGetList {
 		}
 		return perksList;
 	}
-	public List<PerksDto> getListNotification(String acToken,int page){
-		List<PerksDto> perksList = new ArrayList<PerksDto>();;
+	public List<NotificationDto> getListNotification(String acToken,int page){
+		List<NotificationDto> perksList = new ArrayList<NotificationDto>();;
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
+        nameValuePairs.add(new BasicNameValuePair("method", "listNotification"));
 	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
-	    nameValuePairs.add(new BasicNameValuePair("type", page+""));
-	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"perks");
+	    nameValuePairs.add(new BasicNameValuePair("page", page+""));
+	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"notification");
 	    try{
 		    if(jsonArr!=null){
 		    	for(int i=0;i<jsonArr.length();i++){
-		    		PerksDto perks = new PerksDto();
+		    		NotificationDto perks = new NotificationDto();
 		    		JSONObject json =jsonArr.getJSONObject(i);
-		    		perks = (PerksDto) getDataMappingToObject(json, PerksDto.class);
+		    		perks = (NotificationDto) getDataMappingToObject(json, NotificationDto.class);
 		    		perksList.add(perks);
 		    	}
 		    }
