@@ -74,7 +74,7 @@
             android:text="Exclusive dining"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
-            android:textSize="30sp" />
+            android:textSize="26sp" />
 
         <!-- <TextView -->
         <!-- android:id="@+id/textView3" -->

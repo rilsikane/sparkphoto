@@ -18,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -66,6 +67,8 @@ public class PerkDetailMainActivity extends Activity {
 		
 		 perksImage = (ImageView) findViewById(R.id.imageView2);
 		 perksName = (TextView) findViewById(R.id.perkName);
+		 Typeface face = Typeface.createFromAsset(getAssets(),"fonts/ThaiSansNeue-Bold.ttf");
+		 perksName.setTypeface(face);
 		 dueDate = (TextView) findViewById(R.id.duedate);
 		 perk_detail = (TextView) findViewById(R.id.perk_detail);
 		 reedem = (RelativeLayout) findViewById(R.id.reedem);
