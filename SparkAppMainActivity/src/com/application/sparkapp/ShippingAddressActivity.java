@@ -312,7 +312,7 @@ public class ShippingAddressActivity extends Activity {
 		    		}else{
 		    			AlertDialog.Builder builder1 = new AlertDialog.Builder(
 								ShippingAddressActivity.this);
-
+		    			
 						String[] msgs = commonDto.getMsg().replaceAll("\\[", "")
 								.replaceAll("\\]", "").split(",");
 						if (msgs != null && msgs.length > 0) {
