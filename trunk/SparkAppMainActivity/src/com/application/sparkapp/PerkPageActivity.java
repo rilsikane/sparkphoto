@@ -14,6 +14,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -177,11 +179,17 @@ public class PerkPageActivity extends Activity {
 			if(convertView== null){
 				viewHolder = new ViewHolder();
 				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = inflater.inflate(R.layout.each_perk_layout, null);
+				if(utils.getScreenWidth()<=480&&utils.getScreenHeight()<=800){
+					convertView = inflater.inflate(R.layout.each_perk_small_layout, null);
+				}else{				
+					convertView = inflater.inflate(R.layout.each_perk_layout, null);
+				}
+				
 				viewHolder.click = (RelativeLayout) convertView.findViewById(R.id.perkClick);
 				viewHolder.perkName = (TextView) convertView.findViewById(R.id.perkName);
 				Typeface face = Typeface.createFromAsset(getAssets(),"fonts/ThaiSansNeue-Bold.ttf");
 				viewHolder.perkName.setTypeface(face);
+				viewHolder.perkName.setIncludeFontPadding(false);
 				viewHolder.expire = (TextView) convertView.findViewById(R.id.textView2);
 				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
 				viewHolder.perImg = (ImageView) convertView.findViewById(R.id.imageView1);
