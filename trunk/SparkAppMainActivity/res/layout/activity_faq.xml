@@ -76,7 +76,8 @@
                 android:text="@string/faq_no_1_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -95,7 +96,8 @@
                 android:text="@string/faq_no_2_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -114,7 +116,8 @@
                 android:text="@string/faq_no_3_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -133,7 +136,8 @@
                 android:text="@string/faq_no_4_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -152,7 +156,8 @@
                 android:text="@string/faq_no_5_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -171,7 +176,8 @@
                 android:text="@string/faq_no_6_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -190,7 +196,8 @@
                 android:text="@string/faq_no_7_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -209,7 +216,8 @@
                 android:text="@string/faq_no_8_detail"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
