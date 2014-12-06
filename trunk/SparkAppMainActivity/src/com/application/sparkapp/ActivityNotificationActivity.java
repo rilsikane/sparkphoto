@@ -249,19 +249,19 @@ public class ActivityNotificationActivity extends Activity {
     	if(Utils.isNotEmpty(type) && Utils.isNumeric(type)){
 			switch (Integer.parseInt(type)) {
 			case 0:
-				status = "new order";
+				status = "New  order";
 				color = Color.BLUE;
 				break;
 			case 1:
-				status = "in review";
+				status = "Processing";
 				color = Color.YELLOW;
 				break;
 			case 2:
-				status = "done";
+				status = "Completed";
 				color = Color.GREEN;
 				break;
 			case 3:
-				status = "reject";
+				status = "Rejected";
 				color = Color.RED;
 				break;
 
