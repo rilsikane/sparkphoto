@@ -256,7 +256,7 @@ public class PinValidateMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null && Utils.isNotEmpty(result.getMsg())) {
 				String[] msgs = result.getMsg().replaceAll("\\[", "")
-						.replaceAll("\\]", "").split(",");
+						.replaceAll("\\]", "").split("\\.");
 				if (contains(msgs, "term")) {
 						Intent intent = new Intent(PinValidateMainActivity.this,
 								TermOfUseMainActivity.class);
@@ -275,7 +275,7 @@ public class PinValidateMainActivity extends Activity {
 						if (msgs != null && msgs.length > 0) {
 							msg += "- ";
 							for (String ms : msgs) {
-								msg += ms;
+								msg += ms.replaceFirst(",", "");
 							}
 
 						}
@@ -334,13 +334,13 @@ public class PinValidateMainActivity extends Activity {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PinValidateMainActivity.this);
 					String[] msgs = result.getMsg().replaceAll("\\[", "")
-							.replaceAll("\\]", "").split(",");
+							.replaceAll("\\]", "").split("\\.");
 					if (msgs != null && msgs.length > 0) {
 						String msg = "Error Please try again "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							for (String ms : msgs) {
-								msg += ("-" + ms + System
+								msg += ("-" + ms.replaceFirst(",", "") + System
 										.getProperty("line.separator"));
 							}
 

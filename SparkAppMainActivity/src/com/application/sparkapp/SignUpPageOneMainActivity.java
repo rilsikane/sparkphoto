@@ -504,7 +504,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null && utils.isNotEmpty(result.getMsg())) {
 			String[] msgs = result.getMsg().replaceAll("\\[", "")
-					.replaceAll("\\]", "").split(",");
+					.replaceAll("\\]", "").split("\\.");
 				if (checkAddres(msgs)) {
 					Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
 					i.putExtra("userDto", (Parcelable) userDto);
@@ -520,7 +520,7 @@ public class SignUpPageOneMainActivity extends Activity {
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							for (String ms : msgs) {
-								msg += ("-" + ms + System
+								msg += ("-" + ms.replaceFirst(",", "") + System
 										.getProperty("line.separator"));
 							}
 

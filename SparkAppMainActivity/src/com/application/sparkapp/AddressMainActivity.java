@@ -217,7 +217,7 @@ public class AddressMainActivity extends Activity {
 		protected void onPostExecute(CommonDto result) {
 			super.onPostExecute(result);
 			if (result != null && Utils.isNotEmpty(result.getMsg())) {
-				String[] msgs = result.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+				String[] msgs = result.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split("\\.");
 				if (contains(msgs, "otp") || contains(msgs, "term")) {
 					if(userDto.getOtp_token()==null){
 					CommonDto commonDto = JSONParserForGetList.getInstance().getOTP(userDto);
@@ -229,13 +229,13 @@ public class AddressMainActivity extends Activity {
 					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 					finish();
 					}else if(commonDto.getMsg()!=null){
-						String[] errMsgs = commonDto.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+						String[] errMsgs = commonDto.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split("\\.");
 							AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
 							if(errMsgs!=null && errMsgs.length>0){
 								String msg = "Error Please try again "+System.getProperty("line.separator");
 								if(errMsgs!=null && errMsgs.length>0){
 									for(String ms : errMsgs){
-										msg += ("-"+ms+System.getProperty("line.separator"));
+										msg += ("-"+ms.replaceFirst(",", "")+System.getProperty("line.separator"));
 									}
 								
 								}
@@ -267,7 +267,7 @@ public class AddressMainActivity extends Activity {
 						String msg = "Error Please try again "+System.getProperty("line.separator");
 						if(msgs!=null && msgs.length>0){
 							for(String ms : msgs){
-								msg += ("-"+ms+System.getProperty("line.separator"));
+								msg += ("-"+ms.replaceFirst(",", "")+System.getProperty("line.separator"));
 							}
 						
 						}

@@ -187,13 +187,13 @@ public class ChangePassActivity extends Activity {
 							ChangePassActivity.this);
 
 					String[] msgs = result.getMsg().replaceAll("\\[", "")
-							.replaceAll("\\]", "").split(",");
+							.replaceAll("\\]", "").split("\\.");
 					if (msgs != null && msgs.length > 0) {
 						String msg = "Error Please try again "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							for (String ms : msgs) {
-								msg += ("-" + ms + System
+								msg += ("-" + ms.replaceFirst(",", "") + System
 										.getProperty("line.separator"));
 							}
 
