@@ -98,7 +98,11 @@ public class JSONParserForGetList {
         	 commonDto.setToken(json.getString("app_access_token"));
          }else{
         	 commonDto.setFlag(false);
+        	 if(!json.isNull("message")){
         	 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
+        	 }else{
+             commonDto.setMsg("An error occur, Please try a again later.");	 
+        	 }
          }
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -146,7 +150,7 @@ public class JSONParserForGetList {
         	 if(!json.isNull("message")){
         		 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
         	 }else{
-        		 commonDto.setMsg("Error!");
+        		 commonDto.setMsg("An error occur, Please try a again later.");
         	 }
          }
 		}catch (Exception e) {
@@ -190,7 +194,7 @@ public class JSONParserForGetList {
         	 if(!json.isNull("message")){
         		 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
         	 }else{
-        		 commonDto.setMsg("Error!");
+        		 commonDto.setMsg("An error occur, Please try a again later.");
         	 }
          }
 		}catch (Exception e) {
@@ -231,7 +235,11 @@ public class JSONParserForGetList {
         	 }
          }else{
         	 commonDto.setFlag(false);
+        	 if(!json.isNull("message")){
         	 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
+        	 }else{
+        		 commonDto.setMsg("An error occur, Please try a again later.");
+        	 }
          }
 		}catch (Exception e) {
 			e.printStackTrace();
