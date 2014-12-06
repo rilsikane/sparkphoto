@@ -82,6 +82,7 @@ public class MainPhotoSelectActivity extends Activity {
     private RadioButton radioButton;
     private UserDto userDto;
     private UserVO user;
+    private Utils utils;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,13 @@ public class MainPhotoSelectActivity extends Activity {
 		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_main_photo_select);
+		utils = new Utils(this, this);
+		if(utils.getScreenWidth()<=480&&utils.getScreenHeight()<=800){
+			setContentView(R.layout.activity_main_photo_select_small);					
+		}else{				
+			setContentView(R.layout.activity_main_photo_select);
+		}
+		
 		System.gc();
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
