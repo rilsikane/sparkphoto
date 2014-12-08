@@ -1,7 +1,5 @@
 package com.application.sparkapp;
 
-import com.application.sparkapp.AddressMainActivity.InitAndLoadData;
-import com.application.sparkapp.ProfilePageActivity.EditProfileData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -107,7 +105,7 @@ import android.widget.TextView;
 				
 			}
 		});
-		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
 		address_unit_number2.addTextChangedListener(new TextWatcher() {		
 			
 			@Override
@@ -115,6 +113,10 @@ import android.widget.TextView;
 				// TODO Auto-generated method stub
 				if(address_unit_number2.getText().length()==0){
 					address_unit_number1.requestFocus();
+				}else if(address_unit_number2.getText().length()==5){
+					address_unit_number2.requestFocus();
+				}else if(address_unit_number2.getText().length()==4){
+					address_unit_number2.requestFocus();
 				}else if(address_unit_number2.getText().length()==3){
 					address_unit_number2.requestFocus();
 				}else if(address_unit_number2.getText().length()==2){
