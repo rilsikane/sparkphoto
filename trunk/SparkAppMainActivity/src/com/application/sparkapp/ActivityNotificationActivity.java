@@ -3,6 +3,7 @@ package com.application.sparkapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.application.sparkapp.PerkPageActivity.LoadMoreData;
 import com.application.sparkapp.dto.NotificationDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -38,9 +39,10 @@ public class ActivityNotificationActivity extends Activity {
 	private ListView activityList;
 	private UserVO user;
 	private List<NotificationDto> notificationList = new ArrayList<NotificationDto>();
-	private boolean isLoading;
-	private int page = 1;
 	private ListAdapter adapter;
+	private boolean loadingMore = false;
+	private int page=1;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,32 +69,33 @@ public class ActivityNotificationActivity extends Activity {
 		});
 		new InitLoadData(1).execute();
 		activityList.setOnScrollListener(new OnScrollListener() {
+			int currentFirstVisibleItem = 0;
+			int currentVisibleItemCount = 0;
+			int totalItemCount = 0;
+			int currentScrollState = 0;
+			@Override
+			public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			    this.currentFirstVisibleItem = firstVisibleItem;
+			    this.currentVisibleItemCount = visibleItemCount;
+			    this.totalItemCount = totalItemCount;
+			}
 
-	        @Override
-	        public void onScrollStateChanged(AbsListView view, int scrollState) {
+			@Override
+			public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+			    this.currentScrollState = scrollState;
+			    this.isScrollCompleted();
+			}
 
-	        }
-
-	        @Override
-	        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-	            if (activityList.getAdapter() == null)
-	                return ;
-
-	            if (activityList.getAdapter().getCount() == 0)
-	                return ;
-
-	            int l = visibleItemCount + firstVisibleItem;
-	         
-	            if (l >= totalItemCount && notificationList!=null && notificationList.size()%10==0) {
-	                // It is time to add new data. We call the listener
-	            	   List<NotificationDto> notiList = JSONParserForGetList.getInstance().getListNotification(user.ac_token, page);
-	            	   if (notiList != null) {
-	       				notificationList.addAll(notiList);
-	       			  }
-	       				adapter.notifyDataSetChanged();
-	       				page++;
-	            }
-	        }
+			private void isScrollCompleted() {
+			    if (this.currentVisibleItemCount > 0 && this.currentScrollState == SCROLL_STATE_IDLE && this.totalItemCount == (currentFirstVisibleItem + currentVisibleItemCount)) {
+			        /*** In this way I detect if there's been a scroll which has completed ***/
+			        /*** do the work for load more date! ***/
+			        if (!loadingMore && notificationList.size()%10==0) {
+			            loadingMore = true;
+			            new LoadMoreData(page).execute();
+			        }
+			    }
+			}
 	    });
 	}
 	@Override
@@ -191,7 +194,6 @@ public class ActivityNotificationActivity extends Activity {
 				adapter = new ListAdapter(notificationList);
 				activityList.setAdapter(adapter);
 				mProgressHUD.dismiss();
-				page++;
 			}
 
 			@Override
@@ -227,13 +229,15 @@ public class ActivityNotificationActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 				notificationList.addAll(result);
+				loadingMore = false;
+				page++;
 			} else {
 				mProgressHUD.dismiss();
 			}
 			
 			adapter.notifyDataSetChanged();
 			mProgressHUD.dismiss();
-			page++;
+			
 		}
 
 		@Override
