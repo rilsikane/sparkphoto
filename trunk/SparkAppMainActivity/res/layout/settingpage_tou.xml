@@ -72,7 +72,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="5dp"
-                android:text="MOBILE APPLICATION TERMS OF US"
+                android:text="MOBILE APPLICATION TERMS OF USE"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
 
