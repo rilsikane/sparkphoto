@@ -232,7 +232,7 @@ public class AddressMainActivity extends Activity {
 						String[] errMsgs = commonDto.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split("\\.");
 							AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
 							if(errMsgs!=null && errMsgs.length>0){
-								String msg = "Error Please try again "+System.getProperty("line.separator");
+								String msg = "Error: please try again. "+System.getProperty("line.separator");
 								if(errMsgs!=null && errMsgs.length>0){
 									for(String ms : errMsgs){
 										msg += ("-"+ms.replaceFirst(",", "")+System.getProperty("line.separator"));
@@ -264,7 +264,7 @@ public class AddressMainActivity extends Activity {
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(AddressMainActivity.this);
 					if(msgs!=null && msgs.length>0){
-						String msg = "Error Please try again "+System.getProperty("line.separator");
+						String msg = "Error: please try again. "+System.getProperty("line.separator");
 						if(msgs!=null && msgs.length>0){
 							for(String ms : msgs){
 								msg += ("-"+ms.replaceFirst(",", "")+System.getProperty("line.separator"));

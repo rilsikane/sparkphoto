@@ -270,7 +270,7 @@ public class PinValidateMainActivity extends Activity {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							PinValidateMainActivity.this);
 					if (msgs != null && msgs.length > 0) {
-						String msg = "Error Please try again "
+						String msg = "Error: please try again. "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							msg += "- ";
@@ -336,7 +336,7 @@ public class PinValidateMainActivity extends Activity {
 					String[] msgs = result.getMsg().replaceAll("\\[", "")
 							.replaceAll("\\]", "").split("\\.");
 					if (msgs != null && msgs.length > 0) {
-						String msg = "Error Please try again "
+						String msg = "Error: please try again. "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							for (String ms : msgs) {

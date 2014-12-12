@@ -282,7 +282,7 @@ import android.widget.TextView;
 					String[] msgs = result.getMsg().replaceAll("\\[", "")
 							.replaceAll("\\]", "").split("\\.");
 					if (msgs != null && msgs.length > 0) {
-						String msg = "Error Please try again "
+						String msg = "Error: please try again. "
 								+ System.getProperty("line.separator");
 						if (msgs != null && msgs.length > 0) {
 							for (String ms : msgs) {

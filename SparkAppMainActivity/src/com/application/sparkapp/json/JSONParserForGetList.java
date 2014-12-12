@@ -288,12 +288,13 @@ public class JSONParserForGetList {
          return user;
 	}
 	
-	public List<PerksDto> getListPerks(String acToken,String type){
+	public List<PerksDto> getListPerks(String acToken,String type,String page){
 		List<PerksDto> perksList = new ArrayList<PerksDto>();;
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         nameValuePairs.add(new BasicNameValuePair("method", "listPerksM"));
 	    nameValuePairs.add(new BasicNameValuePair("ac", acToken));
 	    nameValuePairs.add(new BasicNameValuePair("type", type));
+	    nameValuePairs.add(new BasicNameValuePair("page", page));
 	    JSONArray jsonArr = getJsonArrayFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs,"perks");
 	    try{
 		    if(jsonArr!=null){
@@ -387,6 +388,8 @@ public class JSONParserForGetList {
 		return user;
 		
 	}
+	
+	
 	public CommonDto getOTP(UserDto userDto){
 		CommonDto commonDto = null;
 		try{
@@ -413,6 +416,22 @@ public class JSONParserForGetList {
 			}
 		
 		return commonDto;
+		
+	}
+	
+	public void viewPerk(String acCode,String id_perk){
+		UserDto user = null;
+		try{
+			 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				  nameValuePairs = new ArrayList<NameValuePair>(2);
+			      nameValuePairs.add(new BasicNameValuePair("method", "viewPerk"));
+			      nameValuePairs.add(new BasicNameValuePair("ac", acCode));
+			      nameValuePairs.add(new BasicNameValuePair("id_perk", id_perk));
+			      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+	         
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		
 	}
 	
