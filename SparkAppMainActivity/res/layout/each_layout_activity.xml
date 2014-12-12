@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:background="#000000"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -35,7 +35,6 @@
             android:layout_alignTop="@+id/view2"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/view2"
-            android:lines="2"
             android:text="ORDER003 is on its way to your address Thank you for using our service."
             android:textColor="#ffffff"
             android:textSize="18sp" />
