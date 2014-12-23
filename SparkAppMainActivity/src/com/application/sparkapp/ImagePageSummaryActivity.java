@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -58,6 +59,7 @@ import com.roscopeco.ormdroid.Entity;
 @SuppressLint("NewApi")
 public class ImagePageSummaryActivity extends Activity {
 	private Utils utils;
+	private View statusBar;
 	private ListView summaryList;
 	private TextView goToNextPage,picCount,picTotal;
 	private Activity _activity;
@@ -110,6 +112,8 @@ public class ImagePageSummaryActivity extends Activity {
 		picTotal.setText("/"+total);
 		ImageView captureMoreImage = (ImageView) findViewById(R.id.imageView2);
 		ImageView addMoreImage = (ImageView) findViewById(R.id.imageView3);
+		statusBar = findViewById(R.id.statusBar);
+		statusBar.setBackgroundColor(Color.GREEN);
 		
 		addMoreImage.setOnClickListener(new OnClickListener() {
 			
@@ -510,6 +514,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {				
 			if(Integer.parseInt(picCount.getText().toString())==total){
+				
 				new AlertDialog.Builder(ImagePageSummaryActivity.this)
 			    .setMessage("You have used all your credits")
 			    .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -522,6 +527,7 @@ public class ImagePageSummaryActivity extends Activity {
 			    .show();
 			}
 			newRes = temp.getAmt();
+			
 			if(newRes<total && picCt<total){
 				newRes++;
 				picCt++;
@@ -529,8 +535,14 @@ public class ImagePageSummaryActivity extends Activity {
 				temp.getTempImage().amt = newRes+"";
 				temp.getTempImage().save();
 				temp.setAmt(newRes);
+				
 			}
 				picCount.setText(picCt+"");
+				if(picCt==total){
+					statusBar.setBackgroundColor(Color.RED);
+				}else{
+					statusBar.setBackgroundColor(Color.GREEN);
+				}
 			}
 			
 		}
@@ -545,6 +557,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(val.getText().toString().equals("1")){
+					statusBar.setBackgroundColor(Color.GREEN);
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setTitle("Delete Confirmation")
 				    .setMessage("Do you want to delete this item?")
@@ -584,6 +597,7 @@ public class ImagePageSummaryActivity extends Activity {
 				}
 				
 				picCount.setText(picCt+"");
+				statusBar.setBackgroundColor(Color.GREEN);
 			}
 			
 		}

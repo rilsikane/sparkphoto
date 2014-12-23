@@ -9,8 +9,8 @@
     <string name="next_text">Next</string>
     <string name="signup_desc_text">Please fill in the following fields for us to mail the photos to you.</string>
     <string name="shippping_desc_text">Please confirm the following details before completing your order.</string>
-    <string name="shippping_address_desc_text">Please fill in your address so we can mail your photos to you.</string>
-    <string name="signup_addr_text">Please fill in your address so we can mail your photos to you.</string>
+    <string name="shippping_address_desc_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>
+    <string name="signup_addr_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>
     <string name="title_activity_address_main">AddressMainActivity</string>
     <string name="title_activity_pin_validate_main">PinValidateMainActivity</string>
     <string name="title_activity_term_of_use_main">TermOfUseMainActivity</string>

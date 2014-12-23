@@ -160,7 +160,7 @@ public class PerkDetailMainActivity extends Activity {
 														if(dto!=null){
 															AlertDialog.Builder builder1 = new AlertDialog.Builder(
 																	PerkDetailMainActivity.this);
-															builder1.setMessage("Code is redeemed sucessfully. Please enjoy your extra print.");
+															builder1.setMessage("Success! Please enjoy your perk!");
 															builder1.setCancelable(true);
 															builder1.setPositiveButton("Ok",
 																	new DialogInterface.OnClickListener() {

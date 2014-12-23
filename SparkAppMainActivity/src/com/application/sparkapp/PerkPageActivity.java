@@ -51,7 +51,7 @@ public class PerkPageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
+//		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_perk_page);
@@ -66,6 +66,10 @@ public class PerkPageActivity extends Activity {
 		ImageView goBack = (ImageView) findViewById(R.id.imageView1);
 		final ImageView premim = (ImageView) findViewById(R.id.imageView2);
 		final ImageView regular = (ImageView) findViewById(R.id.imageView3);
+		
+		Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/ThaiSansNeue-Regular.ttf");
+		TextView perkHeader = (TextView) findViewById(R.id.textView1);
+		perkHeader.setTypeface(tf);
 		
 		type = getIntent().hasExtra("type") ? getIntent().getStringExtra("type") : "2";
 		
@@ -278,7 +282,7 @@ public class PerkPageActivity extends Activity {
 				viewHolder.sponsorName = (TextView) convertView.findViewById(R.id.textView3);
 				viewHolder.perImg = (ImageView) convertView.findViewById(R.id.imageView1);
 				viewHolder.gift = (ImageView) convertView.findViewById(R.id.imageView2);
-				
+				viewHolder.gift.setVisibility(View.INVISIBLE);
 				convertView.setTag(viewHolder);
 			}else{
 				viewHolder = (ViewHolder) convertView.getTag();
@@ -324,8 +328,8 @@ public class PerkPageActivity extends Activity {
 		
 	}
 	
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+//    }
 }

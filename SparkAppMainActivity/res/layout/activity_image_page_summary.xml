@@ -109,7 +109,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Warning: if you exit the app before sending all your 10 photos to print, your current selection will be lost."
+        android:text="Warning: if you exit SPARK before you complete your order, your current selection will be lost."
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff"
         android:textSize="18sp" />
@@ -154,6 +154,15 @@
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/textView4"
             android:src="@drawable/photoic" />
+
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="2dp"
+            android:layout_height="15dp"
+            android:layout_alignBottom="@+id/imageView4"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/imageView4"
+            android:background="#ffe049" />
     </RelativeLayout>
 
 </RelativeLayout>

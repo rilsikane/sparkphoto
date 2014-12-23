@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_id"
     android:background="@drawable/address_background"
     tools:context=".AddressMainActivity" >
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="ADDRESS"
+            android:text="SHIPPING"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="30sp" />
@@ -49,13 +49,12 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="280dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1"
+        android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
-        android:lines="2"
         android:text="@string/signup_addr_text"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff"
@@ -123,8 +122,8 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/unit_icon"
                 android:ems="10"
-                android:hint="xx"
                 android:gravity="center"
+                android:hint="xx"
                 android:inputType="number"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -172,5 +171,14 @@
                 android:textColorHint="#ffffff" />
         </RelativeLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/truck_icon" />
 
 </RelativeLayout>
