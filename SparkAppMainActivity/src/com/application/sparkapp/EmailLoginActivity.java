@@ -22,7 +22,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -34,6 +36,7 @@ public class EmailLoginActivity extends Activity {
 	private Utils utils;
 	private EditText email,password;
 	private Button btnLogin;
+	private TextView fogotPswd;
 	private static String PAGE_FROM = "emailLogin";
 	@SuppressWarnings("deprecation")
 	@Override
@@ -52,6 +55,7 @@ public class EmailLoginActivity extends Activity {
         btnLogin = (Button) findViewById(R.id.textView2);
         email = (EditText) findViewById(R.id.editText3);
         password = (EditText) findViewById(R.id.editText4);
+        fogotPswd = (TextView) findViewById(R.id.textView3);
         
 //        email.setText("test@gmail.com");
 //        password.setText("123456");
@@ -70,6 +74,16 @@ public class EmailLoginActivity extends Activity {
 		        startActivity(i);
 		        finish();
 		        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			}
+		});
+        btnLogin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				UserDto user = new UserDto();
+				user.setEmail(email.getText().toString());
+				user.setPassword(password.getText().toString());
+				new InitAndLoadData(user).execute();
 			}
 		});
         btnLogin.setOnClickListener(new OnClickListener() {
@@ -172,6 +186,38 @@ public class EmailLoginActivity extends Activity {
 
 
 	}
+	public class ForgotPassword extends AsyncTask<String, Void, CommonDto> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(EmailLoginActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub			
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				
+			}
+
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
+	
 	@Override
 	public void onBackPressed(){
 		Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);		
