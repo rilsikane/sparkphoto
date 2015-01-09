@@ -132,7 +132,7 @@ public class SettingPageActivity extends Activity {
 				tempMenuList.add("Terms of use");
 				tempMenuList.add("About us");
 				tempMenuList.add("FAQ");
-				tempMenuList.add("Contact us");		
+				//tempMenuList.add("Contact us");		
 		}
 		@Override
 		public int getCount() {

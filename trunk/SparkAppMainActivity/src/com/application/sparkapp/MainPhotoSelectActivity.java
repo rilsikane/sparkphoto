@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.annotation.SuppressLint;
@@ -36,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
@@ -43,6 +46,7 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.session.AppKeyPair;
 import com.dropbox.client2.session.Session.AccessType;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -209,7 +213,7 @@ public class MainPhotoSelectActivity extends Activity {
 				dialog.setContentView(R.layout.custom_select_img);	
 				RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
 				ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
-				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
+//				ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
 //				ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
 				
 				if(user!=null){
@@ -259,76 +263,76 @@ public class MainPhotoSelectActivity extends Activity {
 						}
 					}
 				});
-				facebookBtn.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						dialog.dismiss();
-						if(nextTimeCanUpload){
-							session = Session.getActiveSession();
-							if (session!=null) {
-	                        	 mProgressHUD= ProgressHUD.show(MainPhotoSelectActivity.this,"Loading ...", true,true,new OnCancelListener() {
-										
-										@Override
-										public void onCancel(DialogInterface dialog) {
-											// TODO Auto-generated method stub
-											mProgressHUD.dismiss();
-										}
-	                        	 });
-								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-			                         @Override
-			                         public void onCompleted(GraphUser user, Response response) {
-
-			                        	  if (user != null) {
-			                        		  if (hasPhotoPermissions()){
-			                        		    mProgressHUD.dismiss();
-						                        session.getAccessToken();				                        
-						                        user.getFirstName();
-						                        user.getId();
-						                        user.getName();
-						                        //Facebook API:https://developers.facebook.com/tools/explorer/
-						                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-						                        i.putExtra("facebookUserId", user.getId());
-						                        i.putExtra("loadImageState", 0);
-			                                    startActivity(i);
-			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-			                                    finish();
-			                        		  }else{
-			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(MainPhotoSelectActivity.this, "user_photos"));
-			                        		  }
-						                    }
-			                             
-			                         }   
-			                     }); 
-			                     Request.executeBatchAsync(request);
-					        }else{
-					        	
-				                    // Ask for username and password
-				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
-	
-				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
-				                    op.setCallback(null);
-	
-				                    List<String> permissions = new ArrayList<String>();
-				                    permissions.add("publish_stream");
-				                    permissions.add("user_likes");
-				                    permissions.add("email");
-				                    permissions.add("user_birthday");
-				                    permissions.add("user_photos");
-				                    op.setPermissions(permissions);
-	
-				                    Session session = new Builder(MainPhotoSelectActivity.this).build();
-				                    Session.setActiveSession(session);
-				                    session.openForPublish(op);
-				                }
-					        
-						}else{
-							showPerkDialog();
-						}
-					}
-				});
+//				facebookBtn.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						dialog.dismiss();
+//						if(nextTimeCanUpload){
+//							session = Session.getActiveSession();
+//							if (session!=null) {
+//	                        	 mProgressHUD= ProgressHUD.show(MainPhotoSelectActivity.this,"Loading ...", true,true,new OnCancelListener() {
+//										
+//										@Override
+//										public void onCancel(DialogInterface dialog) {
+//											// TODO Auto-generated method stub
+//											mProgressHUD.dismiss();
+//										}
+//	                        	 });
+//								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+//
+//			                         @Override
+//			                         public void onCompleted(GraphUser user, Response response) {
+//
+//			                        	  if (user != null) {
+//			                        		  if (hasPhotoPermissions()){
+//			                        		    mProgressHUD.dismiss();
+//						                        session.getAccessToken();				                        
+//						                        user.getFirstName();
+//						                        user.getId();
+//						                        user.getName();
+//						                        //Facebook API:https://developers.facebook.com/tools/explorer/
+//						                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
+//						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+//						                        i.putExtra("facebookUserId", user.getId());
+//						                        i.putExtra("loadImageState", 0);
+//			                                    startActivity(i);
+//			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//			                                    finish();
+//			                        		  }else{
+//			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(MainPhotoSelectActivity.this, "user_photos"));
+//			                        		  }
+//						                    }
+//			                             
+//			                         }   
+//			                     }); 
+//			                     Request.executeBatchAsync(request);
+//					        }else{
+//					        	
+//				                    // Ask for username and password
+//				                    OpenRequest op = new Session.OpenRequest(MainPhotoSelectActivity.this);
+//	
+//				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+//				                    op.setCallback(null);
+//	
+//				                    List<String> permissions = new ArrayList<String>();
+//				                    permissions.add("publish_stream");
+//				                    permissions.add("user_likes");
+//				                    permissions.add("email");
+//				                    permissions.add("user_birthday");
+//				                    permissions.add("user_photos");
+//				                    op.setPermissions(permissions);
+//	
+//				                    Session session = new Builder(MainPhotoSelectActivity.this).build();
+//				                    Session.setActiveSession(session);
+//				                    session.openForPublish(op);
+//				                }
+//					        
+//						}else{
+//							showPerkDialog();
+//						}
+//					}
+//				});
 				
 				
 			}
