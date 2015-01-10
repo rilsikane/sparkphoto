@@ -311,7 +311,7 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(picCt==total){
-				Intent i = new Intent(ImagePageSummaryActivity.this,ShippingAddressActivity.class);
+				Intent i = new Intent(ImagePageSummaryActivity.this,YourDetailActivity.class);
 				startActivity(i);
 				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				finish();

@@ -81,7 +81,7 @@ public class ProfilePageActivity extends Activity {
 		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
 		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
 		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
-		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
+//		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
 		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
 		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
 		dob.setInputType(0);
@@ -275,8 +275,7 @@ public class ProfilePageActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (utils.isNotEmpty(gender.getText().toString())
-						&& utils.isNotEmpty(dob.getText().toString())
-						&& utils.isNotEmpty(occuption.getText().toString())
+						&& utils.isNotEmpty(dob.getText().toString())						
 						&& utils.isNotEmpty(service.getText().toString())
 						&& utils.isNotEmpty(phoneno.getText().toString())
 						&& utils.isNotEmpty(email.getText().toString())
@@ -345,9 +344,9 @@ public class ProfilePageActivity extends Activity {
 				if (service.getText().toString().isEmpty()) {
 					service.setError("Please select Service");
 				}
-				if (occuption.getText().toString().isEmpty()) {
-					occuption.setError("Please select Occupation");
-				}
+//				if (occuption.getText().toString().isEmpty()) {
+//					occuption.setError("Please select Occupation");
+//				}
 				
 			}
 		});
