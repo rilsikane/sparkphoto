@@ -100,7 +100,8 @@
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText2"
@@ -114,7 +115,8 @@
                 android:hint="Last name"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText3"
@@ -129,7 +131,8 @@
                 android:hint="NRIC/FIN"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText4"
@@ -151,7 +154,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/editText4"
                 android:layout_marginTop="2dp"
-                android:layout_toLeftOf="@+id/editText2"
+                android:layout_toLeftOf="@+id/textView4"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
@@ -176,7 +179,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/editText5"
-                android:layout_toRightOf="@+id/View01"
+                android:layout_toRightOf="@+id/textView4"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/space_icon"
                 android:ems="10"
@@ -199,7 +202,8 @@
                 android:hint="Date of birth"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText8"
@@ -215,7 +219,8 @@
                 android:hint="Gender"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText9"
@@ -246,7 +251,8 @@
                 android:hint="Service"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText11"
@@ -262,7 +268,8 @@
                 android:hint="Occupation"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -271,7 +278,8 @@
                 android:layout_alignBottom="@+id/editText3"
                 android:layout_alignRight="@+id/editText3"
                 android:layout_marginBottom="5dp"
-                android:src="@drawable/info_icon" />
+                android:src="@drawable/info_icon"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/imageView3"
