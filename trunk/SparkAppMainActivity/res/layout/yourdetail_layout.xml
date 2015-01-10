@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".SignUpPageOneMainActivity" >
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -26,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="PROFILE"
+            android:text="YOUR DETAILS"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="30sp" />
@@ -39,17 +41,31 @@
             android:layout_alignBottom="@+id/textView1"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:text="Confirm"
+            android:text="@string/next_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="24sp" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lines="2"
+        android:text="Please fill in the following fields to verify you are a unique SPARK user."
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout1"
+        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:scrollbars="none" >
@@ -59,7 +75,8 @@
             android:layout_height="wrap_content"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="7dp" >
 
             <View
                 android:id="@+id/textView4"
@@ -114,54 +131,20 @@
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
-            <EditText
-                android:id="@+id/editText4"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText3"
-                android:layout_below="@+id/editText3"
-                android:layout_marginTop="2dp"
-                android:background="#30ffffff"
-                android:drawableLeft="@drawable/png_icon"
-                android:ems="10"
-                android:enabled="false"
-                android:hint="Email address"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
-
-            <EditText
-                android:id="@+id/editText5"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignRight="@+id/editText4"
-                android:layout_below="@+id/editText4"
-                android:layout_marginTop="2dp"
-                android:background="#30ffffff"
-                android:drawableLeft="@drawable/password_icon"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Change Password"
-                android:inputType="textCapCharacters"
-                android:password="true"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
-                android:textSize="20sp" >
-            </EditText>
-
             <View
                 android:id="@+id/View01"
                 android:layout_width="2dp"
                 android:layout_height="50dp"
                 android:layout_alignLeft="@+id/editText2"
-                android:layout_below="@+id/editText4"
+                android:layout_below="@+id/editText3"
                 android:background="#007a3e0a" />
 
             <EditText
                 android:id="@+id/editText7"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText5"
-                android:layout_below="@+id/editText5"
+                android:layout_alignRight="@+id/editText3"
+                android:layout_below="@+id/editText3"
                 android:layout_marginTop="2dp"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/date_icon"
@@ -176,9 +159,9 @@
                 android:id="@+id/editText8"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText7"
                 android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/textView4"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/gender_icon"
                 android:ems="10"
@@ -186,30 +169,16 @@
                 android:hint="Gender"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
-
-            <EditText
-                android:id="@+id/editText9"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText5"
-                android:layout_below="@+id/editText8"
-                android:layout_marginTop="2dp"
-                android:background="#30ffffff"
-                android:drawableLeft="@drawable/phone_icon"
-                android:ems="10"
-                android:hint="Phone number"
-                android:inputType="textCapCharacters"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText10"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText5"
-                android:layout_below="@+id/editText9"
+                android:layout_below="@+id/editText8"
                 android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/textView4"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/service_icon"
                 android:ems="10"
@@ -224,9 +193,9 @@
                 android:id="@+id/editText11"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignLeft="@+id/editText5"
                 android:layout_below="@+id/editText10"
                 android:layout_marginTop="2dp"
+                android:layout_toLeftOf="@+id/textView4"
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/occupied_icon"
                 android:ems="10"
@@ -234,27 +203,17 @@
                 android:hint="Occupation"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/View01"
-                android:layout_alignRight="@+id/editText5"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/right_icon" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignBottom="@+id/editText4"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/lock_icon" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/editText3"
+                android:layout_alignRight="@+id/editText3"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/info_icon" />
         </RelativeLayout>
     </ScrollView>
 

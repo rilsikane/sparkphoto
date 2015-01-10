@@ -207,6 +207,10 @@
             android:name="com.application.sparkapp.SettingPinValidateMainActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name="com.application.sparkapp.YourDetailActivity"
+            android:screenOrientation="portrait">
+            
+        </activity>
     </application>
 
 </manifest>
