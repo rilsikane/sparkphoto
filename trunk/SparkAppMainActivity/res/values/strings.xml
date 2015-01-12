@@ -7,7 +7,7 @@
     <string name="title_activity_sign_up_page_one_main">SignUpPageOneMainActivity</string>
     <string name="signup_text">SIGN UP</string>
     <string name="next_text">Next</string>
-    <string name="signup_desc_text">Please fill in the following fields for us to mail the photos to you.</string>
+    <string name="signup_desc_text">Please fill in following fields to create your new SPARK account.</string>
     <string name="shippping_desc_text">Please confirm the following details before completing your order.</string>
     <string name="shippping_address_desc_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>
     <string name="signup_addr_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>

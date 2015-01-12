@@ -81,7 +81,8 @@
                 android:hint="Name:"
                 android:padding="10dp"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/editText4"
@@ -95,7 +96,8 @@
                 android:hint="Phone:"
                 android:padding="10dp"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/View01"
@@ -115,6 +117,7 @@
                 android:ems="10"
                 android:hint="Email:"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 

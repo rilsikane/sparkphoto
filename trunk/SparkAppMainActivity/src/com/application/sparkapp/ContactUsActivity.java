@@ -62,7 +62,7 @@ public class ContactUsActivity extends Activity {
 		msg = (EditText) findViewById(R.id.editText9);
 		
 		title.addTextChangedListener(new EditTextWatcher(title, "Please enter title"));
-		subject.addTextChangedListener(new EditTextWatcher(subject, "Please enter subject"));
+//		subject.addTextChangedListener(new EditTextWatcher(subject, "Please enter subject"));
 		name.addTextChangedListener(new EditTextWatcher(name, "Please enter name"));
 		email.addTextChangedListener(new EditTextWatcher(email, "Please enter phone"));
 		phone.addTextChangedListener(new EditTextWatcher(phone, "Please enter password"));
