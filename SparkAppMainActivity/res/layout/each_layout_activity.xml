@@ -35,9 +35,10 @@
             android:layout_alignTop="@+id/view2"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/view2"
+            android:lines="2"
             android:text="ORDER003 is on its way to your address Thank you for using our service."
             android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -47,7 +48,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/view2"
-            android:text="STATUS:"
+            android:text="STATUS:\u0020"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
