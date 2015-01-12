@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -42,6 +43,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.application.sparkapp.AddressSettingPageActivity.EditProfileData;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -49,6 +51,7 @@ import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.roscopeco.ormdroid.Entity;
 
+@SuppressLint("NewApi")
 public class ShippingAddressActivity extends Activity {
 	private Utils utils;
 	private ImageView goToPreviousPage;
@@ -60,6 +63,7 @@ public class ShippingAddressActivity extends Activity {
 	int progress = 0;
 	private UserVO user;
 	private List<String> fileList = new ArrayList<String>();
+	private UserDto userDto;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class ShippingAddressActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_shipping_address);
 		System.gc();
+		
 		utils = new Utils(this, this);
 		utils.setupUI(findViewById(R.id.imageGuid));
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
@@ -82,7 +87,11 @@ public class ShippingAddressActivity extends Activity {
 		address_unit_number1 = (EditText) findViewById(R.id.editText7);
 		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
-        
+		
+		if(getIntent().hasExtra("userDto")){
+			userDto = getIntent().getExtras().getParcelable("userDto");
+		}
+		
 		address_unit_number1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
 		address_unit_number1.addTextChangedListener(new TextWatcher() {		
 			
@@ -172,23 +181,47 @@ public class ShippingAddressActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final Dialog dialog = new Dialog(ShippingAddressActivity.this);
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				dialog.setContentView(R.layout.custom_loading_dialog);
-				RelativeLayout closeDialog =  (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
-				pw_two = (ProgressWheel) dialog.findViewById(R.id.progressBarTwo);
 				
-				closeDialog.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						dialog.dismiss();
-						
+				
+				if (Utils.isNotEmpty(address_street_name.getText().toString())&& Utils.isNotEmpty(address_postal.getText().toString())) {
+					if(getIntent().hasExtra("userDto")){
+					userDto.setAddress_block(address_block.getText().toString());
+					userDto.setAddress_street_name(address_street_name.getText().toString());
+					if(Utils.isNotEmpty(address_unit_number1.getText().toString()) && Utils.isNotEmpty(address_unit_number2.getText().toString())){
+					String unitNumber = address_unit_number1.getText().toString()+"-"+address_unit_number2.getText().toString();
+					userDto.setAddress_unit_number(Utils.isNotEmpty(unitNumber)?unitNumber:"");
 					}
-				});
-				dialog.show();
-				new UploadImage(dialog).execute();
+					userDto.setAddress_postal(address_postal.getText().toString());
+					
+					new EditProfileData().execute();
+					
+					}else{
+						final Dialog dialog = new Dialog(ShippingAddressActivity.this);
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.custom_loading_dialog);
+						RelativeLayout closeDialog =  (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
+						pw_two = (ProgressWheel) dialog.findViewById(R.id.progressBarTwo);
+						
+						closeDialog.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								dialog.dismiss();
+								
+							}
+						});
+						dialog.show();
+						new UploadImage(dialog).execute();
+					}
+					
+				}else if(address_street_name.getText().toString().isEmpty()){
+					address_street_name.setError("Please enter Street name");
+				}else if(address_postal.getText().toString().isEmpty()){
+					address_postal.setError("Please enter Postal code");
+				}
+				
+				
 				
 			}
 		});
@@ -378,6 +411,97 @@ public class ShippingAddressActivity extends Activity {
 			isNotNull = false;
 		}
 		return isNotNull;
+	}
+	
+	public class EditProfileData extends AsyncTask<String, Void, CommonDto>
+			implements OnCancelListener {
+		ProgressHUD mProgressHUD;
+
+		@Override
+		protected void onPreExecute() {
+			mProgressHUD = ProgressHUD.show(ShippingAddressActivity.this,
+					"Loading ...", true, true, this);
+			super.onPreExecute();
+		}
+
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
+					userDto, "debug", false);
+			return common;
+		}
+
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (result.isFlag()) {
+					user.ydFlag = "T";
+					user.address_block = userDto.getAddress_block();
+					user.address_postal = userDto.getAddress_postal();
+					user.address_street_name = userDto.getAddress_street_name();
+					user.address_unit_number = userDto.getAddress_unit_number();
+					user.save();
+					mProgressHUD.dismiss();
+					final Dialog dialog = new Dialog(ShippingAddressActivity.this);
+					pw_two = (ProgressWheel) dialog.findViewById(R.id.progressBarTwo);
+					//dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+					dialog.setContentView(R.layout.custom_loading_dialog);
+					RelativeLayout closeDialog =  (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
+					closeDialog.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+							
+						}
+					});
+					dialog.show();
+					new UploadImage(dialog).execute();
+				} else {
+					AlertDialog.Builder builder1 = new AlertDialog.Builder(
+							ShippingAddressActivity.this);
+
+					String[] msgs = result.getMsg().replaceAll("\\[", "")
+							.replaceAll("\\]", "").split("\\.");
+					if (msgs != null && msgs.length > 0) {
+						String msg = "Error: please try again. "
+								+ System.getProperty("line.separator");
+						if (msgs != null && msgs.length > 0) {
+							for (String ms : msgs) {
+								msg += ("-" + ms.replaceFirst(",", "") + System
+										.getProperty("line.separator"));
+							}
+
+						}
+						builder1.setMessage(msg);
+					}
+					builder1.setCancelable(true);
+					builder1.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert11 = builder1.create();
+					alert11.show();
+				}
+				mProgressHUD.dismiss();
+			} else {
+				mProgressHUD.dismiss();
+			}
+
+		}
+
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
 	}
 
 }

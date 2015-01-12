@@ -93,7 +93,7 @@ public class TermOfUseMainActivity extends Activity {
 		@Override
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			CommonDto common = JSONParserForGetList.getInstance().Register(
+			CommonDto common = JSONParserForGetList.getInstance().Register2(
 					userDto);
 			return common;
 		}
@@ -119,6 +119,7 @@ public class TermOfUseMainActivity extends Activity {
 									  user.id = 1;
 									  user.tutorial = "";
 									  user.status = "A";
+									  user.ydFlag = "F";
 									  user.save();
 //					                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
 //					  				  startActivity(i);

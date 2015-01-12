@@ -109,6 +109,41 @@ public class JSONParserForGetList {
 		}
          return commonDto;
 	}
+	public CommonDto Register2(UserDto userDto){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "register2"));
+         nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
+         nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
+         nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
+         nameValuePairs.add(new BasicNameValuePair("token_otp", ""));
+         nameValuePairs.add(new BasicNameValuePair("user_validate_code", ""));
+         nameValuePairs.add(new BasicNameValuePair("confirm_term_of_use", userDto.isConfrim()+""));
+         
+         
+         if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+        	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
+         }
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_REGISTER, nameValuePairs);
+         
+         if(!json.isNull("success")){
+        	 commonDto.setFlag(true);
+        	 commonDto.setToken(json.getString("app_access_token"));
+         }else{
+        	 commonDto.setFlag(false);
+        	 if(!json.isNull("message")){
+        	 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
+        	 }else{
+             commonDto.setMsg("An error occur, Please try a again later.");	 
+        	 }
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
+	}
 	public CommonDto EditProfile(UserDto userDto,String debug,boolean changePhone){
 		CommonDto commonDto = new CommonDto();
 		try{
@@ -432,6 +467,65 @@ public class JSONParserForGetList {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
+		
+	}
+	public CommonDto forgotPswd(String email){
+		CommonDto commonDto = null;
+		try{
+			 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				  nameValuePairs = new ArrayList<NameValuePair>(2);
+			      nameValuePairs.add(new BasicNameValuePair("method", "forgotPassword"));
+			      nameValuePairs.add(new BasicNameValuePair("email", email));
+			      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+			      
+			      if(!jsUser.isNull("success")){
+			    	 commonDto = new CommonDto();
+			    	 commonDto.setFlag(true);
+			      }else{
+			    	  commonDto = new CommonDto();
+			    	  commonDto.setFlag(false);
+			    	  commonDto.setMsg(jsUser.getString("message"));
+			      }
+			      
+				  
+	         
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return commonDto;
+		
+	}
+	public CommonDto contactUs(String name,String phone,String email,String subject,String msg,String ac){
+		CommonDto commonDto = null;
+		try{
+			 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				  nameValuePairs = new ArrayList<NameValuePair>(2);
+			      nameValuePairs.add(new BasicNameValuePair("method", "requestContact"));
+			      nameValuePairs.add(new BasicNameValuePair("name", name));
+			      nameValuePairs.add(new BasicNameValuePair("phone", phone));
+			      nameValuePairs.add(new BasicNameValuePair("email", email));
+			      nameValuePairs.add(new BasicNameValuePair("subject", subject));
+			      nameValuePairs.add(new BasicNameValuePair("message", msg));
+			      nameValuePairs.add(new BasicNameValuePair("ac", ac));
+			      JSONObject jsUser = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+			      
+			      if(!jsUser.isNull("success")){
+			    	 commonDto = new CommonDto();
+			    	 commonDto.setFlag(true);
+			      }else{
+			    	  commonDto = new CommonDto();
+			    	  commonDto.setFlag(false);
+			    	  commonDto.setMsg(jsUser.getString("message"));
+			      }
+			      
+				  
+	         
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return commonDto;
 		
 	}
 	

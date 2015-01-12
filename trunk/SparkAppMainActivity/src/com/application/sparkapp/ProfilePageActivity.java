@@ -403,8 +403,6 @@ public class ProfilePageActivity extends Activity {
 				email.setText(result.getEmail());
 				changePass.setText(result.getPassword());
 				phoneno.setText(result.getPhone());
-				service.setText(Utils.isNotEmpty(result.getPhone_service()) ? service_items[ 
-						Integer.parseInt(result.getPhone_service())-1]:"");
 				occuption.setText(Utils.isNotEmpty(result.getOccupation())? 
 						occ_items[Integer.parseInt(result.getOccupation())]:"");
 				occSel = Utils.isNotEmpty(result.getOccupation())?Integer.parseInt(result.getOccupation()):0;
