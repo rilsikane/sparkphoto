@@ -117,8 +117,8 @@ public class JSONParserForGetList {
          nameValuePairs.add(new BasicNameValuePair("email", userDto.getEmail()));
          nameValuePairs.add(new BasicNameValuePair("password", userDto.getPassword()));
          nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
-         nameValuePairs.add(new BasicNameValuePair("token_otp", ""));
-         nameValuePairs.add(new BasicNameValuePair("user_validate_code", ""));
+         nameValuePairs.add(new BasicNameValuePair("token_otp", userDto.getOtp_token()));
+         nameValuePairs.add(new BasicNameValuePair("user_validate_code", userDto.getUser_validateCode()));
          nameValuePairs.add(new BasicNameValuePair("confirm_term_of_use", userDto.isConfrim()+""));
          
          
@@ -179,7 +179,9 @@ public class JSONParserForGetList {
          
          if(!json.isNull("success")){
         	 commonDto.setFlag(true);
-        	 commonDto.setToken(json.getString("app_access_token"));
+        	 if(!json.isNull("app_access_token")){
+        		 commonDto.setToken(json.getString("app_access_token"));
+        	 }
          }else{
         	 commonDto.setFlag(false);
         	 if(!json.isNull("message")){

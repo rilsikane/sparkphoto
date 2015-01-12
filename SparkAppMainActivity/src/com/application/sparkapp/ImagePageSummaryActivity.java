@@ -114,7 +114,8 @@ public class ImagePageSummaryActivity extends Activity {
 		ImageView captureMoreImage = (ImageView) findViewById(R.id.imageView2);
 		ImageView addMoreImage = (ImageView) findViewById(R.id.imageView3);
 		statusBar = findViewById(R.id.statusBar);
-		statusBar.setBackgroundColor(Color.GREEN);
+		
+		statusBar.setBackgroundColor(Color.RED);
 		
 		addMoreImage.setOnClickListener(new OnClickListener() {
 			
@@ -138,7 +139,7 @@ public class ImagePageSummaryActivity extends Activity {
 					dialog.setContentView(R.layout.custom_select_img);	
 					RelativeLayout closeDialog = (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
 					ImageView photoFromSD = (ImageView) dialog.findViewById(R.id.imageView1);
-					ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
+//					ImageView facebookBtn = (ImageView) dialog.findViewById(R.id.imageView2);
 //					ImageView dropBoxBtn = (ImageView) dialog.findViewById(R.id.imageView3);
 					closeDialog.setOnClickListener(new OnClickListener() {
 						
@@ -177,75 +178,75 @@ public class ImagePageSummaryActivity extends Activity {
 							}
 						}
 					});
-					facebookBtn.setOnClickListener(new OnClickListener() {
-						
-						@SuppressWarnings("deprecation")
-						@Override
-						public void onClick(View v) {
-							if(nextTimeCanUpload){
-								session = Session.getActiveSession();
-							if (session!=null) {
-								mProgressHUD= ProgressHUD.show(ImagePageSummaryActivity.this,"Loading ...", true,true,new OnCancelListener() {
-									
-									@Override
-									public void onCancel(DialogInterface dialog) {
-										// TODO Auto-generated method stub
-										mProgressHUD.dismiss();
-									}
-								});
-								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-			                         @Override
-			                         public void onCompleted(GraphUser user, Response response) {
-
-			                        	  if (user != null) {
-			                        		  if (hasPhotoPermissions()){
-			                        		    mProgressHUD.dismiss();
-						                        session.getAccessToken();				                        
-						                        user.getFirstName();
-						                        user.getId();
-						                        user.getName();
-						                        //Facebook API:https://developers.facebook.com/tools/explorer/
-						                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
-						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
-						                        i.putExtra("facebookUserId", user.getId());
-						                        i.putExtra("loadImageState", 0);
-			                                    startActivity(i);
-			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-			                                    finish();
-			                        		  }else{
-			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(ImagePageSummaryActivity.this, "user_photos"));
-			                        		  }
-						                    }			                             
-			                         }   
-			                     }); 
-			                     Request.executeBatchAsync(request);
-					        }else{
-					        	
-				                    // Ask for username and password
-				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
-	
-				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
-				                    op.setCallback(null);
-	
-				                    List<String> permissions = new ArrayList<String>();
-				                    permissions.add("publish_stream");
-				                    permissions.add("user_likes");
-				                    permissions.add("email");
-				                    permissions.add("user_birthday");
-				                    permissions.add("user_photos");
-				                    op.setPermissions(permissions);
-	
-				                    Session session = new Builder(ImagePageSummaryActivity.this).build();
-				                    Session.setActiveSession(session);
-				                    session.openForPublish(op);
-				                
-					        	}
-							}else{
-								showPerkDialog();
-							}
-						}
-					});
+//					facebookBtn.setOnClickListener(new OnClickListener() {
+//						
+//						@SuppressWarnings("deprecation")
+//						@Override
+//						public void onClick(View v) {
+//							if(nextTimeCanUpload){
+//								session = Session.getActiveSession();
+//							if (session!=null) {
+//								mProgressHUD= ProgressHUD.show(ImagePageSummaryActivity.this,"Loading ...", true,true,new OnCancelListener() {
+//									
+//									@Override
+//									public void onCancel(DialogInterface dialog) {
+//										// TODO Auto-generated method stub
+//										mProgressHUD.dismiss();
+//									}
+//								});
+//								Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+//
+//			                         @Override
+//			                         public void onCompleted(GraphUser user, Response response) {
+//
+//			                        	  if (user != null) {
+//			                        		  if (hasPhotoPermissions()){
+//			                        		    mProgressHUD.dismiss();
+//						                        session.getAccessToken();				                        
+//						                        user.getFirstName();
+//						                        user.getId();
+//						                        user.getName();
+//						                        //Facebook API:https://developers.facebook.com/tools/explorer/
+//						                        Intent i = new Intent(ImagePageSummaryActivity.this, ImageListActivity.class);
+//						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+//						                        i.putExtra("facebookUserId", user.getId());
+//						                        i.putExtra("loadImageState", 0);
+//			                                    startActivity(i);
+//			                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//			                                    finish();
+//			                        		  }else{
+//			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(ImagePageSummaryActivity.this, "user_photos"));
+//			                        		  }
+//						                    }			                             
+//			                         }   
+//			                     }); 
+//			                     Request.executeBatchAsync(request);
+//					        }else{
+//					        	
+//				                    // Ask for username and password
+//				                    OpenRequest op = new Session.OpenRequest(ImagePageSummaryActivity.this);
+//	
+//				                    op.setLoginBehavior(SessionLoginBehavior.SSO_WITH_FALLBACK);
+//				                    op.setCallback(null);
+//	
+//				                    List<String> permissions = new ArrayList<String>();
+//				                    permissions.add("publish_stream");
+//				                    permissions.add("user_likes");
+//				                    permissions.add("email");
+//				                    permissions.add("user_birthday");
+//				                    permissions.add("user_photos");
+//				                    op.setPermissions(permissions);
+//	
+//				                    Session session = new Builder(ImagePageSummaryActivity.this).build();
+//				                    Session.setActiveSession(session);
+//				                    session.openForPublish(op);
+//				                
+//					        	}
+//							}else{
+//								showPerkDialog();
+//							}
+//						}
+//					});
 					dialog.show();
 				}
 			}
@@ -548,9 +549,9 @@ public class ImagePageSummaryActivity extends Activity {
 			}
 				picCount.setText(picCt+"");
 				if(picCt==total){
-					statusBar.setBackgroundColor(Color.RED);
-				}else{
 					statusBar.setBackgroundColor(Color.GREEN);
+				}else{
+					statusBar.setBackgroundColor(Color.RED);
 				}
 			}
 			
@@ -566,12 +567,13 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(val.getText().toString().equals("1")){
-					statusBar.setBackgroundColor(Color.GREEN);
+					
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setTitle("Delete Confirmation")
 				    .setMessage("Do you want to delete this item?")
 				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int which) {
+				        	statusBar.setBackgroundColor(Color.RED);
 				        	picCt--;
 				        	tempList.remove(temp);
 				        	LoadListAdapter adapter = new LoadListAdapter(tempList);
@@ -606,7 +608,7 @@ public class ImagePageSummaryActivity extends Activity {
 				}
 				
 				picCount.setText(picCt+"");
-				statusBar.setBackgroundColor(Color.GREEN);
+				statusBar.setBackgroundColor(Color.RED);
 			}
 			
 		}
@@ -784,6 +786,9 @@ public class ImagePageSummaryActivity extends Activity {
 							
 						}
 						picCount.setText(picCt+"");
+						if(picCt==total){
+							statusBar.setBackgroundColor(Color.GREEN);
+						}
 					}
 					
 				}
