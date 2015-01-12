@@ -91,7 +91,7 @@ public class ImagePageSummaryActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_page_summary);
 		System.gc();
-		UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		user = Entity.query(UserVO.class).where("id").eq(1).execute();
 		if(user!=null){
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 		}
@@ -311,10 +311,18 @@ public class ImagePageSummaryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(picCt==total){
-				Intent i = new Intent(ImagePageSummaryActivity.this,YourDetailActivity.class);
-				startActivity(i);
-				overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-				finish();
+					if(!Utils.isNotEmpty(user.ydFlag) || !"T".equals(user.ydFlag)){
+						Intent i = new Intent(ImagePageSummaryActivity.this,YourDetailActivity.class);
+						startActivity(i);
+						overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+						finish();
+					}else{
+						Intent i = new Intent(ImagePageSummaryActivity.this,ShippingAddressActivity.class);
+						startActivity(i);
+						overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+						finish();
+					}
+				
 				}else{
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setTitle("You aren’t done yet! ")

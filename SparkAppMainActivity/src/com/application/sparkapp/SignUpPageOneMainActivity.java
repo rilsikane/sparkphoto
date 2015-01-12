@@ -350,22 +350,13 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				if (utils.isNotEmpty(gender.getText().toString())
-						&& utils.isNotEmpty(dob.getText().toString())
-						&& utils.isNotEmpty(occuption.getText().toString())
-						&& utils.isNotEmpty(service.getText().toString())
-						&& utils.isNotEmpty(phoneno.getText().toString())
+				if ( utils.isNotEmpty(phoneno.getText().toString())
 						&& utils.isNotEmpty(email.getText().toString())
-						&& utils.isNotEmpty(nric.getText().toString())
-						&& utils.isNotEmpty(lastname.getText().toString())
-						&& utils.isNotEmpty(firstname.getText().toString())
 						&& utils.isNotEmpty(password.getText().toString())
 						&& utils.isNotEmpty(cfPassword.getText().toString())) {
 					if (!cfPassword.getText().toString().equals(password.getText().toString())) {
 						cfPassword.setError("Passwords do not match");
 					} else {
-						userDto.setFirstname(firstname.getText().toString());
-						userDto.setLastname(lastname.getText().toString());
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setPassword(password.getText().toString());
 						userDto.setEmail(email.getText().toString());
@@ -373,22 +364,9 @@ public class SignUpPageOneMainActivity extends Activity {
 							userDto.setOtp_token(null);
 						}
 						userDto.setPhone(phoneno.getText().toString());
-						userDto.setPhone_service(servSel+"");
-						userDto.setOccupation(occSel+"");
-						userDto.setBirthday(dob.getText().toString());
-						userDto.setGender("Male".equals(gender.getText().toString()) ? "1" : "2");
 						new InitAndLoadData().execute();
 						
 					}
-				}
-				if (firstname.getText().toString().isEmpty()) {
-					firstname.setError("Please enter first name");
-				}
-				if (lastname.getText().toString().isEmpty()) {
-					lastname.setError("Please enter last name");
-				}
-				if (nric.getText().toString().isEmpty()) {
-					nric.setError("Please enter NRIC/FIN");
 				}
 				if (email.getText().toString().isEmpty()) {
 					email.setError("Please enter Email");
@@ -399,20 +377,8 @@ public class SignUpPageOneMainActivity extends Activity {
 				if (cfPassword.getText().toString().isEmpty()) {
 					cfPassword.setError("Please enter confirm password");
 				}
-				if (dob.getText().toString().isEmpty()) {
-					dob.setError("Please select Date of Birth");
-				}
-				if (gender.getText().toString().isEmpty()) {
-					gender.setError("Please select Gender");
-				}
 				if (phoneno.getText().toString().isEmpty()) {
 					phoneno.setError("Please enter Phone Number");
-				}
-				if (service.getText().toString().isEmpty()) {
-					service.setError("Please select Service");
-				}
-				if (occuption.getText().toString().isEmpty()) {
-					occuption.setError("Please select Occupation");
 				}
 			}
 		});
@@ -494,7 +460,7 @@ public class SignUpPageOneMainActivity extends Activity {
 		@Override
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			CommonDto common = JSONParserForGetList.getInstance().Register(
+			CommonDto common = JSONParserForGetList.getInstance().Register2(
 					userDto);
 			return common;
 		}
@@ -505,12 +471,41 @@ public class SignUpPageOneMainActivity extends Activity {
 			if (result != null && utils.isNotEmpty(result.getMsg())) {
 			String[] msgs = result.getMsg().replaceAll("\\[", "")
 					.replaceAll("\\]", "").split("\\.");
-				if (checkAddres(msgs)) {
-					Intent i = new Intent(SignUpPageOneMainActivity.this,AddressMainActivity.class);
+				if (contains(msgs, "otp") || contains(msgs, "term")) {
+					CommonDto commonDto = JSONParserForGetList.getInstance().getOTP(userDto);
+					if(commonDto.isFlag()){
+					userDto.setOtp_token(commonDto.getToken());
+					Intent i = new Intent(SignUpPageOneMainActivity.this,PinValidateMainActivity.class);
 					i.putExtra("userDto", (Parcelable) userDto);
 					startActivity(i);
 					overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
 					finish();
+					}else if(commonDto.getMsg()!=null){
+						String[] errMsgs = commonDto.getMsg().replaceAll("\\[", "").replaceAll("\\]", "").split("\\.");
+						AlertDialog.Builder builder1 = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+						if(errMsgs!=null && errMsgs.length>0){
+							String msg = "Error: please try again. "+System.getProperty("line.separator");
+							if(errMsgs!=null && errMsgs.length>0){
+								for(String ms : errMsgs){
+									msg += ("-"+ms.replaceFirst(",", "")+System.getProperty("line.separator"));
+								}
+							
+							}
+							builder1.setMessage(msg);
+						}
+						builder1.setCancelable(true);
+						builder1.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+									}
+								});
+						AlertDialog alert11 = builder1.create();
+						alert11.show();
+					
+					
+				}
 				} else {
 					AlertDialog.Builder builder1 = new AlertDialog.Builder(
 							SignUpPageOneMainActivity.this);
@@ -592,5 +587,14 @@ public class SignUpPageOneMainActivity extends Activity {
 		
 		pwMyPopWindow2.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bg_popupwindow_3));
 		pwMyPopWindow2.setOutsideTouchable(true);
+	}
+	public static  boolean contains(final String[] array, final String v) {
+	    if (v != null) {
+	        for (final String e : array)
+	            if (e.contains(v))
+	                return true;
+	    } 
+
+	    return false;
 	}
 }

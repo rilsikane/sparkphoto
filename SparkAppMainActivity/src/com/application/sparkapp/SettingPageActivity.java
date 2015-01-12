@@ -83,6 +83,7 @@ public class SettingPageActivity extends Activity {
 				             	}
 				             }
 				             user.status = "D";
+				             user.ydFlag = "F";
 				             user.save();
 			        	}
 			        	 

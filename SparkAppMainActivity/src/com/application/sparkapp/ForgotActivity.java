@@ -1,5 +1,7 @@
 package com.application.sparkapp;
 
+import org.w3c.dom.Text;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -24,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.ForgotActivity.ForgotPassword;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -33,11 +34,10 @@ import com.facebook.Session;
 import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("NewApi")
-public class EmailLoginActivity extends Activity {
+public class ForgotActivity extends Activity {
 	private Utils utils;
 	private EditText email,password;
-	private Button btnLogin;
-	private TextView fogotPswd;
+	private TextView btnSend;
 	private static String PAGE_FROM = "emailLogin";
 	@SuppressWarnings("deprecation")
 	@Override
@@ -46,17 +46,15 @@ public class EmailLoginActivity extends Activity {
 		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
 		 requestWindowFeature(Window.FEATURE_NO_TITLE);
 	     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_email_login);
+		setContentView(R.layout.activity_forgot_pwd);
 		System.gc();
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		utils = new Utils(this, this);
 		int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
-        btnLogin = (Button) findViewById(R.id.textView2);
+        btnSend = (TextView) findViewById(R.id.textView2);
         email = (EditText) findViewById(R.id.editText3);
-        password = (EditText) findViewById(R.id.editText4);
-        fogotPswd = (TextView) findViewById(R.id.textView3);
         
 //        email.setText("test@gmail.com");
 //        password.setText("123456");
@@ -71,102 +69,81 @@ public class EmailLoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);				
+				Intent i = new Intent(ForgotActivity.this, EmailLoginActivity.class);				
 		        startActivity(i);
 		        finish();
 		        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			}
 		});
-        btnLogin.setOnClickListener(new OnClickListener() {
+        btnSend.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				UserDto user = new UserDto();
-				user.setEmail(email.getText().toString());
-				user.setPassword(password.getText().toString());
-				new InitAndLoadData(user).execute();
-			}
-		});
-        fogotPswd.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				  Intent i = new Intent(EmailLoginActivity.this,ForgotActivity.class);
-				  startActivity(i);
-				  finish();
-				  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				String emailTxt = email.getText().toString();
+				new InitAndLoadData(emailTxt).execute();
 			}
 		});
 	}
-	public class InitAndLoadData extends AsyncTask<String, Void, UserDto> implements OnCancelListener{
+	public class InitAndLoadData extends AsyncTask<String, Void, CommonDto> implements OnCancelListener{
 		ProgressHUD mProgressHUD;
-		UserDto user;
-		public InitAndLoadData(UserDto user){
-			this.user = user;
+		String emailTxt;
+		public InitAndLoadData(String emailTxt){
+			this.emailTxt = emailTxt;
 		}
     	@Override
     	protected void onPreExecute() {
-        	mProgressHUD = ProgressHUD.show(EmailLoginActivity.this,"Loading ...", true,true,this);
+        	mProgressHUD = ProgressHUD.show(ForgotActivity.this,"Loading ...", true,true,this);
     		super.onPreExecute();
     	}
 		@Override
-		protected UserDto doInBackground(String... params) {
+		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub			
 			
-			return JSONParserForGetList.getInstance().Login(user);
+			return JSONParserForGetList.getInstance().forgotPswd(emailTxt);
 		}
 		
 		@Override
-		protected void onPostExecute(UserDto result) {
+		protected void onPostExecute(CommonDto result) {
 			super.onPostExecute(result);
 			if (result != null) {
 					 try {
-						 
-					  UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
-					  if(user==null){
-						  user = new UserVO();
-						  user = user.convertDtoToVo(result);
-						  user.id = 1;
-						  user.tutorial = "";
-						  user.status = "A";
-						  user.save();
-						  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-						  i.putExtra("INTENT_FROM", PAGE_FROM);					  
-		                  startActivity(i);
-//		                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
-//		  				  startActivity(i);
-		                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-		                  finish();
-					  }else{
-						  if(("D".equals(user.tutorial)) || "I".equals(user.tutorial)){
-							  user = user.convertDtoToVo(result);
-							  user.id = 1;
-							  user.status = "A";
-							  user.save();
-							  Intent i = new Intent(EmailLoginActivity.this,TutorialPageOneActivity.class);
-							  startActivity(i);
-							  finish();
-							  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-							  mProgressHUD.dismiss();
-							  }else{
-								  user = user.convertDtoToVo(result);
-								  user.id = 1;
-								  user.status = "A";
-								  user.save();
-								  Intent i = new Intent(EmailLoginActivity.this,MainPhotoSelectActivity.class);
-								  startActivity(i);
-								  finish();
-								  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-								  mProgressHUD.dismiss();
-							  }
-					  }
+						 final AlertDialog.Builder builder1 = new AlertDialog.Builder(ForgotActivity.this);
+				            builder1.setCancelable(true);
+				            builder1.setMessage("Success!");
+				            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+				                public void onClick(DialogInterface dialog, int id) {
+				                    dialog.cancel();
+				                    Intent i = new Intent(ForgotActivity.this, EmailLoginActivity.class);				
+				    		        startActivity(i);
+				    		        finish();
+				    		        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				                }
+				            });
+				            AlertDialog alert11 = builder1.create();
+				            alert11.show();
+							mProgressHUD.dismiss();
 					
-					 } catch (Exception e) {
+					  }catch (Exception e) {
 						e.printStackTrace();
 					}
-			} else {
-				final AlertDialog.Builder builder1 = new AlertDialog.Builder(EmailLoginActivity.this);
-	            builder1.setMessage("Oops! Your email and password don’t match. Please try again");
+			} else if(Utils.isNotEmpty(result.getMsg())) {
+				final AlertDialog.Builder builder1 = new AlertDialog.Builder(ForgotActivity.this);
+				String[] msgs = result.getMsg().replaceAll("\\[", "")
+						.replaceAll("\\]", "").split("\\.");
+				if (msgs != null && msgs.length > 0) {
+					String msg = "Error: please try again. "
+							+ System.getProperty("line.separator");
+					if (msgs != null && msgs.length > 0) {
+						msg += "- ";
+						for (String ms : msgs) {
+							msg += ms.replaceFirst(",", "");
+						}
+
+					}
+					builder1.setMessage(msg);
+				}
+				
 	            builder1.setCancelable(true);
 	            builder1.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int id) {
@@ -187,11 +164,41 @@ public class EmailLoginActivity extends Activity {
 
 
 	}
-	
+	public class ForgotPassword extends AsyncTask<String, Void, CommonDto> implements OnCancelListener{
+		ProgressHUD mProgressHUD;
+    	@Override
+    	protected void onPreExecute() {
+        	mProgressHUD = ProgressHUD.show(ForgotActivity.this,"Loading ...", true,true,this);
+    		super.onPreExecute();
+    	}
+		@Override
+		protected CommonDto doInBackground(String... params) {
+			// TODO Auto-generated method stub			
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(CommonDto result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				
+			}
+
+			
+		}
+		@Override
+		public void onCancel(DialogInterface dialog) {
+			// TODO Auto-generated method stub
+			mProgressHUD.dismiss();
+		}
+
+
+	}
 	
 	@Override
 	public void onBackPressed(){
-		Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);		
+		Intent i = new Intent(ForgotActivity.this, SparkAppMainActivity.class);		
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
