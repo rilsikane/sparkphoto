@@ -258,7 +258,13 @@ public class YourDetailActivity extends Activity{
 					alert11.show();
 				}
 				mProgressHUD.dismiss();
-			} else {
+			}else if(result.isFlag()){
+				Intent i = new Intent(YourDetailActivity.this,ShippingAddressActivity.class);
+				i.putExtra("userDto", (Parcelable) userDto);
+				startActivity(i);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				finish();
+			}else {
 				mProgressHUD.dismiss();
 			}
 

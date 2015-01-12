@@ -80,7 +80,7 @@ public class ProfilePageActivity extends Activity {
 		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
 		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
 		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
-		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
+//		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
 //		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
 		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
 		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
@@ -275,8 +275,7 @@ public class ProfilePageActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (utils.isNotEmpty(gender.getText().toString())
-						&& utils.isNotEmpty(dob.getText().toString())						
-						&& utils.isNotEmpty(service.getText().toString())
+						&& utils.isNotEmpty(dob.getText().toString())	
 						&& utils.isNotEmpty(phoneno.getText().toString())
 						&& utils.isNotEmpty(email.getText().toString())
 						&& utils.isNotEmpty(nric.getText().toString())
@@ -289,7 +288,6 @@ public class ProfilePageActivity extends Activity {
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setEmail(email.getText().toString());
 						//userDto.setPhone(phoneno.getText().toString());
-						userDto.setPhone_service(servSel+"");
 						userDto.setOccupation(occSel+"");
 						userDto.setBirthday(dob.getText().toString());
 						userDto.setGender("Female".equals(gender.getText().toString()) ? "2" : "1");
@@ -340,9 +338,6 @@ public class ProfilePageActivity extends Activity {
 				}
 				if (phoneno.getText().toString().isEmpty()) {
 					phoneno.setError("Please enter Phone Number");
-				}
-				if (service.getText().toString().isEmpty()) {
-					service.setError("Please select Service");
 				}
 //				if (occuption.getText().toString().isEmpty()) {
 //					occuption.setError("Please select Occupation");
