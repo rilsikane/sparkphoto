@@ -211,6 +211,10 @@
             android:screenOrientation="portrait">
             
         </activity>
+         <activity android:name="com.application.sparkapp.ForgotActivity"
+            android:screenOrientation="portrait">
+            
+        </activity>
     </application>
 
 </manifest>
