@@ -1,6 +1,5 @@
 package com.application.sparkapp;
 
-import com.application.sparkapp.SignUpPageOneMainActivity.EditTextWatcher;
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
@@ -21,7 +20,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,7 +32,7 @@ import android.widget.TextView;
 @SuppressLint("NewApi")
 public class ContactUsActivity extends Activity {
 	private Utils utils;
-	private EditText subject,title,name,phone,email,msg;
+	private EditText subject,title,msg;
 	private int subSel;
 	private AlertDialog subDialog;
 	private TextView btnSend;
@@ -56,16 +54,16 @@ public class ContactUsActivity extends Activity {
 		title = (EditText) findViewById(R.id.editText10);
 		subject = (EditText) findViewById(R.id.editText8);
 		btnSend = (TextView) findViewById(R.id.textView2);
-		name = (EditText) findViewById(R.id.editText3);
-		phone = (EditText) findViewById(R.id.editText4);
-		email = (EditText) findViewById(R.id.editText7);
+//		name = (EditText) findViewById(R.id.editText3);
+//		phone = (EditText) findViewById(R.id.editText4);
+//		email = (EditText) findViewById(R.id.editText7);
 		msg = (EditText) findViewById(R.id.editText9);
 		
 		title.addTextChangedListener(new EditTextWatcher(title, "Please enter title"));
 //		subject.addTextChangedListener(new EditTextWatcher(subject, "Please enter subject"));
-		name.addTextChangedListener(new EditTextWatcher(name, "Please enter name"));
-		email.addTextChangedListener(new EditTextWatcher(email, "Please enter phone"));
-		phone.addTextChangedListener(new EditTextWatcher(phone, "Please enter password"));
+//		name.addTextChangedListener(new EditTextWatcher(name, "Please enter name"));
+//		email.addTextChangedListener(new EditTextWatcher(email, "Please enter phone"));
+//		phone.addTextChangedListener(new EditTextWatcher(phone, "Please enter password"));
 		msg.addTextChangedListener(new EditTextWatcher(msg, "Please enter confirm message"));
 		
 		subject.setInputType(0);
@@ -128,12 +126,7 @@ public class ContactUsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if ( utils.isNotEmpty(name.getText().toString())
-						&& utils.isNotEmpty(email.getText().toString())
-						&& utils.isNotEmpty(phone.getText().toString())
-						&& utils.isNotEmpty(email.getText().toString())
-						&& utils.isNotEmpty(subject.getText().toString())
-						&& utils.isNotEmpty(msg.getText().toString())) {
+				if (utils.isNotEmpty(msg.getText().toString())) {
 					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 					if(user!=null){
 						
@@ -145,20 +138,11 @@ public class ContactUsActivity extends Activity {
 						}
 						
 						UserDto userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
-						new InitAndLoadData(name.getText().toString(), phone.getText().toString(), 
-								email.getText().toString(), subjectTxt, msg.getText().toString(), 
+						new InitAndLoadData("","","",subjectTxt, msg.getText().toString(), 
 								userDto.getAccess_token()).execute();
 					}
 				}else{
-					if (email.getText().toString().isEmpty()) {
-						email.setError("Please enter Email");
-					} 
-					if (name.getText().toString().isEmpty()) {
-						name.setError("Please enter name");
-					}
-					if (phone.getText().toString().isEmpty()) {
-						phone.setError("Please enter phone");
-					}
+					
 					if (subject.getText().toString().isEmpty()) {
 						subject.setError("Please enter subject");
 					}
