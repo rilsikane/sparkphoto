@@ -80,6 +80,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/block_house_icon"
                 android:ems="10"
+                android:inputType="textCapCharacters"
                 android:hint="Block / House number"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -94,6 +95,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/street_icon"
                 android:ems="10"
+                android:inputType="textCapCharacters"
                 android:hint="Street name"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -130,6 +132,7 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/postal_code_icon"
                 android:ems="10"
+                android:inputType="textCapCharacters"
                 android:hint="Postal code"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
