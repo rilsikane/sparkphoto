@@ -234,7 +234,8 @@
                 android:hint="Occupation"
                 android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff" 
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/imageView2"
