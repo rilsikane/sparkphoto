@@ -43,11 +43,12 @@ public class YourDetailActivity extends Activity{
 	public Utils utils;
 	public ImageView backIcon,nricInfoIcon;
 	private PopupWindow pwMyPopWindow;
-	private EditText dob,firstname,lastname,nric;
+	private EditText dob,firstname,lastname,nric,gender;
 	private Calendar myCalendar;
 	private TextView goToNextPage;
 	private UserDto userDto;
 	private UserVO user;
+	private AlertDialog levelDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class YourDetailActivity extends Activity{
 		lastname =  (EditText) findViewById(R.id.editText2);
 		nric =  (EditText) findViewById(R.id.editText3);
 		dob = (EditText) findViewById(R.id.editText7);
+		gender = (EditText) findViewById(R.id.editText8);
 		
 		
 		new InitAndLoadData().execute();
@@ -79,19 +81,18 @@ public class YourDetailActivity extends Activity{
 				if (utils.isNotEmpty(dob.getText().toString())
 						&& utils.isNotEmpty(nric.getText().toString())
 						&& utils.isNotEmpty(lastname.getText().toString())
-						&& utils.isNotEmpty(firstname.getText().toString())) {
+						&& utils.isNotEmpty(firstname.getText().toString())
+						&&utils.isNotEmpty(gender.getText().toString())) {
 					
 						
 						userDto.setFirstname(firstname.getText().toString());
 						userDto.setLastname(lastname.getText().toString());
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setBirthday(dob.getText().toString());
+						userDto.setGender(gender.getText().toString());
 						
 						if(!utils.isNotEmpty(userDto.getOccupation())){
 							userDto.setOccupation("0");
-						}
-						if(!utils.isNotEmpty(userDto.getGender())){
-							userDto.setGender("0");
 						}
 						new EditProfileData().execute();
 						
@@ -109,6 +110,9 @@ public class YourDetailActivity extends Activity{
 				}
 				if (dob.getText().toString().isEmpty()) {
 					dob.setError("Please select Date of Birth");
+				}
+				if (gender.getText().toString().isEmpty()) {
+					dob.setError("Please select Gender");
 				}
 			}
 		});
@@ -139,6 +143,37 @@ public class YourDetailActivity extends Activity{
 						myCalendar.get(Calendar.YEAR), myCalendar
 								.get(Calendar.MONTH), myCalendar
 								.get(Calendar.DAY_OF_MONTH)).show();
+			}
+		});
+		
+		gender.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				final CharSequence[] items = { "Male", "Female" };
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						YourDetailActivity.this);
+				builder.setTitle("Select Genders");
+				builder.setSingleChoiceItems(items, -1,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								switch (item) {
+								case 0:
+									gender.setText(items[0]);
+									break;
+								case 1:
+									// Your code when 2nd option seletced
+									gender.setText(items[1]);
+									break;
+								}
+								levelDialog.dismiss();
+							}
+						});
+				levelDialog = builder.create();
+				levelDialog.show();
 			}
 		});
 		
@@ -307,6 +342,7 @@ public class YourDetailActivity extends Activity{
 				lastname.setText(result.getLastname());
 				nric.setText(result.getNric_fin());
 				dob.setText(result.getBirthday());
+				gender.setText("1".equals(result.getGender()) ? "Male" : "Female");
 				userDto = result;
 				mProgressHUD.dismiss();
 			}
