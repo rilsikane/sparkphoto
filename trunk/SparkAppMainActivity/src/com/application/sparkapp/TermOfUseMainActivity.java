@@ -24,6 +24,7 @@ import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.roscopeco.ormdroid.Entity;
 
 public class TermOfUseMainActivity extends Activity {
 	private static String PAGE_FROM = "touLogin";
@@ -112,9 +113,12 @@ public class TermOfUseMainActivity extends Activity {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
+									UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
 									UserDto dto = JSONParserForGetList.getInstance().Login(userDto);
 									dialog.cancel();
-									  UserVO user = new UserVO();
+									  if(user==null){
+									  user = new UserVO();
+									  }
 									  user = user.convertDtoToVo(dto);
 									  user.id = 1;
 									  user.tutorial = "";

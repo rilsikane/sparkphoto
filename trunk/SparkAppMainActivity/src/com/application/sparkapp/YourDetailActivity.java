@@ -89,7 +89,7 @@ public class YourDetailActivity extends Activity{
 						userDto.setLastname(lastname.getText().toString());
 						userDto.setNric_fin(nric.getText().toString());
 						userDto.setBirthday(dob.getText().toString());
-						userDto.setGender(gender.getText().toString());
+						userDto.setGender("Female".equals(gender.getText().toString()) ? "2" : "1");
 						
 						if(!utils.isNotEmpty(userDto.getOccupation())){
 							userDto.setOccupation("0");
@@ -342,7 +342,7 @@ public class YourDetailActivity extends Activity{
 				lastname.setText(result.getLastname());
 				nric.setText(result.getNric_fin());
 				dob.setText(result.getBirthday());
-				gender.setText("1".equals(result.getGender()) ? "Male" : "Female");
+				gender.setText(Utils.isNotEmpty(result.getGender()) ? "1".equals(result.getGender()) ? "Male" : "Female" : "");
 				userDto = result;
 				mProgressHUD.dismiss();
 			}

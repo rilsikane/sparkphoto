@@ -64,6 +64,7 @@ public class ShippingAddressActivity extends Activity {
 	private UserVO user;
 	private List<String> fileList = new ArrayList<String>();
 	private UserDto userDto;
+	private Dialog dialog;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class ShippingAddressActivity extends Activity {
 		utils = new Utils(this, this);
 		utils.setupUI(findViewById(R.id.imageGuid));
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
+		dialog = new Dialog(ShippingAddressActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.custom_loading_dialog);
 		
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.address_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
@@ -87,6 +91,11 @@ public class ShippingAddressActivity extends Activity {
 		address_unit_number1 = (EditText) findViewById(R.id.editText7);
 		address_unit_number2 = (EditText) findViewById(R.id.EditText01);
 		address_postal = (EditText) findViewById(R.id.editText8);
+		
+		
+		
+		
+		
 		
 		if(getIntent().hasExtra("userDto")){
 			userDto = getIntent().getExtras().getParcelable("userDto");
@@ -444,10 +453,9 @@ public class ShippingAddressActivity extends Activity {
 					user.address_unit_number = userDto.getAddress_unit_number();
 					user.save();
 					mProgressHUD.dismiss();
-					final Dialog dialog = new Dialog(ShippingAddressActivity.this);
+					
 					pw_two = (ProgressWheel) dialog.findViewById(R.id.progressBarTwo);
-					//dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialog.setContentView(R.layout.custom_loading_dialog);
+				
 					RelativeLayout closeDialog =  (RelativeLayout) dialog.findViewById(R.id.close_dialog_layout);
 					closeDialog.setOnClickListener(new OnClickListener() {
 						

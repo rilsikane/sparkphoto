@@ -322,7 +322,7 @@ public class ImageCropActivity extends Activity {
 				try {
 					fOut.flush();
 					fOut.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+					//MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
 					temp.path = file.getAbsolutePath();
 					
 					OutputStream fOut2 = null;
@@ -339,7 +339,7 @@ public class ImageCropActivity extends Activity {
 					bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut2);
 					fOut2.flush();
 					fOut2.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
+					//MediaStore.Images.Media.insertImage(getContentResolver(),tumb.getAbsolutePath(),tumb.getName(),tumb.getName());
 					temp.originPath = tumb.getAbsolutePath();
 					
 					fOut3 = new FileOutputStream(tmb);
@@ -351,7 +351,7 @@ public class ImageCropActivity extends Activity {
 					tempCrop.compress(Bitmap.CompressFormat.JPEG, 85, fOut3);
 					fOut3.flush();
 					fOut3.close();
-					MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
+					//MediaStore.Images.Media.insertImage(getContentResolver(),tmb.getAbsolutePath(),tmb.getName(),tmb.getName());
 					
 					temp.amt = "1";
 					temp.id = temp.getPk();				
