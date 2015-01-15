@@ -75,15 +75,15 @@ public class ProfilePageActivity extends Activity {
 		occuption = (EditText) findViewById(R.id.editText11);
 		gender = (EditText) findViewById(R.id.editText8);
 		dob = (EditText) findViewById(R.id.editText7);
-		
-		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
-		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
-		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
-		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
+//		
+//		firstname.addTextChangedListener(new EditTextWatcher(firstname, "Please enter first name"));
+//		lastname.addTextChangedListener(new EditTextWatcher(lastname, "Please enter last name"));
+//		nric.addTextChangedListener(new EditTextWatcher(nric, "Please enter NRIC/FIN"));
+//		phoneno.addTextChangedListener(new EditTextWatcher(phoneno, "Please enter Phone Number"));
 //		service.addTextChangedListener(new EditTextWatcher(service, "Please select Service"));
 //		occuption.addTextChangedListener(new EditTextWatcher(occuption, "Please select Occupation"));
-		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
-		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
+//		gender.addTextChangedListener(new EditTextWatcher(gender, "Please select Gender"));
+//		dob.addTextChangedListener(new EditTextWatcher(dob, "Please select Date of Birth"));
 		dob.setInputType(0);
 		new InitAndLoadData().execute();
 		
@@ -403,7 +403,7 @@ public class ProfilePageActivity extends Activity {
 				occSel = Utils.isNotEmpty(result.getOccupation())?Integer.parseInt(result.getOccupation()):0;
 				servSel =  Utils.isNotEmpty(result.getPhone_service())?Integer.parseInt(result.getPhone_service()):0;
 				dob.setText(result.getBirthday());
-				gender.setText("1".equals(result.getGender()) ? "Male" : "Female");
+				gender.setText(Utils.isNotEmpty(result.getGender()) ? "1".equals(result.getGender()) ? "Male" : "Female" : "");
 				userDto=result;
 				mProgressHUD.dismiss();
 			}
