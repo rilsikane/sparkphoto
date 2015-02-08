@@ -37,7 +37,7 @@ public class EmailLoginActivity extends Activity {
 	private Utils utils;
 	private EditText email,password;
 	private Button btnLogin;
-	private TextView fogotPswd;
+	private TextView fogotPswd, registerNow,registerLater;
 	private static String PAGE_FROM = "emailLogin";
 	@SuppressWarnings("deprecation")
 	@Override
@@ -57,12 +57,35 @@ public class EmailLoginActivity extends Activity {
         email = (EditText) findViewById(R.id.editText3);
         password = (EditText) findViewById(R.id.editText4);
         fogotPswd = (TextView) findViewById(R.id.textView3);
-        
+        registerNow = (TextView) findViewById(R.id.textView1);
+        registerLater = (TextView) findViewById(R.id.textView4);
+        registerNow.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(EmailLoginActivity.this, SignUpPageOneMainActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+		});
+        registerLater.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+		});
 //        email.setText("test@gmail.com");
 //        password.setText("123456");
 		utils = new Utils(getApplicationContext(), this);
         RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
-        BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.signup_background, screenWidth, screenHeight));
+        BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.login_bg_new, screenWidth, screenHeight));
         root_id.setBackgroundDrawable(ob);
         ImageView goBack = (ImageView) findViewById(R.id.imageView1);
         
