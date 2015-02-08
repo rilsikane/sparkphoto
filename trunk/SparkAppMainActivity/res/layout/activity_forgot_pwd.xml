@@ -21,7 +21,7 @@
             android:layout_marginLeft="20dp"
             android:src="@drawable/left_arrow" />
 
-		<TextView
+        <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="30sp" />
-		<TextView
+
+        <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,16 +44,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textSize="24sp" />
-
     </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout1"
+        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:scrollbars="none" >
 
         <RelativeLayout
@@ -83,5 +82,17 @@
                 android:background="#007a3e0a" />
         </RelativeLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Please enter your email for request new SPARK password."
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
 
 </RelativeLayout>

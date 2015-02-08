@@ -23,65 +23,42 @@
         android:layout_centerHorizontal="true"
         android:text="" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/photo_icon" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:text="Phone Gallery"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
-
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_below="@+id/textView2"
+        android:layout_height="150dp"
+        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp" >
 
-        <!-- <TextView -->
-        <!-- android:id="@+id/textView3" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_centerHorizontal="true" -->
-        <!-- android:layout_centerVertical="true" -->
-        <!-- android:text="" /> -->
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="" />
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="21dp"
+            android:layout_toLeftOf="@+id/textView3"
+            android:src="@drawable/select_image_from_facebook_icon" />
 
-        <!-- <ImageView -->
-        <!-- android:id="@+id/imageView2" -->
-        <!-- android:layout_width="80dp" -->
-        <!-- android:layout_height="80dp" -->
-        <!-- android:layout_centerVertical="true" -->
-        <!-- android:layout_marginRight="20dp" -->
-        <!-- android:layout_toLeftOf="@+id/textView3" -->
-        <!-- android:src="@drawable/select_image_from_facebook_icon" /> -->
-
-
-        <!-- <TextView -->
-        <!-- android:id="@+id/textView4" -->
-        <!-- android:layout_width="wrap_content" -->
-        <!-- android:layout_height="wrap_content" -->
-        <!-- android:layout_alignLeft="@+id/imageView2" -->
-        <!-- android:layout_below="@+id/imageView2" -->
-        <!-- android:layout_marginLeft="10dp" -->
-        <!-- android:text="Facebook" -->
-        <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
-        <!-- android:textColor="#ffffff" -->
-        <!-- android:textSize="18sp" /> -->
-
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageView2"
+            android:layout_below="@+id/imageView2"
+            android:layout_marginLeft="10dp"
+            android:text="Facebook"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
 
         <!-- <TextView -->
         <!-- android:id="@+id/textView5" -->
@@ -99,10 +76,32 @@
         <!-- android:id="@+id/imageView3" -->
         <!-- android:layout_width="80dp" -->
         <!-- android:layout_height="80dp" -->
-        <!-- android:layout_centerHorizontal="true" -->
-        <!-- android:layout_centerVertical="true" -->
+        <!-- android:layout_alignParentTop="true" -->
+        <!-- android:layout_marginLeft="21dp" -->
+        <!-- android:layout_toRightOf="@+id/textView3" -->
         <!-- android:src="@drawable/select_image_from_dropbox_icon" /> -->
 
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_above="@+id/textView4"
+            android:layout_marginLeft="21dp"
+            android:layout_toRightOf="@+id/textView3"
+            android:src="@drawable/photo_icon" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_marginLeft="18dp"
+            android:layout_toRightOf="@+id/textView3"
+            android:text="Phone Gallery"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout

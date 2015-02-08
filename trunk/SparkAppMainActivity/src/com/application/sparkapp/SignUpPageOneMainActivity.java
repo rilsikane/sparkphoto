@@ -388,8 +388,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(SignUpPageOneMainActivity.this,
-						SparkAppMainActivity.class);
+				Intent intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -405,8 +404,7 @@ public class SignUpPageOneMainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(SignUpPageOneMainActivity.this,
-				SparkAppMainActivity.class);
+		Intent intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();

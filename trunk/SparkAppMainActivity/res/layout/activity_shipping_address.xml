@@ -50,7 +50,7 @@
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/textView100"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:scrollbars="none" >
@@ -80,8 +80,8 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/block_house_icon"
                 android:ems="10"
-                android:inputType="textCapCharacters"
                 android:hint="Block / House number"
+                android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -95,8 +95,8 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/street_icon"
                 android:ems="10"
-                android:inputType="textCapCharacters"
                 android:hint="Street name"
+                android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -132,8 +132,8 @@
                 android:background="#30ffffff"
                 android:drawableLeft="@drawable/postal_code_icon"
                 android:ems="10"
-                android:inputType="textCapCharacters"
                 android:hint="Postal code"
+                android:inputType="textCapCharacters"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -176,6 +176,18 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/shippping_address_desc_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textView100"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/shippping_address_desc_text_2"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#ffffff"
         android:textSize="22sp" />

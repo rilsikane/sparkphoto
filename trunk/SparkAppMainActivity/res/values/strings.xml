@@ -9,7 +9,8 @@
     <string name="next_text">Next</string>
     <string name="signup_desc_text">Please fill in the following fields to create your new SPARK account.</string>
     <string name="shippping_desc_text">Please confirm the following details before completing your order.</string>
-    <string name="shippping_address_desc_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>
+    <string name="shippping_address_desc_text">Please confirm your mailing details.</string>
+    <string name="shippping_address_desc_text_2">This Service is only applicable for local postage.</string>
     <string name="signup_addr_text">Please confirm your mailing details.This Service is only applicable for local postage.</string>
     <string name="title_activity_address_main">AddressMainActivity</string>
     <string name="title_activity_pin_validate_main">PinValidateMainActivity</string>
