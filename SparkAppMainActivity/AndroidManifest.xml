@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustResize" >
         <activity
-            android:name="com.application.sparkapp.EmailLoginActivity"
+            android:name="com.application.sparkapp.SparkAppMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -113,11 +113,11 @@
             android:label="@string/title_activity_shipping_address"
             android:screenOrientation="portrait" >
         </activity>
-<!--         <activity -->
-<!--             android:name="com.application.sparkapp.SparkAppMainActivity" -->
-<!--             android:label="@string/title_activity_email_login" -->
-<!--             android:screenOrientation="portrait" > -->
-<!--         </activity> -->
+        <activity
+            android:name="com.application.sparkapp.EmailLoginActivity"
+            android:label="@string/title_activity_email_login"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name="com.application.sparkapp.TutorialPageOneActivity"
             android:label="@string/title_activity_tutorial_page_one"
