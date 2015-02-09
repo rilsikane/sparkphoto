@@ -123,6 +123,111 @@ public class SettingPageActivity extends Activity {
          overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
          finish();
 	}
+	public class MenuListAdapterForGuest extends BaseAdapter{
+		List<String> tempMenuList = new ArrayList<String>();
+		public MenuListAdapterForGuest(){
+			tempMenuList.add("Register");
+			tempMenuList.add("Terms of use");
+			tempMenuList.add("About us");
+			tempMenuList.add("FAQ");
+			tempMenuList.add("Contact us");	
+		}
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return tempMenuList.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return tempMenuList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			if(position==0||position==3||position==4||position==1||position==2){
+				convertView = inflater.inflate(R.layout.each_setting_one, null);
+				ImageView logoIc = (ImageView) convertView.findViewById(R.id.imageView1);
+				TextView menuName = (TextView) convertView.findViewById(R.id.textView1);
+				RelativeLayout settingClick = (RelativeLayout) convertView.findViewById(R.id.settingClick);
+				settingClick.setOnClickListener(new ManageSettingClickGuest(position));
+				menuName.setText(tempMenuList.get(position));
+				if(position==0){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.pen_icon));
+				}
+				if(position==1){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.term_ic));
+				}
+				if(position==2){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.aboutus_ic));
+				}
+				if(position==3){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.faq_ic));
+				}
+				if(position==4){
+					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.contactus_ic));
+				}
+				
+			}
+			return convertView;
+		}
+		
+	}
+	public class ManageSettingClickGuest implements OnClickListener{
+		private int position;
+		public ManageSettingClickGuest(int position){
+			this.position = position;
+		}
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			//Link to profile page
+			if(position==0){
+				Intent i = new Intent(SettingPageActivity.this, SignUpPageOneMainActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+			//Link to term of use page
+			if(position==1){
+				Intent i = new Intent(SettingPageActivity.this, TermOfUseSettingMainActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+			//Link to about page
+			if(position==2){
+				Intent i = new Intent(SettingPageActivity.this, AboutUsActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+			//Link to faq page
+			if(position==3){
+				Intent i = new Intent(SettingPageActivity.this, FaqActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+			//Link to contact us page
+			if(position==4){
+				Intent i = new Intent(SettingPageActivity.this, ContactUsActivity.class);				 
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+			}
+		}
+		
+	}
 	public class MenuListAdapter extends BaseAdapter{
 		List<String> tempMenuList = new ArrayList<String>();
 		public MenuListAdapter(){
