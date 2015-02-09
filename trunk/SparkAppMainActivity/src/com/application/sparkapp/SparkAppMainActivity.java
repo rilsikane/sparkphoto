@@ -1,5 +1,11 @@
 package com.application.sparkapp;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +20,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -61,7 +73,22 @@ public class SparkAppMainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_spark_app_main);
-        ORMDroidApplication.initialize(SparkAppMainActivity.this);
+        
+        if(isUpgrade()){
+        	ApplicationInfo ai;
+			try {
+				ai = getApplicationContext().getPackageManager().getApplicationInfo(getApplicationContext().getPackageName(), PackageManager.GET_META_DATA);
+				String mDBName = ai.metaData.get("ormdroid.database.name").toString();
+		        getApplicationContext().deleteDatabase(mDBName);
+		        ORMDroidApplication.initialize(SparkAppMainActivity.this);
+		        writeVersionDB();
+			} catch (NameNotFoundException e) {
+				e.printStackTrace();
+			}
+        }else{
+        	 ORMDroidApplication.initialize(SparkAppMainActivity.this);
+        }
+       
         
         System.gc();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -211,6 +238,8 @@ public class SparkAppMainActivity extends Activity {
             }
         });
     }
+	
+	
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
@@ -363,5 +392,59 @@ public class SparkAppMainActivity extends Activity {
 
 
 	}
+    public void writeVersionDB(){
+    	BufferedWriter out;    
+    	 try {
+    		File directory = new File(Environment.getExternalStorageDirectory()+ "/Spark/");
+			if (!directory.exists()) {
+					directory.mkdirs();
+			} 
+			FileWriter fileWriter= new FileWriter(Environment.getExternalStorageDirectory()+ "/Spark/version.txt");
+			out = new BufferedWriter(fileWriter);
+			PackageInfo packageInfo = SparkAppMainActivity.this.getPackageManager()
+				    .getPackageInfo(SparkAppMainActivity.this.getPackageName(), 0);
+				int versionCode = packageInfo.versionCode;
+			out.write(versionCode+"");
+
+			out.close(); 
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
+    }
+    public boolean isUpgrade(){
+    	boolean isUpgrade = false;
+    	File file = new File(Environment.getExternalStorageDirectory()+ "/Spark/version.txt");
+    	StringBuilder text = new StringBuilder();
+
+    	try {
+    		if(file!=null){
+    	    BufferedReader br = new BufferedReader(new FileReader(file));
+    	    String line;
+
+    	    while ((line = br.readLine()) != null) {
+    	        text.append(line);
+    	    }
+    	    br.close();
+    	    PackageInfo packageInfo = SparkAppMainActivity.this.getPackageManager()
+				    .getPackageInfo(SparkAppMainActivity.this.getPackageName(), 0);
+				int versionCode = packageInfo.versionCode;
+				String vCode= String.valueOf(versionCode);
+    	    if(!vCode.equals(text.toString())){
+    	    	isUpgrade=true;
+    	    }
+    	    
+    		}else{
+    			isUpgrade=true;
+    		}
+    	}
+    	catch (Exception e) {
+    		return true;
+    	}
+
+    	return isUpgrade;
+    }
     
 }
