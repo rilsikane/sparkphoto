@@ -133,7 +133,7 @@ public class ShippingAddressActivity extends Activity {
 				
 			}
 		});
-		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+		address_unit_number2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(5)});
 		address_unit_number2.addTextChangedListener(new TextWatcher() {		
 			
 			@Override
