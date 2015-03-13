@@ -342,6 +342,8 @@ public class ShippingAddressActivity extends Activity {
 			                    user = user.convertDtoToVo(userDto);
 			                    user.id = 1;
 								user.save();
+								
+								
 			                    Intent i = new Intent(ShippingAddressActivity.this,MainPhotoSelectActivity.class);
 								startActivity(i);
 								overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -436,7 +438,7 @@ public class ShippingAddressActivity extends Activity {
 		@Override
 		protected CommonDto doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			CommonDto common = JSONParserForGetList.getInstance().EditProfile(
+			CommonDto common = JSONParserForGetList.getInstance().EditAddress(
 					userDto, "debug", false);
 			return common;
 		}
