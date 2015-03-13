@@ -148,28 +148,60 @@ public class JSONParserForGetList {
 		CommonDto commonDto = new CommonDto();
 		try{
 		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-         nameValuePairs.add(new BasicNameValuePair("method", "editProfile"));
+         nameValuePairs.add(new BasicNameValuePair("method", "editProfile3"));
          nameValuePairs.add(new BasicNameValuePair("ac", userDto.getAccess_token()));
          nameValuePairs.add(new BasicNameValuePair("firstname", userDto.getFirstname()));
          nameValuePairs.add(new BasicNameValuePair("lastname", userDto.getLastname()));
          nameValuePairs.add(new BasicNameValuePair("nric_fin", userDto.getNric_fin()));
          nameValuePairs.add(new BasicNameValuePair("gender", userDto.getGender()));
-         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday()));
-         nameValuePairs.add(new BasicNameValuePair("phone_service", userDto.getPhone_service()));
-         nameValuePairs.add(new BasicNameValuePair("occupation", userDto.getOccupation()));
-         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
-         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
-         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
-         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         nameValuePairs.add(new BasicNameValuePair("birthday", userDto.getBirthday())); 
+//         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
+//         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
+//         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
+//         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
          nameValuePairs.add(new BasicNameValuePair("debug", debug));
          if(changePhone){
         	 nameValuePairs.add(new BasicNameValuePair("change_phone", "true"));
         	 nameValuePairs.add(new BasicNameValuePair("token_otp", userDto.getOtp_token()));
              nameValuePairs.add(new BasicNameValuePair("user_validate_code", userDto.getUser_validateCode()));
              nameValuePairs.add(new BasicNameValuePair("new_phone", userDto.getPhone()));
-         }else{
-        	  nameValuePairs.add(new BasicNameValuePair("phone", userDto.getPhone()));
          }
+         
+         if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
+        	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
+         }
+         
+         JSONObject json = getJsonFromUrlDoPost(GlobalVariable.URL_USERSTATUS, nameValuePairs);
+         
+         if(!json.isNull("success")){
+        	 commonDto.setFlag(true);
+        	 if(!json.isNull("app_access_token")){
+        		 commonDto.setToken(json.getString("app_access_token"));
+        	 }
+         }else{
+        	 commonDto.setFlag(false);
+        	 if(!json.isNull("message")){
+        		 commonDto.setMsg(json.getString("message").replaceAll("\"", ""));
+        	 }else{
+        		 commonDto.setMsg("An error occur, Please try a again later.");
+        	 }
+         }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+         return commonDto;
+	}
+	public CommonDto EditAddress(UserDto userDto,String debug,boolean changePhone){
+		CommonDto commonDto = new CommonDto();
+		try{
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+         nameValuePairs.add(new BasicNameValuePair("method", "editAddress"));
+         nameValuePairs.add(new BasicNameValuePair("ac", userDto.getAccess_token()));
+         nameValuePairs.add(new BasicNameValuePair("address_block", userDto.getAddress_block()));
+         nameValuePairs.add(new BasicNameValuePair("address_street_name", userDto.getAddress_street_name()));
+         nameValuePairs.add(new BasicNameValuePair("address_unit_number", userDto.getAddress_unit_number()));
+         nameValuePairs.add(new BasicNameValuePair("address_postal", userDto.getAddress_postal()));
+         nameValuePairs.add(new BasicNameValuePair("debug", debug));
          
          if(userDto.getFb_access_token()!=null && !"".equals(userDto.getFb_access_token())){
         	 nameValuePairs.add(new BasicNameValuePair("fb_access_token", userDto.getFb_access_token()));
