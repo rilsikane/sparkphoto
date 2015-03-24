@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.application.sparkapp.util.GlobalVariable;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -49,6 +50,7 @@ public class ImageListActivity extends Activity {
 	ArrayList<TempListContentView> listContent;
 	ListView lv;
 	private ViewHolder viewHolder;
+	private boolean isGuestUser;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,6 +62,12 @@ public class ImageListActivity extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		
+		if(getIntent().hasExtra("guestUser")){			
+			isGuestUser = getIntent().getBooleanExtra("guestUser",false);
+			
+		}
+		
+		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
 		lv = (ListView) findViewById(R.id.listView1);
 		backToPrevious.setOnClickListener(new OnClickListener() {
@@ -67,25 +75,24 @@ public class ImageListActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(ImageListActivity.this,MainPhotoSelectActivity.class);
-				
+				Intent i = new Intent(ImageListActivity.this,MainPhotoSelectActivity.class);				
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
 			}
-		});
+		});		
 		
-		if(getIntent().hasExtra("facebookUserId")){
-			String facebookUserId = getIntent().getStringExtra("facebookUserId");
-			new InitAndLoadData(facebookUserId).execute();
-		}
-		
-		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals("imgGal")){
+		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals(new GlobalVariable().IMG_FROM_GALLERY)){
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
 			listContent = getAlbums();
 			LoadListAdapter adapter = new LoadListAdapter(listContent);
 			lv.setAdapter(adapter);
+		}else{
+			if(getIntent().hasExtra("facebookUserId")){
+				String facebookUserId = getIntent().getStringExtra("facebookUserId");
+				new InitAndLoadData(facebookUserId).execute();
+			}
 		}
 		
 	}
@@ -168,13 +175,27 @@ public class ImageListActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+			Intent i ;
+			if(isGuestUser){
+				i = new Intent(ImageListActivity.this,SignUpPageOneMainActivity.class);
+			}else{
+				i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+			}
+			
 			String fabookUId = getIntent().getStringExtra("facebookUserId");
 			
 			if(getIntent().hasExtra("facebookUserId")){
 				i.putExtra("facebookUserId", fabookUId);
 			}
 			i.putStringArrayListExtra("imgList", temps.getImgList());
+			if(getIntent().hasExtra("LOAD_STATE")){
+				if(getIntent().getStringExtra("LOAD_STATE").equalsIgnoreCase(new GlobalVariable().IMG_FROM_GALLERY)){
+					i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_GALLERY);
+				}else{
+					i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_FACEBOOK);					
+				}
+			}
+			
 			if("facebook".equals(temps.getType())){
 				i.putExtra("isFacebook", true);
 			}

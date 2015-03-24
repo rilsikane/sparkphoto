@@ -67,6 +67,8 @@
         android:drawableLeft="@drawable/email_watermark"
         android:ems="10"
         android:hint="Email address"
+        android:lines="1"
+        android:inputType="textPersonName"
         android:textColor="#ffffff"
         android:textColorHint="#ffffff"
         android:textSize="30sp" />
@@ -115,9 +117,11 @@
         android:drawableLeft="@drawable/password_watermark"
         android:ems="10"
         android:hint="Password"
+        android:lines="1"
         android:password="true"
         android:textColor="#ffffff"
         android:textColorHint="#ffffff"
+        android:inputType="textPassword"
         android:textSize="30sp" >
     </EditText>
 

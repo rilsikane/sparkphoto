@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
@@ -64,10 +65,7 @@ public class MainPhotoSelectActivity extends Activity {
     public static final int MEDIA_TYPE_IMAGE = 1;
     private Uri fileUri;
     private static String filepath = "";
-    private static final String IMAGE_DIRECTORY_NAME = "Spark Images";
-    private static final String IMG_FROM_FACEBOOK = "imgFace";
-    private static final String IMG_FROM_DROPBOX = "imgDrop";
-    private static final String IMG_FROM_GALLERY = "imgGal";
+
     private boolean nextTimeCanUpload;
     final static private String APP_KEY = "1534822403398306";
     final static private String APP_SECRET = "326ad414b4480029738fb29181d4e7f4";
@@ -124,6 +122,9 @@ public class MainPhotoSelectActivity extends Activity {
 				user = user.convertDtoToVo(userDto);
 				user.save();
 			}
+		}else{
+			//Not Register always can upload image and pick image from facebook
+			nextTimeCanUpload= true;
 		}
 		
 		perkIcon.setOnClickListener(new OnClickListener() {
@@ -248,12 +249,15 @@ public class MainPhotoSelectActivity extends Activity {
 					public void onClick(View v) {
 						
 						if(nextTimeCanUpload){
-						Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
-						i.putExtra("loadImageState", 1);
-						i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
-						startActivity(i);
-						overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-						finish();
+							Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
+							if(user==null){
+								i.putExtra("guestUser", true);
+							}
+							i.putExtra("loadImageState", 1);
+							i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_GALLERY);
+							startActivity(i);
+							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+							finish();
 						}else{
 							showPerkDialog();
 						}
@@ -289,7 +293,8 @@ public class MainPhotoSelectActivity extends Activity {
 						                        user.getName();
 						                        //Facebook API:https://developers.facebook.com/tools/explorer/
 						                        Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-						                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+						                        
+						                        i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_FACEBOOK);
 						                        i.putExtra("facebookUserId", user.getId());
 						                        i.putExtra("loadImageState", 0);
 			                                    startActivity(i);
@@ -298,7 +303,7 @@ public class MainPhotoSelectActivity extends Activity {
 			                        		  }else{
 			                        			  session.requestNewPublishPermissions(new Session.NewPermissionsRequest(MainPhotoSelectActivity.this, "user_photos"));
 			                        		  }
-						                    }
+						                 }
 			                             
 			                         }   
 			                     }); 
@@ -390,12 +395,12 @@ public class MainPhotoSelectActivity extends Activity {
 	private static File getOutputMediaFile(int type) {
 		 
         // External sdcard location
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),IMAGE_DIRECTORY_NAME);
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),new GlobalVariable().IMAGE_DIRECTORY_NAME);
  
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "+ IMAGE_DIRECTORY_NAME + " directory");
+                Log.d(new GlobalVariable().IMAGE_DIRECTORY_NAME, "Oops! Failed create "+ new GlobalVariable().IMAGE_DIRECTORY_NAME + " directory");
                 return null;
             }
         }
@@ -504,13 +509,13 @@ public class MainPhotoSelectActivity extends Activity {
                                 public void onCompleted(GraphUser user, Response response) {
                                     if (user != null) {
                                         session.getAccessToken();
-                                        //Toast.makeText(getApplicationContext(), "Welcome "+user.getFirstName()+" "+user.getName(), Toast.LENGTH_SHORT).show();
+                                        
                                         user.getFirstName();
                                         user.getId();
                                         user.getName();
                                         
                                         Intent i = new Intent(MainPhotoSelectActivity.this, ImageListActivity.class);
-                                        i.putExtra("LOAD_STATE", IMG_FROM_FACEBOOK);
+                                        i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_FACEBOOK);
                                         i.putExtra("facebookUserId", user.getId());
                                         i.putExtra("loadImageState", 0);
                                         startActivity(i);

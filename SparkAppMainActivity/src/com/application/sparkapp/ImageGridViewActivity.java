@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.application.sparkapp.ImageListActivity.LoadListAdapter;
 import com.application.sparkapp.ImageListActivity.TempListContentView;
+import com.application.sparkapp.util.GlobalVariable;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -62,7 +63,9 @@ public class ImageGridViewActivity extends Activity {
 				if(getIntent().hasExtra("facebookUserId")){
 					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 				}
-				i.putExtra("LOAD_STATE", "imgGal");
+				if(getIntent().hasExtra("LOAD_STATE")){
+					i.putExtra("LOAD_STATE", getIntent().getStringExtra("LOAD_STATE"));					
+				}				
 				i.putExtra("loadImageState", 1);
 				startActivity(i);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
