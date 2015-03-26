@@ -76,7 +76,11 @@ public class EmailLoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+				if(user!=null){
+					user.delete();
+				}
+				
 				Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

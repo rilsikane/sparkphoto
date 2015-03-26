@@ -85,9 +85,11 @@ public class SettingPageActivity extends Activity {
 				             user.status = "D";
 				             user.ydFlag = "F";
 				             user.save();
+				             
+				             
 			        	}
 			        	 
-						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
+						Intent i = new Intent(SettingPageActivity.this, EmailLoginActivity.class);				 
 		                startActivity(i);
 		                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		                finish();
