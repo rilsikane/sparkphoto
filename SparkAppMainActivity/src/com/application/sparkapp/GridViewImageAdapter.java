@@ -29,8 +29,10 @@ public class GridViewImageAdapter extends BaseAdapter {
 	private int size;
 	private ViewHolder viewHolder;
 	private boolean isFacebook;
+	private String loadState;
+	private String facebookUid;
 
-	public GridViewImageAdapter(Activity activity, ArrayList<String> menus,
+	public GridViewImageAdapter(String fUid,String load_state,Activity activity, ArrayList<String> menus,
 			int imageWidth,boolean isFacebook) {
 		this._activity = activity;
 		this.imgPaths = menus;
@@ -38,6 +40,8 @@ public class GridViewImageAdapter extends BaseAdapter {
 		utils = new Utils(_activity, _activity);
 		size = (int) Math.ceil(Math.sqrt(utils.getScreenWidth() * utils.getScreenHeight()));
 		this.isFacebook = isFacebook;
+		this.loadState=load_state;
+		this.facebookUid = fUid;
 	}
 
 	@Override
@@ -100,8 +104,10 @@ public class GridViewImageAdapter extends BaseAdapter {
 					i = new Intent(_activity,ImageCropActivity.class);
 				}
 				i.putExtra("imgPath", filename);
-				i.putStringArrayListExtra("IMG_LIST", imgPaths);
+				i.putStringArrayListExtra("imgList", imgPaths);
 				i.putExtra("isFacebook", isFacebook);
+				i.putExtra("LOAD_STATE", loadState);
+				i.putExtra("facebookUserId", facebookUid);
 				_activity.startActivity(i);
 				_activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 				_activity.finish();

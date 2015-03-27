@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -29,6 +31,7 @@ import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 import com.facebook.Session;
 import com.roscopeco.ormdroid.Entity;
 import com.roscopeco.ormdroid.ORMDroidApplication;
@@ -40,6 +43,8 @@ public class EmailLoginActivity extends Activity {
 	private Button btnLogin;
 	private TextView fogotPswd, registerNow,registerLater;
 	private static String PAGE_FROM = "emailLogin";
+	private SharedPreferences registerBackPreference;
+	private SharedPreferences.Editor backEditor;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +56,12 @@ public class EmailLoginActivity extends Activity {
 		ORMDroidApplication.initialize(EmailLoginActivity.this);
 		System.gc();
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
+		StrictMode.setThreadPolicy(policy);		
+		
+		//Adding preference for handle when back pressed
+		registerBackPreference = PreferenceManager.getDefaultSharedPreferences(this);
+		backEditor = registerBackPreference.edit();			
+		
 		utils = new Utils(this, this);
 		int screenWidth = utils.getScreenWidth();
         int screenHeight = utils.getScreenHeight();
@@ -66,6 +76,10 @@ public class EmailLoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
+				backEditor.putString("BACK_REGISTER_PAGE_STATE", new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW);
+				backEditor.apply();
+				
 				Intent i = new Intent(EmailLoginActivity.this, SignUpPageOneMainActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -77,6 +91,10 @@ public class EmailLoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				
+				backEditor.putString("BACK_REGISTER_PAGE_STATE", new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER);
+				backEditor.apply();
+				
 				Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -110,6 +128,7 @@ public class EmailLoginActivity extends Activity {
 				user.setEmail(email.getText().toString());
 				user.setPassword(password.getText().toString());
 				new InitAndLoadData(user).execute();
+				backEditor.clear().commit();
 			}
 		});
         fogotPswd.setOnClickListener(new OnClickListener() {
@@ -216,10 +235,11 @@ public class EmailLoginActivity extends Activity {
 	
 	@Override
 	public void onBackPressed(){
-		Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);		
-        startActivity(i);
-        finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//		Intent i = new Intent(EmailLoginActivity.this, SparkAppMainActivity.class);		
+//        startActivity(i);
+//        finish();
+//        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		EmailLoginActivity.this.finish();
 	}
     @Override
     protected void attachBaseContext(Context newBase) {

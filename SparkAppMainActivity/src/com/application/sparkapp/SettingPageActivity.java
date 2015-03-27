@@ -5,13 +5,16 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,16 +26,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 import com.facebook.Session;
 import com.roscopeco.ormdroid.Entity;
 
-public class SettingPageActivity extends Activity {
+@SuppressLint("NewApi") public class SettingPageActivity extends Activity {
 	private Utils utils;
 	private ImageView backIcon,logoutBtn;
 	private ListView menuSetting;
+	private SharedPreferences backPreferences;
+	private SharedPreferences.Editor backEditor;
+	private String backTo;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,58 +58,76 @@ public class SettingPageActivity extends Activity {
 		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		TextView credit = (TextView) findViewById(R.id.textView);
 		if(user!=null){
-		credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
+			credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
 		}else{
-		credit.setText("0  FREE PHOTO CREDITS");	
+			credit.setText("0 FREE PHOTO CREDITS");	
 		}
 		
+		//Initial preference for get back state
+		backPreferences = PreferenceManager.getDefaultSharedPreferences(this);  
+		backEditor = backPreferences.edit();
+		
 		backIcon = (ImageView) findViewById(R.id.imageView1);
-		logoutBtn = (ImageView) findViewById(R.id.imageView4);
-		menuSetting = (ListView) findViewById(R.id.settingList);
-		MenuListAdapter menuAdapter = new MenuListAdapter();
-		menuSetting.setAdapter(menuAdapter);
+		logoutBtn = (ImageView) findViewById(R.id.imageView4);					
+		menuSetting = (ListView) findViewById(R.id.settingList);		
+		backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+		if(!backTo.equalsIgnoreCase("")){
+			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)||backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){
+				MenuListAdapterForGuest guest = new MenuListAdapterForGuest();
+				menuSetting.setAdapter(guest);					
+				logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.logout_btn));
+			}
+			
+		}else{
+			
+			MenuListAdapter menuAdapter = new MenuListAdapter();
+			menuSetting.setAdapter(menuAdapter);
+			logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.logout_btn));	
+		}
+		
 		logoutBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub								
-				new AlertDialog.Builder(SettingPageActivity.this)
-			    .setTitle("Logout Confirmation")
-			    .setMessage("Are you sure you would like to log out?")
-			    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // continue with delete
-			        	if(Session.getActiveSession()!=null){
-							Session.getActiveSession().closeAndClearTokenInformation();
-						}
-			        	 UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
-			        	if(user!=null){
-			        		List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
-				             if(tempList!=null){
-				             	for(TempImage temp : tempList){
-				             		temp.delete();
-				             	}
-				             }
-				             user.status = "D";
-				             user.ydFlag = "F";
-				             user.save();
-			        	}
-			        	 
-						Intent i = new Intent(SettingPageActivity.this, SparkAppMainActivity.class);				 
-		                startActivity(i);
-		                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		                finish();
-			        }
-			     })
-			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
-			        }
-			     })
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			     .show();
-								
-			}
+				// TODO Auto-generated method stub		
+
+					new AlertDialog.Builder(SettingPageActivity.this)
+				    .setTitle("Logout Confirmation")
+				    .setMessage("Are you sure you would like to log out?")
+				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				            // continue with delete
+				        	if(Session.getActiveSession()!=null){
+								Session.getActiveSession().closeAndClearTokenInformation();
+							}
+				        	UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+				        	if(user!=null){
+				        		List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
+					             if(tempList!=null){
+					             	for(TempImage temp : tempList){
+					             		temp.delete();
+					             	}
+					             }
+					             user.status = "D";
+					             user.ydFlag = "F";
+					             user.save();
+				        	}
+				        	backEditor.clear().commit();				        	 
+							Intent i = new Intent(SettingPageActivity.this, EmailLoginActivity.class);				 
+			                startActivity(i);
+			                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			                finish();
+				        }
+				     })
+				    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 
+				            // do nothing
+				        }
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				     .show();
+				}					
+			
 		});
 		backIcon.setOnClickListener(new OnClickListener() {
 			
@@ -130,7 +156,6 @@ public class SettingPageActivity extends Activity {
 			tempMenuList.add("Terms of use");
 			tempMenuList.add("About us");
 			tempMenuList.add("FAQ");
-			tempMenuList.add("Contact us");	
 		}
 		@Override
 		public int getCount() {
@@ -161,6 +186,7 @@ public class SettingPageActivity extends Activity {
 				RelativeLayout settingClick = (RelativeLayout) convertView.findViewById(R.id.settingClick);
 				settingClick.setOnClickListener(new ManageSettingClickGuest(position));
 				menuName.setText(tempMenuList.get(position));
+				
 				if(position==0){
 					logoIc.setImageDrawable(getResources().getDrawable(R.drawable.pen_icon));
 				}
@@ -192,6 +218,10 @@ public class SettingPageActivity extends Activity {
 			// TODO Auto-generated method stub
 			//Link to profile page
 			if(position==0){
+				
+				backEditor.putString("BACK_REGISTER_PAGE_STATE", new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING);
+				backEditor.apply();
+				
 				Intent i = new Intent(SettingPageActivity.this, SignUpPageOneMainActivity.class);				 
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -233,8 +263,6 @@ public class SettingPageActivity extends Activity {
 		public MenuListAdapter(){
 				tempMenuList.add("Profile");
 				tempMenuList.add("Address");
-//				tempMenuList.add("Link with Facebook");
-//				tempMenuList.add("Link with Dropbox");
 				tempMenuList.add("Terms of use");
 				tempMenuList.add("About us");
 				tempMenuList.add("FAQ");

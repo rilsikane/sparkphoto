@@ -10,5 +10,8 @@ public class GlobalVariable {
 	public static String IMG_FROM_FACEBOOK = "imgFace";
 	public static String IMG_FROM_DROPBOX = "imgDrop";
 	public static String IMG_FROM_GALLERY = "imgGal";
-
+	public static String REGISTER_COME_FROM_PAGE_REGIS_NOW = "fromRegisNow";
+	public static String REGISTER_COME_FROM_PAGE_REGIS_LATER = "fromRegisLater";
+	public static String REGISTER_COME_FROM_PAGE_SETTING = "fromSetting";
+	
 }

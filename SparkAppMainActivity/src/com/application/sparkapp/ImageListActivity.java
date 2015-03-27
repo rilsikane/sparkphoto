@@ -36,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.application.sparkapp.util.GlobalVariable;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -50,7 +52,6 @@ public class ImageListActivity extends Activity {
 	ArrayList<TempListContentView> listContent;
 	ListView lv;
 	private ViewHolder viewHolder;
-	private boolean isGuestUser;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,13 +61,7 @@ public class ImageListActivity extends Activity {
 		setContentView(R.layout.activity_image_list);
 		System.gc();
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
-		
-		if(getIntent().hasExtra("guestUser")){			
-			isGuestUser = getIntent().getBooleanExtra("guestUser",false);
-			
-		}
-		
+		StrictMode.setThreadPolicy(policy);			
 		
 		ImageView backToPrevious = (ImageView) findViewById(R.id.imageView1);
 		lv = (ListView) findViewById(R.id.listView1);
@@ -82,13 +77,13 @@ public class ImageListActivity extends Activity {
 			}
 		});		
 		
-		if(getIntent().hasExtra("LOAD_STATE") && getIntent().getStringExtra("LOAD_STATE").equals(new GlobalVariable().IMG_FROM_GALLERY)){
+		if(getIntent().getStringExtra("LOAD_STATE").equals(new GlobalVariable().IMG_FROM_GALLERY)){
 			//Normal Photo select
 			listContent = new ArrayList<TempListContentView>();
 			listContent = getAlbums();
 			LoadListAdapter adapter = new LoadListAdapter(listContent);
-			lv.setAdapter(adapter);
-		}else{
+			lv.setAdapter(adapter);			
+		}else{			
 			if(getIntent().hasExtra("facebookUserId")){
 				String facebookUserId = getIntent().getStringExtra("facebookUserId");
 				new InitAndLoadData(facebookUserId).execute();
@@ -175,13 +170,8 @@ public class ImageListActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			Intent i ;
-			if(isGuestUser){
-				i = new Intent(ImageListActivity.this,SignUpPageOneMainActivity.class);
-			}else{
-				i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
-			}
-			
+			Intent i = new Intent(ImageListActivity.this,ImageGridViewActivity.class);
+					
 			String fabookUId = getIntent().getStringExtra("facebookUserId");
 			
 			if(getIntent().hasExtra("facebookUserId")){

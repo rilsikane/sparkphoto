@@ -51,14 +51,13 @@ public class PerkPageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		CalligraphyConfig.initDefault("fonts/ThaiSansNeue-Regular.ttf", R.attr.fontPath);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_perk_page);
 
 		System.gc();
 		utils = new Utils(this, this);
-		utils = new Utils(getApplicationContext(), this);
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(),R.drawable.setting_page, utils.getScreenWidth(),utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
@@ -180,6 +179,8 @@ public class PerkPageActivity extends Activity {
 			perkDataList = new ArrayList<PerksDto>();
 			if(user!=null){ 
 				perkDataList = JSONParserForGetList.getInstance().getListPerks(user.ac_token,params[0],"1");
+			}else{
+				perkDataList = JSONParserForGetList.getInstance().getListPerks(null,params[0],"1");
 			}
 			return perkDataList;
 		}

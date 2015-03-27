@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
@@ -44,6 +46,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.session.Session.AccessType;
@@ -82,6 +85,7 @@ public class ImagePageSummaryActivity extends Activity {
     final static private AccessType ACCESS_TYPE = AccessType.AUTO;
     private DropboxAPI<AndroidAuthSession> mDBApi;
     private ProgressHUD mProgressHUD;
+    private SharedPreferences backPreferences;
     List<TempImg> tempList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +96,15 @@ public class ImagePageSummaryActivity extends Activity {
 		setContentView(R.layout.activity_image_page_summary);
 		System.gc();
 		user = Entity.query(UserVO.class).where("id").eq(1).execute();
-		if(user!=null){
-			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
-		}
+		
 		utils = new Utils(this, this);
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.address_background, utils.getScreenWidth(), utils.getScreenHeight()));
 		fullGuid.setBackgroundDrawable(ob);
+		
+		//Initial preference for get back state
+		backPreferences = PreferenceManager.getDefaultSharedPreferences(this);  
+		
 		Bitmap croppedImage = (Bitmap) getIntent().getParcelableExtra("croppedImage");
 		summaryList = (ListView) findViewById(R.id.summaryList);
 		summaryList.setDividerHeight(0);
@@ -108,8 +114,15 @@ public class ImagePageSummaryActivity extends Activity {
 		
 		picCount = (TextView) findViewById(R.id.textView4);
 		picTotal = (TextView) findViewById(R.id.totalAmountImage);
-		user = Entity.query(UserVO.class).where("id").eq(1).execute();
-		total = Integer.parseInt(user.numberPictureCanUpload);
+		
+//		user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		if(user!=null){
+			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
+			total = Integer.parseInt(user.numberPictureCanUpload);
+		}else{
+			total=0;
+		}
+		
 		picTotal.setText("/"+total);
 		ImageView captureMoreImage = (ImageView) findViewById(R.id.imageView2);
 		ImageView addMoreImage = (ImageView) findViewById(R.id.imageView3);
@@ -311,31 +324,41 @@ public class ImagePageSummaryActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if(picCt==total){
-					if(!Utils.isNotEmpty(user.ydFlag) || !"T".equals(user.ydFlag)){
-						Intent i = new Intent(ImagePageSummaryActivity.this,YourDetailActivity.class);
-						startActivity(i);
-						overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-						finish();
-					}else{
-						Intent i = new Intent(ImagePageSummaryActivity.this,ShippingAddressActivity.class);
-						startActivity(i);
-						overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-						finish();
-					}
 				
+				String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+				if(!backTo.equalsIgnoreCase("")&&backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){					
+					Intent intent = new Intent(ImagePageSummaryActivity.this,SignUpPageOneMainActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+					finish();					
 				}else{
-					new AlertDialog.Builder(ImagePageSummaryActivity.this)
-				    .setTitle("You aren’t done yet! ")
-				    .setMessage("Please select more images to print!")
-				    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) {				        	
-				    		dialog.dismiss();
-				        }
-				     })
-				    .setIcon(android.R.drawable.ic_dialog_alert)
-				    .show();
+					if(picCt==total){
+						if(!Utils.isNotEmpty(user.ydFlag) || !"T".equals(user.ydFlag)){
+							Intent i = new Intent(ImagePageSummaryActivity.this,YourDetailActivity.class);
+							startActivity(i);
+							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+							finish();
+						}else{
+							Intent i = new Intent(ImagePageSummaryActivity.this,ShippingAddressActivity.class);
+							startActivity(i);
+							overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+							finish();
+						}
+					
+					}else{
+						new AlertDialog.Builder(ImagePageSummaryActivity.this)
+					    .setTitle("You aren’t done yet! ")
+					    .setMessage("Please select more images to print!")
+					    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dialog, int which) {				        	
+					    		dialog.dismiss();
+					        }
+					     })
+					    .setIcon(android.R.drawable.ic_dialog_alert)
+					    .show();
+					}
 				}
+				
 			}
 		});
 		//Login login = Entity.query(Login.class).execute();

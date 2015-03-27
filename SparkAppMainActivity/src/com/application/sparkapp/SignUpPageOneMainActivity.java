@@ -12,10 +12,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -29,11 +31,13 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.util.DateUtil;
+import com.application.sparkapp.util.GlobalVariable;
 
 @SuppressLint("SimpleDateFormat")
 public class SignUpPageOneMainActivity extends Activity {
@@ -48,6 +52,7 @@ public class SignUpPageOneMainActivity extends Activity {
 	private PopupWindow pwMyPopWindow,pwMyPopWindow2;// popupwindow
 	private ImageView nricInfoIcon,phoneInfoIcon;
 	private Calendar myCalendar;
+	private SharedPreferences backPreferences;
 	private static CharSequence[] service_items = { "m1", "Singtel", "Starhub",
 	"MyRepublic" };
 	private static CharSequence[] occ_items = { "Administrative & Secretarial",
@@ -65,6 +70,10 @@ public class SignUpPageOneMainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_sign_up_page_one_main);		
 		System.gc();
+		
+		//Initial preference for get back state
+		backPreferences = PreferenceManager.getDefaultSharedPreferences(this);  
+		
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		final EditText infoIconForNRIC = (EditText) findViewById(R.id.editText3);
 		TextView goToNextPage = (TextView) findViewById(R.id.textView2);
@@ -388,10 +397,32 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+				Intent intent = null;
+				String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+				if(!backTo.equalsIgnoreCase("")){
+					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
+						intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+						
+						//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
+						SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
+						settings.edit().clear().commit();
+					}
+					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+						intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
+					}
+					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
+						intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
+						
+					}
+				}else{
+					//Define default value to prevent null error
+					intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+				}
+				
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
+				
 			}
 		});
 
@@ -404,11 +435,31 @@ public class SignUpPageOneMainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+		Intent intent = null;
+		String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+		if(!backTo.equalsIgnoreCase("")){
+			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
+				intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+				
+				//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
+				SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
+				settings.edit().clear().commit();
+			}
+			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+				intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
+			}
+			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
+				intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
+				
+			}
+		}else{
+			//Define default value to prevent null error
+			intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+		}
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		finish();
-
+		
 	}
 	public class EditTextWatcher implements TextWatcher{
 		public EditText _edt;

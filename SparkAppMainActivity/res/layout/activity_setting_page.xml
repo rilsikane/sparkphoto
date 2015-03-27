@@ -175,8 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:src="@drawable/logout_btn" />
+            android:layout_marginRight="12dp"/>
 
         <TextView
             android:id="@+id/textView"
@@ -185,7 +184,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="10 FREE PHOTO CREDITS"
+            android:text=" FREE PHOTO CREDITS"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
             android:textSize="20sp" />

@@ -140,8 +140,14 @@ public class ImageCropActivity extends Activity {
 					}
 					
 					UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+					
 					temp = new TempImage();
-					temp.ac_token = userVO.ac_token;
+					if(userVO!=null){
+						temp.ac_token = userVO.ac_token;		
+					}else{
+						temp.ac_token = null;
+					}
+															
 					temp.originPath = imgPath;
 					directory = new File(Environment.getExternalStorageDirectory()+ "/Spark/temp_image/");
 					if (!directory.exists()) {
@@ -152,8 +158,7 @@ public class ImageCropActivity extends Activity {
 					cropName = ""+UUID.randomUUID();
 					File file = new File(directory, ""+cropName+".jpg");									
 					fOut = new FileOutputStream(file);
-					new InitAndLoadData(croppedImage, fOut,file).execute();
-					
+					new InitAndLoadData(croppedImage, fOut,file).execute();					
 					
 				}catch (Exception e) {
 					e.printStackTrace();
@@ -199,7 +204,9 @@ public class ImageCropActivity extends Activity {
 					}
 				}else{
 					i= new Intent(ImageCropActivity.this,ImageGridViewActivity.class);
-					i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+					i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("imgList"));
+					i.putExtra("LOAD_STATE", getIntent().getStringExtra("LOAD_STATE"));
+					i.putExtra("facebookUserId", getIntent().getStringExtra("facebookUserId"));
 				}
 												
 				startActivity(i);
@@ -220,7 +227,7 @@ public class ImageCropActivity extends Activity {
 			}
 		}else{
 			i= new Intent(ImageCropActivity.this,ImageGridViewActivity.class);
-			i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("IMG_LIST"));
+			i.putStringArrayListExtra("imgList",  getIntent().getStringArrayListExtra("imgList"));
 		}
 										
 		startActivity(i);
@@ -359,9 +366,12 @@ public class ImageCropActivity extends Activity {
 					if(user!=null){
 						tutorial = user.tutorial;
 					}
-					Intent i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
+					Intent i =null; 
+//					new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 					if("A".equals(tutorial)){
 						i = new Intent(ImageCropActivity.this,ImagePageSummaryActivity.class);
+					}else{
+						i = new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);
 					}
 					startActivity(i);
 					overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);

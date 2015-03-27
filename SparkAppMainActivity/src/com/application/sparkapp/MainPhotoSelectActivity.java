@@ -250,9 +250,6 @@ public class MainPhotoSelectActivity extends Activity {
 						
 						if(nextTimeCanUpload){
 							Intent i = new Intent(MainPhotoSelectActivity.this,ImageListActivity.class);
-							if(user==null){
-								i.putExtra("guestUser", true);
-							}
 							i.putExtra("loadImageState", 1);
 							i.putExtra("LOAD_STATE", new GlobalVariable().IMG_FROM_GALLERY);
 							startActivity(i);

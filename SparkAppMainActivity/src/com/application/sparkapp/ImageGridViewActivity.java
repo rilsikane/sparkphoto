@@ -147,7 +147,7 @@ public class ImageGridViewActivity extends Activity {
 		protected void onPostExecute(ArrayList<String> result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				adapter = new GridViewImageAdapter(ImageGridViewActivity.this, result,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
+				adapter = new GridViewImageAdapter(getIntent().getStringExtra("facebookUserId"),getIntent().getStringExtra("LOAD_STATE"),ImageGridViewActivity.this, result,columnWidth,getIntent().getBooleanExtra("isFacebook", false));
 				gridView.setAdapter(adapter);
 				mProgressHUD.dismiss();
 //				Toast.makeText(getApplicationContext(), String.valueOf(getIntent().getStringArrayListExtra("imgList")), Toast.LENGTH_LONG).show();
