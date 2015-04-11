@@ -6,14 +6,17 @@ import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,7 @@ import com.application.sparkapp.dto.NotificationDto;
 import com.application.sparkapp.dto.PerksDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
+import com.application.sparkapp.util.GlobalVariable;
 import com.roscopeco.ormdroid.Entity;
 import com.squareup.picasso.Picasso;
 
@@ -299,7 +303,11 @@ public class PerkPageActivity extends Activity {
 			}else{
 				Picasso.with(getApplicationContext()).load(R.drawable.gift_icon).into(viewHolder.gift);		
 			}
+			
+			
 			viewHolder.click.setOnClickListener(new OnSelectPerksListener(position,model));
+			
+			
 			return convertView;
 		}
 		public class ViewHolder{
@@ -320,11 +328,36 @@ public class PerkPageActivity extends Activity {
 		
 		@Override
 		public void onClick(View v) {
-			JSONParserForGetList.getInstance().viewPerk(user.ac_token, dto.getId());
-			Intent i = new Intent(PerkPageActivity.this,PerkDetailMainActivity.class);
-			i.putExtra("perksDto",dto);
-			startActivity(i);
-			finish();
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(PerkPageActivity.this);
+			if(prefs.getString("BACK_REGISTER_PAGE_STATE", "").equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+				AlertDialog.Builder emailBuilder = new AlertDialog.Builder(PerkPageActivity.this);
+				emailBuilder.setCancelable(true);
+				emailBuilder.setMessage("Please register to SPARK before using this function.");
+				emailBuilder.setPositiveButton("Register",new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int id) {
+	                    Intent intent = new Intent(PerkPageActivity.this,SignUpPageOneMainActivity.class);
+	                    startActivity(intent);
+	                    finish();
+	                    prefs.edit().remove("BACK_REGISTER_PAGE_STATE").commit();
+	                }
+	            });
+				emailBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						dialog.cancel();
+					}
+				});
+	            AlertDialog showAlerEmail = emailBuilder.create();
+	            showAlerEmail.show();
+			}else{
+				JSONParserForGetList.getInstance().viewPerk(user.ac_token, dto.getId());
+				Intent i = new Intent(PerkPageActivity.this,PerkDetailMainActivity.class);
+				i.putExtra("perksDto",dto);
+				startActivity(i);
+				finish();
+			}
 		}
 		
 	}

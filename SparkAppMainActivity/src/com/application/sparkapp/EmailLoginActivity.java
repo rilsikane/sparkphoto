@@ -26,13 +26,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.application.sparkapp.ForgotActivity.ForgotPassword;
-import com.application.sparkapp.dto.CommonDto;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.GlobalVariable;
-import com.facebook.Session;
 import com.roscopeco.ormdroid.Entity;
 import com.roscopeco.ormdroid.ORMDroidApplication;
 

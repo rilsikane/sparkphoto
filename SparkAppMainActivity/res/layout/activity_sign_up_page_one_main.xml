@@ -145,6 +145,8 @@
                 android:drawableLeft="@drawable/png_icon"
                 android:ems="10"
                 android:hint="Email address"
+                android:inputType="textEmailAddress"
+                android:lines="1"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
 
@@ -159,6 +161,8 @@
                 android:drawableLeft="@drawable/password_icon"
                 android:ems="10"
                 android:hint="Password"
+                android:inputType="textPassword"
+                android:lines="1"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
@@ -184,6 +188,8 @@
                 android:drawableLeft="@drawable/space_icon"
                 android:ems="10"
                 android:hint="Confirm"
+                android:inputType="textPassword"
+                android:lines="1"
                 android:password="true"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff" />
@@ -233,8 +239,9 @@
                 android:drawableLeft="@drawable/phone_icon"
                 android:ems="10"
                 android:hint="Phone number"
-                android:inputType="textCapCharacters"
+                android:inputType="phone"
                 android:textColor="#ffffff"
+                android:lines="1"
                 android:textColorHint="#ffffff" />
 
             <EditText

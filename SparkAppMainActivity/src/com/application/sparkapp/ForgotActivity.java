@@ -1,7 +1,5 @@
 package com.application.sparkapp;
 
-import org.w3c.dom.Text;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -20,18 +18,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.application.sparkapp.dto.CommonDto;
-import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
-import com.application.sparkapp.model.UserVO;
-import com.facebook.Session;
-import com.roscopeco.ormdroid.Entity;
 
 @SuppressLint("NewApi")
 public class ForgotActivity extends Activity {
@@ -75,13 +68,38 @@ public class ForgotActivity extends Activity {
 		        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			}
 		});
+        email.requestFocus();
+
+        email.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                InputMethodManager keyboard = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.showSoftInput(email, 0);
+            }
+        },200); //use 300 to make it run when coming back from lock screen
         btnSend.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				UserDto user = new UserDto();
 				String emailTxt = email.getText().toString();
-				new InitAndLoadData(emailTxt).execute();
+				if(!emailTxt.equals("")){					
+					new InitAndLoadData(emailTxt).execute();
+				}else{
+					AlertDialog.Builder emailBuilder = new AlertDialog.Builder(ForgotActivity.this);
+					emailBuilder.setCancelable(true);
+					emailBuilder.setMessage("Please enter a valid email address.");
+					emailBuilder.setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();		                    
+		                }
+		            });
+		            AlertDialog showAlerEmail = emailBuilder.create();
+		            showAlerEmail.show();
+				}
+				
 			}
 		});
 	}
@@ -198,7 +216,7 @@ public class ForgotActivity extends Activity {
 	
 	@Override
 	public void onBackPressed(){
-		Intent i = new Intent(ForgotActivity.this, SparkAppMainActivity.class);		
+		Intent i = new Intent(ForgotActivity.this, EmailLoginActivity.class);		
         startActivity(i);
         finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
