@@ -44,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.application.sparkapp.model.TempImage;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.GlobalVariable;
@@ -327,10 +328,21 @@ public class ImagePageSummaryActivity extends Activity {
 				
 				String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
 				if(!backTo.equalsIgnoreCase("")&&backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){					
-					Intent intent = new Intent(ImagePageSummaryActivity.this,SignUpPageOneMainActivity.class);
-					startActivity(intent);
-					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-					finish();					
+					new AlertDialog.Builder(ImagePageSummaryActivity.this)
+				    .setTitle("Warning!")
+				    .setMessage("Please register to SPARK before using this function.")
+				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int which) { 			        	 
+				        	dialog.cancel();
+				        }
+				     })
+				    .setIcon(android.R.drawable.ic_dialog_alert)
+				     .show();
+					
+//					Intent intent = new Intent(ImagePageSummaryActivity.this,SignUpPageOneMainActivity.class);
+//					startActivity(intent);
+//					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//					finish();					
 				}else{
 					if(picCt==total){
 						if(!Utils.isNotEmpty(user.ydFlag) || !"T".equals(user.ydFlag)){
