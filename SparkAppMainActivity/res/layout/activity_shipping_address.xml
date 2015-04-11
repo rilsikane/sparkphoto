@@ -133,9 +133,10 @@
                 android:drawableLeft="@drawable/postal_code_icon"
                 android:ems="10"
                 android:hint="Postal code"
-                android:inputType="textCapCharacters"
+                android:inputType="number"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff" 
+                />
 
             <TextView
                 android:id="@+id/textView46"
