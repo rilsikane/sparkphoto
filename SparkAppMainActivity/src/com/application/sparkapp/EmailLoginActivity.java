@@ -98,7 +98,7 @@ public class EmailLoginActivity extends Activity {
 				Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
+                finish(); 
 			}
 		});
 //        email.setText("test@gmail.com");

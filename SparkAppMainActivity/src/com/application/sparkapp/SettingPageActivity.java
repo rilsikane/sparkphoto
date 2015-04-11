@@ -55,7 +55,7 @@ import com.roscopeco.ormdroid.Entity;
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.setting_page, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-		UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
 		TextView credit = (TextView) findViewById(R.id.textView);
 		if(user!=null){
 			credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
@@ -75,9 +75,9 @@ import com.roscopeco.ormdroid.Entity;
 			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)||backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){
 				MenuListAdapterForGuest guest = new MenuListAdapterForGuest();
 				menuSetting.setAdapter(guest);					
-				logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.logout_btn));
+				logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.exit_btn));
 			}
-			
+			 
 		}else{
 			
 			MenuListAdapter menuAdapter = new MenuListAdapter();
@@ -90,7 +90,7 @@ import com.roscopeco.ormdroid.Entity;
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub		
-
+					if(user!=null){
 					new AlertDialog.Builder(SettingPageActivity.this)
 				    .setTitle("Logout Confirmation")
 				    .setMessage("Are you sure you would like to log out?")
@@ -126,6 +126,28 @@ import com.roscopeco.ormdroid.Entity;
 				     })
 				    .setIcon(android.R.drawable.ic_dialog_alert)
 				     .show();
+					}else{
+						new AlertDialog.Builder(SettingPageActivity.this)
+					    .setTitle("Exit Confirmation")
+					    .setMessage("Are you sure you would like to exit?")
+					    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dialog, int which) { 
+					            // continue with delete
+					        	backEditor.clear().commit();				        	 
+								Intent i = new Intent(SettingPageActivity.this, EmailLoginActivity.class);				 
+				                startActivity(i);
+				                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				                finish();
+					        }
+					     })
+					    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+					        public void onClick(DialogInterface dialog, int which) { 
+					            // do nothing
+					        }
+					     })
+					    .setIcon(android.R.drawable.ic_dialog_alert)
+					     .show();
+					}
 				}					
 			
 		});

@@ -178,8 +178,11 @@ public class ActivityNotificationActivity extends Activity {
 			@Override
 			protected List<NotificationDto> doInBackground(String... params) {
 				// TODO Auto-generated method stub
-				 
-				return JSONParserForGetList.getInstance().getListNotification(user.ac_token, crPage);
+				List<NotificationDto> result = null;
+				if(user!=null){
+					result = JSONParserForGetList.getInstance().getListNotification(user.ac_token, crPage);
+				}
+				return result;
 			}
 			
 			@Override
@@ -188,7 +191,7 @@ public class ActivityNotificationActivity extends Activity {
 				if (result != null) {
 					notificationList.addAll(result);
 				} else {
-					mProgressHUD.dismiss();
+					mProgressHUD.dismiss(); 
 				}
 				
 				adapter = new ListAdapter(notificationList);
