@@ -72,7 +72,9 @@
                 android:ems="10"
                 android:hint="Email address"
                 android:textColor="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:textColorHint="#ffffff" >
+                <requestFocus />
+            </EditText>
 
             <View
                 android:id="@+id/View01"
