@@ -58,7 +58,7 @@ public class TermOfUseMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(TermOfUseMainActivity.this,TutorialPageOneActivity.class);
+				Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
 				intent.putExtra("userDto", (Parcelable) userDto);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -68,7 +68,7 @@ public class TermOfUseMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(TermOfUseMainActivity.this,TutorialPageOneActivity.class);
+		Intent intent = new Intent(TermOfUseMainActivity.this,PinValidateMainActivity.class);
 		intent.putExtra("userDto", (Parcelable) userDto);
 		startActivity(intent);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

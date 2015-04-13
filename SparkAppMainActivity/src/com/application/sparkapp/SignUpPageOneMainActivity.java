@@ -142,14 +142,13 @@ public class SignUpPageOneMainActivity extends Activity {
 		
 		if (userDto == null) {
 			userDto = new UserDto();
-		} else {
-			
+		} else {			
 			firstname.setText(userDto.getFirstname());
 			lastname.setText(userDto.getLastname());
 			nric.setText(userDto.getNric_fin());
 			email.setText(userDto.getEmail());
-			password.setText(userDto.getPassword());
-			cfPassword.setText(userDto.getPassword());
+//			password.setText(userDto.getPassword());
+//			cfPassword.setText(userDto.getPassword());
 			phoneno.setText(userDto.getPhone());
 			service.setText(Utils.isNotEmpty(userDto.getPhone_service()) ? service_items[ 
 					Integer.parseInt(userDto.getPhone_service())-1]:"");
@@ -395,31 +394,55 @@ public class SignUpPageOneMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = null;
-				String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
-				if(!backTo.equalsIgnoreCase("")){
-					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
-						intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
-						
-						//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
-						SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
-						settings.edit().clear().commit();
-					}
-					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
-						intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
-					}
-					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
-						intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
-						
-					}
-				}else{
-					//Define default value to prevent null error
-					intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
-				}
 				
-				startActivity(intent);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				finish();
+				
+				try {
+					 final AlertDialog.Builder builder1 = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+			            builder1.setCancelable(true);
+			            builder1.setMessage("SPARK will remove your data. Are you sure you want to close this function.");
+			            builder1.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			                public void onClick(DialogInterface dialog, int id) {
+			                    dialog.cancel();
+			                    Intent intent = null;
+			                    String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+			    				if(!backTo.equalsIgnoreCase("")){
+			    					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
+			    						intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+			    						
+			    						//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
+			    						SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
+			    						settings.edit().clear().commit();
+			    					}
+			    					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+			    						intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
+			    					}
+			    					if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
+			    						intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
+			    						
+			    					}
+			    				}else{
+			    					//Define default value to prevent null error
+			    					intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+			    				}
+			    				
+			    				startActivity(intent);
+			    				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			    				finish();
+			                }
+			            });
+			            builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
+			            AlertDialog alert11 = builder1.create();
+			            alert11.show();
+				
+				  }catch (Exception e) {
+					e.printStackTrace();
+				  }							
 				
 			}
 		});
@@ -433,30 +456,49 @@ public class SignUpPageOneMainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = null;
-		String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
-		if(!backTo.equalsIgnoreCase("")){
-			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
-				intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
-				
-				//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
-				SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
-				settings.edit().clear().commit();
+		AlertDialog.Builder emailBuilder = new AlertDialog.Builder(SignUpPageOneMainActivity.this);
+		emailBuilder.setCancelable(true);
+		emailBuilder.setMessage("SPARK will remove your data. Are you sure you want to close this function.");
+		emailBuilder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                Intent intent = null;
+        		String backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+        		if(!backTo.equalsIgnoreCase("")){
+        			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_NOW)){
+        				intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+        				
+        				//Clear BACK_REGISTER_PAGE_STATE Preference value to prevent duplicate preference
+        				SharedPreferences settings = SignUpPageOneMainActivity.this.getSharedPreferences("BACK_REGISTER_PAGE_STATE", Context.MODE_PRIVATE);
+        				settings.edit().clear().commit();
+        			}
+        			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+        				intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
+        			}
+        			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
+        				intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
+        				
+        			}
+        		}else{
+        			//Define default value to prevent null error
+        			intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
+        		}
+        		startActivity(intent);
+        		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        		finish();
+            }
+        });
+		emailBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
 			}
-			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
-				intent = new Intent(SignUpPageOneMainActivity.this,ImagePageSummaryActivity.class); 
-			}
-			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){						
-				intent = new Intent(SignUpPageOneMainActivity.this,SettingPageActivity.class);
-				
-			}
-		}else{
-			//Define default value to prevent null error
-			intent = new Intent(SignUpPageOneMainActivity.this,EmailLoginActivity.class);
-		}
-		startActivity(intent);
-		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		finish();
+		});
+        AlertDialog showAlerEmail = emailBuilder.create();
+        showAlerEmail.show();
+		
 		
 	}
 	public class EditTextWatcher implements TextWatcher{
@@ -629,10 +671,10 @@ public class SignUpPageOneMainActivity extends Activity {
 		pwMyPopWindow2.setFocusable(true);
 		TextView desc =(TextView) layout.findViewById(R.id.textView1);
 		desc.setText("This is for us to send you an SMS for your OTP confirmation");
-		pwMyPopWindow2.setWidth(550);
-		pwMyPopWindow2.setHeight(250);
+		pwMyPopWindow2.setWidth(350);
+		pwMyPopWindow2.setHeight(130);
 		
-		pwMyPopWindow2.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bg_popupwindow_3));
+		pwMyPopWindow2.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bg_popupwindow_2));
 		pwMyPopWindow2.setOutsideTouchable(true);
 	}
 	public static  boolean contains(final String[] array, final String v) {

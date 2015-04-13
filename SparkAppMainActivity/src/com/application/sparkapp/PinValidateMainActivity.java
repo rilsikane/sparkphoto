@@ -214,7 +214,7 @@ public class PinValidateMainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(PinValidateMainActivity.this,SignUpPageOneMainActivity.class);
-//				intent.putExtra("userDto", (Parcelable) userDto);
+				intent.putExtra("userDto", (Parcelable) userDto);
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				finish();
@@ -223,11 +223,11 @@ public class PinValidateMainActivity extends Activity {
 	}
 	@Override
 	public void onBackPressed() {
-//		Intent intent = new Intent(PinValidateMainActivity.this,AddressMainActivity.class);
-//		intent.putExtra("userDto", (Parcelable) userDto);
-//		startActivity(intent);
-//		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//		finish();
+		Intent intent = new Intent(PinValidateMainActivity.this,SignUpPageOneMainActivity.class);
+		intent.putExtra("userDto", (Parcelable) userDto);
+		startActivity(intent);
+		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+		finish();
 		
 	}
 
