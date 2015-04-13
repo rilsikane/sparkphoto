@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.TempUserVO;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.GlobalVariable;
 import com.dropbox.client2.DropboxAPI;
@@ -124,6 +125,19 @@ public class MainPhotoSelectActivity extends Activity {
 				user = user.convertDtoToVo(userDto);
 				user.save();
 			}
+		}else{
+			TempUserVO tempUser = Entity.query(TempUserVO.class).where("id").eq(1).execute();
+			if("D".equals(tempUser.tutorial)){
+				radioButton.setChecked(false);
+			}else if("".equals(tempUser.tutorial)){
+				tempUser.tutorial = "I";
+				tempUser.save();
+				radioButton.setChecked(true);
+			}else{
+				tempUser.tutorial = "A";
+				tempUser.save();
+				radioButton.setChecked(true);
+			}
 		}
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainPhotoSelectActivity.this);
@@ -168,18 +182,35 @@ public class MainPhotoSelectActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				if((user.tutorial == null|| "".equals(user.tutorial))){
-					radioButton.setChecked(true);
-					user.tutorial = "I";
-					user.save();
-				}else if("D".equals(user.tutorial)){
-					radioButton.setChecked(true);
-					 user.tutorial = "A";
-					 user.save();
+				if(user!=null){
+					if((user.tutorial == null|| "".equals(user.tutorial))){
+						radioButton.setChecked(true);
+						user.tutorial = "I";
+						user.save();
+					}else if("D".equals(user.tutorial)){
+						radioButton.setChecked(true);
+						 user.tutorial = "A";
+						 user.save();
+					}else{
+						 radioButton.setChecked(false);
+						 user.tutorial = "D";
+						 user.save();
+					}
 				}else{
-					 radioButton.setChecked(false);
-					 user.tutorial = "D";
-					 user.save();
+					TempUserVO tempUser = Entity.query(TempUserVO.class).where("id").eq(1).execute();
+					if((tempUser.tutorial == null|| "".equals(tempUser.tutorial))){
+						radioButton.setChecked(true);
+						tempUser.tutorial = "I";
+						tempUser.save();
+					}else if("D".equals(tempUser.tutorial)){
+						radioButton.setChecked(true);
+						tempUser.tutorial = "A";
+						tempUser.save();
+					}else{
+						 radioButton.setChecked(false);
+						 tempUser.tutorial = "D";
+						 tempUser.save();
+					}
 				}
 			}
 		});

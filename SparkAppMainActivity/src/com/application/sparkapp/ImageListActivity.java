@@ -76,17 +76,18 @@ public class ImageListActivity extends Activity {
 				finish();
 			}
 		});		
-		
-		if(getIntent().getStringExtra("LOAD_STATE").equals(new GlobalVariable().IMG_FROM_GALLERY)){
-			//Normal Photo select
-			listContent = new ArrayList<TempListContentView>();
-			listContent = getAlbums();
-			LoadListAdapter adapter = new LoadListAdapter(listContent);
-			lv.setAdapter(adapter);			
-		}else{			
-			if(getIntent().hasExtra("facebookUserId")){
-				String facebookUserId = getIntent().getStringExtra("facebookUserId");
-				new InitAndLoadData(facebookUserId).execute();
+		if(getIntent().hasExtra("LOAD_STATE") ){
+			if(getIntent().getStringExtra("LOAD_STATE").equals(new GlobalVariable().IMG_FROM_GALLERY)){
+				//Normal Photo select
+				listContent = new ArrayList<TempListContentView>();
+				listContent = getAlbums();
+				LoadListAdapter adapter = new LoadListAdapter(listContent);
+				lv.setAdapter(adapter);			
+			}else{			
+				if(getIntent().hasExtra("facebookUserId")){
+					String facebookUserId = getIntent().getStringExtra("facebookUserId");
+					new InitAndLoadData(facebookUserId).execute();
+				}
 			}
 		}
 		

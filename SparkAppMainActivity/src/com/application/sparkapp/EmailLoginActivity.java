@@ -2,7 +2,6 @@ package com.application.sparkapp;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
+import com.application.sparkapp.model.TempUserVO;
 import com.application.sparkapp.model.UserVO;
 import com.application.sparkapp.util.GlobalVariable;
 import com.roscopeco.ormdroid.Entity;
@@ -92,10 +92,42 @@ public class EmailLoginActivity extends Activity {
 				backEditor.putString("BACK_REGISTER_PAGE_STATE", new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER);
 				backEditor.apply();
 				
-				Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
+				UserVO  user = Entity.query(UserVO.class).execute();
+				
+				if(user!=null){
+					user.delete();
+				}
+				
+				TempUserVO tempUserVO = Entity.query(TempUserVO.class).execute();
+				  if(tempUserVO==null){
+					  tempUserVO = new TempUserVO();
+					  tempUserVO.id = 1;
+					  tempUserVO.tutorial = "";
+					  tempUserVO.save();
+					  Intent i = new Intent(EmailLoginActivity.this, TutorialPageOneActivity.class);
+					  i.putExtra("INTENT_FROM", PAGE_FROM);					  
+	                  startActivity(i);
+//	                  Intent i = new Intent(EmailLoginActivity.this,ShippingAddressActivity.class);
+//	  				  startActivity(i);
+	                  overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+	                  finish();
+				  }else{
+					  if(("D".equals(tempUserVO.tutorial)) || "I".equals(tempUserVO.tutorial)){
+						  tempUserVO.id = 1;
+						  tempUserVO.save();
+						  Intent i = new Intent(EmailLoginActivity.this,TutorialPageOneActivity.class);
+						  startActivity(i);
+						  finish();
+						  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						  }else{
+							  tempUserVO.id = 1;
+							  tempUserVO.save();
+							  Intent i = new Intent(EmailLoginActivity.this,MainPhotoSelectActivity.class);
+							  startActivity(i);
+							  finish();
+							  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+						  }
+				  }
 			}
 		});
 //        email.setText("test@gmail.com");

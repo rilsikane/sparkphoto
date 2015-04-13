@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.application.sparkapp.dto.UserDto;
 import com.application.sparkapp.json.JSONParserForGetList;
 import com.application.sparkapp.model.TempImage;
+import com.application.sparkapp.model.TempUserVO;
 import com.application.sparkapp.model.UserVO;
 import com.edmodo.cropper.CropImageView;
 import com.roscopeco.ormdroid.Entity;
@@ -365,6 +366,9 @@ public class ImageCropActivity extends Activity {
 					String tutorial = "";
 					if(user!=null){
 						tutorial = user.tutorial;
+					}else{
+						TempUserVO tempUserVO = Entity.query(TempUserVO.class).where("id").eq("1").execute();
+						tutorial = tempUserVO.tutorial;
 					}
 					Intent i =null; 
 //					new Intent(ImageCropActivity.this,GuideTotalPrintActivity.class);

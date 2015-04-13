@@ -308,6 +308,9 @@ public class ImagePageSummaryActivity extends Activity {
 			    			Utils.deleteRecursive(new File(
 									Environment.getExternalStorageDirectory()
 											+ "/Spark/temp_image/"));
+			    			Utils.deleteRecursive(new File(
+									Environment.getExternalStorageDirectory()
+											+ "/Pictures/Spark Images"));
 			    		}
 			        	Intent i = new Intent(ImagePageSummaryActivity.this,MainPhotoSelectActivity.class);
 						startActivity(i);
@@ -805,10 +808,11 @@ public class ImagePageSummaryActivity extends Activity {
 		@Override
 		protected void onPostExecute(UserVO result) {
 			super.onPostExecute(result);
+			tempList = new ArrayList<TempImg>();
 			if (result != null) {
 
 				mProgressHUD.dismiss();
-				tempList = new ArrayList<TempImg>();
+				
 				if(result!=null){
 					List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token").eq(result.ac_token).executeMulti();
 					if(imgList!=null && !imgList.isEmpty()){
@@ -837,6 +841,28 @@ public class ImagePageSummaryActivity extends Activity {
 				
 			} else {				
 				  mProgressHUD.dismiss();
+				  List<TempImage> imgTempList = Entity.query(TempImage.class).executeMulti();
+					if(imgTempList!=null && !imgTempList.isEmpty()){
+						
+						for(TempImage tmpImage : imgTempList){
+							TempImg imgTemp = new TempImg();
+							imgTemp.setAmt(tmpImage.amt!=null ? Integer.parseInt(tmpImage.amt) : 0);
+							imgTemp.setBgicon(tmpImage.originPath);
+							String[] temp = tmpImage.path.split("\\.");
+							imgTemp.setCropIcon(temp[0]+"_tmb"+"."+temp[1]);
+							picCt += Integer.parseInt(tmpImage.amt);
+							imgTemp.setTempImage(tmpImage);
+							tempList.add(imgTemp);
+							
+						}
+						picCount.setText(picCt+"");
+						if(picCt==total){
+							statusBar.setBackgroundColor(Color.GREEN);
+						}
+					}
+					Collections.reverse(tempList);
+					LoadListAdapter adapter = new LoadListAdapter(tempList);
+					summaryList.setAdapter(adapter);
 			}
 			
 		}
