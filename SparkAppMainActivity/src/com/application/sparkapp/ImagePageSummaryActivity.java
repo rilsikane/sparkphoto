@@ -121,7 +121,11 @@ public class ImagePageSummaryActivity extends Activity {
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 			total = Integer.parseInt(user.numberPictureCanUpload);
 		}else{
-			total=0;
+			if(backPreferences.getString("BACK_REGISTER_PAGE_STATE", "").equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+				total=10;
+			}else{
+				total=0;
+			}			
 		}
 		
 		picTotal.setText("/"+total);
@@ -500,7 +504,7 @@ public class ImagePageSummaryActivity extends Activity {
 				view_line.setVisibility(View.INVISIBLE);
 			}
 			viewHolder.bgImg = (ImageView) convertView.findViewById(R.id.imgBg);
-			viewHolder.cropImg = (ImageView) convertView.findViewById(R.id.imageView1);
+			viewHolder.cropImg = (ImageView) convertView.findViewById(R.id.imageView99);
 			viewHolder.amt = (TextView) convertView.findViewById(R.id.textView3);
 			viewHolder.minusBt = (Button) convertView.findViewById(R.id.textView2);
 			viewHolder.plusBt = (Button) convertView.findViewById(R.id.textView4);

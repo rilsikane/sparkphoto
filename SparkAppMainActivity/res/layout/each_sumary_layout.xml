@@ -38,7 +38,7 @@
                 android:scaleType="fitXY" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imageView99"
                 android:layout_width="55dp"
                 android:layout_height="82dp"
                 android:layout_centerHorizontal="true"

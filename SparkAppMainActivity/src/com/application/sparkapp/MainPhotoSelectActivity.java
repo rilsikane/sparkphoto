@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -122,9 +124,11 @@ public class MainPhotoSelectActivity extends Activity {
 				user = user.convertDtoToVo(userDto);
 				user.save();
 			}
-		}else{
-			//Not Register always can upload image and pick image from facebook
-			nextTimeCanUpload= true;
+		}
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainPhotoSelectActivity.this);
+		if(prefs.getString("BACK_REGISTER_PAGE_STATE", "").equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+			nextTimeCanUpload = true;
 		}
 		
 		perkIcon.setOnClickListener(new OnClickListener() {

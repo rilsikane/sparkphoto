@@ -141,7 +141,7 @@
             android:layout_alignBaseline="@+id/totalAmountImage"
             android:layout_alignBottom="@+id/totalAmountImage"
             android:layout_toLeftOf="@+id/totalAmountImage"
-            android:text="10"
+            android:text="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
             android:textSize="20sp" />
