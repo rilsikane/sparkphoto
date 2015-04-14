@@ -338,18 +338,25 @@ public class ImagePageSummaryActivity extends Activity {
 					new AlertDialog.Builder(ImagePageSummaryActivity.this)
 				    .setTitle("Warning!")
 				    .setMessage("Please register to SPARK before using this function.")
-				    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+				    .setPositiveButton("Register", new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int which) { 			        	 
-				        	dialog.cancel();
+							Intent intent = new Intent(ImagePageSummaryActivity.this,SignUpPageOneMainActivity.class);
+							startActivity(intent);
+							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+							finish();	
 				        }
 				     })
+				    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+						}
+					})
 				    .setIcon(android.R.drawable.ic_dialog_alert)
 				     .show();
-					
-//					Intent intent = new Intent(ImagePageSummaryActivity.this,SignUpPageOneMainActivity.class);
-//					startActivity(intent);
-//					overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//					finish();					
+								
 				}else{
 					if(picCt==total){
 						if(!Utils.isNotEmpty(user.ydFlag) || !"T".equals(user.ydFlag)){
