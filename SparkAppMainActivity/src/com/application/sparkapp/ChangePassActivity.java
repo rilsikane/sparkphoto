@@ -43,7 +43,7 @@ public class ChangePassActivity extends Activity {
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    setContentView(R.layout.activity_change_pass);
 		System.gc();
-		UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 		UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 		common.setAccess_token(user.ac_token);
 		

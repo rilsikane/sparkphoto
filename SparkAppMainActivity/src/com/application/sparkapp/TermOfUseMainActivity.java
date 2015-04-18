@@ -113,7 +113,7 @@ public class TermOfUseMainActivity extends Activity {
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int id) {
-									UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+									UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 									UserDto dto = JSONParserForGetList.getInstance().Login(userDto);
 									dialog.cancel();
 									  if(user==null){

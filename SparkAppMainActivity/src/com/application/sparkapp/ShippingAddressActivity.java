@@ -172,7 +172,7 @@ public class ShippingAddressActivity extends Activity {
 			}
 		});
 		
-		user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		user = Entity.query(UserVO.class).where("id=1").execute();
 		if(user!=null){
 			address_block.setText(user.address_block);
 			address_street_name.setText(user.address_street_name);
@@ -182,7 +182,7 @@ public class ShippingAddressActivity extends Activity {
 				address_unit_number2.setText(Utils.isNotEmpty(unitNumber[1])?unitNumber[1]:"");
 			}
 			address_postal.setText(user.address_postal);
-			imgList = Entity.query(TempImage.class).where("ac_token").eq(user.ac_token).executeMulti();
+			imgList = Entity.query(TempImage.class).where("ac_token='"+user.ac_token+"'").executeMulti();
 		}
 		
 		confirmBtn.setOnClickListener(new OnClickListener() {
@@ -338,7 +338,7 @@ public class ShippingAddressActivity extends Activity {
 								Environment.getExternalStorageDirectory()
 										+ "/Spark/temp_image/"));
 			                    UserDto userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
-			                    UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			                    UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 			                    user = user.convertDtoToVo(userDto);
 			                    user.id = 1;
 								user.save();

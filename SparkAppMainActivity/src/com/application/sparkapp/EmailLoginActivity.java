@@ -83,6 +83,7 @@ public class EmailLoginActivity extends Activity {
                 finish();
 			}
 		});
+        //registerLater.setVisibility(View.GONE);
         registerLater.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -195,7 +196,7 @@ public class EmailLoginActivity extends Activity {
 			if (result != null) {
 					 try {
 						 
-					  UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+					  UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 					  if(user==null){
 						  user = new UserVO();
 						  user = user.convertDtoToVo(result);

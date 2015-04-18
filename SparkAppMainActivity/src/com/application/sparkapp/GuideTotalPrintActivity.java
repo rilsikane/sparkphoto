@@ -36,7 +36,7 @@ public class GuideTotalPrintActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+				UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 				String tutorial = "";
 				if(user!=null){
 					tutorial = user.tutorial;

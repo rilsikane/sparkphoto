@@ -54,7 +54,7 @@ public class ActivityNotificationActivity extends Activity {
 		activityList = (ListView) findViewById(R.id.listView1);
 		ImageView backIcon = (ImageView) findViewById(R.id.imageView1);
 		
-		user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		user = Entity.query(UserVO.class).where("id=1").execute();
 		
 		backIcon.setOnClickListener(new OnClickListener() {
 			

@@ -84,7 +84,7 @@ public class PerkPageActivity extends Activity {
 			premim.setImageDrawable(getResources().getDrawable(R.drawable.premium_default));
 		}
 		
-		user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		user = Entity.query(UserVO.class).where("id=1").execute();
 		new InitAndLoadData().execute(type);
 		perkList.setOnScrollListener(new OnScrollListener() {
 			int currentFirstVisibleItem = 0;

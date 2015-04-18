@@ -98,7 +98,7 @@ public class SparkAppMainActivity extends Activity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
         
-       UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+       UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 
        if (user != null && "A".equals(user.status)) {
            UserDto result = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
@@ -339,7 +339,7 @@ public class SparkAppMainActivity extends Activity {
 				finish();
 				mProgressHUD.dismiss();
 			} else {
-				UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+				UserVO userVO = Entity.query(UserVO.class).where("id=1").execute();
 				  if(userVO==null){
 					  userVO = new UserVO();
 					  userVO = userVO.convertDtoToVo(result);

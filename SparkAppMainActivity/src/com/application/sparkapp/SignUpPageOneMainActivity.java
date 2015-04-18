@@ -131,7 +131,7 @@ public class SignUpPageOneMainActivity extends Activity {
 			userDto = (UserDto) getIntent().getExtras().get("userDto");
 		}else{
 			//for debug data
-//			UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+//			UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 //			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 			
 		}

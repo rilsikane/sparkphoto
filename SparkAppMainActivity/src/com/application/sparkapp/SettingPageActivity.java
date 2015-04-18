@@ -55,7 +55,7 @@ import com.roscopeco.ormdroid.Entity;
 		RelativeLayout root_id = (RelativeLayout) findViewById(R.id.root_id);
 		BitmapDrawable ob = new BitmapDrawable(utils.decodeSampledBitmapFromResource(getResources(), R.drawable.setting_page, utils.getScreenWidth(), utils.getScreenHeight()));
 		root_id.setBackgroundDrawable(ob);
-		final UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		final UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 		TextView credit = (TextView) findViewById(R.id.textView);
 		if(user!=null){
 			credit.setText(user.numberPictureCanUpload + "  FREE PHOTO CREDITS");
@@ -71,11 +71,16 @@ import com.roscopeco.ormdroid.Entity;
 		logoutBtn = (ImageView) findViewById(R.id.imageView4);					
 		menuSetting = (ListView) findViewById(R.id.settingList);		
 		backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
+		backTo = backPreferences.getString("BACK_REGISTER_PAGE_STATE", "");
 		if(!backTo.equalsIgnoreCase("")){
 			if(backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)||backTo.equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_SETTING)){
 				MenuListAdapterForGuest guest = new MenuListAdapterForGuest();
 				menuSetting.setAdapter(guest);					
 				logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.exit_btn));
+			}else{
+				MenuListAdapter menuAdapter = new MenuListAdapter();
+				menuSetting.setAdapter(menuAdapter);
+				logoutBtn.setImageDrawable(getResources().getDrawable(R.drawable.logout_btn));	
 			}
 			 
 		}else{
@@ -100,7 +105,7 @@ import com.roscopeco.ormdroid.Entity;
 				        	if(Session.getActiveSession()!=null){
 								Session.getActiveSession().closeAndClearTokenInformation();
 							}
-				        	UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+				        	UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 				        	if(user!=null){
 				        		List<TempImage> tempList = Entity.query(TempImage.class).executeMulti();
 					             if(tempList!=null){

@@ -55,7 +55,7 @@ import android.widget.TextView;
 		address_postal = (EditText) findViewById(R.id.editText8);
 		utils = new Utils(this, this);
 		
-		UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 		UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 		common.setAccess_token(user.ac_token);
 		

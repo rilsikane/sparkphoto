@@ -105,7 +105,7 @@ public class MainPhotoSelectActivity extends Activity {
 		ImageView perkIcon = (ImageView) findViewById(R.id.imageView4);
 		radioButton = (RadioButton) findViewById(R.id.radioButton1);
 		
-		user = Entity.query(UserVO.class).where("id").eq("1").execute();
+		user = Entity.query(UserVO.class).where("id=1").execute();
 		if(user!=null){
 			userDto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 			if(userDto!=null){
@@ -126,7 +126,7 @@ public class MainPhotoSelectActivity extends Activity {
 				user.save();
 			}
 		}else{
-			TempUserVO tempUser = Entity.query(TempUserVO.class).where("id").eq(1).execute();
+			TempUserVO tempUser = Entity.query(TempUserVO.class).where("id=1").execute();
 			if("D".equals(tempUser.tutorial)){
 				radioButton.setChecked(false);
 			}else if("".equals(tempUser.tutorial)){
@@ -197,7 +197,7 @@ public class MainPhotoSelectActivity extends Activity {
 						 user.save();
 					}
 				}else{
-					TempUserVO tempUser = Entity.query(TempUserVO.class).where("id").eq(1).execute();
+					TempUserVO tempUser = Entity.query(TempUserVO.class).where("id=1").execute();
 					if((tempUser.tutorial == null|| "".equals(tempUser.tutorial))){
 						radioButton.setChecked(true);
 						tempUser.tutorial = "I";
@@ -391,6 +391,7 @@ public class MainPhotoSelectActivity extends Activity {
 		TextView hour = (TextView) perkDialog.findViewById(R.id.textView2);
 		TextView min = (TextView) perkDialog.findViewById(R.id.textView4);
 		RelativeLayout goToPerk = (RelativeLayout) perkDialog.findViewById(R.id.gotoPerk);
+		if(user!=null){
 		UserDto dto = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 		if(dto!=null && dto.getNextTimeCanUpload()!=null){
 			Long sec = Long.parseLong(Utils.isNumeric(dto.getNextTimeCanUpload())?dto.getNextTimeCanUpload():"0");
@@ -402,6 +403,7 @@ public class MainPhotoSelectActivity extends Activity {
 			 day.setText(days+"");
 			 hour.setText(hours+"");
 			 min.setText(minute+"");
+		}
 		}
 		goToPerk.setOnClickListener(new OnClickListener() {
 			

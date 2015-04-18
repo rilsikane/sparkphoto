@@ -326,7 +326,7 @@ public class YourDetailActivity extends Activity{
 
 		@Override
 		protected UserDto doInBackground(String... params) {
-			user = Entity.query(UserVO.class).where("id").eq(1)
+			user = Entity.query(UserVO.class).where("id=1")
 					.execute();
 			UserDto common = JSONParserForGetList.getInstance().getUserStatus(
 					user.ac_token);

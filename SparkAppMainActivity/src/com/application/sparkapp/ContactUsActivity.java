@@ -127,7 +127,7 @@ public class ContactUsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (utils.isNotEmpty(msg.getText().toString())) {
-					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+					UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 					if(user!=null){
 						
 						String subjectTxt = "";

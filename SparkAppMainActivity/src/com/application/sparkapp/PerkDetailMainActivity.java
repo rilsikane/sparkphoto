@@ -155,7 +155,7 @@ public class PerkDetailMainActivity extends Activity {
 												new DialogInterface.OnClickListener() {
 													public void onClick(DialogInterface dialog,
 															int id) {
-													String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
+													String acCode = Entity.query(UserVO.class).where("id=1").execute().ac_token;
 													final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode(input.getText().toString(), perksDto.getId(), acCode);
 														if(dto!=null){
 															AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -166,7 +166,7 @@ public class PerkDetailMainActivity extends Activity {
 																	new DialogInterface.OnClickListener() {
 																		public void onClick(DialogInterface dialog,
 																				int id) {
-																			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+																			UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 																			user = user.convertDtoToVo(dto);
 																			 user.id = 1;
 																			 user.save();
@@ -200,7 +200,7 @@ public class PerkDetailMainActivity extends Activity {
 										dialog.dismiss();
 						        	}else if(!Utils.isNotEmpty(perksDto.getLink()) && !Utils.isNotEmpty(perksDto.getCode()))
 						        	{
-						        		String acCode = Entity.query(UserVO.class).where("id").eq(1).execute().ac_token;
+						        		String acCode = Entity.query(UserVO.class).where("id=1").execute().ac_token;
 						        		final UserDto dto = JSONParserForGetList.getInstance().ReedeemCode("", perksDto.getId(), acCode);
 						        		if(dto!=null){
 											AlertDialog.Builder builder1 = new AlertDialog.Builder(
@@ -211,7 +211,7 @@ public class PerkDetailMainActivity extends Activity {
 													new DialogInterface.OnClickListener() {
 														public void onClick(DialogInterface dialog,
 																int id) {
-															UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+															UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 															user = user.convertDtoToVo(dto);
 															 user.id = 1;
 															 user.save();

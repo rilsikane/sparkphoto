@@ -96,7 +96,7 @@ public class ImagePageSummaryActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_image_page_summary);
 		System.gc();
-		user = Entity.query(UserVO.class).where("id").eq(1).execute();
+		user = Entity.query(UserVO.class).where("id=1").execute();
 		
 		utils = new Utils(this, this);
 		RelativeLayout fullGuid = (RelativeLayout) findViewById(R.id.imageGuid);
@@ -116,7 +116,7 @@ public class ImagePageSummaryActivity extends Activity {
 		picCount = (TextView) findViewById(R.id.textView4);
 		picTotal = (TextView) findViewById(R.id.totalAmountImage);
 		
-//		user = Entity.query(UserVO.class).where("id").eq(1).execute();
+//		user = Entity.query(UserVO.class).where("id=1").execute();
 		if(user!=null){
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 			total = Integer.parseInt(user.numberPictureCanUpload);
@@ -464,7 +464,7 @@ public class ImagePageSummaryActivity extends Activity {
 	   return session.getPermissions().contains("user_photos");
 	}
 	public void updatePicAmt(int id){
-		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(id).execute();
+		TempImage tempImage = Entity.query(TempImage.class).where("id=1").execute();
 		tempImage.amt = newRes+"";
 		tempImage.save();
 	}
@@ -628,7 +628,7 @@ public class ImagePageSummaryActivity extends Activity {
 				        	LoadListAdapter adapter = new LoadListAdapter(tempList);
 				    		summaryList.setAdapter(adapter);
 				    		summaryList.invalidateViews();
-				    		TempImage tempImage = Entity.query(TempImage.class).where("id").eq(temp.getTempImage().id).execute();
+				    		TempImage tempImage = Entity.query(TempImage.class).where("id="+temp.getTempImage().id).execute();
 				    		tempImage.delete();
 				    		picCount.setText(picCt+"");
 				    		dialog.dismiss();
@@ -809,7 +809,7 @@ public class ImagePageSummaryActivity extends Activity {
 		@Override
 		protected UserVO doInBackground(String... params) {
 			// TODO Auto-generated method stub			
-			return Entity.query(UserVO.class).where("id").eq(1).execute();
+			return Entity.query(UserVO.class).where("id=1").execute();
 		}
 		
 		@Override
@@ -821,7 +821,7 @@ public class ImagePageSummaryActivity extends Activity {
 				mProgressHUD.dismiss();
 				
 				if(result!=null){
-					List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token").eq(result.ac_token).executeMulti();
+					List<TempImage> imgList = Entity.query(TempImage.class).where("ac_token ='"+result.ac_token+"'").executeMulti();
 					if(imgList!=null && !imgList.isEmpty()){
 						
 						for(TempImage tmp : imgList){

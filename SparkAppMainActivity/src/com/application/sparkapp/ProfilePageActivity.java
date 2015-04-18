@@ -382,7 +382,7 @@ public class ProfilePageActivity extends Activity {
 
 		@Override
 		protected UserDto doInBackground(String... params) {
-			UserVO user = Entity.query(UserVO.class).where("id").eq(1).execute();
+			UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 			UserDto common = JSONParserForGetList.getInstance().getUserStatus(user.ac_token);
 			common.setAccess_token(user.ac_token);
 			return common;

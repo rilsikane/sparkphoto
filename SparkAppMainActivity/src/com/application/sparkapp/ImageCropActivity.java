@@ -140,7 +140,7 @@ public class ImageCropActivity extends Activity {
 						croppedImage = getResizedBitmap(croppedImage, 1200, 1800);	
 					}
 					
-					UserVO userVO = Entity.query(UserVO.class).where("id").eq(1).execute();
+					UserVO userVO = Entity.query(UserVO.class).where("id=1").execute();
 					
 					temp = new TempImage();
 					if(userVO!=null){
@@ -362,12 +362,12 @@ public class ImageCropActivity extends Activity {
 					temp.id = temp.getPk();				
 					temp.save();
 					
-					UserVO user = Entity.query(UserVO.class).where("id").eq("1").execute();
+					UserVO user = Entity.query(UserVO.class).where("id=1").execute();
 					String tutorial = "";
 					if(user!=null){
 						tutorial = user.tutorial;
 					}else{
-						TempUserVO tempUserVO = Entity.query(TempUserVO.class).where("id").eq("1").execute();
+						TempUserVO tempUserVO = Entity.query(TempUserVO.class).where("id=1").execute();
 						tutorial = tempUserVO.tutorial;
 					}
 					Intent i =null; 
