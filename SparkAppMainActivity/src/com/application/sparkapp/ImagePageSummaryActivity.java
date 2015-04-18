@@ -117,6 +117,11 @@ public class ImagePageSummaryActivity extends Activity {
 		picTotal = (TextView) findViewById(R.id.totalAmountImage);
 		
 //		user = Entity.query(UserVO.class).where("id=1").execute();
+		
+		if(backPreferences.getString("BACK_REGISTER_PAGE_STATE", "").equalsIgnoreCase(new GlobalVariable().REGISTER_COME_FROM_PAGE_REGIS_LATER)){
+			nextTimeCanUpload = true;
+		}
+		
 		if(user!=null){
 			nextTimeCanUpload = user.nextTimeCanUpload.equals("now");
 			total = Integer.parseInt(user.numberPictureCanUpload);
@@ -185,12 +190,12 @@ public class ImagePageSummaryActivity extends Activity {
 						public void onClick(View v) {
 							
 							if(nextTimeCanUpload){
-							Intent i = new Intent(ImagePageSummaryActivity.this,ImageListActivity.class);
-							i.putExtra("loadImageState", 1);
-							i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
-							startActivity(i);
-							overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-							finish();
+								Intent i = new Intent(ImagePageSummaryActivity.this,ImageListActivity.class);
+								i.putExtra("loadImageState", 1);
+								i.putExtra("LOAD_STATE", IMG_FROM_GALLERY);
+								startActivity(i);
+								overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+								finish();
 							}else{
 								showPerkDialog();
 							}
